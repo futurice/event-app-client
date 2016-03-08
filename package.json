@@ -1,0 +1,17 @@
+{
+  "name": "wappuapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start"
+  },
+  "dependencies": {
+    "@exponent/react-native-navigator": "^0.4.2",
+    "immutable": "^3.7.6",
+    "lodash": "^4.6.1",
+    "react-native": "^0.21.0",
+    "react-redux": "^4.4.0",
+    "redux": "^3.3.1",
+    "redux-thunk": "^1.0.3"
+  }
+}
