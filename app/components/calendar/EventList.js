@@ -21,7 +21,7 @@ import _ from 'lodash';
 
 import theme from '../../style/theme';
 import * as EventActions from '../../actions/event';
-import EventPost from './EventPost'
+import EventDetail from './EventDetail'
 import ProgressBar from 'ProgressBarAndroid';
 
 const styles = StyleSheet.create({
@@ -118,51 +118,50 @@ var EventList = React.createClass({
           </View>
         );
       default:
+        console.log(this.props.events);
         return (
           <ListView
             dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
-            renderRow={this.renderEventPost}
+            renderRow={this.renderEventItem}
             style={styles.listView} />
         );
     }
   },
 
-  showSingleEvent(post){
+  navigateToSingleEvent(model){
     this.props.navigator.push({
-      component: EventPost,
-      name: post.title,
+      component: EventDetail,
+      name: model.name,
       actions: ['share'],
-      post
+      model
     });
   },
 
-  renderEventPost: function(post) {
-    return (
-      <TouchableHighlight onPress={this.showSingleEvent.bind(this, post)} underlayColor={'transparent'}>
-        <View style={styles.gridListItem}>
-          <View style={styles.gridListItemImgWrap}>
-
-            <Image
-            source={{uri: post.image }}
+  renderEventItem: function(item) {
+    return <TouchableHighlight onPress={() => this.navigateToSingleEvent(item)} underlayColor={'transparent'}>
+      <View style={styles.gridListItem}>
+        <View style={styles.gridListItemImgWrap}>
+          <Image
+            source={{ uri: item.image }}
             style={styles.gridListItemImg} />
-            <View style={[styles.gridListItemImgColorLayer]} ></View>
-          </View>
-          <View style={styles.gridListItemContent}>
-            <Text style={styles.gridListItemTitle} >{post.title}</Text>
-            <Text style={styles.gridListItemLikes}>
-              <Icon name="android-favorite-outline" size={15} /> {post.likeCount}
-            </Text>
-          </View>
+          <View style={[styles.gridListItemImgColorLayer]} />
         </View>
-      </TouchableHighlight>
-    );
+
+        <View style={styles.gridListItemContent}>
+          <Text style={styles.gridListItemTitle}>{item.name}</Text>
+          <Text style={styles.gridListItemLikes}>
+            <Icon name="android-favorite-outline" size={15} /> {item.likeCount || 9999}
+          </Text>
+        </View>
+      </View>
+    </TouchableHighlight>;
   }
 
 });
 
 const select = store => {
     return {
-      events: store.event.get('list').toArray(),
+      events: store.event.get('list').toJS(),
       eventsListState: store.event.get('listState')
     }
 };
