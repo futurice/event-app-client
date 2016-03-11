@@ -5,7 +5,7 @@ import React, {
   StyleSheet,
   View,
   Text,
-  Image
+  Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
@@ -13,6 +13,7 @@ import Button from '../components/common/Button';
 import ActionTypes from '../constants/ActionTypes';
 import ImageCaptureOptions from '../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../actions/competition';
+import * as RegistrationActions from '../actions/registration';
 
 const CompetitionView = React.createClass({
   onChooseImage() {
@@ -34,6 +35,10 @@ const CompetitionView = React.createClass({
     this.props.dispatch(CompetitionActions.postAction(type))
   },
 
+  onRegister() {
+    this.props.dispatch(RegistrationActions.openRegistrationView());
+  },
+
   render() {
     return (
       <View style={styles.container}>
@@ -44,7 +49,23 @@ const CompetitionView = React.createClass({
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.LONKKU)}>Join lonkun</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.JALLU)}>JALLUNAPPI!!1</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.PUSH_THE_BUTTON)}>Paina nappia</Button>
+          <Button style={styles.btn} onPress={this.onRegister}>Rekkaa</Button>
         </View>
+        <Modal
+          animated={true}
+          transparent={false}
+          visible={this.props.isRegistrationViewOpen}>
+          <View style={[styles.container, styles.modalBackgroundStyle]}>
+            <View style={[styles.innerContainer]}>
+              <Text>Hi there! Who are you?</Text>
+              <Button
+                onPress={this.onCloseModal}
+                style={styles.modalButton}>
+                That's-a-me!
+              </Button>
+            </View>
+          </View>
+        </Modal>
       </View>
     );
   }
@@ -65,15 +86,23 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10
   },
-  imgPreview: {
-    flex: 0.5,
-    resizeMode: 'contain'
+  innerContainer: {
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  modalButton: {
+    marginTop: 10,
+  },
+  modalBackgroundStyle: {
+    backgroundColor: '#fff'
   }
 });
 
 const select = store => {
   return {
-  }
+    isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
+    name: store.registration.get('name')
+  };
 };
 
 export default connect(select)(CompetitionView);
