@@ -44,11 +44,11 @@ var DefaultTabBar = React.createClass({
 
   renderTabOption(name, page) {
     var isTabActive = this.props.activeTab === page;
-    var activeTextColor = this.props.activeTextColor || "navy";
-    var inactiveTextColor = this.props.inactiveTextColor || "black";
-    var rippleColor = this.props.rippleColor || "black";
+    var activeTextColor = this.props.activeTextColor || 'navy';
+    var inactiveTextColor = this.props.inactiveTextColor || 'black';
+    var rippleColor = this.props.rippleColor || 'black';
     return (
-      <TouchableNativeFeedback key={name} onPress={() => this.props.goToPage(page)} 
+      <TouchableNativeFeedback key={name} onPress={() => this.props.goToPage(page)}
         background={TouchableNativeFeedback.Ripple(rippleColor, false)}
         delayPressIn={0}
       >
@@ -66,7 +66,7 @@ var DefaultTabBar = React.createClass({
       position: 'absolute',
       width: containerWidth / numberOfTabs,
       height: 3,
-      backgroundColor: this.props.underlineColor || "navy",
+      backgroundColor: this.props.underlineColor || 'navy',
       bottom: 0,
     };
 

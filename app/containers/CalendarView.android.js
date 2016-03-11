@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import React, {
   Component,
@@ -8,8 +8,8 @@ import React, {
   View,
   Text,
   TouchableHighlight
-} from "react-native";
-import { connect } from "react-redux";
+} from 'react-native';
+import { connect } from 'react-redux';
 import EventList from '../components/calendar/EventList';
 const theme = require('../style/theme');
 

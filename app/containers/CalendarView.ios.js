@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 import React, {
   Component,
@@ -7,8 +7,8 @@ import React, {
   View,
   Text,
   TouchableHighlight
-} from "react-native";
-import { connect } from "react-redux";
+} from 'react-native';
+import { connect } from 'react-redux';
 import EventList from '../components/calendar/EventList';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
@@ -26,15 +26,15 @@ var CalendarView = React.createClass({
   render() {
 
     return (
-      <Navigator 
+      <Navigator
       style={styles.navigator}
-      navigationBar={ <Navigator.NavigationBar 
+      navigationBar={ <Navigator.NavigationBar
         style={styles.navbar}
         routeMapper={NavRouteMapper}
         />
       }
       initialRoute={{
-        component: EventList, 
+        component: EventList,
         name: 'Tapahtumat'
       }}
 

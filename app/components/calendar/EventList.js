@@ -92,13 +92,13 @@ var EventList = React.createClass({
 
   renderLoadingView() {
     return <View style={styles.container}>
-      <ProgressBar styleAttr="Inverse" />
+      <ProgressBar styleAttr='Inverse' />
 
       <ActivityIndicatorIOS
         color={theme.primary}
         animating={true}
         style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
-        size="large" />
+        size='large' />
       <Text>Ladataan tapahtumia...</Text>
     </View>;
   },
@@ -125,7 +125,7 @@ var EventList = React.createClass({
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <Text style={styles.gridListItemLikes}>
-            <Icon name="android-favorite-outline" size={15} /> {time.format(item.startTime)}
+            <Icon name='android-favorite-outline' size={15} /> {time.format(item.startTime)}
           </Text>
         </View>
       </View>

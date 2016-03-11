@@ -13,11 +13,11 @@ import React, {
 
 
 /* Containers */
-import { connect } from "react-redux";
-import CalendarView from "./CalendarView";
-import EventMapView from "./EventMapView";
-import CompetitionView from "./CompetitionView";
-import Tabs from "../constants/Tabs";
+import { connect } from 'react-redux';
+import CalendarView from './CalendarView';
+import EventMapView from './EventMapView';
+import CompetitionView from './CompetitionView';
+import Tabs from '../constants/Tabs';
 
 var AndroidTabs = require('react-native-scrollable-tab-view');
 var theme = require('../style/theme');
@@ -72,9 +72,9 @@ export default class App extends Component {
         renderTabBar={() => <IconTabBar rippleColor={'rgba(255,255,255,.2)'} />}
       >
 
-        <CalendarView tabLabel="android-calendar" />
-        <EventMapView tabLabel="android-map" />
-        <CompetitionView tabLabel="android-star" />
+        <CalendarView tabLabel='android-calendar' />
+        <EventMapView tabLabel='android-map' />
+        <CompetitionView tabLabel='android-star' />
       </AndroidTabs>
 
       {this.state.modal ? <View style={styles.modal}><Text onPress={this.closeModal.bind(this)} style={{color:'#FFF',fontSize:30}}>Close Me</Text></View> : null }
