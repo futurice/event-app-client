@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
-
+import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as EventActions from '../../actions/event';
 import EventDetail from './EventDetail'
@@ -125,7 +125,7 @@ var EventList = React.createClass({
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <Text style={styles.gridListItemLikes}>
-            <Icon name="android-favorite-outline" size={15} /> {item.likeCount || 9999}
+            <Icon name="android-favorite-outline" size={15} /> {time.format(item.startTime)}
           </Text>
         </View>
       </View>
