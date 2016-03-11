@@ -6,8 +6,7 @@ function fetchModels(modelType) {
   return fetch(url)
     .then(response => response.json())
     .catch((error) => {
-      // TODO lolwat
-      console.error('Error catched on API-fetch', error);
+      console.log('Error catched on API-fetch', error);
       return Promise.reject(null);
     });
 }
