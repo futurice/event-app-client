@@ -13,6 +13,7 @@
     "lodash": "^4.6.1",
     "react-native": "^0.21.0",
     "react-native-image-picker": "^0.18.3",
+    "react-native-location": "^0.14.3",
     "react-native-scrollable-tab-view": "^0.4.0",
     "react-native-vector-icons": "^1.3.2",
     "react-redux": "^4.4.0",
