@@ -82,8 +82,7 @@ var EventList = React.createClass({
 
   getInitialState: function() {
     return {
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
-      loaded: false
+      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     };
   },
 
@@ -108,26 +107,24 @@ var EventList = React.createClass({
     );
   },
 
-  renderErrorView: function() {
-    return (
-      <View style={styles.container}>
-        <Text>Tapahtumia ei saatu haettua</Text>
-      </View>
-    );
-  },
-
   render: function() {
-    // if (!this.state.loaded) { return this.renderLoadingView(); }
-    if (this.state.error) { return this.renderErrorView(); }
-
-    console.log(this.props.events);
-
-    return (
-      <ListView
-        dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
-        renderRow={this.renderEventPost}
-        style={styles.listView} />
-    );
+    switch (this.props.eventsListState) {
+      case 'loading':
+        return this.renderLoadingView();
+      case 'failed':
+        return (
+          <View style={styles.container}>
+            <Text>Tapahtumia ei saatu haettua :(</Text>
+          </View>
+        );
+      default:
+        return (
+          <ListView
+            dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
+            renderRow={this.renderEventPost}
+            style={styles.listView} />
+        );
+    }
   },
 
   showSingleEvent(post){
@@ -140,7 +137,6 @@ var EventList = React.createClass({
   },
 
   renderEventPost: function(post) {
-
     return (
       <TouchableHighlight onPress={this.showSingleEvent.bind(this, post)} underlayColor={'transparent'}>
         <View style={styles.gridListItem}>
@@ -165,9 +161,9 @@ var EventList = React.createClass({
 });
 
 const select = store => {
-    console.log('eventlist store', store);
     return {
-      events: store.event.get('list').toArray()
+      events: store.event.get('list').toArray(),
+      eventsListState: store.event.get('listState')
     }
 };
 
