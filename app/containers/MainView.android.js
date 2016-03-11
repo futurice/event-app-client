@@ -16,7 +16,7 @@ import React, {
 import { connect } from "react-redux";
 import CalendarView from "./CalendarView";
 import EventMapView from "./EventMapView";
-import RadioView from "./RadioView";
+import CompetitionView from "./CompetitionView";
 import Tabs from "../constants/Tabs";
 
 var AndroidTabs = require('react-native-scrollable-tab-view');
@@ -74,7 +74,7 @@ export default class App extends Component {
 
         <CalendarView tabLabel="android-calendar" />
         <EventMapView tabLabel="android-map" />
-        <RadioView tabLabel="android-star" />
+        <CompetitionView tabLabel="android-star" />
       </AndroidTabs>
 
       {this.state.modal ? <View style={styles.modal}><Text onPress={this.closeModal.bind(this)} style={{color:'#FFF',fontSize:30}}>Close Me</Text></View> : null }

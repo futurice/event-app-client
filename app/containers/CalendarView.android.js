@@ -4,6 +4,7 @@ import React, {
   Component,
   Navigator,
   StyleSheet,
+  BackAndroid,
   View,
   Text,
   TouchableHighlight
@@ -13,9 +14,22 @@ import EventList from '../components/calendar/EventList';
 const theme = require('../style/theme');
 
 
+
+
+var _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
+  }
+  return false;
+});
+
+
 var CalendarView = React.createClass({
 
   renderScene (route, navigator) {
+    _navigator = navigator;
     if (route.component) {
       const Component = route.component
       return <Component navigator={navigator} route={route} {...this.props} />
@@ -27,12 +41,12 @@ var CalendarView = React.createClass({
     return (
       <Navigator
       initialRoute={{
-        component: EventList, 
+        component: EventList,
         name: 'Tapahtumat'
       }}
       renderScene={this.renderScene}
       configureScene={() => ({
-        ...Navigator.SceneConfigs.FloatFromBottomAndroid
+        ...Navigator.SceneConfigs.FadeAndroid
       })}
       />
     );
