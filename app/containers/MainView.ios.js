@@ -49,9 +49,9 @@ class MainView extends Component {
                 <Icon.TabBarItem
                     iconName="ios-play-outline"
                     selectedIconName="ios-play"
-                    title="Wappuradio"
-                    selected={this.props.currentTab === Tabs.RADIO}
-                    onPress={() => { this._onChangeTab(Tabs.RADIO); }}>
+                    title="Äction"
+                    selected={this.props.currentTab === Tabs.ACTION}
+                    onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
                     <CompetitionView />
                 </Icon.TabBarItem>
             </TabBarIOS>
