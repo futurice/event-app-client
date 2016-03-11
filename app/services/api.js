@@ -1,6 +1,6 @@
 import Endpoints from '../constants/Endpoints';
 
-function fetchModels(modelType) {
+const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
 
   return fetch(url)
@@ -9,8 +9,17 @@ function fetchModels(modelType) {
       console.log('Error catched on API-fetch', error);
       return Promise.reject(null);
     });
-}
+};
+
+const postAction = payload => {
+  return fetch(Endpoints.action, {
+      method: 'post',
+      body: JSON.stringify(payload)
+    })
+    .then(response => response.json());
+};
 
 export default {
-  fetchModels
+  fetchModels,
+  postAction
 };

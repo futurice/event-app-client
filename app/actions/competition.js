@@ -1,5 +1,6 @@
 'use strict';
 
+import api from '../services/api';
 import Endpoints from '../constants/Endpoints';
 import ActionTypes from '../constants/ActionTypes';
 import LocationManager from '../utils/LocationManager';
@@ -12,7 +13,12 @@ const uploadImage = image => {
   return postAction(ActionTypes.IMAGE, { image: image });
 };
 
-const postAction = (type, payload) => {
+/**
+ * Post all kinds of actions to backend
+ * @param  {ActionTypes} type The type of the action
+ * @param  {Object} additionalPayload Any additional payload, e.g. an image if one is to be uploaded
+ */
+const postAction = (type, additionalPayload) => {
   return dispatch => {
     const actionPayload = {
       location: LocationManager.getLocation(),
@@ -20,23 +26,13 @@ const postAction = (type, payload) => {
       team: 'TEAM AHMA',
       type
     };
-    if (payload) {
-      actionPayload.payload = payload;
+    if (additionalPayload) {
+      actionPayload.payload = additionalPayload;
     }
-    console.log("actionPayload",actionPayload)
     dispatch({ type: POSTING_ACTION });
-    return fetch(Endpoints.action, {
-        method: 'POST',
-        body: JSON.stringify(actionPayload)
-      })
-      .then(response => {
-        console.log(responseText);
-        dispatch({ type: ACTION_POST_SUCCESS });
-      })
-      .catch(error => {
-        console.warn(error);
-        dispatch({ type: ACTION_POST_FAILURE });
-      });
+    return api.postAction(actionPayload)
+      .then(response => dispatch({ type: ACTION_POST_SUCCESS }))
+      .catch(error => dispatch({ type: ACTION_POST_FAILURE }));
   };
 };
 
