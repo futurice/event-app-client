@@ -31,9 +31,9 @@
    * on the same Wi-Fi network.
    */
 
-  //jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
+  jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
   // Add your own ip to develop in device
-  jsCodeLocation = [NSURL URLWithString:@"http://10.6.100.55:8081/index.ios.bundle?platform=ios&dev=true"];
+//  jsCodeLocation = [NSURL URLWithString:@"http://10.6.100.55:8081/index.ios.bundle?platform=ios&dev=true"];
 
   /**
    * OPTION 2
