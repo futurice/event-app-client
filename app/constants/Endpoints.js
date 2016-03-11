@@ -6,7 +6,8 @@ const EndpointUrls = {
   photos: `${ROOT_URL}/photos`,
   leaderboard: `${ROOT_URL}/leaderboard`,
   guilds: `${ROOT_URL}/guilds`,
-  action: `${ROOT_URL}/action`
+  action: `${ROOT_URL}/actions`,
+  user: `${ROOT_URL}/users`,
 };
 
 const EndpointTypes = _.map(EndpointUrls, (item, key) => key);
