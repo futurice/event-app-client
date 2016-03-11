@@ -22,6 +22,10 @@ DerivedData
 *.xcuserstate
 project.xcworkspace
 
+# Sublime
+*.sublime-workspace
+*.sublime-project
+
 # Android/IJ
 #
 .idea
