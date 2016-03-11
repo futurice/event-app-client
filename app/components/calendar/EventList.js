@@ -1,7 +1,3 @@
-/**
- * Sviit Favorite View
- *
- */
 'use strict';
 
 var React = require('react-native');
@@ -17,107 +13,127 @@ var {
   ActivityIndicatorIOS,
   View,
 } = React;
+import { connect } from 'react-redux';
+
+import Icon from 'react-native-vector-icons/Ionicons';
+import _ from 'lodash';
+
+
+import theme from '../../style/theme';
+import * as EventActions from '../../actions/event';
 import EventPost from './EventPost'
-const ProgressBar = require('ProgressBarAndroid');
-const theme = require('../../style/theme');
-const _ = require('lodash');
-const Icon = require('react-native-vector-icons/Ionicons'); 
+import ProgressBar from 'ProgressBarAndroid';
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.primary
+  },
+  listView: {
+    flex: 1,
+  },
+  gridListItem: {
+    width: Dimensions.get('window').width,
+    height: 200,
+    flex: 1
+  },
+  gridListItemImgWrap: {
+    height: 200,
+    width: Dimensions.get('window').width,
+    position: 'absolute'
+  },
+  gridListItemImgColorLayer: {
+    backgroundColor: theme.primary,
+    opacity: 0.5,
+    elevation: 1,
+    position: 'absolute',
+    left: 0, top: 0, bottom: 0, right: 0
+  },
+  gridListItemImg: {
+    width: Dimensions.get('window').width,
+    height: 200,
+  },
+  gridListItemContent: {
+    elevation: 2,
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  gridListItemTitle: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    color: theme.light,
+  },
+  gridListItemLikes: {
+    color: theme.light,
+    opacity: 0.9,
+    position: 'absolute',
+    right: 20,
+    top: 20,
+    fontSize: 15
+  }
+});
 
 var EventList = React.createClass({
 
-  getInitialState: function() { 
-    return { 
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2, }), 
+  getInitialState: function() {
+    return {
+      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
       loaded: false
-    }; 
+    };
   },
 
-  componentDidMount: function() { 
-    this.fetchData();
+  componentDidMount: function() {
+    this.props.dispatch(EventActions.fetchEvents());
   },
 
-  fetchData: function() {
-
-    // Dummy content
-    const res = _.map([1,2,3,4,5], (i) => {
-      return {
-        image:i%2?
-          'https://scontent-ams3-1.xx.fbcdn.net/hphotos-xfa1/t31.0-0/p180x540/11130512_10204972692809378_7795959737249481696_o.jpg' :
-          'https://scontent-ams3-1.xx.fbcdn.net/hphotos-xat1/t31.0-8/p843x403/11076791_10204019295584836_1442106314972484813_o.jpg',
-        title:'Wapputapahtuma '+i,
-        description:i + '. Tapahtuman kuvaus',
-        link:'http://www.ttyy.fi/wappu/kalenteri',
-        likeCount: Math.floor(Math.random() * 500)
-      }
-    })
-
-
-    this.setState({ 
-      dataSource: this.state.dataSource.cloneWithRows(res), 
-      loaded: true,
-    });
-    /*
-    var url = 'http://our-great-wappu-api'
-    fetch(url)
-      .then((response) => response.json()) 
-      .then((res) => {
-
-        //set res to dataSource 
-
-        this.setState({ 
-          dataSource: this.state.dataSource.cloneWithRows(res), 
-          loaded: true,
-        });
-
-      })
-      .catch((error) => { this.setState({ 
-          error: true,
-          loaded: true,
-        })
-      })
-      .done();
-    */
-  },
-
-  renderLoadingView: function() { 
-    return ( 
+  renderLoadingView: function() {
+    return (
       <View style={styles.container}>
-          
+
         <ProgressBar styleAttr="Inverse" />
 
-        <ActivityIndicatorIOS 
+        <ActivityIndicatorIOS
          color={theme.primary}
-         animating={true} 
-         style={{ alignItems: 'center', justifyContent: 'center', height: 80}} 
+         animating={true}
+         style={{ alignItems: 'center', justifyContent: 'center', height: 80}}
          size="large" />
 
         <Text>Ladataan tapahtumia...</Text>
-        </View> 
-    ); 
+        </View>
+    );
   },
 
-  renderErrorView: function() { 
-    return ( 
+  renderErrorView: function() {
+    return (
       <View style={styles.container}>
         <Text>Tapahtumia ei saatu haettua</Text>
-      </View> 
-    ); 
+      </View>
+    );
   },
 
   render: function() {
-    if (!this.state.loaded) { return this.renderLoadingView(); }
+    // if (!this.state.loaded) { return this.renderLoadingView(); }
     if (this.state.error) { return this.renderErrorView(); }
 
+    console.log(this.props.events);
+
     return (
-      <ListView dataSource={this.state.dataSource} renderRow={this.renderEventPost} style={styles.listView} /> 
+      <ListView
+        dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
+        renderRow={this.renderEventPost}
+        style={styles.listView} />
     );
   },
 
   showSingleEvent(post){
-    const {navigator} = this.props
-    navigator.push({ 
-      component:EventPost,
-      name:post.title,
+    this.props.navigator.push({
+      component: EventPost,
+      name: post.title,
       actions: ['share'],
       post
     });
@@ -143,64 +159,16 @@ var EventList = React.createClass({
           </View>
         </View>
       </TouchableHighlight>
-    ); 
+    );
   }
 
 });
 
-var styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: theme.primary
-  },
-  listView: {
-    flex:1,
-  },
-  gridListItem: {
-    width:Dimensions.get('window').width,
-    height:200,
-    flex:1
-  },
-  gridListItemImgWrap:{
-    height:200,
-    width:Dimensions.get('window').width,
-    position:'absolute'
-  },
-  gridListItemImgColorLayer:{
-    backgroundColor:theme.primary,
-    opacity:0.5,
-    elevation:1,
-    position:'absolute',
-    left:0,top:0,bottom:0,right:0,
-  },
-  gridListItemImg:{
-    width: Dimensions.get('window').width, 
-    height: 200,
-  },
-  gridListItemContent:{
-    elevation:2,
-    flex:1,
-    justifyContent:'center',
-    padding:20,
-  },
-  gridListItemTitle:{
-    fontSize:26,
-    fontWeight:'bold',
-    textAlign:'center',
-    color:theme.light,
-  },
-  gridListItemLikes:{
-    color:theme.light,
-    opacity:0.9,
-    position:'absolute',
-    right:20,
-    top:20,
-    fontSize:15,
-  }
-  
-});
+const select = store => {
+    console.log('eventlist store', store);
+    return {
+      events: store.event.get('list').toArray()
+    }
+};
 
-module.exports = EventList;
+export default connect(select)(EventList);
