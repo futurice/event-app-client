@@ -7,7 +7,8 @@ const _post = (url, body) => {
     body: JSON.stringify(Object.assign(
       {},
       body,
-      { 'user': DeviceInfo.getUniqueID() }
+      // { 'user': DeviceInfo.getUniqueID() }
+      { 'user': 'hessu' } // TODO: Remove hessu user when real users available
     ))
   });
 }
@@ -24,11 +25,17 @@ const fetchModels = modelType => {
 };
 
 const postAction = payload => {
-  return _post(Endpoints.action, payload)
+  return _post(Endpoints.urls.action, payload)
+    .then(response => response.json());
+};
+
+const createUser = payload => {
+  return _post(Endpoints.urls.user, payload)
     .then(response => response.json());
 };
 
 export default {
   fetchModels,
-  postAction
+  postAction,
+  createUser
 };
