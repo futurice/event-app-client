@@ -12,6 +12,7 @@
     "immutable": "^3.7.6",
     "lodash": "^4.6.1",
     "react-native": "^0.21.0",
+    "react-native-device-info": "^0.8.4",
     "react-native-image-picker": "^0.18.3",
     "react-native-location": "^0.14.3",
     "react-native-scrollable-tab-view": "^0.4.0",
