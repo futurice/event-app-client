@@ -1,4 +1,4 @@
-const ROOT_URL = "https://wappuapp-backend.herokuapp.com/api";
+const ROOT_URL = 'https://wappuapp-backend.herokuapp.com/api';
 
 const Endpoints = {
     events: `${ROOT_URL}/events`,

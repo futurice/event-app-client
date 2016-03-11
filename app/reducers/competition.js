@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-import Immutable from "immutable";
+import Immutable from 'immutable';
 import {
     POSTING_ACTION,
     ACTION_POST_SUCCESS,
     ACTION_POST_FAILURE
-} from "../actions/competition";
+} from '../actions/competition';
 
 const initialState = Immutable.fromJS({
     isSending: false,
@@ -15,9 +15,9 @@ const initialState = Immutable.fromJS({
 export default function competition(state = initialState, action) {
     switch (action.type) {
         case POSTING_ACTION:
-            return state.set("isSending", true);
+            return state.set('isSending', true);
         case ACTION_POST_SUCCESS:
-            return state.set("isSending", false);
+            return state.set('isSending', false);
         case ACTION_POST_FAILURE:
             return state.merge({
                 isSending: false,

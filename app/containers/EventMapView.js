@@ -1,12 +1,12 @@
-"use strict";
+'use strict';
 
 import React, {
     Component,
     StyleSheet,
     View,
     MapView
-} from "react-native";
-import { connect } from "react-redux";
+} from 'react-native';
+import { connect } from 'react-redux';
 
 class EventMapView extends Component {
     constructor() {
