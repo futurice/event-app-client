@@ -1,7 +1,6 @@
 'use strict';
 
 import api from '../services/api';
-import Endpoints from '../constants/Endpoints';
 import ActionTypes from '../constants/ActionTypes';
 import LocationManager from '../utils/LocationManager';
 
@@ -22,8 +21,7 @@ const postAction = (type, additionalPayload) => {
   return dispatch => {
     const actionPayload = {
       location: LocationManager.getLocation(),
-      dateTime: new Date().toISOString(),
-      team: 'TEAM AHMA',
+      team: 0, // TODO: Change to a real team
       type
     };
     if (additionalPayload) {
