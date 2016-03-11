@@ -13,7 +13,6 @@ const uploadImage = image => {
 };
 
 const postAction = (type, payload) => {
-    debugger
     const actionPayload = {
         location: LocationManager.getLocation(),
         dateTime: new Date().toISOString(),
