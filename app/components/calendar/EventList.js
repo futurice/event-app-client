@@ -80,34 +80,59 @@ const styles = StyleSheet.create({
 
 var EventList = React.createClass({
 
-  getInitialState: function() {
+  getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     this.props.dispatch(EventActions.fetchEvents());
   },
 
-  renderLoadingView: function() {
-    return (
-      <View style={styles.container}>
+  renderLoadingView() {
+    return <View style={styles.container}>
+      <ProgressBar styleAttr="Inverse" />
 
-        <ProgressBar styleAttr="Inverse" />
-
-        <ActivityIndicatorIOS
-         color={theme.primary}
-         animating={true}
-         style={{ alignItems: 'center', justifyContent: 'center', height: 80}}
-         size="large" />
-
-        <Text>Ladataan tapahtumia...</Text>
-        </View>
-    );
+      <ActivityIndicatorIOS
+        color={theme.primary}
+        animating={true}
+        style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
+        size="large" />
+      <Text>Ladataan tapahtumia...</Text>
+    </View>;
   },
 
-  render: function() {
+  navigateToSingleEvent(model){
+    this.props.navigator.push({
+      component: EventDetail,
+      name: model.name,
+      actions: ['share'],
+      model
+    });
+  },
+
+  renderEventItem(item) {
+    return <TouchableHighlight onPress={() => this.navigateToSingleEvent(item)} underlayColor={'transparent'}>
+      <View style={styles.gridListItem}>
+        <View style={styles.gridListItemImgWrap}>
+          <Image
+            source={{ uri: item.image }}
+            style={styles.gridListItemImg} />
+          <View style={[styles.gridListItemImgColorLayer]} />
+        </View>
+
+        <View style={styles.gridListItemContent}>
+          <Text style={styles.gridListItemTitle}>{item.name}</Text>
+          <Text style={styles.gridListItemLikes}>
+            <Icon name="android-favorite-outline" size={15} /> {item.likeCount || 9999}
+          </Text>
+        </View>
+      </View>
+    </TouchableHighlight>;
+  },
+
+  render() {
     switch (this.props.eventsListState) {
       case 'loading':
         return this.renderLoadingView();
@@ -126,37 +151,7 @@ var EventList = React.createClass({
             style={styles.listView} />
         );
     }
-  },
-
-  navigateToSingleEvent(model){
-    this.props.navigator.push({
-      component: EventDetail,
-      name: model.name,
-      actions: ['share'],
-      model
-    });
-  },
-
-  renderEventItem: function(item) {
-    return <TouchableHighlight onPress={() => this.navigateToSingleEvent(item)} underlayColor={'transparent'}>
-      <View style={styles.gridListItem}>
-        <View style={styles.gridListItemImgWrap}>
-          <Image
-            source={{ uri: item.image }}
-            style={styles.gridListItemImg} />
-          <View style={[styles.gridListItemImgColorLayer]} />
-        </View>
-
-        <View style={styles.gridListItemContent}>
-          <Text style={styles.gridListItemTitle}>{item.name}</Text>
-          <Text style={styles.gridListItemLikes}>
-            <Icon name="android-favorite-outline" size={15} /> {item.likeCount || 9999}
-          </Text>
-        </View>
-      </View>
-    </TouchableHighlight>;
   }
-
 });
 
 const select = store => {
