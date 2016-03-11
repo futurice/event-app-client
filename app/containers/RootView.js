@@ -10,18 +10,18 @@ import * as reducers from '../reducers';
 import MainView from './MainView';
 
 const createStoreWithMiddleware = applyMiddleware(
-    thunk,
-    createLoggerMiddleware(loggerConfig)
+  thunk,
+  createLoggerMiddleware(loggerConfig)
 )(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
 export default class RootView extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-                <MainView />
-            </Provider>
-        );
-    }
+  render() {
+    return (
+      <Provider store={store}>
+        <MainView />
+      </Provider>
+    );
+  }
 }
