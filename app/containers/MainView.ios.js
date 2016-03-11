@@ -8,12 +8,12 @@ import React, {
 import { connect } from "react-redux";
 import CalendarView from "./CalendarView";
 import EventMapView from "./EventMapView";
-import RadioView from "./RadioView";
+import CompetitionView from "./CompetitionView";
 import Tabs from "../constants/Tabs";
 import * as NavigationActions from "../actions/navigation";
 
 const theme = require('../style/theme');
-const Icon = require('react-native-vector-icons/Ionicons'); 
+const Icon = require('react-native-vector-icons/Ionicons');
 
 class MainView extends Component {
     constructor() {
@@ -52,7 +52,7 @@ class MainView extends Component {
                     title="Wappuradio"
                     selected={this.props.currentTab === Tabs.RADIO}
                     onPress={() => { this._onChangeTab(Tabs.RADIO); }}>
-                    <RadioView />
+                    <CompetitionView />
                 </Icon.TabBarItem>
             </TabBarIOS>
         );
