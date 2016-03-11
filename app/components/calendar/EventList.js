@@ -119,7 +119,7 @@ var EventList = React.createClass({
       <View style={styles.gridListItem}>
         <View style={styles.gridListItemImgWrap}>
           <Image
-            source={{ uri: item.image }}
+            source={{ uri: item.coverImage }}
             style={styles.gridListItemImg} />
           <View style={[styles.gridListItemImgColorLayer]} />
         </View>

@@ -58,7 +58,7 @@ const EventDetail = React.createClass({
     return <View style={styles.detailEvent}>
       <ScrollView>
         <TouchableHighlight  underlayColor={theme.light}>
-          <Image source={{ uri: model.image }} style={styles.detailEventImg} />
+          <Image source={{ uri: model.coverImage }} style={styles.detailEventImg} />
         </TouchableHighlight>
 
         <View style={styles.content}>
