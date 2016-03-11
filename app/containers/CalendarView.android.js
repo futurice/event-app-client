@@ -11,9 +11,8 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import EventList from '../components/calendar/EventList';
-const theme = require('../style/theme');
 
-
+import theme from '../style/theme';
 
 
 var _navigator;
@@ -27,7 +26,6 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 
 
 var CalendarView = React.createClass({
-
   renderScene (route, navigator) {
     _navigator = navigator;
     if (route.component) {
@@ -37,22 +35,20 @@ var CalendarView = React.createClass({
   },
 
   render() {
-
     return (
       <Navigator
-      initialRoute={{
-        component: EventList,
-        name: 'Tapahtumat'
-      }}
-      renderScene={this.renderScene}
-      configureScene={() => ({
-        ...Navigator.SceneConfigs.FadeAndroid
-      })}
+        initialRoute={{
+          component: EventList,
+          name: 'Tapahtumat'
+        }}
+        renderScene={this.renderScene}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FadeAndroid
+        })}
       />
     );
-  },
+  }
 });
-
 
 const select = store => {
     return {
