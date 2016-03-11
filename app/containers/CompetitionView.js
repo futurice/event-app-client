@@ -10,6 +10,7 @@ import React, {
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import Button from '../components/common/Button';
+import RegistrationView from '../components/registration/RegistrationView';
 import ActionTypes from '../constants/ActionTypes';
 import ImageCaptureOptions from '../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../actions/competition';
@@ -51,21 +52,7 @@ const CompetitionView = React.createClass({
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.PUSH_THE_BUTTON)}>Paina nappia</Button>
           <Button style={styles.btn} onPress={this.onRegister}>Rekkaa</Button>
         </View>
-        <Modal
-          animated={true}
-          transparent={false}
-          visible={this.props.isRegistrationViewOpen}>
-          <View style={[styles.container, styles.modalBackgroundStyle]}>
-            <View style={[styles.innerContainer]}>
-              <Text>Hi there! Who are you?</Text>
-              <Button
-                onPress={this.onCloseModal}
-                style={styles.modalButton}>
-                That's-a-me!
-              </Button>
-            </View>
-          </View>
-        </Modal>
+        <RegistrationView />
       </View>
     );
   }
@@ -85,16 +72,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     padding: 10
-  },
-  innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalButton: {
-    marginTop: 10,
-  },
-  modalBackgroundStyle: {
-    backgroundColor: '#fff'
   }
 });
 

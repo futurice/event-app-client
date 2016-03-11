@@ -1,3 +1,4 @@
+import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
 
 const CREATING_USER = 'CREATING_USER';
@@ -21,8 +22,10 @@ const closeRegistrationView = () => {
  * @param  {String} name The name of the user
  */
 const createUser = () => {
-  return dispatch => {
+  return (dispatch, getStore) => {
     dispatch({ type: CREATING_USER });
+    const uuid = DeviceInfo.getUniqueID();
+    const name = getStore().registration.get('name');
     return api.createUser({ uuid, name })
       .then(response => {
         dispatch({ type: USER_CREATE_SUCCESS })
