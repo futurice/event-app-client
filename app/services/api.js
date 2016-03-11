@@ -4,8 +4,11 @@ import DeviceInfo from 'react-native-device-info';
 const _post = (url, body) => {
   return fetch(url, {
     method: 'post',
-    body,
-    headers: { 'x-whappu-user': DeviceInfo.getUniqueID() }
+    body: JSON.stringify(Object.assign(
+      {},
+      body,
+      { 'user': DeviceInfo.getUniqueID() }
+    ))
   });
 }
 
@@ -21,7 +24,7 @@ const fetchModels = modelType => {
 };
 
 const postAction = payload => {
-  return _post(Endpoints.action, JSON.stringify(payload))
+  return _post(Endpoints.action, payload)
     .then(response => response.json());
 };
 
