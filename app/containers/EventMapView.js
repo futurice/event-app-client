@@ -8,7 +8,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-const EventMapView = React.createComponent({
+const EventMapView = React.createClass({
   render() {
     return (
       <MapView style={styles.map} />
