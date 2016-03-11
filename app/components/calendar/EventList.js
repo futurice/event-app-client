@@ -113,6 +113,8 @@ var EventList = React.createClass({
   },
 
   renderEventItem(item) {
+    const timepoint = time.formatEventTime(item.startTime, item.endTime);
+
     return <TouchableHighlight onPress={() => this.navigateToSingleEvent(item)} underlayColor={'transparent'}>
       <View style={styles.gridListItem}>
         <View style={styles.gridListItemImgWrap}>
@@ -125,7 +127,10 @@ var EventList = React.createClass({
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <Text style={styles.gridListItemLikes}>
-            <Icon name='android-favorite-outline' size={15} /> {time.format(item.startTime)}
+            <Icon name='android-calendar' size={15} /> {timepoint.date}
+            <Icon name='android-time' size={15} /> {timepoint.time}
+            {timepoint.onGoing && <Text>Käynnissä ny!</Text>}
+            {timepoint.startsSoon && <Text>Alkaa kohta!</Text>}
           </Text>
         </View>
       </View>
@@ -143,7 +148,6 @@ var EventList = React.createClass({
           </View>
         );
       default:
-        console.log(this.props.events);
         return (
           <ListView
             dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
