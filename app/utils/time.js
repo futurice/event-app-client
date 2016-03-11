@@ -1,10 +1,12 @@
 import moment from 'moment';
 
-const DAY_FORMAT = 'D.M.';
-const TIME_FORMAT = 'HH:mm';
-
+const FORMATS = {
+  default:  { day: 'D.M.',        time: 'HH:mm' },
+  long:     { day: 'ddd D.M.',    time: 'HH:mm' }
+}
 const TRESHOLD_FOR_STARTS_SOON = 120; // in minutes
 
+// opts.formatLong==true -> returns time and date in a longer format
 function formatEventTime(startTime, endTime, opts) {
   opts = opts || {};
 
@@ -22,8 +24,9 @@ function formatEventTime(startTime, endTime, opts) {
   let startMoment = moment(startTime);
   let endMoment = moment(endTime);
 
-  formatted.date = startMoment.format(DAY_FORMAT);
-  formatted.time = startMoment.format(TIME_FORMAT);
+  let usedFormat = opts.formatLong ? FORMATS.long : FORMATS.default;
+  formatted.date = startMoment.format(usedFormat.day);
+  formatted.time = startMoment.format(usedFormat.time);
 
   formatted.onGoing = eventIsOnGoing(startTime, endTime);
   formatted.startsSoon = eventStartsSoon(startTime)
