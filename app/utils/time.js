@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const FORMATS = {
   default:  { day: 'D.M.',        time: 'HH:mm' },
-  long:     { day: 'ddd D.M.',    time: 'HH:mm' }
+  long:     { day: 'dddd D.M.',    time: 'HH:mm' }
 }
 const TRESHOLD_FOR_STARTS_SOON = 120; // in minutes
 
@@ -13,6 +13,7 @@ function formatEventTime(startTime, endTime, opts) {
   let formatted = {
     date: '',
     time: '',
+    endTime: '',
     onGoing: false,
     startsSoon: false
   };
@@ -27,6 +28,7 @@ function formatEventTime(startTime, endTime, opts) {
   let usedFormat = opts.formatLong ? FORMATS.long : FORMATS.default;
   formatted.date = startMoment.format(usedFormat.day);
   formatted.time = startMoment.format(usedFormat.time);
+  formatted.endTime = endMoment.format(usedFormat.time);
 
   formatted.onGoing = eventIsOnGoing(startTime, endTime);
   formatted.startsSoon = eventStartsSoon(startTime)
@@ -40,7 +42,7 @@ function eventIsOnGoing(startTime, endTime) {
 }
 
 function eventStartsSoon(startTime) {
-  return moment().diff(moment(startTime), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
+  return moment(startTime).diff(moment(), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
 }
 
 function getTimeAgo(date){
