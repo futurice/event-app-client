@@ -11,30 +11,28 @@ const REQUEST_ACTION_TYPES = 'REQUEST_ACTION_TYPES';
 const RECEIVE_ACTION_TYPES = 'RECEIVE_ACTION_TYPES';
 const ERROR_REQUESTING_ACTION_TYPES = 'ERROR_REQUESTING_ACTION_TYPES';
 
-const uploadImage = image => {
-  return postAction(ActionTypes.IMAGE, { image: image });
-};
-
-/**
- * Post all kinds of actions to backend
- * @param  {ActionTypes} type The type of the action
- * @param  {Object} additionalPayload Any additional payload, e.g. an image if one is to be uploaded
- */
-const postAction = (type, additionalPayload) => {
-  return dispatch => {
-    const actionPayload = {
-      location: LocationManager.getLocation(),
-      team: 0, // TODO: Change to a real team
-      type
-    };
-    if (additionalPayload) {
-      actionPayload.payload = additionalPayload;
-    }
+const _postAction = (payload) => {
+  return (dispatch, getStore) => {
     dispatch({ type: POSTING_ACTION });
-    return api.postAction(actionPayload)
+    return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => dispatch({ type: ACTION_POST_SUCCESS }))
       .catch(e => dispatch({ type: ACTION_POST_FAILURE, error: e }));
   };
+};
+
+const postAction = type => {
+  return _postAction({
+    team: 1, // TODO: Change to a real team
+    type
+  });
+};
+
+const postImage = image => {
+  return _postAction({
+    team: 1, // TODO: Change to a real team
+    type: ActionTypes.IMAGE,
+    imageData: image
+  });
 };
 
 const fetchActionTypes = () => {
@@ -53,7 +51,7 @@ export {
   REQUEST_ACTION_TYPES,
   RECEIVE_ACTION_TYPES,
   ERROR_REQUESTING_ACTION_TYPES,
-  uploadImage,
   postAction,
+  postImage,
   fetchActionTypes
 };

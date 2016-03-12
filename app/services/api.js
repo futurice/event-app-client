@@ -2,21 +2,28 @@ import Endpoints from '../constants/Endpoints';
 import DeviceInfo from 'react-native-device-info';
 
 const loggingFetch = (url, opts) => {
-  console.log('Fetch:', url);
+  console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
-}
+};
 
-const _post = (url, body) => {
+const _post = (url, body, location) => {
   return loggingFetch(url, {
     method: 'post',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
     body: JSON.stringify(Object.assign(
       {},
       body,
-      // { 'user': DeviceInfo.getUniqueID() }
-      { 'user': 'hessu' } // TODO: Remove hessu user when real users available
+      {
+        // user: DeviceInfo.getUniqueID(),
+        user: 'hessu', // TODO: Remove hessu user when real users available
+        location: location
+      }
     ))
   });
-}
+};
 
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
@@ -29,9 +36,8 @@ const fetchModels = modelType => {
     });
 };
 
-const postAction = payload => {
-  return _post(Endpoints.urls.action, payload)
-    .then(response => response.json());
+const postAction = (payload, location) => {
+  return _post(Endpoints.urls.action, payload, location);
 };
 
 const createUser = payload => {
