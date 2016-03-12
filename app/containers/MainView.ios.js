@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionView';
+import FeedView from './FeedView';
 import Tabs from '../constants/Tabs';
 import * as NavigationActions from '../actions/navigation';
 
@@ -47,6 +48,14 @@ const MainView = React.createClass({
           selected={this.props.currentTab === Tabs.ACTION}
           onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
           <CompetitionView />
+        </Icon.TabBarItem>
+        <Icon.TabBarItem
+          iconName='ios-flame-outline'
+          selectedIconName='ios-flame'
+          title='Feed'
+          selected={this.props.currentTab === Tabs.FEED}
+          onPress={() => { this._onChangeTab(Tabs.FEED); }}>
+          <FeedView />
         </Icon.TabBarItem>
       </TabBarIOS>
     );
