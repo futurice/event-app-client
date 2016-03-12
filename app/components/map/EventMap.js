@@ -26,7 +26,7 @@ class EventMap extends Component {
 
   render() {
     const { events } = this.props;
-    const markers = events.filter(event => !!event.location.latitude && !!event.location.longitude).map((event, i) =>
+    const markers = [].concat(events).filter(event => event.location && !!event.location.latitude && !!event.location.longitude).map((event, i) =>
       <MapView.Marker key={i} coordinate={event.location}>
         <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
           <TouchableHighlight underlayColor='transparent' onPress={this.onCalloutPress.bind(this, event)}>
