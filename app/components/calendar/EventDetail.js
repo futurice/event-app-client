@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingBottom: 20,
-    marginTop: 20 // to unset
+    paddingBottom: 20
   },
   detailEventImg: {
     width: Dimensions.get('window').width,
