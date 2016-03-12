@@ -11,7 +11,6 @@ const EVENT_LIST_LOADING = 'EVENT_LIST_LOADING';
 const EVENT_LIST_LOADED = 'EVENT_LIST_LOADED';
 const EVENT_LIST_FAILED = 'EVENT_LIST_FAILED';
 
-
 const fetchEvents = () => {
   return (dispatch) => {
     dispatch({ type: EVENT_LIST_LOADING });

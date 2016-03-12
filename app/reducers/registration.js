@@ -7,7 +7,10 @@ import {
   USER_CREATE_FAILURE,
   OPEN_REGISTRATION_VIEW,
   CLOSE_REGISTRATION_VIEW,
-  UPDATE_NAME
+  UPDATE_NAME,
+  REQUEST_NAME,
+  RECEIVE_USER,
+  ERROR_REQUESTING_USER
 } from '../actions/registration';
 
 const initialState = Immutable.fromJS({
@@ -40,6 +43,8 @@ export default function registration(state = initialState, action) {
         'isLoading': false,
         'isError': true
       });
+    case RECEIVE_USER:
+      return state.set('name', action.payload);
     default:
       return state;
   }
