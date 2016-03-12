@@ -1,34 +1,55 @@
-"use strict";
+'use strict';
 
 import React, {
-    Component,
-    StyleSheet,
-    View,
-    MapView
-} from "react-native";
-import { connect } from "react-redux";
+  Component,
+  StyleSheet,
+  View
+} from 'react-native';
+import MapView from 'react-native-maps';
+import { connect } from 'react-redux';
 
 class EventMapView extends Component {
-    constructor() {
-        super();
-    }
+  constructor() {
+    super();
+  }
 
-    render() {
-        return (
-            <MapView style={styles.map} />
-        );
-    }
+  render() {
+    return (
+      <View style={styles.container}>
+        <MapView style={styles.map}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
+          }}
+        />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
-    map: {
-        flex: 1
-    }
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  map: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
 });
 
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(EventMapView);
