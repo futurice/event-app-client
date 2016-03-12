@@ -1,3 +1,5 @@
+'use strict';
+
 import React, {
   View,
   Modal,
@@ -7,6 +9,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
+import TeamSelector from '../../components/registration/TeamSelector';
 import * as RegistrationActions from '../../actions/registration';
 
 const RegistrationView = React.createClass({
@@ -15,6 +18,9 @@ const RegistrationView = React.createClass({
   },
   onChangeName(name) {
     this.props.dispatch(RegistrationActions.updateName(name));
+  },
+  onSelectTeam(id) {
+    this.props.dispatch(TeamActions.selectTeam(team));
   },
   render() {
     return (
@@ -26,10 +32,13 @@ const RegistrationView = React.createClass({
           <View style={[styles.innerContainer]}>
             <Text>Hi there! Who are you?</Text>
             <TextInput
-              style={{height: 40, borderColor: 'gray', borderWidth: 1}}
+              style={styles.nameField}
               onChangeText={this.onChangeName}
-              value={this.props.name}
-            />
+              value={this.props.name} />
+            <TeamSelector
+              selectedTeam={this.props.selectedTeam}
+              teams={this.props.teams}
+              onSelectTeam={this.onSelectTeam} />
             <Button
               onPress={this.onRegister}
               style={styles.modalButton}>
@@ -56,13 +65,23 @@ const styles = StyleSheet.create({
   },
   modalBackgroundStyle: {
     backgroundColor: '#fff'
+  },
+  nameField: {
+    height: 40,
+    marginTop: 10,
+    marginRight: 10,
+    marginLeft: 10,
+    borderColor: 'gray',
+    borderWidth: 1
   }
 });
 
 const select = store => {
   return {
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
-    name: store.registration.get('name')
+    name: store.registration.get('name'),
+    selectedTeam: store.team.get('selectedTeam'),
+    teams: store.team.get('teams')
   };
 };
 

@@ -4,13 +4,15 @@ import Immutable from 'immutable';
 import {
   REQUEST_TEAMS,
   RECEIVE_TEAMS,
-  ERROR_REQUESTING_TEAMS
+  ERROR_REQUESTING_TEAMS,
+  SELECT_TEAM
 } from '../actions/team';
 
 const initialState = Immutable.fromJS({
   teams: [],
   isLoading: false,
-  isError: false
+  isError: false,
+  selectedTeam: null
 });
 
 export default function team(state = initialState, action) {
@@ -31,6 +33,8 @@ export default function team(state = initialState, action) {
         isLoading: false,
         isError: true
       });
+    case SELECT_TEAM:
+      return state.set('selectedTeam', action.payload);
     default:
       return state;
   }
