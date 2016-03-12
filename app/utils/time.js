@@ -2,7 +2,7 @@ import moment from 'moment';
 
 const FORMATS = {
   default:  { day: 'D.M.',        time: 'HH:mm' },
-  long:     { day: 'ddd D.M.',    time: 'HH:mm' }
+  long:     { day: 'dddd D.M.',    time: 'HH:mm' }
 }
 const TRESHOLD_FOR_STARTS_SOON = 120; // in minutes
 
