@@ -22,6 +22,9 @@ const TeamSelector = React.createClass({
           transparent={false}
           visible={this.props.isChooseTeamViewOpen}>
           <View style={styles.teamList}>
+            <Text style={styles.header}>
+              Choose your kilta:
+            </Text>
             {this.props.teams.map(team =>
               <Team
                 key={team.get('id')}
@@ -38,7 +41,13 @@ const TeamSelector = React.createClass({
 const styles = StyleSheet.create({
   teamList: {
     flex: 1,
-    paddingTop: 50
+    paddingTop: 50,
+    backgroundColor: '#ffffff'
+  },
+  header: {
+    fontSize: 20,
+    textAlign: 'center',
+    marginBottom: 10
   }
 });
 

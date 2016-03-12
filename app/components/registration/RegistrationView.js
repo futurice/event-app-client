@@ -16,7 +16,7 @@ import * as TeamActions from '../../actions/team';
 
 const RegistrationView = React.createClass({
   onRegister() {
-    this.props.dispatch(RegistrationActions.createUser());
+    this.props.dispatch(RegistrationActions.putUser());
   },
   onChangeName(name) {
     this.props.dispatch(RegistrationActions.updateName(name));
@@ -37,11 +37,12 @@ const RegistrationView = React.createClass({
         visible={this.props.isRegistrationViewOpen}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
-            <Text>Hi there! Who are you?</Text>
+            <Text style={styles.header}>Hi there! What's your name?</Text>
             <TextInput
               style={styles.nameField}
               onChangeText={this.onChangeName}
               value={this.props.name} />
+            <Text style={styles.header}>...and your kilta?</Text>
             <TeamSelector
               selectedTeam={currentTeamName}
               teams={this.props.teams}
@@ -78,12 +79,13 @@ const styles = StyleSheet.create({
   },
   nameField: {
     height: 40,
-    marginTop: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    borderColor: 'gray',
-    borderWidth: 1
+    margin: 10,
+    backgroundColor: 'rgba(20,20,20,0.1)',
+    padding: 5
+  },
+  header: {
+    fontSize: 20,
+    marginBottom: 10
   }
 });
 

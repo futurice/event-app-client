@@ -6,6 +6,16 @@ const loggingFetch = (url, opts) => {
   return fetch(url, opts);
 };
 
+const checkStatus = response => {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  } else {
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+};
+
 const _post = (url, body) => {
   return loggingFetch(url, {
     method: 'post',
@@ -14,7 +24,7 @@ const _post = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  });
+  }).then(checkStatus);
 };
 
 const _put = (url, body) => {
@@ -25,7 +35,7 @@ const _put = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  })
+  }).then(checkStatus);
 };
 
 const fetchModels = modelType => {
@@ -40,14 +50,20 @@ const fetchModels = modelType => {
 };
 
 const postAction = (payload, location) => {
-  // TODO: Change to real user UUID
-  // user: DeviceInfo.getUniqueID()
-  const finalPayload = Object.assign({}, payload, { user: 'hessu', location: location });
+  const finalPayload = Object.assign({}, payload, {
+    user: DeviceInfo.getUniqueID(),
+    location: location
+  });
   return _post(Endpoints.urls.action, finalPayload);
 };
 
-const createUser = payload => {
-  return _put(Endpoints.urls.user(payload.uuid), payload)
+const putUser = payload => {
+  return _put(Endpoints.urls.user(payload.uuid), payload);
+};
+
+const getUser = uuid => {
+  return loggingFetch(Endpoints.urls.user(uuid))
+    .then(checkStatus)
     .then(response => response.json());
 };
 
@@ -64,7 +80,8 @@ const fetchActionTypes = () => {
 export default {
   fetchModels,
   postAction,
-  createUser,
+  putUser,
+  getUser,
   fetchTeams,
   fetchActionTypes
 };
