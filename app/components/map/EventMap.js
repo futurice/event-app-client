@@ -3,6 +3,7 @@
 import React, {
   Component,
   StyleSheet,
+  View,
   Text,
   TouchableHighlight
 } from 'react-native';
@@ -16,6 +17,7 @@ class EventMap extends Component {
   }
 
   onCalloutPress(event) {
+    console.log(event);
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
@@ -26,6 +28,7 @@ class EventMap extends Component {
 
   render() {
     const { events } = this.props;
+    console.log(this.props);
     const markers = [].concat(events).filter(event => event.location && !!event.location.latitude && !!event.location.longitude).map((event, i) =>
       <MapView.Marker key={i} coordinate={event.location}>
         <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
@@ -58,6 +61,15 @@ class EventMap extends Component {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
   map: {
     position: 'absolute',
     top: 0,

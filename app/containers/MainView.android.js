@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionView';
+import FeedView from './FeedView';
 import Tabs from '../constants/Tabs';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
@@ -36,6 +37,7 @@ const AndroidTabNavigation = React.createClass({
         renderTabBar={() => <IconTabBar rippleColor={'rgba(255,255,255,.2)'} />}
       >
 
+        <FeedView navigator={this.props.navigator} tabLabel='android-image' />
         <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
         <EventMapView navigator={this.props.navigator} tabLabel='android-map' />
         <CompetitionView tabLabel='android-star' />
