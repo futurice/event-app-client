@@ -47,7 +47,6 @@ const postText = text => {
 
 const postImage = image => {
   return _postAction({
-    team: 1, // TODO: Change to a real team
     type: ActionTypes.IMAGE,
     imageData: image
   });
