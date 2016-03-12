@@ -1,5 +1,8 @@
 'use strict';
 
+import _ from 'lodash';
+import moment from 'moment';
+
 import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';
 
@@ -14,12 +17,15 @@ const fetchEvents = () => {
     dispatch({ type: EVENT_LIST_LOADING });
 
     api.fetchModels('events')
-      .then(items => {
+      .then(events => {
+        const groupedEvents = _.groupBy(events, event => moment(event.startTime).startOf('day').valueOf());
+        console.log('groupedEvents', groupedEvents);
+        // TODO: we must handle the order of sections somehow
+
         dispatch({
           type: EVENT_SET,
-          events: items
+          events: groupedEvents
         });
-
         dispatch({ type: EVENT_LIST_LOADED });
       })
       .catch(error => dispatch({ type: EVENT_LIST_FAILED }));

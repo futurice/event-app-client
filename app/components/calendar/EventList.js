@@ -17,12 +17,15 @@ import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
+import time from '../../utils/time';
 
 import theme from '../../style/theme';
 import * as EventActions from '../../actions/event';
 import EventListItem from './EventListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
+
+// TODO zebra
 
 const styles = StyleSheet.create({
   container: {
@@ -34,6 +37,16 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1
+  },
+  sectionHeader:{
+    backgroundColor: '#FFF',
+    opacity: 0.88,
+    padding: 10,
+    paddingLeft: 20
+  },
+  sectionHeaderText: {
+    textAlign: 'left',
+    color: theme.primary
   }
 });
 
@@ -41,7 +54,10 @@ var EventList = React.createClass({
 
   getInitialState() {
     return {
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => row1 !== row2,
+        sectionHeaderHasChanged: (s1, s2) => s1 !== s2
+      })
     };
   },
 
@@ -71,6 +87,14 @@ var EventList = React.createClass({
     });
   },
 
+  renderSectionHeader(sectionData, sectionId) {
+    return <View style={styles.sectionHeader}>
+      <Text style={styles.sectionHeaderText}>
+        {time.formatEventTime(sectionData[0].startTime, null, {formatLong:true}).date}
+      </Text>
+    </View>;
+  },
+
   renderEventItem(item) {
     return <EventListItem
       item={item}
@@ -90,7 +114,8 @@ var EventList = React.createClass({
       default:
         return (
           <ListView
-            dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
+            dataSource={this.state.dataSource.cloneWithRowsAndSections(this.props.events)}
+            renderSectionHeader={this.renderSectionHeader}
             renderRow={this.renderEventItem}
             style={styles.listView} />
         );
