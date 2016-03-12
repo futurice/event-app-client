@@ -11,6 +11,7 @@ var {
   Navigator,
   TouchableHighlight,
   ActivityIndicatorIOS,
+  PullToRefreshViewAndroid,
   View,
   Platform,
 } = React;
@@ -21,7 +22,7 @@ import _ from 'lodash';
 
 import time from '../../utils/time';
 import theme from '../../style/theme';
-import * as EventActions from '../../actions/event';
+import * as FeedActions from '../../actions/feed';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 
@@ -45,7 +46,8 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   feedItemListTextWrap: {
-    padding:20,
+    paddingLeft:15,
+    paddingRight:15,
     paddingTop:0,
     paddingBottom:10,
     top:-10
@@ -63,22 +65,30 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection:'row',
     padding: 20,
-    alignItems:'center',
+    paddingLeft:15,
+    paddingRight:15,
+    alignItems:'flex-start',
     justifyContent:'space-between',
   },
   feedItemListItemAuthor:{
     flex:1,
     flexDirection:'row',
+    alignItems:'flex-end',
   },
   feedItemListItemAuthorName: {
     fontSize: 13,
     fontWeight: 'bold',
-    color: theme.secondary
+    color: theme.secondary,
+    paddingRight:10,
+  },
+  feedItemListItemAuthorTeam:{
+    fontSize:11,
+    color:'#aaa',
   },
   feedItemListItemAuthorIcon:{
     color:'#aaa',
-    fontSize: 13,
-    marginTop:3,
+    fontSize: 15,
+    marginTop:1,
     paddingRight:10,
   },
   feedItemListItemTime: {
@@ -96,7 +106,7 @@ var feedItemList = React.createClass({
   },
 
   componentDidMount() {
-    this.props.dispatch(EventActions.fetchEvents());
+    this.props.dispatch(FeedActions.fetchFeed());
   },
 
   renderLoadingView() {
@@ -110,39 +120,45 @@ var feedItemList = React.createClass({
           style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
           size='large' />
       }
-      <Text>Ladataan kuvia...</Text>
+      <Text>Ladataan feed...</Text>
     </View>;
   },
 
-  navigateToSinglePhoto(model){
+  navigateToSingleFeedItem(model){
     this.props.navigator.push({
-      component: SinglePhoto,
+      component: SingleFeedItem,
       name: model.name,
       actions: ['share'],
       model
     });
   },
 
-  renderEventItem(item) {
-    const ago = time.getTimeAgo(item.startTime);
+  _onRefresh(){
+    alert('test')
+  //  this.props.dispatch(FeedActions.fetchFeed());
+  },
+
+  renderFeedItem(item) {
+    const ago = time.getTimeAgo(item.createdAt);
 
     return (
       <View style={styles.feedItemListItem}>
 
         <View style={styles.feedItemListItemInfo}>
+          <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
           <View style={styles.feedItemListItemAuthor}>
-            <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
-            <Text style={styles.feedItemListItemAuthorName}>{item.name}</Text>
+            <Text style={styles.feedItemListItemAuthorName}>{item.author.name}</Text>
+            <Text style={styles.feedItemListItemAuthorTeam}>{item.author.team}</Text>
           </View>
           <Text style={styles.feedItemListItemTime}>
 
-            <Icon name='android-time' size={13} /> {ago}
+            <Icon name='android-time' size={15} /> {ago}
           </Text>
         </View>
-        {item.type!=='IMAGE' ?
+        {item.type==='IMAGE' ?
         <View style={styles.feedItemListItemImgWrap}>
           <Image
-            source={{ uri: item.coverImage }}
+            source={{ uri: item.url }}
             style={styles.feedItemListItemImg} />
         </View>
         :
@@ -156,20 +172,23 @@ var feedItemList = React.createClass({
   },
 
   render() {
-    switch (this.props.eventsListState) {
+
+    //const rows = this.state.rowData.map((row, ii) => { return {this.renderFeedItem()}; });
+
+    switch (this.props.feedListState) {
       case 'loading':
         return this.renderLoadingView();
       case 'failed':
         return (
           <View style={styles.container}>
-            <Text>Kuvia ei saatu haettua :(</Text>
+            <Text>Feedia ei saatu haettua :(</Text>
           </View>
         );
       default:
         return (
           <ListView
-            dataSource={this.state.dataSource.cloneWithRows(this.props.events)}
-            renderRow={this.renderEventItem}
+            dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
+            renderRow={this.renderFeedItem}
             style={styles.listView} />
         );
     }
@@ -178,8 +197,8 @@ var feedItemList = React.createClass({
 
 const select = store => {
     return {
-      events: store.event.get('list').toJS(),
-      eventsListState: store.event.get('listState')
+      feed: store.feed.get('list').toJS(),
+      feedListState: store.feed.get('listState')
     }
 };
 

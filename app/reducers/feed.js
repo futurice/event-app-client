@@ -2,11 +2,11 @@
 import Immutable from 'immutable';
 
 import {
-  PHOTO_SET,
-  PHOTO_LIST_LOADING,
-  PHOTO_LIST_LOADED,
-  PHOTO_LIST_FAILED
-} from '../actions/photo';
+  FEED_SET,
+  FEED_LIST_LOADING,
+  FEED_LIST_LOADED,
+  FEED_LIST_FAILED
+} from '../actions/feed';
 
 const initialState = Immutable.fromJS({
   list: [],
@@ -14,15 +14,15 @@ const initialState = Immutable.fromJS({
 });
 
 
-export default function photo(state = initialState, action) {
+export default function feed(state = initialState, action) {
   switch (action.type) {
-    case PHOTO_SET:
-      return state.set('list', Immutable.fromJS(action.photos));
-    case PHOTO_LIST_LOADING:
+    case FEED_SET:
+      return state.set('list', Immutable.fromJS(action.feed));
+    case FEED_LIST_LOADING:
       return state.set('listState', 'loading');
-    case PHOTO_LIST_LOADED:
+    case FEED_LIST_LOADED:
       return state.set('listState', 'ready');
-    case PHOTO_LIST_FAILED:
+    case FEED_LIST_FAILED:
       return state.set('listState', 'failed');
     default:
       return state;

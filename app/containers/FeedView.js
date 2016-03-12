@@ -9,7 +9,7 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import PhotoList from '../components/photos/PhotoList';
+import FeedList from '../components/feed/FeedList';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
   }
 });
 
-var PhotosView = React.createClass({
+var FeedView = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
@@ -45,8 +45,8 @@ var PhotosView = React.createClass({
             routeMapper={NavRouteMapper} />
         }*/
         initialRoute={{
-          component: PhotoList,
-          name: 'Kuvat'
+          component: FeedList,
+          name: 'Feed'
         }}
         renderScene={this.renderScene}
         configureScene={() => ({
@@ -63,4 +63,4 @@ const select = store => {
     }
 };
 
-export default connect(select)(PhotosView);
+export default connect(select)(FeedView);
