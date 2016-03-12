@@ -20,12 +20,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
 
+import EventListItem from './EventListItem';
 import time from '../../utils/time';
 
 const styles = StyleSheet.create({
-  detailEvent: {
+  wrapper: {
     flex: 1,
-    backgroundColor: '#FFF'
+    backgroundColor: '#FFF',
+    paddingBottom: 20,
+    marginTop: 20 // to unset
   },
   detailEventImg: {
     width: Dimensions.get('window').width,
@@ -72,13 +75,10 @@ const EventDetail = React.createClass({
     const model = this.props.route.model;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
 
-    return <View style={styles.detailEvent}>
+    return <View style={styles.wrapper}>
       {(Platform.OS === 'android') ? <Toolbar title={model.name} navigator={this.props.navigator} /> : null }
       <ScrollView>
-        <TouchableHighlight underlayColor={theme.light}>
-          <Image source={{ uri: model.coverImage }} style={styles.detailEventImg} />
-        </TouchableHighlight>
-
+        <EventListItem item={model} handlePress={() => true} />
 
         <View>
           <Text><Icon name='social-facebook' size={20} />Event</Text>
@@ -88,7 +88,6 @@ const EventDetail = React.createClass({
         </View>
 
         <View style={styles.content}>
-          <Text style={styles.detailEventName}>{model.name}</Text>
           <Text style={styles.detailEventDescription}>{model.description}</Text>
         </View>
       </ScrollView>
