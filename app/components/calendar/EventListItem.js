@@ -85,12 +85,13 @@ export default React.createClass({
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
+    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : ''
 
     return <TouchableHighlight onPress={this.props.handlePress} underlayColor={'transparent'}>
       <View style={styles.gridListItem}>
         <View style={styles.gridListItemImgWrap}>
           <Image
-            source={{ uri: item.coverImage.replace('https://', 'http://') }}
+            source={{ uri: coverImage }}
             style={styles.gridListItemImg} />
           <View style={[styles.gridListItemImgColorLayer]} />
         </View>
