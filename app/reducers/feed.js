@@ -13,7 +13,6 @@ const initialState = Immutable.fromJS({
   listState: 'none'
 });
 
-
 export default function feed(state = initialState, action) {
   switch (action.type) {
     case FEED_SET:

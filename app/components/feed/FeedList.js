@@ -163,7 +163,7 @@ var feedItemList = React.createClass({
         </View>
         :
         <View style={styles.feedItemListTextWrap}>
-          <Text style={styles.feedItemListText}>{item.contactDetails}</Text>
+          <Text style={styles.feedItemListText}>{item.text}</Text>
         </View>
         }
 
