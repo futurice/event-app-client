@@ -39,7 +39,6 @@ const postAction = type => {
 
 const postText = text => {
   return _postAction({
-    team: 1,
     type: ActionTypes.TEXT,
     user: DeviceInfo.getUniqueID(),
     text: text

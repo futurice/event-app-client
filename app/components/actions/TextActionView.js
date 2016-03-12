@@ -27,7 +27,6 @@ const TextActionView = React.createClass({
     this.props.dispatch(CompetitionActions.closeTextActionView());
   },
   render() {
-    console.log(this.props);
     return (
       <Modal
         animated={true}
