@@ -17,6 +17,17 @@ const _post = (url, body) => {
   });
 };
 
+const _put = (url, body) => {
+  return loggingFetch(url, {
+    method: 'put',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  })
+};
+
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
 
@@ -36,7 +47,7 @@ const postAction = (payload, location) => {
 };
 
 const createUser = payload => {
-  return _post(Endpoints.urls.user, payload)
+  return _put(Endpoints.urls.user(payload.uuid), payload)
     .then(response => response.json());
 };
 
