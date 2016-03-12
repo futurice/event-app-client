@@ -5,14 +5,17 @@ import {
   REQUEST_TEAMS,
   RECEIVE_TEAMS,
   ERROR_REQUESTING_TEAMS,
-  SELECT_TEAM
+  SELECT_TEAM,
+  SHOW_TEAM_SELECTOR,
+  CLOSE_TEAM_SELECTOR
 } from '../actions/team';
 
 const initialState = Immutable.fromJS({
   teams: [],
   isLoading: false,
   isError: false,
-  selectedTeam: null
+  selectedTeam: null,
+  isChooseTeamViewOpen: false
 });
 
 export default function team(state = initialState, action) {
@@ -35,6 +38,10 @@ export default function team(state = initialState, action) {
       });
     case SELECT_TEAM:
       return state.set('selectedTeam', action.payload);
+    case SHOW_TEAM_SELECTOR:
+      return state.set('isChooseTeamViewOpen', true);
+    case CLOSE_TEAM_SELECTOR:
+      return state.set('isChooseTeamViewOpen', false);
     default:
       return state;
   }

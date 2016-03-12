@@ -5,23 +5,40 @@ import React, {
   Modal,
   Text,
   TextInput,
-  StyleSheet,
-  Modal
+  StyleSheet
 } from 'react-native';
 import Team from "./Team";
+import Button from "../../components/common/Button";
 
 const TeamSelector = React.createClass({
   render() {
     return (
       <View>
-        {this.props.teams.map(team =>
-          <Team
-            key={team.get('id')}
-            name={team.get('name')}
-            onPress={this.props.onSelectTeam.bind(null, team.get('id'))} />
-        )}
+        <Button onPress={this.props.onShowChooseTeam}>
+          {this.props.selectedTeam}
+        </Button>
+        <Modal
+          animated={true}
+          transparent={false}
+          visible={this.props.isChooseTeamViewOpen}>
+          <View style={styles.teamList}>
+            {this.props.teams.map(team =>
+              <Team
+                key={team.get('id')}
+                name={team.get('name')}
+                onPress={this.props.onSelectTeam.bind(null, team.get('id'))} />
+            )}
+          </View>
+        </Modal>
       </View>
     );
+  }
+});
+
+const styles = StyleSheet.create({
+  teamList: {
+    flex: 1,
+    paddingTop: 50
   }
 });
 

@@ -7,15 +7,14 @@ import React, {
   TextInput,
   StyleSheet
 } from 'react-native';
+import Button from "../../components/common/Button";
 
 const Team = React.createClass({
   render() {
     return (
-      <View onPress={this.props.onPress}>
-        <Text>
-          {this.props.name}
-        </Text>
-      </View>
+      <Button onPress={this.props.onPress}>
+        {this.props.name}
+      </Button>
     );
   }
 });

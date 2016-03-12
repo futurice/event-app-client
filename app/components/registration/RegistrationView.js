@@ -1,5 +1,6 @@
 'use strict';
 
+import _ from 'lodash';
 import React, {
   View,
   Modal,
@@ -11,6 +12,7 @@ import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
 import TeamSelector from '../../components/registration/TeamSelector';
 import * as RegistrationActions from '../../actions/registration';
+import * as TeamActions from '../../actions/team';
 
 const RegistrationView = React.createClass({
   onRegister() {
@@ -20,9 +22,14 @@ const RegistrationView = React.createClass({
     this.props.dispatch(RegistrationActions.updateName(name));
   },
   onSelectTeam(id) {
-    this.props.dispatch(TeamActions.selectTeam(team));
+    this.props.dispatch(TeamActions.selectTeam(id));
+  },
+  onShowChooseTeam() {
+    this.props.dispatch(TeamActions.showChooseTeam());
   },
   render() {
+    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]);
+    const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
     return (
       <Modal
         animated={true}
@@ -36,12 +43,15 @@ const RegistrationView = React.createClass({
               onChangeText={this.onChangeName}
               value={this.props.name} />
             <TeamSelector
-              selectedTeam={this.props.selectedTeam}
+              selectedTeam={currentTeamName}
               teams={this.props.teams}
+              isChooseTeamViewOpen={this.props.isChooseTeamViewOpen}
+              onShowChooseTeam={this.onShowChooseTeam}
               onSelectTeam={this.onSelectTeam} />
             <Button
               onPress={this.onRegister}
-              style={styles.modalButton}>
+              style={styles.modalButton}
+              isDisabled={!this.props.isRegistrationInfoValid}>
               That's-a-me!
             </Button>
           </View>
@@ -70,6 +80,7 @@ const styles = StyleSheet.create({
     height: 40,
     marginTop: 10,
     marginRight: 10,
+    marginBottom: 10,
     marginLeft: 10,
     borderColor: 'gray',
     borderWidth: 1
@@ -81,7 +92,9 @@ const select = store => {
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
     selectedTeam: store.team.get('selectedTeam'),
-    teams: store.team.get('teams')
+    teams: store.team.get('teams'),
+    isChooseTeamViewOpen: store.team.get('isChooseTeamViewOpen'),
+    isRegistrationInfoValid: !!store.registration.get('name') && !!store.team.get('selectedTeam')
   };
 };
 

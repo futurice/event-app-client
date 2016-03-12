@@ -6,22 +6,14 @@ const loggingFetch = (url, opts) => {
   return fetch(url, opts);
 };
 
-const _post = (url, body, location) => {
+const _post = (url, body) => {
   return loggingFetch(url, {
     method: 'post',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(Object.assign(
-      {},
-      body,
-      {
-        // user: DeviceInfo.getUniqueID(),
-        user: 'hessu', // TODO: Remove hessu user when real users available
-        location: location
-      }
-    ))
+    body: JSON.stringify(body)
   });
 };
 
@@ -37,7 +29,10 @@ const fetchModels = modelType => {
 };
 
 const postAction = (payload, location) => {
-  return _post(Endpoints.urls.action, payload, location);
+  // TODO: Change to real user UUID
+  // user: DeviceInfo.getUniqueID()
+  const finalPayload = Object.assign({}, payload, { user: 'hessu', location: location });
+  return _post(Endpoints.urls.action, finalPayload);
 };
 
 const createUser = payload => {
