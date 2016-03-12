@@ -3,11 +3,13 @@ import event from './event';
 import registration from './registration';
 import team from './team';
 import location from './location';
+import competition from './competition';
 
 export {
   navigation,
   event,
   registration,
   team,
-  location
+  location,
+  competition
 };

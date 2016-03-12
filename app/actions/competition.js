@@ -1,5 +1,6 @@
 'use strict';
 
+import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 
@@ -9,6 +10,16 @@ const ACTION_POST_FAILURE = 'ACTION_POST_FAILURE';
 const REQUEST_ACTION_TYPES = 'REQUEST_ACTION_TYPES';
 const RECEIVE_ACTION_TYPES = 'RECEIVE_ACTION_TYPES';
 const ERROR_REQUESTING_ACTION_TYPES = 'ERROR_REQUESTING_ACTION_TYPES';
+const OPEN_TEXTACTION_VIEW = 'OPEN_TEXTACTION_VIEW';
+const CLOSE_TEXTACTION_VIEW = 'CLOSE_TEXTACTION_VIEW';
+
+const openTextActionView = () => {
+  return { type: OPEN_TEXTACTION_VIEW };
+};
+
+const closeTextActionView = () => {
+  return { type: CLOSE_TEXTACTION_VIEW };
+};
 
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
@@ -25,6 +36,15 @@ const postAction = type => {
     type
   });
 };
+
+const postText = text => {
+  return _postAction({
+    team: 1,
+    type: ActionTypes.TEXT,
+    user: DeviceInfo.getUniqueID(),
+    text: text
+  });
+}
 
 const postImage = image => {
   return _postAction({
@@ -50,7 +70,12 @@ export {
   REQUEST_ACTION_TYPES,
   RECEIVE_ACTION_TYPES,
   ERROR_REQUESTING_ACTION_TYPES,
+  OPEN_TEXTACTION_VIEW,
+  CLOSE_TEXTACTION_VIEW,
   postAction,
+  postText,
   postImage,
+  openTextActionView,
+  closeTextActionView,
   fetchActionTypes
 };

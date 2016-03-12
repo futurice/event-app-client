@@ -10,6 +10,7 @@ import React, {
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import Button from '../components/common/Button';
+import TextActionView from '../components/actions/TextActionView';
 import RegistrationView from '../components/registration/RegistrationView';
 import ActionTypes from '../constants/ActionTypes';
 import ImageCaptureOptions from '../constants/ImageCaptureOptions';
@@ -32,8 +33,12 @@ const CompetitionView = React.createClass({
     });
   },
 
+  onSendText() {
+    this.props.dispatch(CompetitionActions.openTextActionView());
+  },
+
   onJustPress(type) {
-    this.props.dispatch(CompetitionActions.postAction(type))
+    this.props.dispatch(CompetitionActions.postAction(type));
   },
 
   onRegister() {
@@ -49,9 +54,11 @@ const CompetitionView = React.createClass({
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.CIDER)}>Join siiderin</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.LONKKU)}>Join lonkun</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.JALLU)}>JALLUNAPPI!!1</Button>
+          <Button style={styles.btn} onPress={this.onSendText.bind(null, ActionTypes.TEXT)}>Lähetä viesti</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.PUSH_THE_BUTTON)}>Paina nappia</Button>
           <Button style={styles.btn} onPress={this.onRegister}>Rekkaa</Button>
         </View>
+        <TextActionView />
         <RegistrationView />
       </View>
     );
