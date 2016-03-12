@@ -24,10 +24,11 @@ const putUser = () => {
     dispatch({ type: CREATING_USER });
     const uuid = DeviceInfo.getUniqueID();
     const name = getStore().registration.get('name');
-    return api.putUser({ uuid, name })
+    const team = getStore().team.get('selectedTeam');
+    return api.putUser({ uuid, name, team })
       .then(response => {
-        dispatch({ type: USER_CREATE_SUCCESS })
-        dispatch({ type: CLOSE_REGISTRATION_VIEW })
+        dispatch({ type: USER_CREATE_SUCCESS });
+        dispatch({ type: CLOSE_REGISTRATION_VIEW });
       })
       .catch(error => dispatch({ type: USER_CREATE_FAILURE, error: error }));
   };

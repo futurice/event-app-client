@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import Button from '../components/common/Button';
 import TextActionView from '../components/actions/TextActionView';
+import LeaderboardEntry from '../components/competition/LeaderboardEntry';
 import RegistrationView from '../components/registration/RegistrationView';
 import ActionTypes from '../constants/ActionTypes';
 import ImageCaptureOptions from '../constants/ImageCaptureOptions';
@@ -44,6 +45,11 @@ const CompetitionView = React.createClass({
   render() {
     return (
       <View style={styles.container}>
+        <View style={styles.leaderboard}>
+          {this.props.teams.map((team, index) =>
+            <LeaderboardEntry key={team.get('id')} team={team} position={index + 1} />
+          )}
+        </View>
         <View style={styles.actions}>
           <Button style={styles.btn} onPress={this.onChooseImage.bind(null, ActionTypes.IMAGE)}>Lataa kuva</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.BEER)}>Join kaljan</Button>
@@ -68,6 +74,9 @@ const styles = StyleSheet.create({
   btn: {
     margin: 5
   },
+  leaderboard: {
+    flex: 0.5
+  },
   actions: {
     flex: 0.5,
     flexDirection: 'row',
@@ -80,7 +89,8 @@ const styles = StyleSheet.create({
 const select = store => {
   return {
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
-    name: store.registration.get('name')
+    name: store.registration.get('name'),
+    teams: store.team.get('teams')
   };
 };
 
