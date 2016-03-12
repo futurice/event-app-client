@@ -43,9 +43,26 @@ function eventStartsSoon(startTime) {
   return moment().diff(moment(startTime), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
 }
 
+function getTimeAgo(date){
+    if(!date){
+      return ''
+    };
 
+    const diff = (new Date().getTime() - new Date(date).getTime()) / 60000; // minutes
+
+    if(diff <= 0 )
+      return 'now';
+    else if(diff < 60)
+      return Math.round(diff) + 'm';
+    else if(diff < 60 * 24)
+      return Math.round(diff/60) + 'h';
+    else (diff < 60 * 24)
+      return Math.round(diff/60/24) + 'd';
+
+}
 
 export default {
   formatEventTime,
-  eventIsOnGoing
+  eventIsOnGoing,
+  getTimeAgo
 };
