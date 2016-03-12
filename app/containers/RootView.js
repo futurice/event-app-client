@@ -8,6 +8,9 @@ import createLoggerMiddleware from 'redux-logger';
 import loggerConfig from '../utils/loggerConfig';
 import * as reducers from '../reducers';
 import MainView from './MainView';
+import * as CompetitionActions from '../actions/competition';
+import * as LocationActions from '../actions/location';
+import * as TeamActions from '../actions/team';
 
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
@@ -16,7 +19,31 @@ const createStoreWithMiddleware = applyMiddleware(
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
-export default class RootView extends Component {
+// Fetch teams & actions
+store.dispatch(CompetitionActions.fetchActionTypes());
+store.dispatch(TeamActions.fetchTeams());
+
+const RootView = React.createClass({
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      position => this.updateLocation,
+      error => alert(error.message),
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+    );
+    this.watchID = navigator.geolocation.watchPosition(this.updateLocation);
+  },
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  },
+
+  updateLocation(position) {
+    store.dispatch(LocationActions.updateLocation({
+      latitude: position.coords.latitude,
+      longitude: position.coords.longitude
+    }));
+  },
+
   render() {
     return (
       <Provider store={store}>
@@ -24,4 +51,6 @@ export default class RootView extends Component {
       </Provider>
     );
   }
-}
+});
+
+export default RootView;

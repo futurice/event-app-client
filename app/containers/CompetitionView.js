@@ -27,7 +27,7 @@ const CompetitionView = React.createClass({
         console.log('User tapped custom button: ', response.customButton);
       } else {
         const image = 'data:image/jpeg;base64,' + response.data;
-        this.props.dispatch(CompetitionActions.uploadImage(img));
+        this.props.dispatch(CompetitionActions.postImage(image));
       }
     });
   },

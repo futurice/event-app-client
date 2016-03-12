@@ -39,7 +39,7 @@ const AndroidTabNavigation = React.createClass({
 
         <PhotosView navigator={this.props.navigator} tabLabel='android-image' />
         <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
-        <EventMapView tabLabel='android-map' />
+        <EventMapView navigator={this.props.navigator} tabLabel='android-map' />
         <CompetitionView tabLabel='android-star' />
       </AndroidTabs>
 
@@ -94,10 +94,3 @@ export default class App extends Component {
     )
   }
 };
-
-
-
-
-
-
-
