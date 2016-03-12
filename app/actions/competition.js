@@ -32,7 +32,6 @@ const _postAction = (payload) => {
 
 const postAction = type => {
   return _postAction({
-    team: 1, // TODO: Change to a real team
     type
   });
 };
