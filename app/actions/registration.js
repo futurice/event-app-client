@@ -25,11 +25,11 @@ const putUser = () => {
     const uuid = DeviceInfo.getUniqueID();
     const name = getStore().registration.get('name');
     return api.putUser({ uuid, name })
-      .then(() => {
+      .then(response => {
         dispatch({ type: USER_CREATE_SUCCESS })
         dispatch({ type: CLOSE_REGISTRATION_VIEW })
       })
-      .catch(error => dispatch({ type: USER_CREATE_FAILURE }));
+      .catch(error => dispatch({ type: USER_CREATE_FAILURE, error: error }));
   };
 };
 

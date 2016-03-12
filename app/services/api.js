@@ -6,6 +6,16 @@ const loggingFetch = (url, opts) => {
   return fetch(url, opts);
 };
 
+const checkStatus = response => {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
+  } else {
+    const error = new Error(response.statusText);
+    error.response = response;
+    throw error;
+  }
+};
+
 const _post = (url, body) => {
   return loggingFetch(url, {
     method: 'post',
@@ -14,7 +24,7 @@ const _post = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  });
+  }).then(checkStatus);
 };
 
 const _put = (url, body) => {
@@ -25,7 +35,7 @@ const _put = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  });
+  }).then(checkStatus);
 };
 
 const fetchModels = modelType => {
@@ -48,12 +58,11 @@ const postAction = (payload, location) => {
 };
 
 const putUser = payload => {
-  return _put(Endpoints.urls.user(payload.uuid), payload)
-    .then(response => response.json());
+  return _put(Endpoints.urls.user(payload.uuid), payload);
 };
 
 const getUser = uuid => {
-  return fetch(Endpoints.urls.user(uuid))
+  return loggingFetch(Endpoints.urls.user(uuid))
     .then(response => response.json());
 };
 
