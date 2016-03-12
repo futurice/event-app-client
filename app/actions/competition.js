@@ -2,7 +2,6 @@
 
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
-import LocationManager from '../utils/LocationManager';
 
 const POSTING_ACTION = 'POSTING_ACTION';
 const ACTION_POST_SUCCESS = 'ACTION_POST_SUCCESS';
