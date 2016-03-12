@@ -3,7 +3,8 @@
 import React, {
   Component,
   StyleSheet,
-  View
+  Text,
+  TouchableHighlight
 } from 'react-native';
 import EventDetail from '../calendar/EventDetail';
 import MapView from 'react-native-maps';
@@ -15,7 +16,6 @@ class EventMap extends Component {
   }
 
   onCalloutPress(event) {
-    console.log(event);
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
@@ -26,8 +26,16 @@ class EventMap extends Component {
 
   render() {
     const { events } = this.props;
-    console.log(this.props);
-    const markers = events.filter(event => !!event.location.latitude && !!event.location.longitude).map((event, i) => <MapView.Marker key={i} onCalloutPress={this.onCalloutPress.bind(this, event)} title={event.name} coordinate={event.location} />);
+    const markers = events.filter(event => !!event.location.latitude && !!event.location.longitude).map((event, i) =>
+      <MapView.Marker key={i} coordinate={event.location}>
+        <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
+          <TouchableHighlight underlayColor='transparent' onPress={this.onCalloutPress.bind(this, event)}>
+            <Text>{event.name}</Text>
+          </TouchableHighlight>
+        </MapView.Callout>
+      </MapView.Marker>
+    );
+
     return (
         <MapView style={styles.map}
           initialRegion={{
@@ -50,15 +58,6 @@ class EventMap extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
   map: {
     position: 'absolute',
     top: 0,
@@ -66,6 +65,9 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
+  callout: {
+    padding: 10
+  }
 });
 
 const select = store => {
