@@ -7,7 +7,9 @@ import {
   ACTION_POST_FAILURE,
   REQUEST_ACTION_TYPES,
   RECEIVE_ACTION_TYPES,
-  ERROR_REQUESTING_ACTION_TYPES
+  ERROR_REQUESTING_ACTION_TYPES,
+  OPEN_TEXTACTION_VIEW,
+  CLOSE_TEXTACTION_VIEW,
 } from '../actions/competition';
 
 const initialState = Immutable.fromJS({
@@ -15,11 +17,18 @@ const initialState = Immutable.fromJS({
   isError: false,
   isLoadingActionTypes: false,
   isErrorLoadingActionTypes: false,
-  actionTypes: []
+  actionTypes: [],
+  isTextActionViewOpen: false
 });
 
 export default function competition(state = initialState, action) {
   switch (action.type) {
+    case OPEN_TEXTACTION_VIEW:
+      return state.set('isTextActionViewOpen', true);
+      break;
+    case CLOSE_TEXTACTION_VIEW:
+      return state.set('isTextActionViewOpen', false);
+      break;
     case POSTING_ACTION:
       return state.merge({
         isSending: true,
