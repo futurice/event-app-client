@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     height: 200
   },
   gridListItemImgColorLayer: {
-    backgroundColor: '#164140',
+    // backgroundColor is set programmatically on render() based on rowId
     opacity: 0.8,
     elevation: 1,
     position: 'absolute',
@@ -48,7 +48,6 @@ const styles = StyleSheet.create({
     padding: 20
   },
   gridListItemTitle: {
-    paddingTop: 40,
     fontSize: 26,
     fontWeight: 'bold',
     textAlign: 'center',
@@ -93,7 +92,10 @@ export default React.createClass({
           <Image
             source={{ uri: coverImage }}
             style={styles.gridListItemImg} />
-          <View style={[styles.gridListItemImgColorLayer]} />
+          <View style={[
+            styles.gridListItemImgColorLayer,
+            { backgroundColor: this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
+          ]} />
         </View>
 
         <View style={styles.gridListItemContent}>

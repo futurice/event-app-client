@@ -25,7 +25,6 @@ import EventListItem from './EventListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
 
-// TODO zebra
 
 const styles = StyleSheet.create({
   container: {
@@ -95,9 +94,10 @@ var EventList = React.createClass({
     </View>;
   },
 
-  renderEventItem(item) {
+  renderEventItem(item, sectionId, rowId) {
     return <EventListItem
       item={item}
+      rowId={rowId}
       handlePress={() => this.navigateToSingleEvent(item)} />;
   },
 
