@@ -24,13 +24,12 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   return false;
 });
 
-
 var CalendarView = React.createClass({
   renderScene (route, navigator) {
     _navigator = navigator;
     if (route.component) {
       const Component = route.component
-      return <Component navigator={navigator} route={route} {...this.props} />
+      return <Component navigator={this.props.navigator} route={route} {...this.props} />
     }
   },
 
@@ -43,7 +42,7 @@ var CalendarView = React.createClass({
         }}
         renderScene={this.renderScene}
         configureScene={() => ({
-          ...Navigator.SceneConfigs.FadeAndroid
+          ...Navigator.SceneConfigs.FloatFromBottomAndroid
         })}
       />
     );
