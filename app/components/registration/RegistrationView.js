@@ -16,7 +16,7 @@ import * as TeamActions from '../../actions/team';
 
 const RegistrationView = React.createClass({
   onRegister() {
-    this.props.dispatch(RegistrationActions.createUser());
+    this.props.dispatch(RegistrationActions.putUser());
   },
   onChangeName(name) {
     this.props.dispatch(RegistrationActions.updateName(name));
@@ -78,12 +78,9 @@ const styles = StyleSheet.create({
   },
   nameField: {
     height: 40,
-    marginTop: 10,
-    marginRight: 10,
-    marginBottom: 10,
-    marginLeft: 10,
-    borderColor: 'gray',
-    borderWidth: 1
+    margin: 10,
+    backgroundColor: 'rgba(20,20,20,0.1)',
+    padding: 5
   }
 });
 

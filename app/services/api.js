@@ -25,7 +25,7 @@ const _put = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  })
+  });
 };
 
 const fetchModels = modelType => {
@@ -40,14 +40,20 @@ const fetchModels = modelType => {
 };
 
 const postAction = (payload, location) => {
-  // TODO: Change to real user UUID
-  // user: DeviceInfo.getUniqueID()
-  const finalPayload = Object.assign({}, payload, { user: 'hessu', location: location });
+  const finalPayload = Object.assign({}, payload, {
+    user: DeviceInfo.getUniqueID(),
+    location: location
+  });
   return _post(Endpoints.urls.action, finalPayload);
 };
 
-const createUser = payload => {
+const putUser = payload => {
   return _put(Endpoints.urls.user(payload.uuid), payload)
+    .then(response => response.json());
+};
+
+const getUser = uuid => {
+  return fetch(Endpoints.urls.user(uuid))
     .then(response => response.json());
 };
 
@@ -64,7 +70,8 @@ const fetchActionTypes = () => {
 export default {
   fetchModels,
   postAction,
-  createUser,
+  putUser,
+  getUser,
   fetchTeams,
   fetchActionTypes
 };

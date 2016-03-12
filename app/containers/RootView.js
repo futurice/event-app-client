@@ -11,6 +11,7 @@ import MainView from './MainView';
 import * as CompetitionActions from '../actions/competition';
 import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
+import * as RegistrationActions from '../actions/registration';
 
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
@@ -19,9 +20,10 @@ const createStoreWithMiddleware = applyMiddleware(
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
-// Fetch teams & actions
+// Fetch teams & actions, check user existance
 store.dispatch(CompetitionActions.fetchActionTypes());
 store.dispatch(TeamActions.fetchTeams());
+store.dispatch(RegistrationActions.getName());
 
 const RootView = React.createClass({
   componentDidMount() {
