@@ -13,6 +13,7 @@ function formatEventTime(startTime, endTime, opts) {
   let formatted = {
     date: '',
     time: '',
+    endTime: '',
     onGoing: false,
     startsSoon: false
   };
@@ -27,6 +28,7 @@ function formatEventTime(startTime, endTime, opts) {
   let usedFormat = opts.formatLong ? FORMATS.long : FORMATS.default;
   formatted.date = startMoment.format(usedFormat.day);
   formatted.time = startMoment.format(usedFormat.time);
+  formatted.endTime = endMoment.format(usedFormat.time);
 
   formatted.onGoing = eventIsOnGoing(startTime, endTime);
   formatted.startsSoon = eventStartsSoon(startTime)
