@@ -1,8 +1,13 @@
 import Endpoints from '../constants/Endpoints';
 import DeviceInfo from 'react-native-device-info';
 
+const loggingFetch = (url, opts) => {
+  console.log('Fetch:', url);
+  return fetch(url, opts);
+}
+
 const _post = (url, body) => {
-  return fetch(url, {
+  return loggingFetch(url, {
     method: 'post',
     body: JSON.stringify(Object.assign(
       {},
@@ -16,7 +21,7 @@ const _post = (url, body) => {
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
 
-  return fetch(url)
+  return loggingFetch(url)
     .then(response => response.json())
     .catch((error) => {
       console.log('Error catched on API-fetch', error);
@@ -34,8 +39,20 @@ const createUser = payload => {
     .then(response => response.json());
 };
 
+const fetchTeams = () => {
+  return loggingFetch(Endpoints.urls.teams)
+    .then(response => response.json());
+};
+
+const fetchActionTypes = () => {
+  return loggingFetch(Endpoints.urls.actionTypes)
+    .then(response => response.json());
+};
+
 export default {
   fetchModels,
   postAction,
-  createUser
+  createUser,
+  fetchTeams,
+  fetchActionTypes
 };

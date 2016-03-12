@@ -1,9 +1,11 @@
 import navigation from './navigation';
 import event from './event';
 import registration from './registration';
+import team from './team';
 
 export {
   navigation,
   event,
-  registration
+  registration,
+  team
 };

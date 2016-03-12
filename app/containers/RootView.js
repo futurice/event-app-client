@@ -8,6 +8,8 @@ import createLoggerMiddleware from 'redux-logger';
 import loggerConfig from '../utils/loggerConfig';
 import * as reducers from '../reducers';
 import MainView from './MainView';
+import * as CompetitionActions from '../actions/competition';
+import * as TeamActions from '../actions/team';
 
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
@@ -15,6 +17,10 @@ const createStoreWithMiddleware = applyMiddleware(
 )(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
+
+// Fetch teams & actions
+store.dispatch(CompetitionActions.fetchActionTypes());
+store.dispatch(TeamActions.fetchTeams());
 
 export default class RootView extends Component {
   render() {
