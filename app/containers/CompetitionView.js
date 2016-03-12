@@ -36,10 +36,6 @@ const CompetitionView = React.createClass({
     this.props.dispatch(CompetitionActions.postAction(type))
   },
 
-  onRegister() {
-    this.props.dispatch(RegistrationActions.openRegistrationView());
-  },
-
   render() {
     return (
       <View style={styles.container}>
@@ -50,7 +46,6 @@ const CompetitionView = React.createClass({
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.LONKKU)}>Join lonkun</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.JALLU)}>JALLUNAPPI!!1</Button>
           <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.PUSH_THE_BUTTON)}>Paina nappia</Button>
-          <Button style={styles.btn} onPress={this.onRegister}>Rekkaa</Button>
         </View>
         <RegistrationView />
       </View>
