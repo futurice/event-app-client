@@ -3,7 +3,7 @@
  * Used with Navigator
  * https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/Navigator/NavigationBarSample.js
  */
- 
+
 'use strict';
 
 
@@ -35,15 +35,15 @@ let showShareActionSheet = function(url){
 
 let NavigationBarRouteMapper = {
   LeftButton: function(route, navigator, index, navState) {
-    return (<TouchableHighlight  
+    return (<TouchableHighlight
       underlayColor={'transparent'}
       onPress={() => {
       if (index > 0) {
         navigator.pop();
       }
     }}>
-      { index>0 ? 
-        <Icon name="ios-arrow-back" style={styles.navBarIcon} /> : 
+      { index>0 ?
+        <Icon name='ios-arrow-back' style={styles.navBarIcon} /> :
         <View/>
       }
     </TouchableHighlight>
@@ -58,7 +58,7 @@ let NavigationBarRouteMapper = {
             showShareActionSheet(route.post.link)
           }}
         >
-          <Icon name="ios-upload-outline" style={styles.navBarIcon} />
+          <Icon name='ios-upload-outline' style={styles.navBarIcon} />
         </TouchableHighlight>
         );
     }
@@ -66,7 +66,7 @@ let NavigationBarRouteMapper = {
   },
 
   Title: function(route, navigator, index, navState) {
-    
+
       return (
           <Text style={styles.navBarTitle}>
             {route.name}
@@ -105,7 +105,7 @@ var styles = StyleSheet.create({
     fontSize:16,
     color:'#ffffff',
     textAlign:'center',
-    fontWeight:'bold',          
+    fontWeight:'bold',
   }
 });
 

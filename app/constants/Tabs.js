@@ -1,5 +1,5 @@
 export default {
-    CALENDAR: "CALENDAR",
-    MAP: "MAP",
-    RADIO: "RADIO"
+  CALENDAR: 'CALENDAR',
+  MAP: 'MAP',
+  ACTION: 'ACTION'
 };

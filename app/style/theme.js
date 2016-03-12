@@ -3,9 +3,8 @@
 */
 
 const theme = {
-	
   primary:    '#30323E',
-  primaryDark:'#69497F', // This is used for Android Status bar (needs darker version of primary color)
+  primaryDark:'#202020', // This is used for Android Status bar (needs darker version of primary color)
   secondary:  '#339E40',
   accent:     '#FEAB41',
   danger:     '#FF5240',
