@@ -40,7 +40,7 @@ function eventIsOnGoing(startTime, endTime) {
 }
 
 function eventStartsSoon(startTime) {
-  return moment().diff(moment(startTime), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
+  return moment(startTime).diff(moment(), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
 }
 
 
