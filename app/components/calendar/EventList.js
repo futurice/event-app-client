@@ -37,15 +37,17 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1
   },
-  sectionHeader:{
-    backgroundColor: '#FFF',
+  sectionHeader: {
+    backgroundColor: theme.dark,
     opacity: 0.88,
-    padding: 10,
+    padding: 20,
     paddingLeft: 20
   },
   sectionHeaderText: {
     textAlign: 'left',
-    color: theme.primary
+    fontWeight: 'bold',
+    fontSize: 18,
+    color: '#FFF'
   }
 });
 
@@ -89,7 +91,7 @@ var EventList = React.createClass({
   renderSectionHeader(sectionData, sectionId) {
     return <View style={styles.sectionHeader}>
       <Text style={styles.sectionHeaderText}>
-        {time.formatEventTime(sectionData[0].startTime, null, {formatLong:true}).date}
+        {time.formatEventTime(sectionData[0].startTime, null, {formatLong:true}).date.toUpperCase()}
       </Text>
     </View>;
   },
