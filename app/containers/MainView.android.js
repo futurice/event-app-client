@@ -112,6 +112,3 @@ const styles = StyleSheet.create({
 
   }
 })
-
-
-

@@ -2,54 +2,57 @@
 
 import React, {
   Component,
+  Navigator,
   StyleSheet,
-  View
+  BackAndroid,
+  View,
+  Text,
+  TouchableHighlight
 } from 'react-native';
-import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
+import EventMap from '../components/map/EventMap';
 
-class EventMapView extends Component {
-  constructor() {
-    super();
+import theme from '../style/theme';
+
+
+var _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
   }
+  return false;
+});
+
+
+var EventMapView = React.createClass({
+  renderScene (route, navigator) {
+    _navigator = navigator;
+    if (route.component) {
+      const Component = route.component
+      return <Component navigator={navigator} route={route} {...this.props} />
+    }
+  },
 
   render() {
     return (
-      <View style={styles.container}>
-        <MapView style={styles.map}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-        />
-      </View>
+      <Navigator
+        initialRoute={{
+          component: EventMap,
+          name: 'Tapahtumat'
+        }}
+        renderScene={this.renderScene}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FadeAndroid
+        })}
+      />
     );
   }
-}
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-  },
-  map: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
 });
 
 const select = store => {
-  return {};
+    return {
+    }
 };
 
 export default connect(select)(EventMapView);
