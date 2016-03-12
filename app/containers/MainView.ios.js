@@ -22,7 +22,7 @@ const MainView = React.createClass({
   },
   render() {
     return (
-      <TabBarIOS tintColor={theme.primary}>
+      <TabBarIOS tintColor={theme.primaryDark} barTintColor={theme.primary}>
        <Icon.TabBarItem
           iconName='ios-clock-outline'
           selectedIconName='ios-clock'
