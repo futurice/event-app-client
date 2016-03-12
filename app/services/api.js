@@ -63,6 +63,7 @@ const putUser = payload => {
 
 const getUser = uuid => {
   return loggingFetch(Endpoints.urls.user(uuid))
+    .then(checkStatus)
     .then(response => response.json());
 };
 

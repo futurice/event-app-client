@@ -45,7 +45,10 @@ const getName = () => {
       .then(user => {
         dispatch({ type: RECEIVE_USER, payload: user.name });
       })
-      .catch(error => dispatch({ type: ERROR_REQUESTING_USER, error: error }));
+      .catch(error => {
+        dispatch({ type: OPEN_REGISTRATION_VIEW });
+        dispatch({ type: ERROR_REQUESTING_USER, error: error });
+      });
   };
 };
 
