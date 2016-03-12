@@ -37,11 +37,12 @@ const RegistrationView = React.createClass({
         visible={this.props.isRegistrationViewOpen}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
-            <Text>Hi there! Who are you?</Text>
+            <Text style={styles.header}>Hi there! What's your name?</Text>
             <TextInput
               style={styles.nameField}
               onChangeText={this.onChangeName}
               value={this.props.name} />
+            <Text style={styles.header}>...and your kilta?</Text>
             <TeamSelector
               selectedTeam={currentTeamName}
               teams={this.props.teams}
@@ -81,6 +82,10 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'rgba(20,20,20,0.1)',
     padding: 5
+  },
+  header: {
+    fontSize: 20,
+    marginBottom: 10
   }
 });
 
