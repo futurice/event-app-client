@@ -41,7 +41,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   detailEventDescription: {
-    textAlign: 'justify',
     color: '#aaa',
     fontWeight: 'bold',
     fontSize: 15,
