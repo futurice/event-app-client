@@ -13,10 +13,12 @@ var {
   TouchableHighlight,
   InteractionManager,
   View,
+  Platform,
   WebView,
 } = React;
 import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
+import Toolbar from './EventDetailToolbar';
 
 import time from '../../utils/time';
 
@@ -71,6 +73,7 @@ const EventDetail = React.createClass({
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
 
     return <View style={styles.detailEvent}>
+      {(Platform.OS === 'android') ? <Toolbar title={model.name} navigator={this.props.navigator} /> : null }
       <ScrollView>
         <TouchableHighlight underlayColor={theme.light}>
           <Image source={{ uri: model.coverImage }} style={styles.detailEventImg} />

@@ -3,12 +3,11 @@
 import React, {
   Component,
   View,
-  StyleSheet,
   Navigator,
   StatusBar,
   Text,
   ToolbarAndroid,
-  Dimensions
+  BackAndroid
 } from 'react-native'
 
 
@@ -19,51 +18,16 @@ import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionView';
 import Tabs from '../constants/Tabs';
 
-var AndroidTabs = require('react-native-scrollable-tab-view');
-var theme = require('../style/theme');
-var Icon = require('react-native-vector-icons/Ionicons');
-var IconTabBar = require('../components/common/IconTabBar');
+const AndroidTabs = require('react-native-scrollable-tab-view');
+const theme = require('../style/theme');
+const Icon = require('react-native-vector-icons/Ionicons');
+const IconTabBar = require('../components/common/IconTabBar');
 
-export default class App extends Component {
 
-  constructor (props) {
-    super(props)
-    this.state = {
-      tab: 'events',
-      modal:false
-    }
-  }
-
-  componentWillReceiveProps (props) {
-    const {application} = props
-    this.setState({
-      tab: application.tab
-    });
-  }
-
-  openModal() {
-    this.setState({
-      modal: true
-    });
-  }
-
-  closeModal() {
-    this.setState({
-      modal: false
-    });
-  }
-
+const AndroidTabNavigation = React.createClass({
   render () {
-    const {tab, page} = this.state;
-    var self = this;
-
-    return (
-      <View style={styles.container}>
-
-      <StatusBar backgroundColor={theme.primaryDark} />
-
+    return(
       <AndroidTabs
-        style={styles.tabs}
         tabBarPosition={'top'}
         tabBarUnderlineColor={theme.accent}
         tabBarBackgroundColor={theme.primary}
@@ -72,43 +36,66 @@ export default class App extends Component {
         renderTabBar={() => <IconTabBar rippleColor={'rgba(255,255,255,.2)'} />}
       >
 
-        <CalendarView tabLabel='android-calendar' />
+        <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
         <EventMapView tabLabel='android-map' />
         <CompetitionView tabLabel='android-star' />
       </AndroidTabs>
 
-      {this.state.modal ? <View style={styles.modal}><Text onPress={this.closeModal.bind(this)} style={{color:'#FFF',fontSize:30}}>Close Me</Text></View> : null }
+    )
+  }
+});
+
+
+let _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
+  }
+  return false;
+});
+
+export default class App extends Component {
+
+  constructor (props) {
+    super(props)
+  }
+
+  renderScene (route, navigator) {
+    _navigator = navigator;
+    if (route.component) {
+      const Component = route.component
+      return <Component navigator={_navigator} route={route} {...this.props} />
+    }
+  }
+
+  render () {
+
+
+    return (
+      <View style={{flex:1}}>
+
+      <StatusBar backgroundColor={theme.primaryDark} />
+
+      <Navigator
+        initialRoute={{
+          component: AndroidTabNavigation,
+          name: 'Whappu'
+        }}
+        renderScene={this.renderScene}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FloatFromBottomAndroid
+        })}
+      />
 
     </View>
     )
   }
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content:{
-    flex:1,
-    backgroundColor:'#FFF'
-  },
-  tabs:{
-    backgroundColor:'#f4f4f4',
-  },
-  tabItemSelected:{
-    backgroundColor:'red',
-    color:'red'
-  },
-  modal:{
-    backgroundColor:theme.accent,
-    position:'absolute',
-    top:0,
-    left:0,
-    right:0,
-    bottom:0,
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
 
-  }
-})
+
+
+
+
+
