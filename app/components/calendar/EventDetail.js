@@ -56,8 +56,10 @@ const styles = StyleSheet.create({
 
   navigationButtonWrapper: {
     height: 50,
-    margin: 30,
-    marginTop: 0,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+    marginBottom: 50,
   },
   navigationButton: {
     height: 50,
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
   navigationButtonIcon: {
     backgroundColor: 'transparent',
     position: 'absolute',
-    left: 10,
+    left: 15,
     top: 10,
   }
 });
