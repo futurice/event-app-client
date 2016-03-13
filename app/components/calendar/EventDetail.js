@@ -16,8 +16,9 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
 
-import EventListItem from './EventListItem';
+import locationService from '../../services/location';
 import time from '../../utils/time';
+import EventListItem from './EventListItem';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -123,11 +124,7 @@ const EventDetail = React.createClass({
         <View style={styles.navigationButtonWrapper}>
           <TouchableHighlight
             style={styles.navigationButton}
-            onPress={() => {
-              console.log('Get me there -link clicked:', geoURL);
-              const geoURL = 'http://maps.google.com/maps?ll' + model.location.latitude + ',' + model.location.longitude;
-              Linking.openURL(geoURL);
-            }}
+            onPress={() => Linking.openURL(locationService.getGeoUrl(model))}
           >
             <Text style={styles.navigationButtonText}>
               Get me there!
