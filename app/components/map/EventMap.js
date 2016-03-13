@@ -17,7 +17,6 @@ class EventMap extends Component {
   }
 
   onCalloutPress(event) {
-    console.log(event);
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
@@ -28,7 +27,6 @@ class EventMap extends Component {
 
   render() {
     const { events } = this.props;
-    console.log(this.props);
     const markers = [].concat(events).filter(event => event.location && !!event.location.latitude && !!event.location.longitude).map((event, i) =>
       <MapView.Marker key={i} coordinate={event.location}>
         <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
@@ -83,8 +81,15 @@ const styles = StyleSheet.create({
 });
 
 const select = store => {
+  const events = [];
+  const groupedEvents = store.event.get('list').toJS();
+
+  Object.keys(groupedEvents).forEach(key => {
+    groupedEvents[key].map(event => events.push(event));
+  });
+
   return {
-    events: store.event.get('list').toJS()
+    events: events
   };
 };
 
