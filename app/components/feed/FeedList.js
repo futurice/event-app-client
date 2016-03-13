@@ -21,6 +21,7 @@ import _ from 'lodash';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
+import FeedListItem from './FeedListItem';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 
@@ -34,64 +35,6 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1,
-  },
-  feedItemListItem: {
-    width: Dimensions.get('window').width,
-    flex: 1
-  },
-  feedItemListItemImgWrap: {
-    height: 400,
-    width: Dimensions.get('window').width,
-  },
-  feedItemListTextWrap: {
-    paddingLeft:15,
-    paddingRight:15,
-    paddingTop:0,
-    paddingBottom:10,
-    top:-10
-  },
-  feedItemListText: {
-    fontSize:13,
-    color:theme.dark,
-  },
-  feedItemListItemImg: {
-    width: Dimensions.get('window').width,
-    height: 400,
-    backgroundColor:'#ddd',
-  },
-  feedItemListItemInfo: {
-    flex: 1,
-    flexDirection:'row',
-    padding: 20,
-    paddingLeft:15,
-    paddingRight:15,
-    alignItems:'flex-start',
-    justifyContent:'space-between',
-  },
-  feedItemListItemAuthor:{
-    flex:1,
-    flexDirection:'row',
-    alignItems:'flex-end',
-  },
-  feedItemListItemAuthorName: {
-    fontSize: 13,
-    fontWeight: 'bold',
-    color: theme.secondary,
-    paddingRight:10,
-  },
-  feedItemListItemAuthorTeam:{
-    fontSize:11,
-    color:'#aaa',
-  },
-  feedItemListItemAuthorIcon:{
-    color:'#aaa',
-    fontSize: 15,
-    marginTop:1,
-    paddingRight:10,
-  },
-  feedItemListItemTime: {
-    color: '#aaa',
-    fontSize: 13,
   }
 });
 
@@ -136,33 +79,7 @@ var feedItemList = React.createClass({
   },
 
   renderFeedItem(item) {
-    const ago = time.getTimeAgo(item.createdAt);
-
-    return (
-      <View style={styles.feedItemListItem}>
-
-        <View style={styles.feedItemListItemInfo}>
-          <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
-          <View style={styles.feedItemListItemAuthor}>
-            <Text style={styles.feedItemListItemAuthorName}>{item.author.name}</Text>
-            <Text style={styles.feedItemListItemAuthorTeam}>{item.author.team}</Text>
-          </View>
-          <Text style={styles.feedItemListItemTime}>{ago}</Text>
-        </View>
-        {item.type==='IMAGE' ?
-        <View style={styles.feedItemListItemImgWrap}>
-          <Image
-            source={{ uri: item.url }}
-            style={styles.feedItemListItemImg} />
-        </View>
-        :
-        <View style={styles.feedItemListTextWrap}>
-          <Text style={styles.feedItemListText}>{item.text}</Text>
-        </View>
-        }
-
-      </View>
-   );
+    return <FeedListItem item={item}/>;
   },
 
   render() {
