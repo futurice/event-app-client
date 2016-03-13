@@ -40,7 +40,8 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     paddingLeft: 20,
     paddingRight: 20,
-    paddingTop: 10
+    paddingTop: 10,
+    height: 40
   },
   detailEventInfoWrapper: {
     flex:1,
@@ -114,11 +115,11 @@ const EventDetail = React.createClass({
 
   getEventStatus(timepoint) {
     if (timepoint.onGoing) {
-      return 'Käynnissä ny!';
+      return 'Ongoing';
     } else if (timepoint.startsSoon) {
-      return 'Alkaa kohta!';
+      return 'Starting soon';
     } else {
-      return 'Alkaa kohta!';
+      return null;
     }
   },
 
@@ -134,19 +135,21 @@ const EventDetail = React.createClass({
         <EventListItem item={model} handlePress={() => true} />
 
         <View style={styles.detailEventInfoContainer}>
-          {model.facebookId ?
-          <TouchableHighlight
-            style={styles.detailEventInfoWrapper}
-            onPress={() => Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
-          >
-            <View style={styles.detailEventInfoWrapper}>
-              <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={20}/>
-              <Text style={styles.detailEventInfoAttending}>{model.attendingCount} attending</Text>
-            </View>
-          </TouchableHighlight>
-          :
-          null
-          }
+          <View style={styles.detailEventInfoWrapper}>
+            {model.facebookId ?
+            <TouchableHighlight
+              style={styles.detailEventInfoWrapper}
+              onPress={() => Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+            >
+              <View style={styles.detailEventInfoWrapper}>
+                <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={20}/>
+                <Text style={styles.detailEventInfoAttending}>{model.attendingCount} attending</Text>
+              </View>
+            </TouchableHighlight>
+            :
+            null
+            }
+          </View>
           <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
         </View>
 
