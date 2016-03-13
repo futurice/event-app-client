@@ -29,6 +29,10 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
     height: 200,
   },
+  icon: {
+    paddingLeft: 20,
+    paddingTop: 10
+  },
   content: {
     padding: 20,
     flex: 1,
@@ -93,7 +97,7 @@ const EventDetail = React.createClass({
       <ScrollView>
         <EventListItem item={model} handlePress={() => true} />
 
-        <View>
+        <View style={styles.icon}>
           <Text><Icon name='social-facebook' size={20} />FB-event</Text>
           {this.getEventStatus(timepoint)}
         </View>
