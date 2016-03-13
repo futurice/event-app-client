@@ -26,7 +26,6 @@ const MainView = React.createClass({
        <Icon.TabBarItem
           iconName='ios-clock-outline'
           selectedIconName='ios-clock'
-          badge='3'
           badgeBackgroundColor={theme.accent}
           title='Tapahtumat'
           selected={this.props.currentTab === Tabs.CALENDAR}

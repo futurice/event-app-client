@@ -26,9 +26,13 @@ class EventMap extends Component {
   }
 
   render() {
-    const { events } = this.props;
-    const markers = [].concat(events).filter(event => event.location && !!event.location.latitude && !!event.location.longitude).map((event, i) =>
-      <MapView.Marker key={i} coordinate={event.location}>
+    const allEvents = [].concat(this.props.events);
+    const events = allEvents.filter(event => {
+      return event.location && !!event.location.latitude && !!event.location.longitude;
+    });
+
+    const markers = events.map((event, i) =>
+      <MapView.Marker image={require('../../../assets/marker.png')} key={i} coordinate={event.location}>
         <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
           <TouchableHighlight underlayColor='transparent' onPress={this.onCalloutPress.bind(this, event)}>
             <Text>{event.name}</Text>
@@ -36,7 +40,7 @@ class EventMap extends Component {
         </MapView.Callout>
       </MapView.Marker>
     );
-
+    
     return (
         <MapView style={styles.map}
           initialRegion={{
@@ -46,12 +50,10 @@ class EventMap extends Component {
             longitudeDelta: 0.2,
           }}
           showsPointsOfInterest={false}
-          showsCompass={false}
-          showsScale={false}
           showsBuildings={false}
-          showsTraffic={false}
           showsIndoors={false}
-          rotateEnabled={false}>
+          rotateEnabled={false}
+        >
           {markers}
         </MapView>
     );

@@ -13,10 +13,16 @@ import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
 
-const createStoreWithMiddleware = applyMiddleware(
-  thunk,
-  createLoggerMiddleware(loggerConfig)
-)(createStore);
+const middlewares = [thunk];
+
+if (process.env.NODE_ENV === `development` && process.env.REDUX_LOG !== 'false') {
+  // Disabling logging might help performance as XCode prints the whole objects
+  // without respecing the collapsed parameter
+  const logger = createLoggerMiddleware(loggerConfig)
+  middlewares.push(logger);
+}
+
+const createStoreWithMiddleware = applyMiddleware.apply(this, middlewares)(createStore);
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
