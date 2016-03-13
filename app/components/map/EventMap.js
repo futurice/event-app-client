@@ -33,14 +33,18 @@ class EventMap extends Component {
 
     const markers = events.map((event, i) =>
       <MapView.Marker image={require('../../../assets/marker.png')} key={i} coordinate={event.location}>
-        <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
-          <TouchableHighlight underlayColor='transparent' onPress={this.onCalloutPress.bind(this, event)}>
+        <MapView.Callout style={styles.callout}>
+          <TouchableHighlight
+            underlayColor='transparent'
+            style={styles.calloutTouchable}
+            onPress={this.onCalloutPress.bind(this, event)}
+          >
             <Text>{event.name}</Text>
           </TouchableHighlight>
         </MapView.Callout>
       </MapView.Marker>
     );
-    
+
     return (
         <MapView style={styles.map}
           initialRegion={{
@@ -78,6 +82,9 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   callout: {
+    padding: 0
+  },
+  calloutTouchable: {
     padding: 10
   }
 });
