@@ -3,13 +3,14 @@
 import _ from 'lodash';
 import React, {
   View,
-  Modal,
   Text,
   TextInput,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
+import Modal from 'react-native-modalbox';
+
 import * as CompetitionActions from '../../actions/competition';
 
 const TextActionView = React.createClass({
@@ -29,9 +30,9 @@ const TextActionView = React.createClass({
   render() {
     return (
       <Modal
-        animated={true}
-        transparent={false}
-        visible={this.props.isTextActionViewOpen}>
+        isOpen={this.props.isTextActionViewOpen}
+        swipeToClose={false}
+        backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
             <TextInput
