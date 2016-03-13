@@ -150,10 +150,7 @@ var feedItemList = React.createClass({
             <Text style={styles.feedItemListItemAuthorName}>{item.author.name}</Text>
             <Text style={styles.feedItemListItemAuthorTeam}>{item.author.team}</Text>
           </View>
-          <Text style={styles.feedItemListItemTime}>
-
-            <Icon name='android-time' size={15} /> {ago}
-          </Text>
+          <Text style={styles.feedItemListItemTime}>{ago}</Text>
         </View>
         {item.type==='IMAGE' ?
         <View style={styles.feedItemListItemImgWrap}>
