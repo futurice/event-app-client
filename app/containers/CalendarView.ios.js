@@ -10,6 +10,8 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import EventList from '../components/calendar/EventList';
+import AnnouncementList from '../components/announcement/AnnouncementList';
+import AnnouncementEvent from '../components/announcement/AnnouncementEvent';
 import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
@@ -32,7 +34,7 @@ var CalendarView = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />
+      return <Component navigator={navigator} route={route} {...this.props} />;
     }
   },
 
@@ -46,7 +48,7 @@ var CalendarView = React.createClass({
             routeMapper={NavRouteMapper} />
         }
         initialRoute={{
-          component: EventList,
+          component: AnnouncementEvent,
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}

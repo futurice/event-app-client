@@ -9,7 +9,8 @@ const EndpointUrls = {
   action: `${ROOT_URL}/actions`,
   user: (uuid) => `${ROOT_URL}/users/${uuid}`,
   teams: `${ROOT_URL}/teams`,
-  actionTypes: `${ROOT_URL}/action_types`
+  actionTypes: `${ROOT_URL}/action_types`,
+  announcements: `${ROOT_URL}/announcements`
 };
 
 const EndpointTypes = _.map(EndpointUrls, (item, key) => key);

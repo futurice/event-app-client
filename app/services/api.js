@@ -77,11 +77,17 @@ const fetchActionTypes = () => {
     .then(response => response.json());
 };
 
+const fetchAnnouncements = () => {
+  return loggingFetch(Endpoints.urls.announcements)
+    .then(response => response.json());
+}
+
 export default {
   fetchModels,
   postAction,
   putUser,
   getUser,
   fetchTeams,
-  fetchActionTypes
+  fetchActionTypes,
+  fetchAnnouncements
 };
