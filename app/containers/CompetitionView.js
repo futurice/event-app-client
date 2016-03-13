@@ -55,11 +55,17 @@ const CompetitionView = React.createClass({
   },
 
   render() {
+    let topscore = 0
+    this.props.teams.map((team) => {
+        topscore = team.get('score') > topscore ? team.get('score') : topscore;
+    });
+
+
     return (
       <View style={styles.container}>
         <View style={styles.leaderboard}>
           {this.props.teams.map((team, index) =>
-            <LeaderboardEntry key={team.get('id')} team={team} position={index + 1} />
+            <LeaderboardEntry key={team.get('id')} topscore={topscore} team={team} position={index + 1} />
           )}
         </View>
         <View style={styles.actions}>
