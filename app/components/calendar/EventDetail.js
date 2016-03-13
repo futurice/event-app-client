@@ -33,6 +33,13 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
   },
+  detailEventIconContainer: {
+    paddingLeft: 20,
+    paddingTop: 10
+  },
+  detailEventIcon: {
+
+  },
   detailEventName: {
     backgroundColor: theme.light,
     textAlign: 'left',
@@ -47,22 +54,33 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
 
+  navigationButtonWrapper: {
+    height: 50,
+    marginLeft: 20,
+    marginRight: 20,
+    marginTop: 10,
+    marginBottom: 50,
+  },
   navigationButton: {
     height: 50,
-    margin: 30,
-    marginTop: 0,
     backgroundColor: '#E9E9E9',
     borderColor: '#C7C7C7',
-    borderWidth: 4
+    borderWidth: 2
   },
   navigationButtonText: {
     fontSize: 20,
     textAlign: 'center',
-    lineHeight: 35
+    lineHeight: 35,
+    fontWeight: 'bold',
+    color: '#8A8A8A',
+    margin: 0,
+    padding: 0
   },
   navigationButtonIcon: {
-    paddingTop: 5,
-    marginRight: 10
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    left: 15,
+    top: 10,
   }
 });
 
@@ -93,8 +111,8 @@ const EventDetail = React.createClass({
       <ScrollView>
         <EventListItem item={model} handlePress={() => true} />
 
-        <View>
-          <Text><Icon name='social-facebook' size={20} />FB-event</Text>
+        <View style={styles.detailEventIconContainer}>
+          <Text><Icon style={styles.detailEventIcon} name='social-facebook' size={20} /></Text>
           {this.getEventStatus(timepoint)}
         </View>
 
@@ -102,19 +120,21 @@ const EventDetail = React.createClass({
           <Text style={styles.detailEventDescription}>{model.description}</Text>
         </View>
 
-        <TouchableHighlight
-          style={styles.navigationButton}
-          onPress={() => {
-            console.log('Get me there -link clicked:', geoURL);
-            const geoURL = 'http://maps.google.com/maps?ll' + model.location.latitude + ',' + model.location.longitude;
-            Linking.openURL(geoURL);
-          }}
-        >
-          <Text style={styles.navigationButtonText}>
-            <Icon name='navigate' size={35} color='#EA489C' style={styles.navigationButtonIcon} />
-            Get me there!
-          </Text>
-        </TouchableHighlight>
+        <View style={styles.navigationButtonWrapper}>
+          <TouchableHighlight
+            style={styles.navigationButton}
+            onPress={() => {
+              console.log('Get me there -link clicked:', geoURL);
+              const geoURL = 'http://maps.google.com/maps?ll' + model.location.latitude + ',' + model.location.longitude;
+              Linking.openURL(geoURL);
+            }}
+          >
+            <Text style={styles.navigationButtonText}>
+              Get me there!
+            </Text>
+          </TouchableHighlight>
+          <Icon name='navigate' size={35} color='#EA489C' style={styles.navigationButtonIcon} />
+        </View>
       </ScrollView>
     </View>;
   }
