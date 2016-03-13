@@ -11,7 +11,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import EventMap from '../components/map/EventMap';
-
+import sceneConfig from '../utils/sceneConfig';
 import theme from '../style/theme';
 
 
@@ -42,9 +42,7 @@ var EventMapView = React.createClass({
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
-        configureScene={() => ({
-          ...Navigator.SceneConfigs.FadeAndroid
-        })}
+        configureScene={() => sceneConfig}
       />
     );
   }
