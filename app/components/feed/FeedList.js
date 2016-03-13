@@ -3,15 +3,13 @@
 var React = require('react-native');
 var {
   Image,
-  ScrollView,
   StyleSheet,
   ListView,
   Dimensions,
   Text,
-  Navigator,
   TouchableHighlight,
   ActivityIndicatorIOS,
-  PullToRefreshViewAndroid,
+  RefreshControl,
   View,
   Platform,
 } = React;
@@ -133,9 +131,8 @@ var feedItemList = React.createClass({
     });
   },
 
-  _onRefresh(){
-    alert('test')
-  //  this.props.dispatch(FeedActions.fetchFeed());
+  refreshFeed(){
+    this.props.dispatch(FeedActions.refreshFeed());
   },
 
   renderFeedItem(item) {
@@ -170,8 +167,6 @@ var feedItemList = React.createClass({
 
   render() {
 
-    //const rows = this.state.rowData.map((row, ii) => { return {this.renderFeedItem()}; });
-
     switch (this.props.feedListState) {
       case 'loading':
         return this.renderLoadingView();
@@ -186,7 +181,18 @@ var feedItemList = React.createClass({
           <ListView
             dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
             renderRow={this.renderFeedItem}
-            style={styles.listView} />
+            style={styles.listView}
+            refreshControl={
+            <RefreshControl
+              refreshing={this.props.refreshListState}
+              onRefresh={this.refreshFeed}
+              title="Refreshing..."
+              colors={[theme.primary]}
+              tintColor={theme.primary}
+              progressBackgroundColor={theme.light}
+             />
+            }
+            />
         );
     }
   }
@@ -195,7 +201,8 @@ var feedItemList = React.createClass({
 const select = store => {
     return {
       feed: store.feed.get('list').toJS(),
-      feedListState: store.feed.get('listState')
+      feedListState: store.feed.get('listState'),
+      refreshListState: store.feed.get('refreshState')
     }
 };
 
