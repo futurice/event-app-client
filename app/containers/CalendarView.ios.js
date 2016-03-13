@@ -10,6 +10,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import EventList from '../components/calendar/EventList';
+import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
 
@@ -49,9 +50,7 @@ var CalendarView = React.createClass({
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
-        configureScene={() => ({
-          ...Navigator.SceneConfigs.FloatFromRight
-        })}
+        configureScene={() => sceneConfig}
       />
     );
   }
