@@ -70,7 +70,7 @@ const fetchActionTypes = () => {
   return dispatch => {
     dispatch({ type: REQUEST_ACTION_TYPES });
     api.fetchActionTypes()
-      .then(teams => dispatch({ type: RECEIVE_ACTION_TYPES, payload: teams }))
+      .then(actionTypes => dispatch({ type: RECEIVE_ACTION_TYPES, payload: actionTypes }))
       .catch(e => dispatch({ type: ERROR_REQUESTING_ACTION_TYPES, error: e }));
   };
 };

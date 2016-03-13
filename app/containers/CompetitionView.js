@@ -20,7 +20,7 @@ import * as CompetitionActions from '../actions/competition';
 import * as RegistrationActions from '../actions/registration';
 
 const CompetitionView = React.createClass({
-  onChooseImage() {
+  chooseImage() {
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
@@ -35,12 +35,23 @@ const CompetitionView = React.createClass({
     });
   },
 
-  onSendText() {
+  sendText() {
     this.props.dispatch(CompetitionActions.openTextActionView());
   },
 
-  onJustPress(type) {
+  sendBasicAction(type) {
     this.props.dispatch(CompetitionActions.postAction(type));
+  },
+
+  onPressAction(type) {
+    switch (type) {
+      case 'IMAGE':
+        return this.chooseImage();
+      case 'TEXT':
+        return this.sendText();
+      default:
+        return this.sendBasicAction(type);
+    }
   },
 
   render() {
@@ -52,13 +63,14 @@ const CompetitionView = React.createClass({
           )}
         </View>
         <View style={styles.actions}>
-          <Button style={styles.btn} onPress={this.onChooseImage.bind(null, ActionTypes.IMAGE)}>Lataa kuva</Button>
-          <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.BEER)}>Join kaljan</Button>
-          <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.CIDER)}>Join siiderin</Button>
-          <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.LONKKU)}>Join lonkun</Button>
-          <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.JALLU)}>JALLUNAPPI!!1</Button>
-          <Button style={styles.btn} onPress={this.onSendText.bind(null, ActionTypes.TEXT)}>Lähetä viesti</Button>
-          <Button style={styles.btn} onPress={this.onJustPress.bind(null, ActionTypes.PUSH_THE_BUTTON)}>Paina nappia</Button>
+          {this.props.actionTypes.map(actionType =>
+            <Button
+              key={actionType.get('id')}
+              style={styles.btn}
+              onPress={this.onPressAction.bind(null, actionType.get('code'))}>
+              {actionType.get('name')}
+            </Button>
+          )}
         </View>
         <TextActionView />
         <RegistrationView />
@@ -94,7 +106,8 @@ const select = store => {
     name: store.registration.get('name'),
     teams: store.team.get('teams'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
-    notificationText: store.competition.get('notificationText')
+    notificationText: store.competition.get('notificationText'),
+    actionTypes: store.competition.get('actionTypes')
   };
 };
 
