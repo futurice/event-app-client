@@ -3,14 +3,14 @@
 import _ from 'lodash';
 import React, {
   View,
-  Modal,
   Text,
   TextInput,
-  StyleSheet
+  StyleSheet,
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
-import TeamSelector from '../../components/registration/TeamSelector';
+import Modal from 'react-native-modalbox';
+import Team from "./Team";
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
@@ -32,9 +32,9 @@ const RegistrationView = React.createClass({
     const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
     return (
       <Modal
-        animated={true}
-        transparent={false}
-        visible={this.props.isRegistrationViewOpen}>
+        isOpen={this.props.isRegistrationViewOpen}
+        swipeToClose={false}
+        backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
             <Text style={styles.header}>Hi there! What's your name?</Text>
@@ -43,12 +43,12 @@ const RegistrationView = React.createClass({
               onChangeText={this.onChangeName}
               value={this.props.name} />
             <Text style={styles.header}>...and your kilta?</Text>
-            <TeamSelector
-              selectedTeam={currentTeamName}
-              teams={this.props.teams}
-              isChooseTeamViewOpen={this.props.isChooseTeamViewOpen}
-              onShowChooseTeam={this.onShowChooseTeam}
-              onSelectTeam={this.onSelectTeam} />
+            {this.props.teams.map(team =>
+              <Team
+                key={team.get('id')}
+                name={team.get('name')}
+                onPress={this.onSelectTeam.bind(null, team.get('id'))} />
+            )}
             <Button
               onPress={this.onRegister}
               style={styles.modalButton}
