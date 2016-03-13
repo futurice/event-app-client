@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
+import Notification from '../components/common/Notification';
 import Button from '../components/common/Button';
 import TextActionView from '../components/actions/TextActionView';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
@@ -61,6 +62,7 @@ const CompetitionView = React.createClass({
         </View>
         <TextActionView />
         <RegistrationView />
+        <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
       </View>
     );
   }
@@ -90,7 +92,9 @@ const select = store => {
   return {
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
-    teams: store.team.get('teams')
+    teams: store.team.get('teams'),
+    isNotificationVisible: store.competition.get('isNotificationVisible'),
+    notificationText: store.competition.get('notificationText')
   };
 };
 

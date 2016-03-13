@@ -10,6 +10,8 @@ import {
   ERROR_REQUESTING_ACTION_TYPES,
   OPEN_TEXTACTION_VIEW,
   CLOSE_TEXTACTION_VIEW,
+  SHOW_NOTIFICATION,
+  HIDE_NOTIFICATION
 } from '../actions/competition';
 
 const initialState = Immutable.fromJS({
@@ -18,7 +20,9 @@ const initialState = Immutable.fromJS({
   isLoadingActionTypes: false,
   isErrorLoadingActionTypes: false,
   actionTypes: [],
-  isTextActionViewOpen: false
+  isTextActionViewOpen: false,
+  isNotificationVisible: false,
+  notificationText: ''
 });
 
 export default function competition(state = initialState, action) {
@@ -60,6 +64,18 @@ export default function competition(state = initialState, action) {
       return state.merge({
         isLoadingActionTypes: false,
         isErrorLoadingActionTypes: true
+      });
+    }
+    case SHOW_NOTIFICATION: {
+      return state.merge({
+        isNotificationVisible: true,
+        notificationText: action.payload
+      });
+    }
+    case HIDE_NOTIFICATION: {
+      return state.merge({
+        isNotificationVisible: false,
+        notificationText: ''
       });
     }
     default:
