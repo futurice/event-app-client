@@ -34,12 +34,34 @@ const styles = StyleSheet.create({
     padding: 20,
     flex: 1,
   },
-  detailEventIconContainer: {
+  detailEventInfoContainer: {
+    flexDirection:'row',
+    alignItems:'flex-start',
+    justifyContent:'center',
     paddingLeft: 20,
+    paddingRight: 20,
     paddingTop: 10
   },
-  detailEventIcon: {
-
+  detailEventInfoWrapper: {
+    flex:1,
+    flexDirection:'row',
+    alignItems:'flex-end',
+  },
+  detailEventInfoIcon: {
+    fontSize:25,
+    marginTop:1,
+    paddingRight:10,
+  },
+  detailEventInfoAttending: {
+    fontSize:12,
+    color:'#aaa',
+    lineHeight: 12,
+    alignSelf: 'center'
+  },
+  detailEventInfoTime: {
+    color: '#aaa',
+    fontSize: 13,
+    alignSelf: 'center'
   },
   detailEventName: {
     backgroundColor: theme.light,
@@ -92,17 +114,16 @@ const EventDetail = React.createClass({
 
   getEventStatus(timepoint) {
     if (timepoint.onGoing) {
-      return <Text>Käynnissä ny!</Text>;
+      return 'Käynnissä ny!';
     } else if (timepoint.startsSoon) {
-      return <Text>Alkaa kohta!</Text>;
+      return 'Alkaa kohta!';
     } else {
-      return null;
+      return 'Alkaa kohta!';
     }
   },
 
   render: function() {
     // TODO: stylize the "meta-elements"
-    // TODO: stylize the icon on get me there better, it sucks right now
 
     const model = this.props.route.model;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
@@ -112,9 +133,21 @@ const EventDetail = React.createClass({
       <ScrollView>
         <EventListItem item={model} handlePress={() => true} />
 
-        <View style={styles.detailEventIconContainer}>
-          <Text><Icon style={styles.detailEventIcon} name='social-facebook' size={20} /></Text>
-          {this.getEventStatus(timepoint)}
+        <View style={styles.detailEventInfoContainer}>
+          {model.facebookId ?
+          <TouchableHighlight
+            style={styles.detailEventInfoWrapper}
+            onPress={() => Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+          >
+            <View style={styles.detailEventInfoWrapper}>
+              <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={20}/>
+              <Text style={styles.detailEventInfoAttending}>{model.attendingCount} attending</Text>
+            </View>
+          </TouchableHighlight>
+          :
+          null
+          }
+          <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
         </View>
 
         <View style={styles.content}>
