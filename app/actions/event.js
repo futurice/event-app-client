@@ -17,13 +17,9 @@ const fetchEvents = () => {
 
     api.fetchModels('events')
       .then(events => {
-        const groupedEvents = _.groupBy(events, event => moment(event.startTime).startOf('day').valueOf());
-        console.log('groupedEvents', groupedEvents);
-        // TODO: we must handle the order of sections somehow
-
         dispatch({
           type: EVENT_SET,
-          events: groupedEvents
+          events: events
         });
         dispatch({ type: EVENT_LIST_LOADED });
       })

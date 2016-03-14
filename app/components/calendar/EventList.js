@@ -114,9 +114,13 @@ var EventList = React.createClass({
           </View>
         );
       default:
+        const sectionGroupingFn = event => moment(event.startTime).startOf('day').valueOf();
+        const eventsOnDay = _.groupBy(this.props.events, sectionGroupingFn);
+        const sectionIdentities = _.orderBy(_.keys(eventsOnDay))
+
         return (
           <ListView
-            dataSource={this.state.dataSource.cloneWithRowsAndSections(this.props.events)}
+            dataSource={this.state.dataSource.cloneWithRowsAndSections(eventsOnDay, sectionIdentities)}
             renderSectionHeader={this.renderSectionHeader}
             renderRow={this.renderEventItem}
             style={styles.listView} />
