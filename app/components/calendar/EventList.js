@@ -17,7 +17,7 @@ import { connect } from 'react-redux';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
-import time from '../../utils/time';
+import moment from 'moment';
 
 import theme from '../../style/theme';
 import * as EventActions from '../../actions/event';
@@ -89,10 +89,21 @@ var EventList = React.createClass({
   },
 
   renderSectionHeader(sectionData, sectionId) {
+    let sectionCaption = '';
+    const sectionStartMoment = moment.unix(sectionId);
+
+    if (sectionStartMoment.isSame(moment(), 'day')) {
+      sectionCaption = 'Today';
+    } else if (sectionStartMoment.isSame(moment().add(1, 'day'), 'day')) {
+      sectionCaption = 'Tomorrow';
+    } else {
+      sectionCaption = moment.unix(sectionId).format('ddd D.M.');
+    }
+
+    sectionCaption = sectionCaption.toUpperCase();
+
     return <View style={styles.sectionHeader}>
-      <Text style={styles.sectionHeaderText}>
-        {time.formatEventTime(sectionData[0].startTime, null, {formatLong:true}).date.toUpperCase()}
-      </Text>
+      <Text style={styles.sectionHeaderText}>{sectionCaption}</Text>
     </View>;
   },
 
@@ -114,9 +125,13 @@ var EventList = React.createClass({
           </View>
         );
       default:
+        const sectionGroupingFn = event => moment(event.startTime).startOf('day').valueOf();
+        const eventsOnDay = _.groupBy(this.props.events, sectionGroupingFn);
+        const sectionIdentities = _.orderBy(_.keys(eventsOnDay))
+
         return (
           <ListView
-            dataSource={this.state.dataSource.cloneWithRowsAndSections(this.props.events)}
+            dataSource={this.state.dataSource.cloneWithRowsAndSections(eventsOnDay, sectionIdentities)}
             renderSectionHeader={this.renderSectionHeader}
             renderRow={this.renderEventItem}
             style={styles.listView} />

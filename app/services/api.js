@@ -1,5 +1,7 @@
 import Endpoints from '../constants/Endpoints';
 import DeviceInfo from 'react-native-device-info';
+import React, { AsyncStorage } from 'react-native';
+
 
 const loggingFetch = (url, opts) => {
   console.log('Fetch:', url, opts || '');
@@ -40,13 +42,25 @@ const _put = (url, body) => {
 
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
-
   return loggingFetch(url)
-    .then(response => response.json())
-    .catch((error) => {
-      console.log('Error catched on API-fetch', error);
-      return Promise.reject(null);
-    });
+  .then(response => response.json())
+  .then(response => {             
+    return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
+  })
+  .catch((error) => {
+         console.log('Error catched on API-fetch', error);
+         return AsyncStorage.getItem(url).then((value) => {
+             if(value != null) {
+                return Promise.resolve(JSON.parse(value));
+             }else {
+                 return Promise.reject(null);
+             }
+            
+        });
+   });
+
+
+  
 };
 
 const postAction = (payload, location) => {
