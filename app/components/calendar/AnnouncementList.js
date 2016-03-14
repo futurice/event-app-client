@@ -44,23 +44,11 @@ const styles = StyleSheet.create({
 });
 
 var AnnouncementList = React.createClass({
-
-  getInitialState() {
-    return {
-      announcements: []
-    };
-  },
-
   componentDidMount() {
     this.props.dispatch(AnnouncementActions.fetchAnnouncements());
   },
 
   renderAnnouncementItem(item) {
-    console.log("Rendering", item);
-    if (!item) {
-      return null;
-    }
-
     return <View style={styles.container}>
       <Text style={styles.sectionHeaderText}>
         {item.message}

@@ -130,13 +130,14 @@ const EventDetail = React.createClass({
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
 
     return <View style={styles.wrapper}>
-      {(Platform.OS === 'android') ? <Toolbar title={model.name} navigator={this.props.navigator} /> : null }
+      {(Platform.OS === 'android') ? <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
+
       <ScrollView>
         <EventListItem item={model} handlePress={() => true} />
 
         <View style={styles.detailEventInfoContainer}>
           <View style={styles.detailEventInfoWrapper}>
-            {model.facebookId ?
+            {model.facebookId &&
             <TouchableHighlight
               style={styles.detailEventInfoWrapper}
               onPress={() => Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
@@ -146,8 +147,6 @@ const EventDetail = React.createClass({
                 <Text style={styles.detailEventInfoAttending}>{model.attendingCount} attending</Text>
               </View>
             </TouchableHighlight>
-            :
-            null
             }
           </View>
           <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
