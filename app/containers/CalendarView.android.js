@@ -10,10 +10,9 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import EventList from '../components/calendar/EventList';
 
+import CalendarView from '../components/calendar/CalendarView';
 import theme from '../style/theme';
-
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -24,7 +23,7 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   return false;
 });
 
-var CalendarView = React.createClass({
+var CalendarViewWrapper = React.createClass({
   renderScene (route, navigator) {
     _navigator = navigator;
     if (route.component) {
@@ -37,7 +36,7 @@ var CalendarView = React.createClass({
     return (
       <Navigator
         initialRoute={{
-          component: EventList,
+          component: CalendarView,
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
@@ -54,4 +53,4 @@ const select = store => {
     }
 };
 
-export default connect(select)(CalendarView);
+export default connect(select)(CalendarViewWrapper);
