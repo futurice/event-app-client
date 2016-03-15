@@ -58,9 +58,9 @@ function getTimeAgo(date){
       return Math.round(diff) + 'm';
     else if(diff < 60 * 24)
       return Math.round(diff/60) + 'h';
-    else (diff < 60 * 24)
-      return Math.round(diff/60/24) + 'd';
-
+    } else {
+      return Math.round(diff / 60 / 24) + 'd';
+    }
 }
 
 export default {
