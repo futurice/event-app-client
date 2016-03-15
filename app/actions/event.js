@@ -19,7 +19,7 @@ const fetchEvents = () => {
       .then(events => {
         dispatch({
           type: EVENT_SET,
-          events: events
+          payload: events
         });
         dispatch({ type: EVENT_LIST_LOADED });
       })

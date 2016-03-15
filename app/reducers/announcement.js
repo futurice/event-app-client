@@ -2,11 +2,11 @@
 import Immutable from 'immutable';
 
 import {
-  EVENT_SET,
-  EVENT_LIST_LOADING,
-  EVENT_LIST_LOADED,
-  EVENT_LIST_FAILED
-} from '../actions/event';
+  ANNOUNCEMENT_SET,
+  ANNOUNCEMENT_LIST_LOADING,
+  ANNOUNCEMENT_LIST_LOADED,
+  ANNOUNCEMENT_LIST_FAILED
+} from '../actions/announcement';
 
 const initialState = Immutable.fromJS({
   list: [],
@@ -14,15 +14,15 @@ const initialState = Immutable.fromJS({
 });
 
 
-export default function event(state = initialState, action) {
+export default function announcement(state = initialState, action) {
   switch (action.type) {
-    case EVENT_SET:
+    case ANNOUNCEMENT_SET:
       return state.set('list', Immutable.fromJS(action.payload));
-    case EVENT_LIST_LOADING:
+    case ANNOUNCEMENT_LIST_LOADING:
       return state.set('listState', 'loading');
-    case EVENT_LIST_LOADED:
+    case ANNOUNCEMENT_LIST_LOADED:
       return state.set('listState', 'ready');
-    case EVENT_LIST_FAILED:
+    case ANNOUNCEMENT_LIST_FAILED:
       return state.set('listState', 'failed');
     default:
       return state;

@@ -9,9 +9,11 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-import EventList from '../components/calendar/EventList';
+
 import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
+
+import TimelineList from '../components/calendar/TimelineList';
 const theme = require('../style/theme');
 
 
@@ -28,11 +30,11 @@ const styles = StyleSheet.create({
   }
 });
 
-var CalendarView = React.createClass({
+var TimelineListWrapper = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />
+      return <Component navigator={navigator} route={route} {...this.props} />;
     }
   },
 
@@ -46,7 +48,7 @@ var CalendarView = React.createClass({
             routeMapper={NavRouteMapper} />
         }
         initialRoute={{
-          component: EventList,
+          component: TimelineList,
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
@@ -62,4 +64,4 @@ const select = store => {
     }
 };
 
-export default connect(select)(CalendarView);
+export default connect(select)(TimelineListWrapper);
