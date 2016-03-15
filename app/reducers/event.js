@@ -17,7 +17,7 @@ const initialState = Immutable.fromJS({
 export default function event(state = initialState, action) {
   switch (action.type) {
     case EVENT_SET:
-      return state.set('list', Immutable.fromJS(action.events));
+      return state.set('list', Immutable.fromJS(action.payload));
     case EVENT_LIST_LOADING:
       return state.set('listState', 'loading');
     case EVENT_LIST_LOADED:

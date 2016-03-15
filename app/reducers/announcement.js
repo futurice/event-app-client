@@ -15,10 +15,9 @@ const initialState = Immutable.fromJS({
 
 
 export default function announcement(state = initialState, action) {
-  console.log("reducer:", initialState, action);
   switch (action.type) {
     case ANNOUNCEMENT_SET:
-      return state.set('list', Immutable.fromJS(action.announcements));
+      return state.set('list', Immutable.fromJS(action.payload));
     case ANNOUNCEMENT_LIST_LOADING:
       return state.set('listState', 'loading');
     case ANNOUNCEMENT_LIST_LOADED:

@@ -22,7 +22,7 @@ const fetchAnnouncements = () => {
 
         dispatch({
           type: ANNOUNCEMENT_SET,
-          announcements: announcements
+          payload: announcements
         });
         dispatch({ type: ANNOUNCEMENT_LIST_LOADED });
       })
