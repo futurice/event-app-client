@@ -25,6 +25,8 @@ import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
+import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
+import * as CompetitionActions from '../../actions/competition';
 
 const styles = StyleSheet.create({
   container: {
@@ -157,6 +159,40 @@ var feedItemList = React.createClass({
       console.log("you pressed ", index);
   },
   
+  chooseImage() {
+    ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePickerManager Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const image = 'data:image/jpeg;base64,' + response.data;
+        this.props.dispatch(CompetitionActions.postImage(image));
+      }
+    });
+  },
+
+  sendText() {
+    this.props.dispatch(CompetitionActions.openTextActionView());
+  },
+
+  sendBasicAction(type) {
+    this.props.dispatch(CompetitionActions.postAction(type));
+  },
+
+  onPressAction(type) {
+    switch (type) {
+      case 'IMAGE':
+        return this.chooseImage();
+      case 'TEXT':
+        return this.sendText();
+      default:
+        return this.sendBasicAction(type);
+    }
+  },
+  
   render() {
       var feedRendering;
       var buttonRendering = [];
@@ -172,7 +208,7 @@ var feedItemList = React.createClass({
                           }]
                       }
                       >
-                      {this.renderButton(actiontype.get('name'), this.buttonPressed.bind(this, i), { bottom: 0, right: 0 }) }
+                      {this.renderButton(actiontype.get('name'), this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
                   </Animated.View>
               );
             });
