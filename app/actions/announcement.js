@@ -18,6 +18,7 @@ const fetchAnnouncements = () => {
     api.fetchAnnouncements()
       .then(announcements => {
         console.log('announcements', announcements);
+        announcements = _.isArray(announcements) ? announcements : [announcements];
 
         dispatch({
           type: ANNOUNCEMENT_SET,
