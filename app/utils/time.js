@@ -46,17 +46,17 @@ function eventStartsSoon(startTime) {
 }
 
 function getTimeAgo(date){
-    if(!date){
-      return ''
-    };
+    if (!date) {
+      return '';
+    }
 
     const diff = (new Date().getTime() - new Date(date).getTime()) / 60000; // minutes
 
-    if(diff <= 0 )
+    if (diff <= 0) {
       return 'now';
-    else if(diff < 60)
+    } else if (diff < 60) {
       return Math.round(diff) + 'm';
-    else if(diff < 60 * 24)
+    } else if(diff < 60 * 24) {
       return Math.round(diff/60) + 'h';
     } else {
       return Math.round(diff / 60 / 24) + 'd';

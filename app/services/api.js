@@ -44,23 +44,21 @@ const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
   return loggingFetch(url)
   .then(response => response.json())
-  .then(response => {             
+  .then(response => {
     return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
   })
   .catch((error) => {
-         console.log('Error catched on API-fetch', error);
-         return AsyncStorage.getItem(url).then((value) => {
-             if(value != null) {
-                return Promise.resolve(JSON.parse(value));
-             }else {
-                 return Promise.reject(null);
-             }
-            
-        });
-   });
+    console.log('Error catched on API-fetch', error);
+    return AsyncStorage.getItem(url)
+    .then((value) => {
+      if (value != null) {
+        return Promise.resolve(JSON.parse(value));
+      } else {
+        return Promise.reject(null);
+      }
 
-
-  
+    });
+  });
 };
 
 const postAction = (payload, location) => {
