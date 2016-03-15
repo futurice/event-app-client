@@ -5,6 +5,7 @@ import registration from './registration';
 import team from './team';
 import location from './location';
 import competition from './competition';
+import profile from './profile';
 
 export {
   navigation,
@@ -13,5 +14,6 @@ export {
   registration,
   team,
   location,
-  competition
+  competition,
+  profile
 };

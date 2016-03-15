@@ -17,6 +17,7 @@ import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionView';
 import FeedView from './FeedView';
+import ProfileView from './ProfileView';
 import Tabs from '../constants/Tabs';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
@@ -41,6 +42,7 @@ const AndroidTabNavigation = React.createClass({
         <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
         <EventMapView navigator={this.props.navigator} tabLabel='android-map' />
         <CompetitionView tabLabel='android-star' />
+        <ProfileView tabLabel='android-person' />
       </AndroidTabs>
 
     )
