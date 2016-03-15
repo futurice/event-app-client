@@ -41,9 +41,15 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1
   },
+
   sectionHeader: {
     backgroundColor: theme.dark,
     opacity: 0.88,
+    padding: 20,
+    flex: 1
+  },
+  sectionHeaderAnnouncement: {
+    backgroundColor: theme.danger,
     padding: 20,
     flex: 1
   },
@@ -128,10 +134,12 @@ var TimelineList = React.createClass({
     } else {
       sectionCaption = moment.unix(sectionId).format('ddd D.M.YYYY');
     }
-
     sectionCaption = sectionCaption.toUpperCase();
 
-    return <View style={styles.sectionHeader}>
+    // # Style
+    const headerStyle = (sectionId === ANNOUNCEMENTS_SECTION) ? styles.sectionHeaderAnnouncement : styles.sectionHeader;
+
+    return <View style={headerStyle}>
       <Text style={styles.sectionHeaderText}>{sectionCaption}</Text>
     </View>;
   },
