@@ -76,10 +76,10 @@ const styles = StyleSheet.create({
   
 });
 
-const BUTTON_COUNT = 5;
+const BUTTON_COUNT = 6;
 const DISTANCE = 70;
 const BUTTON_WIDTH = 56;
-const ANGLE_RAD = 35 * Math.PI/180;
+const ANGLE_RAD = 30 * Math.PI/180;
 const ANGLE_INNER = 10 * Math.PI/180;
 var BUTTON_POS = [];
 for(var i = 0; i < BUTTON_COUNT; i++) {
@@ -162,7 +162,7 @@ var feedItemList = React.createClass({
       var buttonRendering = [];
       var plusButtonRendering = [];
       if(this.props.isLoadingActionTypes === false) {
-          buttonRendering = BUTTON_POS.map((_, i) => {
+          buttonRendering = this.props.actionTypes.map((actiontype, i) => {
               return (
                   <Animated.View
                       style={[
@@ -172,7 +172,7 @@ var feedItemList = React.createClass({
                           }]
                       }
                       >
-                      {this.renderButton(i, this.buttonPressed.bind(this, i), { bottom: 0, right: 0 }) }
+                      {this.renderButton(actiontype.get('name'), this.buttonPressed.bind(this, i), { bottom: 0, right: 0 }) }
                   </Animated.View>
               );
             });
