@@ -90,15 +90,8 @@ const styles = StyleSheet.create({
 });
 
 const select = store => {
-  const events = [];
-  const groupedEvents = store.event.get('list').toJS();
-
-  Object.keys(groupedEvents).forEach(key => {
-    groupedEvents[key].map(event => events.push(event));
-  });
-
   return {
-    events: events
+    events: store.event.get('list').toJS()
   };
 };
 
