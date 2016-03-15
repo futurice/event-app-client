@@ -198,13 +198,8 @@ var feedItemList = React.createClass({
                         }]
                         }
                         >
-                        <TouchableHighlight  style={[styles.plusButton, {bottom:0, right:0}]} onPress={this.buttonPressed.bind(this,i)}>
-                        <View style={[styles.plusButton, {bottom:0, right:0}]}>
-                        <View>
-                            <Text style={styles.plusText}>{i}</Text>
-                        </View>
-                        </View>
-                        </TouchableHighlight>
+                        {this.renderButton(i, this.buttonPressed.bind(this, i), {bottom:0, right:0})}
+                        
                         </Animated.View>
                     
                 );
@@ -215,10 +210,13 @@ var feedItemList = React.createClass({
         );
     }
   },
-  renderButton(text, onPress)  {
-      
+  renderButton(text, onPress, extraStyle)  {
+      var combinedStyle = [styles.plusButton];
+      if(extraStyle != null) {
+          combinedStyle.push(extraStyle);
+      }
       return (
-      <TouchableHighlight style={styles.plusButton} onPress={onPress}>
+      <TouchableHighlight style={combinedStyle} onPress={onPress}>
             <View style={[styles.plusButton, {bottom:0, right:0}]}>
             <View>
             <Text style={styles.plusText}>{text}</Text>
