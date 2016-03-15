@@ -51,6 +51,19 @@ const styles = StyleSheet.create({
     borderRadius:56,
     
   },
+  buttonEnclosure: {
+      flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+      flex:1,
+    position:'absolute',
+    bottom: 20,
+    right: 20,
+
+    width: 56,
+    height: 56,
+
+  },
   plusText: {
       
       alignSelf:'center',
@@ -179,10 +192,7 @@ var feedItemList = React.createClass({
                     
                         <Animated.View
                         style={[
-                        styles.plusButton, 
-                        {
-                            
-                        },
+                        styles.buttonEnclosure,
                         {
                         transform: this.state.buttons[i].getTranslateTransform()
                         }]
