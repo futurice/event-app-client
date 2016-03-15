@@ -12,6 +12,7 @@ var {
   RefreshControl,
   View,
   Platform,
+  Animated
 } = React;
 import { connect } from 'react-redux';
 
@@ -35,19 +36,60 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1,
+  },
+  plusButton: {
+      flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+      flex:1,
+    position:'absolute',
+    bottom: 20,
+    right: 20,
+    backgroundColor:'#55cde1',
+    width: 56,
+    height: 56,
+    borderRadius:56,
+    
+  },
+  plusText: {
+      flex:1,
+    fontWeight:'bold',
+    textAlign:'center',
+    fontSize:16,
+    color:'#fff'
   }
 });
+
+const BUTTON_COUNT = 5;
+const DISTANCE = 70;
+const BUTTON_WIDTH = 56;
+const ANGLE_RAD = 35 * Math.PI/180;
+const ANGLE_INNER = 10 * Math.PI/180;
+var BUTTON_POS = [];
+for(var i = 0; i < BUTTON_COUNT; i++) {
+    
+    var radius = (i < 2) ? DISTANCE : DISTANCE * 2;
+    var angleMod = (i > 1) ? i - 2 : i+1;
+    var angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
+    BUTTON_POS.push({x: -Math.cos(angle * angleMod) * radius, y: -Math.sin(angle * angleMod) * radius});
+}
 
 var feedItemList = React.createClass({
 
   getInitialState() {
     return {
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
+      buttons: BUTTON_POS.map((i) => {return new Animated.ValueXY();}),
+      isExpaned: false
     };
   },
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
+    
+    this.state.buttons[0].x.addListener((value) => {
+       console.log(value.value); 
+    });
   },
 
   renderLoadingView() {
@@ -62,6 +104,7 @@ var feedItemList = React.createClass({
           size='large' />
       }
       <Text>Ladataan feed...</Text>
+      
     </View>;
   },
 
@@ -81,7 +124,23 @@ var feedItemList = React.createClass({
   renderFeedItem(item) {
     return <FeedListItem item={item}/>;
   },
-
+  expandButtons() {
+      console.log("expand buttons to visible");
+      if(!this.state.isExpaned) {
+          this.state.isExpaned = true;
+          console.log("animate it");
+      //Animated.spring(this.state.buttons[0], {toValue:{x:-70, y:-70}}).start();
+      BUTTON_POS.forEach((pos, i) => {
+          Animated.spring(this.state.buttons[i], {toValue: pos}).start();
+      });
+      }else {
+        this.state.isExpaned = false;
+        BUTTON_POS.forEach((pos, i) => {
+            Animated.spring(this.state.buttons[i], {toValue: {x:0, y:0}}).start();
+        });
+      }
+  },
+  
   render() {
 
     switch (this.props.feedListState) {
@@ -95,6 +154,7 @@ var feedItemList = React.createClass({
         );
       default:
         return (
+            <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
             renderRow={this.renderFeedItem}
@@ -110,6 +170,34 @@ var feedItemList = React.createClass({
              />
             }
             />
+            {BUTTON_POS.map((_, i) => {
+                return (
+                    <Animated.View 
+                        style={[
+                        styles.plusButton, 
+                        {
+                            
+                        },
+                        {
+                        transform: this.state.buttons[i].getTranslateTransform()
+                        }]
+                        }>
+                        <TouchableHighlight >
+                        <Text style={styles.plusText}>{i}</Text>
+                        </TouchableHighlight>
+                     </Animated.View>
+                    
+                );
+            })}
+            
+            <View style={styles.plusButton}>
+            <TouchableHighlight onPress={this.expandButtons}>
+            <Text style={styles.plusText}>+</Text>
+            </TouchableHighlight>
+            </View>
+            
+            
+            </View>
         );
     }
   }
