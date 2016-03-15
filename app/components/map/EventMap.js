@@ -8,6 +8,7 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import EventDetail from '../calendar/EventDetail';
+import theme from '../../style/theme';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
@@ -33,13 +34,16 @@ class EventMap extends Component {
 
     const markers = events.map((event, i) =>
       <MapView.Marker image={require('../../../assets/marker.png')} key={i} coordinate={event.location}>
-        <MapView.Callout style={styles.callout}>
+        <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
           <TouchableHighlight
             underlayColor='transparent'
             style={styles.calloutTouchable}
             onPress={this.onCalloutPress.bind(this, event)}
           >
-            <Text>{event.name}</Text>
+            <View>
+              <Text style={styles.calloutTitle}>{event.name}</Text>
+              <Text style={styles.calloutInfo}>{event.locationName}</Text>
+            </View>
           </TouchableHighlight>
         </MapView.Callout>
       </MapView.Marker>
@@ -86,6 +90,14 @@ const styles = StyleSheet.create({
   },
   calloutTouchable: {
     padding: 10
+  },
+  calloutTitle:{
+    fontWeight:'bold',
+    color:theme.primary,
+    fontSize:13,
+  },
+  calloutInfo:{
+    fontSize:11,
   }
 });
 
