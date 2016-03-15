@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
     textAlign:'center',
     fontSize:16,
     color:'#fff'
-  }
+  },
+  
 });
 
 const BUTTON_COUNT = 5;
@@ -89,9 +90,6 @@ var feedItemList = React.createClass({
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
     
-    this.state.buttons[0].x.addListener((value) => {
-       console.log(value.value); 
-    });
   },
 
   renderLoadingView() {
@@ -142,6 +140,9 @@ var feedItemList = React.createClass({
         });
       }
   },
+  buttonPressed(index) {
+      console.log("you pressed ", index);
+  },
   
   render() {
 
@@ -172,9 +173,11 @@ var feedItemList = React.createClass({
              />
             }
             />
+            
             {BUTTON_POS.map((_, i) => {
                 return (
-                    <Animated.View 
+                    
+                        <Animated.View
                         style={[
                         styles.plusButton, 
                         {
@@ -183,29 +186,36 @@ var feedItemList = React.createClass({
                         {
                         transform: this.state.buttons[i].getTranslateTransform()
                         }]
-                        }>
-                        <TouchableHighlight >
-                        <Text style={styles.plusText}>{i}</Text>
+                        }
+                        >
+                        <TouchableHighlight  style={[styles.plusButton, {bottom:0, right:0}]} onPress={this.buttonPressed.bind(this,i)}>
+                        <View style={[styles.plusButton, {bottom:0, right:0}]}>
+                        <View>
+                            <Text style={styles.plusText}>{i}</Text>
+                        </View>
+                        </View>
                         </TouchableHighlight>
-                     </Animated.View>
+                        </Animated.View>
                     
                 );
             })}
             
-            
-            <TouchableHighlight style={styles.plusButton} onPress={this.expandButtons}>
-            <View style={[styles.plusButton, {bottom:0, right:0}]}>
-            <View>
-            <Text style={styles.plusText}>+</Text>
-            </View>
-            </View>
-            </TouchableHighlight>
-            
-            
-            
+            {this.renderButton("+",this.expandButtons)}
             </View>
         );
     }
+  },
+  renderButton(text, onPress)  {
+      
+      return (
+      <TouchableHighlight style={styles.plusButton} onPress={onPress}>
+            <View style={[styles.plusButton, {bottom:0, right:0}]}>
+            <View>
+            <Text style={styles.plusText}>{text}</Text>
+            </View>
+            </View>
+            </TouchableHighlight>
+      );
   }
 });
 
