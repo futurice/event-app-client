@@ -24,6 +24,7 @@ import * as AnnouncementActions from '../../actions/announcement';
 import * as EventActions from '../../actions/event';
 
 import EventListItem from './EventListItem';
+import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
 
@@ -122,9 +123,10 @@ var TimelineList = React.createClass({
     let sectionCaption = '';
     const sectionStartMoment = moment.unix(sectionId);
 
+    // # Caption
     // Announcement-section
     if (sectionId === ANNOUNCEMENTS_SECTION) {
-      sectionCaption = 'News';
+      sectionCaption = 'Wapputiimi announces';
     }
     // Day-sections
     else if (sectionStartMoment.isSame(moment(), 'day')) {
@@ -145,19 +147,16 @@ var TimelineList = React.createClass({
   },
 
   renderListItem(item, sectionId, rowId) {
-    // TODO handlepress only for eventlistitem
-
     switch (item.timelineType) {
       case 'announcement':
-        return <Text>{item.message}</Text>;
+        return <AnnouncementListItem item={item} />;
 
       default:
-        return (
-          <EventListItem
-            item={item}
-            rowId={rowId}
-            handlePress={() => this.navigateToSingleEvent(item)} />
-        );
+        return <EventListItem
+          item={item}
+          rowId={rowId}
+          handlePress={() => this.navigateToSingleEvent(item)}
+        />;
     }
   },
 
