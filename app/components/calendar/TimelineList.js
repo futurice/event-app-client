@@ -83,7 +83,6 @@ var TimelineList = React.createClass({
     this.props.navigator.push({
       component: EventDetail,
       name: model.name,
-      actions: ['share'],
       model
     });
   },
