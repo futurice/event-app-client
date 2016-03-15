@@ -6,6 +6,7 @@ import team from './team';
 import location from './location';
 import competition from './competition';
 import announcement from './announcement';
+import profile from './profile';
 
 export {
   navigation,
@@ -15,5 +16,6 @@ export {
   team,
   location,
   competition,
-  announcement
+  announcement,
+  profile
 };
