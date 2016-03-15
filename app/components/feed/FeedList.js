@@ -52,6 +52,8 @@ const styles = StyleSheet.create({
     
   },
   plusText: {
+      
+      alignSelf:'center',
       flex:1,
     fontWeight:'bold',
     textAlign:'center',
@@ -190,11 +192,15 @@ var feedItemList = React.createClass({
                 );
             })}
             
-            <View style={styles.plusButton}>
-            <TouchableHighlight onPress={this.expandButtons}>
+            
+            <TouchableHighlight style={styles.plusButton} onPress={this.expandButtons}>
+            <View style={[styles.plusButton, {bottom:0, right:0}]}>
+            <View>
             <Text style={styles.plusText}>+</Text>
-            </TouchableHighlight>
             </View>
+            </View>
+            </TouchableHighlight>
+            
             
             
             </View>
