@@ -10,9 +10,10 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import CalendarView from '../components/calendar/CalendarView';
 import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
+
+import TimelineList from '../components/calendar/TimelineList';
 const theme = require('../style/theme');
 
 
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
   }
 });
 
-var CalendarViewWrapper = React.createClass({
+var TimelineListWrapper = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
@@ -47,7 +48,7 @@ var CalendarViewWrapper = React.createClass({
             routeMapper={NavRouteMapper} />
         }
         initialRoute={{
-          component: CalendarView,
+          component: TimelineList,
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
@@ -63,4 +64,4 @@ const select = store => {
     }
 };
 
-export default connect(select)(CalendarViewWrapper);
+export default connect(select)(TimelineListWrapper);

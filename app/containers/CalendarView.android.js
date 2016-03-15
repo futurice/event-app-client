@@ -11,7 +11,7 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import CalendarView from '../components/calendar/CalendarView';
+import TimelineList from '../components/calendar/TimelineList';
 import theme from '../style/theme';
 
 var _navigator;
@@ -23,7 +23,7 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   return false;
 });
 
-var CalendarViewWrapper = React.createClass({
+var TimelineListWrapper = React.createClass({
   renderScene (route, navigator) {
     _navigator = navigator;
     if (route.component) {
@@ -36,7 +36,7 @@ var CalendarViewWrapper = React.createClass({
     return (
       <Navigator
         initialRoute={{
-          component: CalendarView,
+          component: TimelineList,
           name: 'Tapahtumat'
         }}
         renderScene={this.renderScene}
@@ -53,4 +53,4 @@ const select = store => {
     }
 };
 
-export default connect(select)(CalendarViewWrapper);
+export default connect(select)(TimelineListWrapper);
