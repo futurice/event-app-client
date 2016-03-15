@@ -158,18 +158,41 @@ var feedItemList = React.createClass({
   },
   
   render() {
-
+      var feedRendering;
+      var buttonRendering = [];
+      var plusButtonRendering = [];
+      if(this.props.isLoadingActionTypes === false) {
+          buttonRendering = BUTTON_POS.map((_, i) => {
+              return (
+                  <Animated.View
+                      style={[
+                          styles.buttonEnclosure,
+                          {
+                              transform: this.state.buttons[i].getTranslateTransform()
+                          }]
+                      }
+                      >
+                      {this.renderButton(i, this.buttonPressed.bind(this, i), { bottom: 0, right: 0 }) }
+                  </Animated.View>
+              );
+            });
+            plusButtonRendering = this.renderButton("+",this.expandButtons);
+      }
+      
+      
     switch (this.props.feedListState) {
       case 'loading':
-        return this.renderLoadingView();
+        feedRendering =  this.renderLoadingView();
+        break;
       case 'failed':
-        return (
+        feedRendering = (
           <View style={styles.container}>
             <Text>Feedia ei saatu haettua :(</Text>
           </View>
         );
+        break;
       default:
-        return (
+        feedRendering =  (
             <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
@@ -186,30 +209,19 @@ var feedItemList = React.createClass({
              />
             }
             />
-            
-            {BUTTON_POS.map((_, i) => {
-                return (
-                    
-                        <Animated.View
-                        style={[
-                        styles.buttonEnclosure,
-                        {
-                        transform: this.state.buttons[i].getTranslateTransform()
-                        }]
-                        }
-                        >
-                        {this.renderButton(i, this.buttonPressed.bind(this, i), {bottom:0, right:0})}
-                        
-                        </Animated.View>
-                    
-                );
-            })}
-            
-            {this.renderButton("+",this.expandButtons)}
+            {buttonRendering}
+            {plusButtonRendering}
             </View>
         );
     }
+    
+    return (
+        <View style={styles.container}>
+        {feedRendering}
+        </View>
+    );
   },
+    
   renderButton(text, onPress, extraStyle)  {
       var combinedStyle = [styles.plusButton];
       if(extraStyle != null) {
@@ -231,7 +243,9 @@ const select = store => {
     return {
       feed: store.feed.get('list').toJS(),
       feedListState: store.feed.get('listState'),
-      refreshListState: store.feed.get('refreshState')
+      refreshListState: store.feed.get('refreshState'),
+      isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
+      actionTypes: store.competition.get('actionTypes')
     }
 };
 
