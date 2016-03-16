@@ -6,7 +6,8 @@ import React, {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -19,7 +20,7 @@ const VIEW_NAME = 'FeedView';
 
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: 62
+    paddingTop: (Platform.OS === 'ios') ? 62 : 0
   },
   navbar: {
     backgroundColor: theme.primary,
@@ -44,14 +45,26 @@ var FeedView = React.createClass({
   },
 
   render() {
-    return (
-      <Navigator
+    if (Platform.OS === 'ios') {
+      return <Navigator
         style={styles.navigator}
+        initialRoute={{
+          component: FeedList,
+          name: 'Feed'
+        }}
         navigationBar={
           <Navigator.NavigationBar
             style={styles.navbar}
             routeMapper={NavRouteMapper} />
         }
+        renderScene={this.renderScene}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FloatFromRight
+        })} />;
+    }
+    else {
+      return <Navigator
+        style={styles.navigator}
         initialRoute={{
           component: FeedList,
           name: 'Feed'
@@ -59,9 +72,8 @@ var FeedView = React.createClass({
         renderScene={this.renderScene}
         configureScene={() => ({
           ...Navigator.SceneConfigs.FloatFromRight
-        })}
-      />
-    );
+        })} />;
+    }
   }
 });
 
