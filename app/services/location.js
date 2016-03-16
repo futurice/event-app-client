@@ -14,7 +14,7 @@ function getGeoUrl(event) {
   } else {
       
       geoUrl = "geo:";//<lat>,<long>?q=<lat>,<long>(Label+Name)"
-      geoUrl += latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +'(' + event.locationName + ')';
+      geoUrl += latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +'(' + encodeURIComponent(event.locationName) + ')';
     
   }
 
