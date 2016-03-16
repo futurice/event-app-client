@@ -7,7 +7,7 @@ import React, {
   TextInput,
   StyleSheet,
   Platform,
-  Picker,
+  ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
 import theme from '../../style/theme';
@@ -34,68 +34,99 @@ const RegistrationView = React.createClass({
     const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]);
     const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
     return (
-      <Modal
-        isOpen={this.props.isRegistrationViewOpen}
-        swipeToClose={false}
-        backdropPressToClose={false}>
+
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
 
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Hi there! What's your name?</Text>
-              <TextInput
-              style={[styles.inputField, styles['inputField_'+Platform.OS]]}
-              onChangeText={this.onChangeName}
-              value={this.props.name} />
+              <View style={styles.inputLabel}>
+                <Text style={styles.inputLabelText}>Hi there! What's your name?</Text>
+              </View>
+              <View style={styles.inputFieldWrap}>
+                <TextInput
+                style={[styles.inputField, styles['inputField_'+Platform.OS]]}
+                onChangeText={this.onChangeName}
+                value={this.props.name} />
+              </View>
             </View>
             <View style={styles.inputGroup}>
-              <Text style={styles.inputLabel}>Choose your Kilta</Text>
-              {this.props.teams.map(team =>
+              <View style={styles.inputLabel}>
+                <Text style={styles.inputLabelText}>Choose your Kilta</Text>
+              </View>
+              <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
+
+              <ScrollView style={{flex:1,height:200}}>
+              {this.props.teams.concat(this.props.teams,this.props.teams,this.props.teams).map( (team,i) =>
                 <Team
-                  key={team.get('id')}
+                  key={i}
                   name={team.get('name')}
+                  teamid={team.get('id')}
+                  logo={this.props.logos[team.get('name')]}
+                  selected={this.props.selectedTeam}
                   onPress={this.onSelectTeam.bind(null, team.get('id'))} />
               )}
+              </ScrollView>
+              </View>
             </View>
 
-            <View style={styles.inputGroup}>
+
               <Button
                 onPress={this.onRegister}
                 style={styles.modalButton}
                 isDisabled={!this.props.isRegistrationInfoValid}>
                 Save
               </Button>
-            </View>
           </View>
         </View>
-      </Modal>
+
     );
   }
 });
 
+
+/*
+      <Modal
+        isOpen={this.props.isRegistrationViewOpen}
+        swipeToClose={false}
+        backdropPressToClose={false}>
+
+      </Modal>
+*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
   innerContainer: {
     flex:1,
-    paddingTop:20,
+    paddingTop:0,
   },
   modalButton: {
-    marginTop: 10,
+    margin: 15,
   },
   modalBackgroundStyle: {
-    backgroundColor: '#fff'
+    backgroundColor: '#eee'
   },
   inputGroup:{
-    padding:20,
+    padding:0,
+    backgroundColor:'#FFF',
+    margin:10,
+    marginBottom:0,
+    borderRadius:2,
+    elevation:1,
   },
   inputLabel:{
+    padding:15,
+    borderBottomWidth:1,
+    borderColor:'#ddd',
+  },
+  inputLabelText:{
     fontSize:14,
-    fontWeight:'bold',
     color:theme.primary,
-    padding:5,
+    fontWeight:'bold',
     textAlign: Platform.OS === 'ios' ? 'center' : 'left',
+  },
+  inputFieldWrap:{
+    padding:15,
   },
   inputField: {
     height: 40,
@@ -115,7 +146,13 @@ const styles = StyleSheet.create({
 });
 
 const select = store => {
+  const logos = {
+    'Tietoteekkarikilta':'http://www.ttyy.fi/ttyy/sites/webhotel2.tut.fi.ttyy/files/sisalto/alayhdistykset/logot/tite.png',
+    'Sähkökilta':'http://www.ttyy.fi/ttyy/sites/webhotel2.tut.fi.ttyy/files/sisalto/alayhdistykset/logot/skilta.png'
+  };
+
   return {
+    logos: logos,
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
     selectedTeam: store.team.get('selectedTeam'),
