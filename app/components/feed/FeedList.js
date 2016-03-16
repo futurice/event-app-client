@@ -193,6 +193,19 @@ var feedItemList = React.createClass({
         return this.sendBasicAction(type);
     }
   },
+  
+  getIconForAction(type) {
+      var mapping = {
+          'TEXT': 'chatbubble-working',
+          'IMAGE': 'camera',
+          'BEER': 'beer',
+          'CIDER': 'ios-pint',
+          'SODA': 'soup-can-outline',
+          'BUTTON_PUSH': 'ios-circle-filled',
+          'default': 'beer'
+      }
+      return mapping[type] ||mapping['default'];
+  },
 
   render() {
       var feedRendering;
@@ -201,28 +214,7 @@ var feedItemList = React.createClass({
       if(this.props.isLoadingActionTypes === false) {
           buttonRendering = this.props.actionTypes.map((actiontype, i) => {
               console.log("action ",actiontype.get('code'));
-              let iconname = "beer";
-              let type = actiontype.get('code');
-              switch(type) {
-                  case 'TEXT':
-                    iconname = "chatbubble-working";
-                  break;
-                  case 'IMAGE':
-                    iconname = "camera"
-                    break;
-                    case 'BEER':
-                    iconname = "beer"
-                    break;
-                    case 'CIDER':
-                    iconname = "ios-pint"
-                    break;
-                    case 'SODA':
-                    iconname = "soup-can-outline"
-                    break;
-                    case 'BUTTON_PUSH':
-                    iconname = "ios-circle-filled"
-                    break;
-              }
+              let iconname = this.getIconForAction(actiontype.get('code'));
               return (
                   <Animated.View
                       style={[
