@@ -12,10 +12,13 @@ var {
 } = React;
 import { connect } from 'react-redux';
 
+
+import RegistrationView from '../registration/RegistrationView';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import _ from 'lodash';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
+import * as RegistrationActions from '../../actions/registration';
 
 const styles = StyleSheet.create({
   container: {
@@ -35,13 +38,22 @@ const styles = StyleSheet.create({
     flex:1,
   },
   listItemIcon:{
-    fontSize:24,
+    fontSize:Platform.OS==='ios' ? 22 : 24,
     color:theme.primary,
     width:50,
+  },
+  listItemIconRight:{
+    position:'absolute',
+    right:0,
+    color:'#aaa',
+    top:20,
   },
   listItemText:{
     color:'#000',
     fontSize:18,
+  },
+  listItemTextHighlight: {
+    color:theme.primary
   },
   listItemBottomLine:{
     position:'absolute',
@@ -57,12 +69,16 @@ var Profile = React.createClass({
 
   getInitialState() {
     return {
-        dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+      dataSource: new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     }
   },
 
   componentDidMount() {
     this.props.dispatch(ProfileActions.fetchLinks());
+  },
+
+  openRegistration(){
+    this.props.dispatch(RegistrationActions.openRegistrationView());
   },
 
   renderLinkItem(item) {
@@ -77,13 +93,36 @@ var Profile = React.createClass({
     );
   },
 
+  renderModalItem(item){
+    return(
+      <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={this.openRegistration}>
+        <View style={styles.listItem}>
+          <Icon style={styles.listItemIcon} name={item.icon} />
+          <Text style={[styles.listItemText, styles.listItemTextHighlight]}>{item.title}</Text>
+          <View style={styles.listItemBottomLine} />
+          <Icon style={[styles.listItemIcon, styles.listItemIconRight]} name={item.rightIcon} />
+        </View>
+      </TouchableHighlight>
+    );
+  },
+
+  renderItem(item) {
+    if(item.link){
+      return this.renderLinkItem(item);
+    }
+    return this.renderModalItem(item);
+  },
+
   render() {
+    const listData = [{title:this.props.name, icon:'person-outline', link:'', rightIcon:'create'}].concat(this.props.links)
+
     return (
       <View style={styles.container}>
         <ListView style={[styles.scrollView]}
-          dataSource={this.state.dataSource.cloneWithRows(this.props.links)}
-          renderRow={this.renderLinkItem}
+          dataSource={this.state.dataSource.cloneWithRows(listData)}
+          renderRow={this.renderItem}
         />
+        <RegistrationView />
       </View>
       );
 
@@ -92,6 +131,9 @@ var Profile = React.createClass({
 
 const select = store => {
     return {
+      name: store.registration.get('name'),
+      selectedTeam: store.team.get('selectedTeam'),
+      teams: store.team.get('teams'),
       links: store.profile.get('links').toJS(),
     }
 };
