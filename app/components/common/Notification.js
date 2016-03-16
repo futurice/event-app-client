@@ -2,8 +2,11 @@ import React, {
   Component,
   PropTypes,
   Text,
+  Easing,
   Animated,
   Dimensions,
+  StyleSheet,
+  View
 } from 'react-native';
 
 import theme from '../../style/theme';
@@ -23,7 +26,8 @@ class Notification extends Component {
     super(props);
 
     this.state = {
-      opacityValue: new Animated.Value(Notification.minOpacity),
+        translate: new Animated.ValueXY(),
+        height: 0
     };
   }
 
@@ -53,11 +57,6 @@ class Notification extends Component {
       return true;
     }
 
-    // TODO: Is there a reliable way not use `__getValue` and something else that may not be as unstable
-    if (this.state.opacityValue.__getValue() !== this.state.opacityValue.__getValue()) {
-      return true;
-    }
-
     return false;
   }
 
@@ -68,8 +67,9 @@ class Notification extends Component {
   static styles = {
     container: {
       position: 'absolute',
-      top: 0,
+      top: -100,
       width: Screen.width,
+      
       left: 0,
       right: 0,
       backgroundColor: theme.primary,
@@ -78,7 +78,7 @@ class Notification extends Component {
       paddingLeft: 10,
       paddingRight: 10,
       paddingBottom: 10,
-      opacity: Notification.minOpacity,
+      
       borderBottomColor: theme.primaryDark,
       borderBottomWidth: 3
     },
@@ -91,30 +91,44 @@ class Notification extends Component {
   };
 
   fadeIn() {
-    Animated.timing(this.state.opacityValue, {
-      duration: Notification.fadeTime,
-      toValue: Notification.maxOpacity,
+      console.log("fadein height:" + this.state.height);
+    Animated.timing(this.state.translate, {
+        duration: 800,
+        easing: Easing.linear,
+        toValue: {x:0, y:0}
     }).start();
   }
 
   fadeOut() {
-    Animated.timing(this.state.opacityValue, {
-      duration: Notification.fadeTime,
-      toValue: Notification.minOpacity,
+       
+      
+      Animated.timing(this.state.translate, {
+        
+        easing: Easing.linear,
+        toValue: {x:0, y:-this.state.height}
     }).start();
+     
+  }
+  getViewSize(e) {
+      console.log("height:" + e.nativeEvent.layout.height);
+      
+      if(this.state.height == 0) {
+        
+        this.state.translate.setValue({x:0, y: - e.nativeEvent.layout.height});
+      }
+      this.state.height = e.nativeEvent.layout.height;
+      
   }
 
   render() {
     const message = this.props.children;
-
-    if (!message) {
-      return null;
-    }
-
+    console.log("render height:" + this.state.height);
     return (
-      <Animated.View style={[Notification.styles.container, {opacity: this.state.opacityValue}]}>
+        <View style={{position:'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0)', width: Screen.width, height: 400}}  pointerEvents={'box-none'}>
+      <Animated.View onLayout={this.getViewSize.bind(this)} style={[Notification.styles.container,{top: (this.state.height === 0) ? -100 : 0}, {transform:this.state.translate.getTranslateTransform()}]}>
         <Text style={Notification.styles.message}>{message}</Text>
       </Animated.View>
+      </View>
     );
   }
 }

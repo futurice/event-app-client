@@ -23,6 +23,7 @@ import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
+import Notification from '../../components/common/Notification';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
@@ -254,6 +255,7 @@ var feedItemList = React.createClass({
     return (
         <View style={styles.container}>
         {feedRendering}
+        <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
         </View>
     );
   },
@@ -281,7 +283,9 @@ const select = store => {
       feedListState: store.feed.get('listState'),
       refreshListState: store.feed.get('refreshState'),
       isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
-      actionTypes: store.competition.get('actionTypes')
+      actionTypes: store.competition.get('actionTypes'),
+      isNotificationVisible: store.competition.get('isNotificationVisible'),
+      notificationText: store.competition.get('notificationText')
     }
 };
 
