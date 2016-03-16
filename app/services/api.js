@@ -17,7 +17,7 @@ const wapuFetch = (url, opts) => {
   return fetch(url, opts);
 };
 
-const checkStatus = response => {
+const checkResponseStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
@@ -35,7 +35,7 @@ const _post = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).then(checkStatus);
+  }).then(checkResponseStatus);
 };
 
 const _put = (url, body) => {
@@ -46,7 +46,7 @@ const _put = (url, body) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).then(checkStatus);
+  }).then(checkResponseStatus);
 };
 
 const fetchModels = modelType => {
@@ -83,8 +83,8 @@ const putUser = payload => {
 };
 
 const getUser = uuid => {
-    .then(checkStatus)
   return wapuFetch(Endpoints.urls.user(uuid))
+    .then(checkResponseStatus)
     .then(response => response.json());
 };
 
