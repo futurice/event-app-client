@@ -16,9 +16,12 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
 
+import analytics from '../../services/analytics';
 import locationService from '../../services/location';
 import time from '../../utils/time';
 import EventListItem from './EventListItem';
+
+const VIEW_NAME = 'EventDetail';
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -109,6 +112,10 @@ const styles = StyleSheet.create({
 });
 
 const EventDetail = React.createClass({
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
+  },
+
   onPressBack() {
     this.props.navigator.pop();
   },

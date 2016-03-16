@@ -9,6 +9,8 @@ import React, {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
+
+import analytics from '../services/analytics';
 import Notification from '../components/common/Notification';
 import Button from '../components/common/Button';
 import TextActionView from '../components/actions/TextActionView';
@@ -19,7 +21,14 @@ import ImageCaptureOptions from '../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../actions/competition';
 import * as RegistrationActions from '../actions/registration';
 
+const VIEW_NAME = 'CompetitionView';
+
+
 const CompetitionView = React.createClass({
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
+  },
+
   chooseImage() {
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
       if (response.didCancel) {

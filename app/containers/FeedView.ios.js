@@ -9,10 +9,13 @@ import React, {
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
+
+import analytics from '../services/analytics';
 import FeedList from '../components/feed/FeedList';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
-const theme = require('../style/theme');
+import theme from '../style/theme';
 
+const VIEW_NAME = 'FeedView';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -27,7 +30,12 @@ const styles = StyleSheet.create({
   }
 });
 
+
 var FeedView = React.createClass({
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
+  },
+
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
