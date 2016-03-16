@@ -7,6 +7,10 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch"
   },
+  "author": "Futurice Tammerforce <tammerforce@futurice.com> (http://tammerforce.com/)",
+  "contributors": [
+    "Miro Nieminen <miro.nieminen@gmail.com> (http://github.com/miro)"
+  ],
   "dependencies": {
     "@exponent/react-native-navigator": "^0.4.2",
     "immutable": "^3.7.6",
