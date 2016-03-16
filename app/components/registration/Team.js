@@ -5,17 +5,28 @@ import React, {
   Modal,
   Text,
   TextInput,
-  StyleSheet
+  StyleSheet,
+  Image,
+  TouchableOpacity
 } from 'react-native';
-import Button from "../../components/common/Button";
+
+import theme from '../../style/theme';
 
 const Team = React.createClass({
   render() {
+    const selected = this.props.teamid===this.props.selected;
     return (
-      <View>
-        <Button style={styles.item} onPress={this.props.onPress}>
-          {this.props.name}
-        </Button>
+      <View style={styles.item}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={this.props.onPress}>
+          <Image
+            source={{ uri: this.props.logo }}
+            style={[styles.teamLogo, {borderColor: selected ? 'theme.primary' : '#f2f2f2'}]} />
+          <Text style={[styles.text, {color: selected ? theme.primary : '#666'}]}>
+            {this.props.name}
+          </Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -23,9 +34,28 @@ const Team = React.createClass({
 
 const styles = StyleSheet.create({
   item: {
-    marginBottom: 10,
-    marginLeft: 10,
-    marginRight: 10
+    padding:15,
+    paddingTop:10,
+    paddingBottom:10,
+    paddingLeft:0,
+    borderBottomColor:'#eee',
+    borderBottomWidth:1,
+
+  },
+  teamLogo:{
+    borderRadius:20,
+    width:40,
+    height:40,
+    marginRight:15,
+    borderWidth:3,
+  },
+  text: {
+
+  },
+  button: {
+    flex:1,
+    flexDirection:'row',
+    alignItems:'center'
   }
 });
 
