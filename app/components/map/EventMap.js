@@ -7,14 +7,24 @@ import React, {
   Text,
   TouchableHighlight
 } from 'react-native';
-import EventDetail from '../calendar/EventDetail';
-import theme from '../../style/theme';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
+import analytics from '../../services/analytics';
+import EventDetail from '../calendar/EventDetail';
+import theme from '../../style/theme';
+
+const VIEW_NAME = 'EventMap';
+
+
 class EventMap extends Component {
+
   constructor() {
     super();
+  }
+
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
   }
 
   onCalloutPress(event) {

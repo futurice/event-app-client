@@ -20,6 +20,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 import moment from 'moment';
 
+import analytics from '../../services/analytics';
 import theme from '../../style/theme';
 import * as AnnouncementActions from '../../actions/announcement';
 import * as EventActions from '../../actions/event';
@@ -29,6 +30,8 @@ import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
 
+
+const VIEW_NAME = 'TimelineList';
 const ANNOUNCEMENTS_SECTION = 'announcements';
 
 
@@ -87,7 +90,8 @@ var TimelineList = React.createClass({
   },
 
   componentDidMount() {
-    this.getViewContent()
+    this.getViewContent();
+    analytics.viewOpened(VIEW_NAME);
   },
 
   getViewContent(){
