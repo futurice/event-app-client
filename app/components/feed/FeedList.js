@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor:'#55cde1',
+    backgroundColor:theme.secondary,
     width: 56,
     height: 56,
     borderRadius:56,
@@ -193,7 +193,7 @@ var feedItemList = React.createClass({
         return this.sendBasicAction(type);
     }
   },
-  
+
   getIconForAction(type) {
       var mapping = {
           'TEXT': 'chatbubble-working',
@@ -228,7 +228,7 @@ var feedItemList = React.createClass({
                   </Animated.View>
               );
             });
-            plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons);
+            plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
       }
 
 
