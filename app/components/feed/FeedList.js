@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   },
 
 });
-
+//in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
 const DISTANCE = 70;
 const BUTTON_WIDTH = 56;
@@ -200,6 +200,29 @@ var feedItemList = React.createClass({
       var plusButtonRendering = [];
       if(this.props.isLoadingActionTypes === false) {
           buttonRendering = this.props.actionTypes.map((actiontype, i) => {
+              console.log("action ",actiontype.get('code'));
+              let iconname = "beer";
+              let type = actiontype.get('code');
+              switch(type) {
+                  case 'TEXT':
+                    iconname = "chatbubble-working";
+                  break;
+                  case 'IMAGE':
+                    iconname = "camera"
+                    break;
+                    case 'BEER':
+                    iconname = "beer"
+                    break;
+                    case 'CIDER':
+                    iconname = "ios-pint"
+                    break;
+                    case 'SODA':
+                    iconname = "soup-can-outline"
+                    break;
+                    case 'BUTTON_PUSH':
+                    iconname = "ios-circle-filled"
+                    break;
+              }
               return (
                   <Animated.View
                       style={[
@@ -209,11 +232,11 @@ var feedItemList = React.createClass({
                           }]
                       }
                       >
-                      {this.renderButton(actiontype.get('name'), this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
+                      {this.renderButton(<Icon name={iconname} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
                   </Animated.View>
               );
             });
-            plusButtonRendering = this.renderButton("+",this.expandButtons);
+            plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons);
       }
 
 
@@ -269,7 +292,7 @@ var feedItemList = React.createClass({
       <TouchableHighlight style={combinedStyle} onPress={onPress}>
             <View style={[styles.plusButton, {bottom:0, right:0}]}>
             <View>
-            <Text style={styles.plusText}>{text}</Text>
+            {text}
             </View>
             </View>
             </TouchableHighlight>
