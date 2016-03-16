@@ -10,7 +10,8 @@
   "author": "Futurice Tammerforce <tammerforce@futurice.com> (http://tammerforce.com/)",
   "contributors": [
     "Miro Nieminen <miro.nieminen@gmail.com> (http://github.com/miro)",
-    "Antti Mattila <me@rarelyneeded.com> (http://github.com/anttti)"
+    "Antti Mattila <me@rarelyneeded.com> (http://github.com/anttti)",
+    "Tomi Turtiainen <tomi.turtiainen@gmail.com> (http://github.com/tomi)"
   ],
   "dependencies": {
     "@exponent/react-native-navigator": "^0.4.2",
