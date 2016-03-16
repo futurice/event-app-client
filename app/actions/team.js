@@ -12,7 +12,7 @@ const CLOSE_TEAM_SELECTOR = 'CLOSE_TEAM_SELECTOR';
 const fetchTeams = () => {
   return dispatch => {
     dispatch({ type: REQUEST_TEAMS });
-    api.fetchTeams()
+    api.fetchModels('teams')
       .then(teams => dispatch({ type: RECEIVE_TEAMS, payload: teams }))
       .catch(e => dispatch({ type: ERROR_REQUESTING_TEAMS, error: e }));
   };

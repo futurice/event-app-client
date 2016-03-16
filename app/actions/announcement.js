@@ -15,9 +15,8 @@ const fetchAnnouncements = () => {
   return (dispatch) => {
     dispatch({ type: ANNOUNCEMENT_LIST_LOADING });
 
-    api.fetchAnnouncements()
+    api.fetchModels('announcements')
       .then(announcements => {
-        console.log('announcements', announcements);
         announcements = _.isArray(announcements) ? announcements : [announcements];
 
         dispatch({

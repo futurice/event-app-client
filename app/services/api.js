@@ -88,27 +88,9 @@ const getUser = uuid => {
     .then(response => response.json());
 };
 
-const fetchTeams = () => {
-  return wapuFetch(Endpoints.urls.teams)
-    .then(response => response.json());
-};
-
-const fetchActionTypes = () => {
-  return wapuFetch(Endpoints.urls.actionTypes)
-    .then(response => response.json());
-};
-
-const fetchAnnouncements = () => {
-  return wapuFetch(Endpoints.urls.announcements)
-    .then(response => response.json());
-}
-
 export default {
   fetchModels,
   postAction,
   putUser,
-  getUser,
-  fetchTeams,
-  fetchActionTypes,
-  fetchAnnouncements
+  getUser
 };
