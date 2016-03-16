@@ -1,5 +1,5 @@
 import _ from 'lodash';
-const ROOT_URL = 'http://wappu.futurice.com/terms';
+const ROOT_URL = 'http://wappu.futurice.com';
 
 const Terms = [
   {title:'Terms of Service', link: `${ROOT_URL}/terms`, icon: 'info-outline'},
