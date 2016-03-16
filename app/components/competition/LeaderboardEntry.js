@@ -58,8 +58,7 @@ const LeaderboardEntry = React.createClass({
 const styles = StyleSheet.create({
   entry: {
     marginBottom: 0,
-    padding:20,
-    textAlign:'center',
+    padding:20
   },
   entryTitle:{
     flex:1,
