@@ -3,5 +3,6 @@ export default {
   PHOTO: 'PHOTO',
   MAP: 'MAP',
   ACTION: 'ACTION',
-  FEED: 'FEED'
+  FEED: 'FEED',
+  SETTINGS: 'SETTINGS'
 };

@@ -9,6 +9,7 @@ var {
   Dimensions,
   Text,
   Navigator,
+  Platform,
   TouchableHighlight,
   ActivityIndicatorIOS,
   View,
@@ -37,12 +38,24 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.primary
+    backgroundColor: theme.primary,
+  },
+  loaderText:{
+    color:theme.light,
+  },
+  reloadButton:{
+    marginTop:20,
+  },
+  reloadButtonText:{
+    fontSize:30,
+    color:theme.accent,
+    fontWeight:'bold',
   },
   listView: {
-    flex: 1
+    flex: 1,
+    paddingTop: Platform.OS === 'android' ? 0 : 20,
+    backgroundColor: theme.primary,
   },
-
   sectionHeader: {
     backgroundColor: theme.dark,
     opacity: 0.88,
@@ -74,6 +87,10 @@ var TimelineList = React.createClass({
   },
 
   componentDidMount() {
+    this.getViewContent()
+  },
+
+  getViewContent(){
     // ...should these be throttled?
     this.props.dispatch(EventActions.fetchEvents());
     this.props.dispatch(AnnouncementActions.fetchAnnouncements());
@@ -107,14 +124,16 @@ var TimelineList = React.createClass({
   renderLoadingView() {
     // TODO: platform-specific if-else
     return <View style={styles.container}>
-      <ProgressBar styleAttr='Inverse' />
+      {(Platform.OS === 'android') ?
+        <ProgressBar styleAttr='Inverse' color={theme.light}/> :
 
-      <ActivityIndicatorIOS
-        color={theme.primary}
-        animating={true}
-        style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
-        size='large' />
-      <Text>Ladataan tapahtumia...</Text>
+        <ActivityIndicatorIOS
+          color={theme.light}
+          animating={true}
+          style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
+          size='large' />
+      }
+      <Text style={styles.loaderText}>Loading events...</Text>
     </View>;
   },
 
@@ -160,13 +179,18 @@ var TimelineList = React.createClass({
   },
 
   render() {
-    switch (this.props.eventFetchState) {
+    switch (this.props.eventsFetchState) {
       case 'loading':
         return this.renderLoadingView();
-      case 'failed':
+      case 'loading':
         return (
           <View style={styles.container}>
-            <Text>Tapahtumia ei saatu haettua :(</Text>
+            <Text style={styles.loaderText}>Could not get events :(</Text>
+            <TouchableHighlight
+              onPress={this.getViewContent}
+              style={styles.reloadButton}>
+              <Text style={styles.reloadButtonText}>RETRY</Text>
+            </TouchableHighlight>
           </View>
         );
       default:

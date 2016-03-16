@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius:56,
-    
+
   },
   buttonEnclosure: {
       flexDirection: 'column',
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
 
   },
   plusText: {
-      
+
       alignSelf:'center',
       flex:1,
     fontWeight:'bold',
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     fontSize:16,
     color:'#fff'
   },
-  
+
 });
 
 const BUTTON_COUNT = 6;
@@ -86,7 +86,7 @@ const ANGLE_RAD = 30 * Math.PI/180;
 const ANGLE_INNER = 10 * Math.PI/180;
 var BUTTON_POS = [];
 for(var i = 0; i < BUTTON_COUNT; i++) {
-    
+
     var radius = (i < 2) ? DISTANCE : DISTANCE * 2;
     var angleMod = (i > 1) ? i - 2 : i+1;
     var angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
@@ -105,7 +105,7 @@ var feedItemList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
-    
+
   },
 
   renderLoadingView() {
@@ -120,7 +120,7 @@ var feedItemList = React.createClass({
           size='large' />
       }
       <Text>Ladataan feed...</Text>
-      
+
     </View>;
   },
 
@@ -159,7 +159,7 @@ var feedItemList = React.createClass({
   buttonPressed(index) {
       console.log("you pressed ", index);
   },
-  
+
   chooseImage() {
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
       if (response.didCancel) {
@@ -193,7 +193,7 @@ var feedItemList = React.createClass({
         return this.sendBasicAction(type);
     }
   },
-  
+
   render() {
       var feedRendering;
       var buttonRendering = [];
@@ -215,8 +215,8 @@ var feedItemList = React.createClass({
             });
             plusButtonRendering = this.renderButton("+",this.expandButtons);
       }
-      
-      
+
+
     switch (this.props.feedListState) {
       case 'loading':
         feedRendering =  this.renderLoadingView();
@@ -251,7 +251,7 @@ var feedItemList = React.createClass({
             </View>
         );
     }
-    
+
     return (
         <View style={styles.container}>
         {feedRendering}
@@ -259,7 +259,7 @@ var feedItemList = React.createClass({
         </View>
     );
   },
-    
+
   renderButton(text, onPress, extraStyle)  {
       var combinedStyle = [styles.plusButton];
       if(extraStyle != null) {

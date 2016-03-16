@@ -6,6 +6,7 @@ import React, {
   StyleSheet,
   View,
   Text,
+  Platform,
   TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -16,7 +17,7 @@ const theme = require('../style/theme');
 
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: 0
+    paddingTop: Platform.OS === 'ios' ? 42 : 0
   },
   navbar: {
     backgroundColor: theme.primary,
@@ -39,14 +40,14 @@ var ProfileView = React.createClass({
     return (
       <Navigator
         style={styles.navigator}
-        /*navigationBar={
-          <Navigator.NavigationBar
+        navigationBar={
+          Platform.OS === 'ios' ?<Navigator.NavigationBar
             style={styles.navbar}
-            routeMapper={NavRouteMapper} />
-        }*/
+            routeMapper={NavRouteMapper} /> : null
+        }
         initialRoute={{
           component: Profile,
-          name: 'Profile'
+          name: 'Settings'
         }}
         renderScene={this.renderScene}
         configureScene={() => ({

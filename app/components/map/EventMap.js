@@ -21,7 +21,6 @@ class EventMap extends Component {
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
-      actions: ['share'],
       model: event
     });
   }
@@ -38,7 +37,6 @@ class EventMap extends Component {
           <TouchableHighlight
             underlayColor='transparent'
             style={styles.calloutTouchable}
-            onPress={this.onCalloutPress.bind(this, event)}
           >
             <View>
               <Text style={styles.calloutTitle}>{event.name}</Text>

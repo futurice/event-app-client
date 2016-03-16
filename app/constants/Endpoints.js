@@ -6,7 +6,6 @@ const EndpointUrls = {
   feed: `${ROOT_URL}/feed`,
   leaderboard: `${ROOT_URL}/leaderboard`,
   guilds: `${ROOT_URL}/guilds`,
-  action: `${ROOT_URL}/actions`,
   user: (uuid) => `${ROOT_URL}/users/${uuid}`,
   teams: `${ROOT_URL}/teams`,
   actionTypes: `${ROOT_URL}/action_types`,
