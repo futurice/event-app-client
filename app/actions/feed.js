@@ -38,6 +38,7 @@ const refreshFeed = () => {
           feed: items
         });
         dispatch({ type: FEED_LIST_REFRESHED });
+        dispatch({ type: FEED_LIST_LOADED });
       })
       .catch(error => dispatch({ type: FEED_LIST_REFRESHED }));
   }
