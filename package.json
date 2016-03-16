@@ -11,7 +11,8 @@
   "contributors": [
     "Miro Nieminen <miro.nieminen@gmail.com> (http://github.com/miro)",
     "Antti Mattila <me@rarelyneeded.com> (http://github.com/anttti)",
-    "Tomi Turtiainen <tomi.turtiainen@gmail.com> (http://github.com/tomi)"
+    "Tomi Turtiainen <tomi.turtiainen@gmail.com> (http://github.com/tomi)",
+    "Pasi Lampinen <palampinen@gmail.com> (http://github.com/palampinen)"
   ],
   "dependencies": {
     "@exponent/react-native-navigator": "^0.4.2",
