@@ -12,11 +12,10 @@ function getGeoUrl(event) {
     geoUrl += '&q=' + event.locationName;
     geoUrl += '&ll=' + latitude + ',' + longitude;
   } else {
-    // otherwise use Google Maps
-    // TODO: the location pin/name doesn't work yet. What is the URL scheme for it?
-    geoUrl = 'https://maps.google.com/maps/';
-    geoUrl += '?z=' + ZOOM_LEVEL;
-    geoUrl += '&ll=' + latitude + ',' + longitude + '+(' + event.locationName + ')';
+      
+      geoUrl = "geo:";//<lat>,<long>?q=<lat>,<long>(Label+Name)"
+      geoUrl += latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +'(' + event.locationName + ')';
+    
   }
 
   return geoUrl;
