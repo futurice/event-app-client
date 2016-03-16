@@ -1,14 +1,23 @@
-import Endpoints from '../constants/Endpoints';
 import DeviceInfo from 'react-native-device-info';
 import React, { AsyncStorage } from 'react-native';
 
+import Endpoints from '../constants/Endpoints';
+import {version as VERSION_NUMBER} from '../../package.json';
 
-const loggingFetch = (url, opts) => {
+// Our own wrapper for fetch. Logs the request, adds required version headers, etc.
+// Instead of using fetch directly, always use this.
+const wapuFetch = (url, opts) => {
+  opts = opts || {};
+  opts.headers = opts.headers || {};
+
+  // Set version header
+  opts.headers['X-Client-Version'] = VERSION_NUMBER;
+
   console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
 };
 
-const checkStatus = response => {
+const checkResponseStatus = response => {
   if (response.status >= 200 && response.status < 300) {
     return response;
   } else {
@@ -19,30 +28,30 @@ const checkStatus = response => {
 };
 
 const _post = (url, body) => {
-  return loggingFetch(url, {
+  return wapuFetch(url, {
     method: 'post',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).then(checkStatus);
+  }).then(checkResponseStatus);
 };
 
 const _put = (url, body) => {
-  return loggingFetch(url, {
+  return wapuFetch(url, {
     method: 'put',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).then(checkStatus);
+  }).then(checkResponseStatus);
 };
 
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
-  return loggingFetch(url)
+  return wapuFetch(url)
   .then(response => response.json())
   .then(response => {
     return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
@@ -74,32 +83,14 @@ const putUser = payload => {
 };
 
 const getUser = uuid => {
-  return loggingFetch(Endpoints.urls.user(uuid))
-    .then(checkStatus)
+  return wapuFetch(Endpoints.urls.user(uuid))
+    .then(checkResponseStatus)
     .then(response => response.json());
 };
-
-const fetchTeams = () => {
-  return loggingFetch(Endpoints.urls.teams)
-    .then(response => response.json());
-};
-
-const fetchActionTypes = () => {
-  return loggingFetch(Endpoints.urls.actionTypes)
-    .then(response => response.json());
-};
-
-const fetchAnnouncements = () => {
-  return loggingFetch(Endpoints.urls.announcements)
-    .then(response => response.json());
-}
 
 export default {
   fetchModels,
   postAction,
   putUser,
-  getUser,
-  fetchTeams,
-  fetchActionTypes,
-  fetchAnnouncements
+  getUser
 };
