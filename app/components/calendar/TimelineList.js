@@ -9,6 +9,7 @@ var {
   Dimensions,
   Text,
   Navigator,
+  Platform,
   TouchableHighlight,
   ActivityIndicatorIOS,
   View,
@@ -42,7 +43,6 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1
   },
-
   sectionHeader: {
     backgroundColor: theme.dark,
     opacity: 0.88,
@@ -107,14 +107,16 @@ var TimelineList = React.createClass({
   renderLoadingView() {
     // TODO: platform-specific if-else
     return <View style={styles.container}>
-      <ProgressBar styleAttr='Inverse' />
+      {(Platform.OS === 'android') ?
+        <ProgressBar styleAttr='Inverse' color={theme.primary}/> :
 
-      <ActivityIndicatorIOS
-        color={theme.primary}
-        animating={true}
-        style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
-        size='large' />
-      <Text>Ladataan tapahtumia...</Text>
+        <ActivityIndicatorIOS
+          color={theme.primary}
+          animating={true}
+          style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
+          size='large' />
+      }
+      <Text>Loading events...</Text>
     </View>;
   },
 

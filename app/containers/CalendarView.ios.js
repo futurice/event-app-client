@@ -19,7 +19,7 @@ const theme = require('../style/theme');
 
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: 62
+    paddingTop: 42
   },
   navbar: {
     backgroundColor: theme.primary,
