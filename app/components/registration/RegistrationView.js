@@ -6,8 +6,11 @@ import React, {
   Text,
   TextInput,
   StyleSheet,
+  Platform,
+  Picker,
 } from 'react-native';
 import { connect } from 'react-redux';
+import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
 import Team from "./Team";
@@ -37,24 +40,32 @@ const RegistrationView = React.createClass({
         backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
-            <Text style={styles.header}>Hi there! What's your name?</Text>
-            <TextInput
-              style={styles.nameField}
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Hi there! What's your name?</Text>
+              <TextInput
+              style={[styles.inputField, styles['inputField_'+Platform.OS]]}
               onChangeText={this.onChangeName}
               value={this.props.name} />
-            <Text style={styles.header}>...and your kilta?</Text>
-            {this.props.teams.map(team =>
-              <Team
-                key={team.get('id')}
-                name={team.get('name')}
-                onPress={this.onSelectTeam.bind(null, team.get('id'))} />
-            )}
-            <Button
-              onPress={this.onRegister}
-              style={styles.modalButton}
-              isDisabled={!this.props.isRegistrationInfoValid}>
-              That's-a-me!
-            </Button>
+            </View>
+            <View style={styles.inputGroup}>
+              <Text style={styles.inputLabel}>Choose your Kilta</Text>
+              {this.props.teams.map(team =>
+                <Team
+                  key={team.get('id')}
+                  name={team.get('name')}
+                  onPress={this.onSelectTeam.bind(null, team.get('id'))} />
+              )}
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Button
+                onPress={this.onRegister}
+                style={styles.modalButton}
+                isDisabled={!this.props.isRegistrationInfoValid}>
+                Save
+              </Button>
+            </View>
           </View>
         </View>
       </Modal>
@@ -65,11 +76,10 @@ const RegistrationView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50
   },
   innerContainer: {
-    borderRadius: 10,
-    alignItems: 'center',
+    flex:1,
+    paddingTop:20,
   },
   modalButton: {
     marginTop: 10,
@@ -77,11 +87,26 @@ const styles = StyleSheet.create({
   modalBackgroundStyle: {
     backgroundColor: '#fff'
   },
-  nameField: {
+  inputGroup:{
+    padding:20,
+  },
+  inputLabel:{
+    fontSize:14,
+    fontWeight:'bold',
+    color:theme.primary,
+    padding:5,
+    textAlign: Platform.OS === 'ios' ? 'center' : 'left',
+  },
+  inputField: {
     height: 40,
-    margin: 10,
-    backgroundColor: 'rgba(20,20,20,0.1)',
-    padding: 5
+    fontSize:18,
+  },
+  inputField_android:{
+
+  },
+  inputField_ios: {
+    padding:5,
+    backgroundColor: 'rgba(20,20,20,0.05)',
   },
   header: {
     fontSize: 20,
