@@ -12,7 +12,8 @@ var {
   RefreshControl,
   View,
   Platform,
-  Animated
+  Animated,
+  ScrollView
 } = React;
 import { connect } from 'react-redux';
 
@@ -231,16 +232,27 @@ var feedItemList = React.createClass({
             plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
       }
 
-
+      console.log("Render:" + this.props.feedListState);
     switch (this.props.feedListState) {
       case 'loading':
         feedRendering =  this.renderLoadingView();
         break;
       case 'failed':
         feedRendering = (
-          <View style={styles.container}>
-            <Text>Feedia ei saatu haettua :(</Text>
-          </View>
+          <ScrollView style={{flex: 1}}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.props.refreshListState}
+              onRefresh={this.refreshFeed}
+              title="Refreshing..."
+              colors={[theme.primary]}
+              tintColor={theme.primary}
+              progressBackgroundColor={theme.light}
+             />
+            }
+          >
+            <Text style={{marginTop: 20}}>Feedia ei saatu haettua :(</Text>
+          </ScrollView>
         );
         break;
       default:

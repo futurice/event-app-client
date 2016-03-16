@@ -36,7 +36,7 @@ const RootView = React.createClass({
     navigator.geolocation.getCurrentPosition(
       position => this.updateLocation,
       error => console.log(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000*60*5 }
     );
     this.watchID = navigator.geolocation.watchPosition(this.updateLocation);
   },

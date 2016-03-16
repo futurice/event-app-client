@@ -6,17 +6,21 @@ import React, {
   StyleSheet,
   View,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
+
+import analytics from '../services/analytics';
 import FeedList from '../components/feed/FeedList';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
-const theme = require('../style/theme');
+import theme from '../style/theme';
 
+const VIEW_NAME = 'FeedView';
 
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: 62
+    paddingTop: (Platform.OS === 'ios') ? 62 : 0
   },
   navbar: {
     backgroundColor: theme.primary,
@@ -27,7 +31,12 @@ const styles = StyleSheet.create({
   }
 });
 
+
 var FeedView = React.createClass({
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
+  },
+
   renderScene(route, navigator) {
     if (route.component) {
       const Component = route.component;
@@ -36,14 +45,26 @@ var FeedView = React.createClass({
   },
 
   render() {
-    return (
-      <Navigator
+    if (Platform.OS === 'ios') {
+      return <Navigator
         style={styles.navigator}
+        initialRoute={{
+          component: FeedList,
+          name: 'Feed'
+        }}
         navigationBar={
           <Navigator.NavigationBar
             style={styles.navbar}
             routeMapper={NavRouteMapper} />
         }
+        renderScene={this.renderScene}
+        configureScene={() => ({
+          ...Navigator.SceneConfigs.FloatFromRight
+        })} />;
+    }
+    else {
+      return <Navigator
+        style={styles.navigator}
         initialRoute={{
           component: FeedList,
           name: 'Feed'
@@ -51,9 +72,8 @@ var FeedView = React.createClass({
         renderScene={this.renderScene}
         configureScene={() => ({
           ...Navigator.SceneConfigs.FloatFromRight
-        })}
-      />
-    );
+        })} />;
+    }
   }
 });
 
