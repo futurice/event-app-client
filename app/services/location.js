@@ -5,7 +5,7 @@ function getGeoUrl(event) {
 
   var geoUrl = null;
   const {latitude, longitude} = event.location;
-  if (Platform.OS === 'iosz') {
+  if (Platform.OS === 'ios') {
     // On iOS use Apple Maps
     geoUrl = 'http://maps.apple.com/';
     geoUrl += '?z=' + ZOOM_LEVEL;
