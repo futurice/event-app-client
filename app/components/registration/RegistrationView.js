@@ -34,7 +34,10 @@ const RegistrationView = React.createClass({
     const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]);
     const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
     return (
-
+      <Modal
+        isOpen={this.props.isRegistrationViewOpen}
+        swipeToClose={false}
+        backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
 
@@ -56,7 +59,7 @@ const RegistrationView = React.createClass({
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
 
               <ScrollView style={{flex:1,height:200}}>
-              {this.props.teams.concat(this.props.teams,this.props.teams,this.props.teams).map( (team,i) =>
+              {this.props.teams.map( (team,i) =>
                 <Team
                   key={i}
                   name={team.get('name')}
@@ -78,20 +81,12 @@ const RegistrationView = React.createClass({
               </Button>
           </View>
         </View>
-
+      </Modal>
     );
   }
 });
 
 
-/*
-      <Modal
-        isOpen={this.props.isRegistrationViewOpen}
-        swipeToClose={false}
-        backdropPressToClose={false}>
-
-      </Modal>
-*/
 const styles = StyleSheet.create({
   container: {
     flex: 1,
