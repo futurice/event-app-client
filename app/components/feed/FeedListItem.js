@@ -5,6 +5,7 @@ import React, {
   StyleSheet,
   Dimensions,
   Text,
+  TouchableHighlight,
   View
 } from 'react-native';
 
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     padding: 10,
     position: 'absolute',
-    right: 7,
+    right: 6,
     bottom: 10
   },
   itemTimestamp: {
@@ -93,12 +94,18 @@ const styles = StyleSheet.create({
 });
 
 const FeedListItem = React.createClass({
+  _deleteFeedItem() {
+    console.log('Delete icon pressed');
+  },
+
   render() {
     const item = this.props.item;
     const ago = time.getTimeAgo(item.createdAt);
 
     const userId = this.props.user.uuid;
     const authorId = item.author.id;
+
+    const flagOrDeleteIcon = (userId === authorId) ? 'trash-a' : 'flag'
 
     console.log('item', item);
     console.log('this.props.user', this.props.user);
@@ -128,7 +135,9 @@ const FeedListItem = React.createClass({
       }
 
       {(userId === authorId) &&
-        <Icon name='trash-a' style={styles.feedItemListDeleteIcon}/>
+        <TouchableHighlight onPress={this._deleteFeedItem}>
+          <Icon name='trash-a' style={styles.feedItemListDeleteIcon}/>
+        </TouchableHighlight>
       }
       </View>
     </View>;
