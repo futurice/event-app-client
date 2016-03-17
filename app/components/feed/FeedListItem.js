@@ -1,6 +1,7 @@
 'use strict';
 
 import React, {
+  Alert,
   Image,
   StyleSheet,
   Dimensions,
@@ -9,9 +10,11 @@ import React, {
   View
 } from 'react-native';
 
+import { connect } from 'react-redux';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { connect } from 'react-redux';
+
+import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 
@@ -78,7 +81,7 @@ const styles = StyleSheet.create({
     marginTop: 1,
     paddingRight: 10
   },
-  feedItemListDeleteIcon:{
+  listItemRemoveButton:{
     backgroundColor: 'transparent',
     color: '#f00',
     fontSize: 20,
@@ -94,53 +97,86 @@ const styles = StyleSheet.create({
 });
 
 const FeedListItem = React.createClass({
-  _deleteFeedItem() {
-    console.log('Delete icon pressed');
+  itemIsCreatedByMe(item) {
+    return item.author.type === 'ME';
+  },
+
+  showRemoveDialog(item) {
+    if (!this.itemIsCreatedByMe(item)) {
+      console.log('Delete icon pressed');
+      Alert.alert(
+        'Delete Content',
+        'Do you want to remove this item?',
+        [
+          { text: 'No, I\'m having second thoughts', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Yes, nuke it from the orbit', onPress: () => abuse.deleteItem(item), style: 'destructive' }
+        ]
+      );
+    } else {
+      Alert.alert(
+        'Flag Content',
+        'Do you want to report this item?',
+        [
+          { text: 'No, I missclicked', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Yes, let\'s erase this abonomination', onPress: () => abuse.reportFeedItem(item), style: 'destructive' }
+        ]
+      );
+    }
+  },
+
+  deleteItem(item) {
+    console.log('Delete item clicked');
+  },
+
+  // Render "remove" button, which is remove OR flag button,
+  // depending is the user the creator of this feed item or not
+  renderRemoveButton(item) {
+    if (item.author.type === 'SYSTEM') {
+      return <View></View>; // currently it is not possible to return null in RN as a view
+    }
+
+    const iconName = this.itemIsCreatedByMe(item) ? 'trash-a' : 'flag';
+    return (
+      <TouchableHighlight onPress={() => this.showRemoveDialog(this.props.item)}>
+        <Icon name={iconName} style={styles.listItemRemoveButton} />
+      </TouchableHighlight>
+    );
   },
 
   render() {
     const item = this.props.item;
     const ago = time.getTimeAgo(item.createdAt);
 
-    const userId = this.props.user.uuid;
-    const authorId = item.author.id;
+    return (
+      <View style={styles.itemWrapper}>
+        <View style={styles.itemContent}>
 
-    const flagOrDeleteIcon = (userId === authorId) ? 'trash-a' : 'flag'
+          <View style={styles.feedItemListItemInfo}>
+            <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
+            <View style={styles.feedItemListItemAuthor}>
+              <Text style={styles.itemAuthorName}>{item.author.name}</Text>
+              <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
+            </View>
+            <Text style={styles.itemTimestamp}>{ago}</Text>
+          </View>
 
-    console.log('item', item);
-    console.log('this.props.user', this.props.user);
+          {item.type==='IMAGE' ?
+            <View style={styles.itemImageWrapper}>
+              <Image
+                source={{ uri: item.url }}
+                style={styles.feedItemListItemImg} />
+            </View>
+          :
+            <View style={styles.itemTextWrapper}>
+              <Text style={styles.feedItemListText}>{item.text}</Text>
+            </View>
+          }
 
-    return <View style={styles.itemWrapper}>
-      <View style={styles.itemContent}>
+          {this.renderRemoveButton(item)}
 
-      <View style={styles.feedItemListItemInfo}>
-        <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
-        <View style={styles.feedItemListItemAuthor}>
-          <Text style={styles.itemAuthorName}>{item.author.name}</Text>
-          <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
         </View>
-        <Text style={styles.itemTimestamp}>{ago}</Text>
       </View>
-
-      {item.type==='IMAGE' ?
-        <View style={styles.itemImageWrapper}>
-          <Image
-            source={{ uri: item.url }}
-            style={styles.feedItemListItemImg} />
-        </View>
-      :
-        <View style={styles.itemTextWrapper}>
-          <Text style={styles.feedItemListText}>{item.text}</Text>
-        </View>
-      }
-
-      {(userId === authorId) &&
-        <TouchableHighlight onPress={this._deleteFeedItem}>
-          <Icon name='trash-a' style={styles.feedItemListDeleteIcon}/>
-        </TouchableHighlight>
-      }
-      </View>
-    </View>;
+    );
   }
 });
 
