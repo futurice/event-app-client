@@ -14,6 +14,7 @@ import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
 import Team from "./Team";
+import Logos from "../../constants/Logos";
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
@@ -58,7 +59,7 @@ const RegistrationView = React.createClass({
               </View>
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
 
-              <ScrollView style={{flex:1,height:200}}>
+              <ScrollView style={{flex:1,height:240}}>
               {this.props.teams.map( (team,i) =>
                 <Team
                   key={i}
@@ -93,7 +94,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex:1,
-    paddingTop:0,
+    paddingTop:Platform.OS === 'ios' ? 20 : 0,
   },
   modalButton: {
     margin: 15,
@@ -141,13 +142,8 @@ const styles = StyleSheet.create({
 });
 
 const select = store => {
-  const logos = {
-    'Tietoteekkarikilta':'http://www.ttyy.fi/ttyy/sites/webhotel2.tut.fi.ttyy/files/sisalto/alayhdistykset/logot/tite.png',
-    'Sähkökilta':'http://www.ttyy.fi/ttyy/sites/webhotel2.tut.fi.ttyy/files/sisalto/alayhdistykset/logot/skilta.png'
-  };
-
   return {
-    logos: logos,
+    logos: Logos.killat,
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
     selectedTeam: store.registration.get('selectedTeam'),
