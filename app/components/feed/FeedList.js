@@ -218,7 +218,7 @@ var feedItemList = React.createClass({
       var feedRendering;
       var buttonRendering = [];
       var plusButtonRendering = [];
-      if(this.props.isLoadingActionTypes === false) {
+      if(this.props.isLoadingActionTypes === false && this.props.isLoadingUserData === false) {
           buttonRendering = this.props.actionTypes.map((actiontype, i) => {
               console.log("action ",actiontype.get('code'));
               let iconname = this.getIconForAction(actiontype.get('code'));
@@ -320,7 +320,9 @@ const select = store => {
       actionTypes: store.competition.get('actionTypes'),
       isNotificationVisible: store.competition.get('isNotificationVisible'),
       notificationText: store.competition.get('notificationText'),
-       isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam')
+      isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam'),
+      isLoadingUserData: store.registration.get('isLoading')
+      
     }
 };
 

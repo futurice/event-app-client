@@ -37,6 +37,8 @@ export default function registration(state = initialState, action) {
         'isLoading': true,
         'isError': false
       });
+      case REQUEST_NAME:
+        return state.set('isLoading', true);
     case USER_CREATE_SUCCESS:
       return state.merge({
         'isLoading': false,
@@ -48,7 +50,7 @@ export default function registration(state = initialState, action) {
         'isError': true
       });
     case RECEIVE_USER:
-      return state.merge({'name': action.payload.name, 'selectedTeam': action.payload.team});
+      return state.merge({'name': action.payload.name, 'selectedTeam': action.payload.team, 'isLoading': false});
     default:
       return state;
   }
