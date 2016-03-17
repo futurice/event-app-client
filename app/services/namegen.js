@@ -1,25 +1,25 @@
 const TEAMS = {
   "_default": ["Hämmentävä", "Ylväs", "Kaikkivoipa", "Humanistinen", "Kelvollinen", "Erehtymätön"],
   "autek": ["Automaattinen", "Automatisoitu", "Autonominen", "Keltainen"],
-  "bioner": ["Biologinen", "Luomu", "Beige"],
+  "bioner": ["Biologinen", "Luomu", "Alkuvoimainen", "Beige"],
   "hiukkanen": ["Hiukkasteleva", "Tekninen", "Violetti"],
   "indecs": ["Indeksoitu", "Taloudellinen", "Optimaalinen", "Valkotakkinen"],
   "kork": ["Koneellinen", "Koneistettu", "Punalahkeinen"],
   "man@ger": ["Johtava", "Mikromanageroiva", "Pörssinoteerattu", "Graniitinharmaa"],
   "mik": ["Materiaalinen", "Pintanahkainen", "Jalopuinen", "Kuminen", "Viininpunainen"],
   "skilta": ["Sähköinen", "Elektroninen", "Korkeajännitteinen", "Maadoitettu", "Sähkönsininen"],
-  "tamark": ["Arkkitehtoninen", "Suurpiirteinen", "Pimeä"],
+  "tamark": ["Arkkitehtoninen", "Suurpiirteinen", "Pimeä", "Tummanpuhuva"],
   "taraki": ["Rakentava", "Kestopuinen", "Keltakypäräinen", "Tummansininen"],
-  "tite": ["Binäärinen", "Tietotekninen", "Laventelintuoksuinen", "Tummasieluinen"],
+  "tite": ["Binäärinen", "Tietotekninen", "Koodintuoksuinen", "Tummasieluinen", "Yönmusta"],
   "yki": ["Ympäristöystävällinen", "Ympäröivä", "Metsämansikkainen", "Skutsinvihreä"]
 };
 
 const FIRST_NAMES = [
-  "Leksa", "Jönssi", "Pirkko", "Lissu", "Hessu", "Jallu", "Eevertti", "Kaaleppi", "Tenho", "Juuso", "Jorma", "Jorma-Liisa", "Tiuhti", "Viuhti", "Nipsu", "Kyösti", "Kyöstikki", "Kuuno", "Tyyne", "Frida", "Masa", "Mirkku", "Jean-Pierre", "Ihkuli", "Kustaa", "Kukkuluuru", "Mymmeli", "Nuppu", "Kikka", "Gandalf"
+  "Leksa", "Jönssi", "Pirkko", "Lissu", "Hessu", "Jallu", "Eevertti", "Kaaleppi", "Tenho", "Juuso", "Jorma", "Jorma-Liisa", "Tiuhti", "Viuhti", "Nipsu", "Kyösti", "Kyöstikki", "Kuuno", "Tyyne", "Frida", "Masa", "Mirkku", "Jean-Pierre", "Ihkuli", "Kustaa", "Kukkuluuru", "Mymmeli", "Nuppu", "Kikka", "Gandalf", "Uolevi", "Kirka", "Orvokki"
 ];
 
 const EPITHETS = [
-  "Nörtti", "Ruuti", "Saha", "Kirves", "Keihäs", "Jallu", "Viski", "Leka", "Puukko", "Näyttöpääte", "Touhu", "Karaoke", "Rymy", "Peuhu", "Pauhu", "Kauhu", "Paini", "Mekastus", "Mökellys", "Kökeltäjä", "Örveltäjä", "Luomu",  "Liivate", "Porakone", "Robotti", "Näköis", "Kukka", "Kökkö", "Kakkosnelos", "Raparperi", "Kehveli", "Räppi", "BB", "Koeputki", "Kannuttelu", "Ruukku", "Skutsi", "Bönde", "Pölhö", "Nöpönenä", "Pissa", "Vehje", "Tööttä", "Krumeluuri", "Peikko", "Velho", "Loitsu", "Haltia", "Autotalli", "Kellari", "Varasto", "Jemma", "Bussi", "Juna", "Toimisto", "Nurmikko", "Reikä", "Rykäys", "Mämmi", "Kilju", "Kojootti", "Kiire", "Cthulhu", "Pipetti", "Tehdas", "Hillo", "Hyntty", "Mähmä"
+  "Nörtti", "Ruuti", "Saha", "Kirves", "Keihäs", "Jallu", "Viski", "Leka", "Puukko", "Näyttöpääte", "Touhu", "Karaoke", "Rymy", "Peuhu", "Pauhu", "Kauhu", "Paini", "Mekastus", "Mökellys", "Kökeltäjä", "Örveltäjä", "Luomu",  "Liivate", "Porakone", "Robotti", "Näköis", "Kukka", "Kökkö", "Kakkosnelos", "Raparperi", "Kehveli", "Räppi", "BB", "Koeputki", "Kannuttelu", "Ruukku", "Skutsi", "Bönde", "Pölhö", "Nöpönenä", "Pissa", "Vehje", "Tööttä", "Krumeluuri", "Peikko", "Velho", "Loitsu", "Haltia", "Autotalli", "Kellari", "Varasto", "Jemma", "Bussi", "Juna", "Toimisto", "Nurmikko", "Reikä", "Rykäys", "Mämmi", "Kilju", "Kojootti", "Kiire", "Cthulhu", "Pipetti", "Tehdas", "Hillo", "Hyntty", "Mähmä", "Siirtomaa", "Traktori", "Otsatukka", "Takatukka", "Nahka", "Jalopuu"
 ];
 
 const generateName = (team = "") => {
