@@ -25,7 +25,6 @@ import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
-//import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
@@ -79,19 +78,20 @@ const styles = StyleSheet.create({
   },
 
 });
-//in a happy world all this would be calculated on the fly but no
+
+// in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
 const DISTANCE = 70;
 const BUTTON_WIDTH = 56;
-const ANGLE_RAD = 30 * Math.PI/180;
-const ANGLE_INNER = 10 * Math.PI/180;
-var BUTTON_POS = [];
-for(var i = 0; i < BUTTON_COUNT; i++) {
+const ANGLE_RAD = 30 * Math.PI / 180;
+const ANGLE_INNER = 10 * Math.PI / 180;
 
-    var radius = (i < 2) ? DISTANCE : DISTANCE * 2;
-    var angleMod = (i > 1) ? i - 2 : i+1;
-    var angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
-    BUTTON_POS.push({x: -Math.cos(angle * angleMod) * radius, y: -Math.sin(angle * angleMod) * radius});
+var BUTTON_POS = [];
+for (var i = 0; i < BUTTON_COUNT; i++) {
+  var radius = (i < 2) ? DISTANCE : DISTANCE * 2;
+  var angleMod = (i > 1) ? i - 2 : i+1;
+  var angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
+  BUTTON_POS.push({ x: -Math.cos(angle * angleMod) * radius, y: -Math.sin(angle * angleMod) * radius });
 }
 
 var feedItemList = React.createClass({
@@ -100,20 +100,19 @@ var feedItemList = React.createClass({
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
       buttons: BUTTON_POS.map((i) => {return new Animated.ValueXY();}),
-      isExpaned: false
+      buttonsExpanded: false
     };
   },
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
-
   },
 
   renderLoadingView() {
     return <View style={styles.container}>
       {(Platform.OS === 'android') ?
-        <ProgressBar styleAttr='Inverse' color={theme.primary}/> :
-
+        <ProgressBar styleAttr='Inverse' color={theme.primary}/>
+      :
         <ActivityIndicatorIOS
           color={theme.primary}
           animating={true}
@@ -121,11 +120,11 @@ var feedItemList = React.createClass({
           size='large' />
       }
       <Text>Ladataan feed...</Text>
-
     </View>;
   },
 
-  navigateToSingleFeedItem(model){
+  // Currently unusued, do we need this?
+  navigateToSingleFeedItem(model) {
     this.props.navigator.push({
       component: SingleFeedItem,
       name: model.name,
@@ -141,24 +140,24 @@ var feedItemList = React.createClass({
   renderFeedItem(item) {
     return <FeedListItem item={item}/>;
   },
+
   expandButtons() {
-      console.log("expand buttons to visible");
-      if(!this.state.isExpaned) {
-          this.state.isExpaned = true;
-          console.log("animate it");
-      //Animated.spring(this.state.buttons[0], {toValue:{x:-70, y:-70}}).start();
+    if (!this.state.buttonsExpanded) {
+      // In order to get the animations work smoothly, in here state is altered without setState()
+      this.state.buttonsExpanded = true;
       BUTTON_POS.forEach((pos, i) => {
-          Animated.spring(this.state.buttons[i], {toValue: pos}).start();
+        Animated.spring(this.state.buttons[i], {toValue: pos}).start();
       });
-      }else {
-        this.state.isExpaned = false;
-        BUTTON_POS.forEach((pos, i) => {
-            Animated.spring(this.state.buttons[i], {toValue: {x:0, y:0}}).start();
-        });
-      }
+    } else {
+      this.state.buttonsExpanded = false;
+      BUTTON_POS.forEach((pos, i) => {
+        Animated.spring(this.state.buttons[i], {toValue: {x:0, y:0}}).start();
+      });
+    }
   },
+
   buttonPressed(index) {
-      console.log("you pressed ", index);
+    console.log("you pressed ", index);
   },
 
   chooseImage() {
@@ -196,47 +195,71 @@ var feedItemList = React.createClass({
   },
 
   getIconForAction(type) {
-      var mapping = {
-          'TEXT': 'chatbubble-working',
-          'IMAGE': 'camera',
-          'BEER': 'beer',
-          'CIDER': 'ios-pint',
-          'SODA': 'soup-can-outline',
-          'BUTTON_PUSH': 'ios-circle-filled',
-          'default': 'beer'
-      }
-      return mapping[type] ||mapping['default'];
+    var mapping = {
+        'TEXT': 'chatbubble-working',
+        'IMAGE': 'camera',
+        'BEER': 'beer',
+        'CIDER': 'ios-pint',
+        'SODA': 'soup-can-outline',
+        'BUTTON_PUSH': 'ios-circle-filled',
+        'default': 'beer'
+    };
+    return mapping[type] || mapping['default'];
+  },
+
+  renderButton(text, onPress, extraStyle)  {
+    var combinedStyle = [styles.plusButton];
+    if (extraStyle != null) {
+      combinedStyle.push(extraStyle);
+    }
+
+    return (
+      <TouchableHighlight style={combinedStyle} onPress={onPress}>
+        <View style={[styles.plusButton, {bottom:0, right:0}]}>
+          <View>
+            {text}
+          </View>
+        </View>
+      </TouchableHighlight>
+    );
   },
 
   render() {
-      var feedRendering;
-      var buttonRendering = [];
-      var plusButtonRendering = [];
-      if(this.props.isLoadingActionTypes === false) {
-          buttonRendering = this.props.actionTypes.map((actiontype, i) => {
-              console.log("action ",actiontype.get('code'));
-              let iconname = this.getIconForAction(actiontype.get('code'));
-              return (
-                  <Animated.View
-                      style={[
-                          styles.buttonEnclosure,
-                          {
-                              transform: this.state.buttons[i].getTranslateTransform()
-                          }]
-                      }
-                      >
-                      {this.renderButton(<Icon name={iconname} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
-                  </Animated.View>
-              );
-            });
-            plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
-      }
+    var feedRendering;
+    var buttonRendering = [];
+    var plusButtonRendering = [];
 
-      console.log("Render:" + this.props.feedListState);
+    if (this.props.isLoadingActionTypes === false) {
+      buttonRendering = this.props.actionTypes.map((actiontype, i) => {
+        console.log("action ",actiontype.get('code'));
+        let iconname = this.getIconForAction(actiontype.get('code'));
+        return (
+          <Animated.View
+            style={[
+              styles.buttonEnclosure, {
+                transform: this.state.buttons[i].getTranslateTransform()
+              }]
+            }
+            >
+            {this.renderButton(
+              <Icon name={iconname} size={22} style={{color: '#ffffff'}}></Icon>,
+              this.onPressAction.bind(this, actiontype.get('code')),
+              { bottom: 0, right: 0 })
+            }
+          </Animated.View>
+        );
+      });
+
+      plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
+    }
+
+    console.log("Render:" + this.props.feedListState);
+
     switch (this.props.feedListState) {
       case 'loading':
         feedRendering =  this.renderLoadingView();
         break;
+
       case 'failed':
         feedRendering = (
           <ScrollView style={{flex: 1}}
@@ -255,65 +278,50 @@ var feedItemList = React.createClass({
           </ScrollView>
         );
         break;
+
       default:
         feedRendering =  (
-            <View style={styles.container}>
-          <ListView
-            dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
-            renderRow={this.renderFeedItem}
-            style={styles.listView}
-            refreshControl={
-            <RefreshControl
-              refreshing={this.props.refreshListState}
-              onRefresh={this.refreshFeed}
-              title="Refreshing..."
-              colors={[theme.primary]}
-              tintColor={theme.primary}
-              progressBackgroundColor={theme.light}
-             />
-            }
+          <View style={styles.container}>
+            <ListView
+              dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
+              renderRow={this.renderFeedItem}
+              style={styles.listView}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.props.refreshListState}
+                  onRefresh={this.refreshFeed}
+                  title="Refreshing..."
+                  colors={[theme.primary]}
+                  tintColor={theme.primary}
+                  progressBackgroundColor={theme.light}
+                 />
+              }
             />
             {buttonRendering}
             {plusButtonRendering}
-            </View>
+          </View>
         );
     }
 
     return (
-        <View style={styles.container}>
+      <View style={styles.container}>
         {feedRendering}
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
-        </View>
+      </View>
     );
-  },
-
-  renderButton(text, onPress, extraStyle)  {
-      var combinedStyle = [styles.plusButton];
-      if(extraStyle != null) {
-          combinedStyle.push(extraStyle);
-      }
-      return (
-      <TouchableHighlight style={combinedStyle} onPress={onPress}>
-            <View style={[styles.plusButton, {bottom:0, right:0}]}>
-            <View>
-            {text}
-            </View>
-            </View>
-            </TouchableHighlight>
-      );
   }
 });
 
 const select = store => {
-    return {
-      feed: store.feed.get('list').toJS(),
-      feedListState: store.feed.get('listState'),
-      refreshListState: store.feed.get('refreshState'),
-      isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
-      actionTypes: store.competition.get('actionTypes'),
-      isNotificationVisible: store.competition.get('isNotificationVisible'),
-      notificationText: store.competition.get('notificationText')
-    }
+  return {
+    feed: store.feed.get('list').toJS(),
+    feedListState: store.feed.get('listState'),
+    refreshListState: store.feed.get('refreshState'),
+    isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
+    actionTypes: store.competition.get('actionTypes'),
+    isNotificationVisible: store.competition.get('isNotificationVisible'),
+    notificationText: store.competition.get('notificationText')
+  }
 };
 
 export default connect(select)(feedItemList);
