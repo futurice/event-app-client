@@ -1,7 +1,6 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, {
   Image,
   StyleSheet,
   ListView,
@@ -14,11 +13,12 @@ var {
   Platform,
   Animated,
   ScrollView
-} = React;
+} from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
-import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
+import Icon from 'react-native-vector-icons/Ionicons';
+import ProgressBar from 'ProgressBarAndroid';
 
 import time from '../../utils/time';
 import theme from '../../style/theme';
@@ -28,10 +28,10 @@ import Notification from '../../components/common/Notification';
 import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
 
-import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import * as RegistrationActions from '../../actions/registration';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: Platform.OS==='ios' ? 67 : 20,
+    bottom: Platform.OS === 'ios' ? 67 : 20,
     right: 20,
     backgroundColor: theme.secondary,
     width: 56,
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: Platform.OS==='ios' ? 67 : 20,
+    bottom: Platform.OS === 'ios' ? 67 : 20,
     right: 20,
     width: 56,
     height: 56,
@@ -94,7 +94,7 @@ for (var i = 0; i < BUTTON_COUNT; i++) {
   BUTTON_POS.push({ x: -Math.cos(angle * angleMod) * radius, y: - Math.sin(angle * angleMod) * radius });
 }
 
-var feedItemList = React.createClass({
+const FeedList = React.createClass({
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
@@ -120,16 +120,6 @@ var feedItemList = React.createClass({
       }
       <Text>Downloading the latest awesomeness...</Text>
     </View>;
-  },
-
-  navigateToSingleFeedItem(model) {
-    // TODO: remove this, unused?
-    this.props.navigator.push({
-      component: SingleFeedItem,
-      name: model.name,
-      actions: ['share'],
-      model
-    });
   },
 
   expandButtons() {
@@ -318,4 +308,4 @@ const select = store => {
   };
 };
 
-export default connect(select)(feedItemList);
+export default connect(select)(FeedList);
