@@ -4,6 +4,8 @@ import React, { AsyncStorage } from 'react-native';
 import Endpoints from '../constants/Endpoints';
 import {version as VERSION_NUMBER} from '../../package.json';
 
+const USER_UUID = DeviceInfo.getUniqueID();
+
 // Our own wrapper for fetch. Logs the request, adds required version headers, etc.
 // Instead of using fetch directly, always use this.
 const wapuFetch = (url, opts) => {
@@ -11,7 +13,10 @@ const wapuFetch = (url, opts) => {
   opts.headers = opts.headers || {};
 
   // Set version header
-  opts.headers['X-Client-Version'] = VERSION_NUMBER;
+  opts.headers['x-client-version'] = VERSION_NUMBER;
+
+  // Set UUID-header
+  opts.headers['x-user-uuid'] = USER_UUID;
 
   console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
@@ -41,6 +46,17 @@ const _post = (url, body) => {
 const _put = (url, body) => {
   return wapuFetch(url, {
     method: 'put',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(checkResponseStatus);
+};
+
+const _delete = (url, body) => {
+  return wapuFetch(url, {
+    method: 'delete',
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -88,7 +104,12 @@ const getUser = uuid => {
     .then(response => response.json());
 };
 
+const deleteFeedItem = item => {
+  return _delete(Endpoints.urls.feedItem(item.id));
+};
+
 export default {
+  deleteFeedItem,
   fetchModels,
   postAction,
   putUser,

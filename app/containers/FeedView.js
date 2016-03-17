@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
 });
 
 
-var FeedView = React.createClass({
+export default React.createClass({
   componentDidMount() {
     analytics.viewOpened(VIEW_NAME);
   },
@@ -76,11 +76,3 @@ var FeedView = React.createClass({
     }
   }
 });
-
-
-const select = store => {
-    return {
-    }
-};
-
-export default connect(select)(FeedView);
