@@ -26,20 +26,24 @@ const closeTextActionView = () => {
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
     dispatch({ type: POSTING_ACTION });
+
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
+        dispatch({ type: ACTION_POST_SUCCESS });
+        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
+
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);
-        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
-        dispatch({ type: ACTION_POST_SUCCESS });
       })
       .catch(e => {
+        console.log('Error catched on competition action post!', e);
+        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getErrorMessage(payload) });
+        dispatch({ type: ACTION_POST_FAILURE, error: e })
+
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);
-        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getErrorMessage(payload) });
-        dispatch({ type: ACTION_POST_FAILURE, error: e })
       });
   };
 };
