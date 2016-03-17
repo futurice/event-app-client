@@ -25,6 +25,7 @@ import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
+import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
 
 import ProgressBar from 'ProgressBarAndroid';
@@ -212,14 +213,7 @@ var feedItemList = React.createClass({
     if (extraStyle != null) {
         combinedStyle.push(extraStyle);
     }
-
-    return (
-      <TouchableHighlight style={combinedStyle} onPress={onPress}>
-        <View style={[styles.plusButton, {bottom:0, right:0}]}>
-          <View>{text}</View>
-        </View>
-      </TouchableHighlight>
-    );
+    return <Fab text={text} onPress={onPress} styles={combinedStyle} />
   },
 
   render() {
@@ -238,7 +232,7 @@ var feedItemList = React.createClass({
                 { transform: this.state.buttons[i].getTranslateTransform() }
               ]}
             >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { backgroundColor:theme.primary, bottom: 0, right: 0 }) }
+              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
             </Animated.View>
           );
         });
