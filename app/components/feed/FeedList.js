@@ -312,18 +312,23 @@ var feedItemList = React.createClass({
 });
 
 const select = store => {
-    return {
-      feed: store.feed.get('list').toJS(),
-      feedListState: store.feed.get('listState'),
-      refreshListState: store.feed.get('refreshState'),
-      isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
-      actionTypes: store.competition.get('actionTypes'),
-      isNotificationVisible: store.competition.get('isNotificationVisible'),
-      notificationText: store.competition.get('notificationText'),
-      isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam'),
-      isLoadingUserData: store.registration.get('isLoading')
-      
-    }
+
+  const user = store.registration.toJS();
+  const isRegistrationInfoValid = user.name && user.selectedTeam;
+
+  return {
+    feed: store.feed.get('list').toJS(),
+    feedListState: store.feed.get('listState'),
+    refreshListState: store.feed.get('refreshState'),
+    isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
+    actionTypes: store.competition.get('actionTypes'),
+    isNotificationVisible: store.competition.get('isNotificationVisible'),
+    notificationText: store.competition.get('notificationText'),
+
+    user,
+    isRegistrationInfoValid,
+    isLoadingUserData: store.registration.get('isLoading')
+  };
 };
 
 export default connect(select)(feedItemList);
