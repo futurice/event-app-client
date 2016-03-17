@@ -19,6 +19,7 @@ import CompetitionView from './CompetitionView';
 import FeedView from './FeedView';
 import ProfileView from './ProfileView';
 import Tabs from '../constants/Tabs';
+import RegistrationView from '../components/registration/RegistrationView';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
 const theme = require('../style/theme');
@@ -91,7 +92,7 @@ export default class App extends Component {
           ...Navigator.SceneConfigs.FloatFromBottomAndroid
         })}
       />
-
+      <RegistrationView />
     </View>
     )
   }

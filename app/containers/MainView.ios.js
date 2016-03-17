@@ -14,6 +14,7 @@ import FeedView from './FeedView';
 import SettingsView from './ProfileView';
 import Tabs from '../constants/Tabs';
 import * as NavigationActions from '../actions/navigation';
+import RegistrationView from '../components/registration/RegistrationView';
 
 const theme = require('../style/theme');
 const Icon = require('react-native-vector-icons/Ionicons');
@@ -69,7 +70,7 @@ const MainView = React.createClass({
           <SettingsView />
 
         </Icon.TabBarItem>
-
+        <RegistrationView />
       </TabBarIOS>
     );
   }

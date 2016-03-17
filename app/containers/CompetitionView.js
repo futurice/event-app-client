@@ -88,7 +88,7 @@ const CompetitionView = React.createClass({
           )}
         </View>
         <TextActionView />
-        <RegistrationView />
+        
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
       </View>
     );

@@ -56,6 +56,7 @@ const RootView = React.createClass({
     return (
       <Provider store={store}>
         <MainView />
+        
       </Provider>
     );
   }
