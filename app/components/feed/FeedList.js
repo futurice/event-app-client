@@ -48,12 +48,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: 20,
+    bottom: Platform.OS==='ios' ? 67 : 20,
     right: 20,
     backgroundColor: theme.secondary,
     width: 56,
     height: 56,
-    borderRadius: 56
+    borderRadius: 28
   },
   buttonEnclosure: {
     flexDirection: 'column',
@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: 20,
+    bottom: Platform.OS==='ios' ? 67 : 20,
     right: 20,
     width: 56,
-    height: 56
+    height: 56,
+    borderRadius: 28,
   },
   plusText: {
     alignSelf:'center',
@@ -231,17 +232,18 @@ var feedItemList = React.createClass({
           const iconName = this.getIconForAction(actiontype.get('code'));
           return (
             <Animated.View
+              key={'button_' + i}
               style={[
                 styles.buttonEnclosure,
                 { transform: this.state.buttons[i].getTranslateTransform() }
               ]}
             >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
+              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { backgroundColor:theme.primary, bottom: 0, right: 0 }) }
             </Animated.View>
           );
         });
 
-        plusButtonRendering = this.renderButton((<Icon name="plus" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
+        plusButtonRendering = this.renderButton((<Icon name="android-add" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
     }
 
     switch (this.props.feedListState) {
@@ -263,7 +265,7 @@ var feedItemList = React.createClass({
              />
             }
           >
-            <Text style={{marginTop: 20}}>Feedia ei saatu haettua :(</Text>
+            <Text style={{marginTop: 20}}>Could not get feed :(</Text>
           </ScrollView>
         );
         break;
