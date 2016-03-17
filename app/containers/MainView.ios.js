@@ -3,8 +3,7 @@
 import React, {
   Component,
   TabBarIOS,
-  StyleSheet,
-  Text
+  View
 } from 'react-native';
 import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
@@ -26,52 +25,54 @@ const MainView = React.createClass({
   },
   render() {
     return (
-      <TabBarIOS tintColor={theme.primaryDark} barTintColor={theme.primary}>
+      <View style={{flex:1}}>
+        <TabBarIOS tintColor={theme.primaryDark} barTintColor={theme.primary}>
 
-        <Icon.TabBarItem
-          iconName='ios-flame-outline'
-          selectedIconName='ios-flame'
-          title='Feed'
-          selected={this.props.currentTab === Tabs.FEED}
-          onPress={() => { this._onChangeTab(Tabs.FEED); }}>
-          <FeedView />
-        </Icon.TabBarItem>
+          <Icon.TabBarItem
+            iconName='ios-flame-outline'
+            selectedIconName='ios-flame'
+            title='Feed'
+            selected={this.props.currentTab === Tabs.FEED}
+            onPress={() => { this._onChangeTab(Tabs.FEED); }}>
+            <FeedView />
+          </Icon.TabBarItem>
 
-       <Icon.TabBarItem
-          iconName='ios-clock-outline'
-          selectedIconName='ios-clock'
-          title='Events'
-          selected={this.props.currentTab === Tabs.CALENDAR}
-          onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
-          <CalendarView />
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          iconName='ios-location-outline'
-          selectedIconName='ios-location'
-          title='Map'
-          selected={this.props.currentTab === Tabs.MAP}
-          onPress={() => { this._onChangeTab(Tabs.MAP); }}>
-          <EventMapView />
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          iconName='stats-bars'
-          selectedIconName='stats-bars'
-          title='Ranking'
-          selected={this.props.currentTab === Tabs.ACTION}
-          onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
-          <CompetitionView />
-        </Icon.TabBarItem>
-        <Icon.TabBarItem
-          iconName='ios-person-outline'
-          selectedIconName='ios-person'
-          title='Settings'
-          selected={this.props.currentTab === Tabs.SETTINGS}
-          onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
-          <SettingsView />
+         <Icon.TabBarItem
+            iconName='ios-clock-outline'
+            selectedIconName='ios-clock'
+            title='Events'
+            selected={this.props.currentTab === Tabs.CALENDAR}
+            onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
+            <CalendarView />
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            iconName='ios-location-outline'
+            selectedIconName='ios-location'
+            title='Map'
+            selected={this.props.currentTab === Tabs.MAP}
+            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
+            <EventMapView />
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            iconName='stats-bars'
+            selectedIconName='stats-bars'
+            title='Ranking'
+            selected={this.props.currentTab === Tabs.ACTION}
+            onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
+            <CompetitionView />
+          </Icon.TabBarItem>
+          <Icon.TabBarItem
+            iconName='ios-person-outline'
+            selectedIconName='ios-person'
+            title='Settings'
+            selected={this.props.currentTab === Tabs.SETTINGS}
+            onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
+            <SettingsView />
 
-        </Icon.TabBarItem>
+          </Icon.TabBarItem>
+        </TabBarIOS>
         <RegistrationView />
-      </TabBarIOS>
+      </View>
     );
   }
 });
