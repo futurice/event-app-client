@@ -50,7 +50,12 @@ export default function registration(state = initialState, action) {
         'isError': true
       });
     case RECEIVE_USER:
-      return state.merge({'name': action.payload.name, 'selectedTeam': action.payload.team, 'isLoading': false});
+      return state.merge({
+        'name': action.payload.name,
+        'selectedTeam': action.payload.team,
+        'uuid': action.payload.uuid,
+        'isLoading': false
+      });
     default:
       return state;
   }
