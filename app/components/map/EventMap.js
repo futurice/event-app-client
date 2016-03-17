@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 
 import analytics from '../../services/analytics';
 import EventDetail from '../calendar/EventDetail';
+import time from '../../utils/time';
 import theme from '../../style/theme';
 
 const VIEW_NAME = 'EventMap';
@@ -43,14 +44,17 @@ class EventMap extends Component {
 
     const markers = events.map((event, i) =>
       <MapView.Marker image={require('../../../assets/marker.png')} key={i} coordinate={event.location}>
-        <MapView.Callout style={styles.callout} onPress={this.onCalloutPress.bind(this, event)}>
+        <MapView.Callout onPress={this.onCalloutPress.bind(this, event)}>
           <TouchableHighlight
             underlayColor='transparent'
             style={styles.calloutTouchable}
           >
-            <View>
-              <Text style={styles.calloutTitle}>{event.name}</Text>
-              <Text style={styles.calloutInfo}>{event.locationName}</Text>
+            <View style={styles.callout}>
+              <View>
+                <Text style={styles.calloutTitle}>{event.name}</Text>
+                <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>{time.getEventDay(event.startTime)}</Text>
+                <Text style={styles.calloutInfo}>{event.locationName}</Text>
+              </View>
             </View>
           </TouchableHighlight>
         </MapView.Callout>
@@ -94,18 +98,28 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   callout: {
-    padding: 0
+    padding: 0,
+    flex:1,
+    justifyContent:'space-between',
+    alignItems:'flex-start',
+    flexDirection:'row'
   },
   calloutTouchable: {
-    padding: 10
+    padding: 6
   },
   calloutTitle:{
     fontWeight:'bold',
     color:theme.primary,
-    fontSize:13,
+    fontSize:12,
   },
   calloutInfo:{
     fontSize:11,
+  },
+  calloutIconWrap:{
+    paddingLeft:15,
+  },
+  calloutIcon:{
+    color:'#ddd'
   }
 });
 

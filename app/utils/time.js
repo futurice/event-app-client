@@ -45,6 +45,10 @@ function eventStartsSoon(startTime) {
   return moment(startTime).diff(moment(), 'minutes') <= TRESHOLD_FOR_STARTS_SOON;
 }
 
+function getEventDay(startTime){
+  return moment(startTime).format(FORMATS.long.day)
+}
+
 function getTimeAgo(date){
     if (!date) {
       return '';
@@ -66,5 +70,6 @@ function getTimeAgo(date){
 export default {
   formatEventTime,
   eventIsOnGoing,
+  getEventDay,
   getTimeAgo
 };
