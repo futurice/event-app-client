@@ -17,7 +17,6 @@ const styles = StyleSheet.create({
   toolbar: {
     backgroundColor: theme.primary,
     height: 56,
-    color:theme.light
   }
 });
 

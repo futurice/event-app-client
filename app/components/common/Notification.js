@@ -69,18 +69,16 @@ class Notification extends Component {
       position: 'absolute',
       top: -100,
       width: Screen.width,
-      
       left: 0,
       right: 0,
       backgroundColor: theme.primary,
       alignItems: 'center',
-      paddingTop: 25,
+      paddingTop: 18,
       paddingLeft: 10,
       paddingRight: 10,
-      paddingBottom: 10,
-      
+      paddingBottom: 18,
       borderBottomColor: theme.primaryDark,
-      borderBottomWidth: 3
+      borderBottomWidth: 0
     },
     message: {
       color: '#fff',
@@ -93,31 +91,28 @@ class Notification extends Component {
   fadeIn() {
       console.log("fadein height:" + this.state.height);
     Animated.timing(this.state.translate, {
-        duration: 800,
+        duration: 300,
         easing: Easing.linear,
         toValue: {x:0, y:0}
     }).start();
   }
 
   fadeOut() {
-       
-      
-      Animated.timing(this.state.translate, {
-        
+
+    Animated.timing(this.state.translate, {
+        duration: 300,
         easing: Easing.linear,
         toValue: {x:0, y:-this.state.height}
     }).start();
-     
   }
+
   getViewSize(e) {
       console.log("height:" + e.nativeEvent.layout.height);
-      
+
       if(this.state.height == 0) {
-        
         this.state.translate.setValue({x:0, y: - e.nativeEvent.layout.height});
       }
       this.state.height = e.nativeEvent.layout.height;
-      
   }
 
   render() {
