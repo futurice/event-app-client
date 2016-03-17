@@ -22,7 +22,7 @@ const Team = React.createClass({
           onPress={this.props.onPress}>
           <Image
             source={{ uri: this.props.logo }}
-            style={[styles.teamLogo, {borderColor: selected ? 'theme.primary' : '#f2f2f2'}]} />
+            style={[styles.teamLogo, {borderColor: selected ? theme.primary : '#f2f2f2'}]} />
           <Text style={[styles.text, {color: selected ? theme.primary : '#666'}]}>
             {this.props.name}
           </Text>
