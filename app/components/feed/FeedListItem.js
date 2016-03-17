@@ -103,8 +103,7 @@ const FeedListItem = React.createClass({
   },
 
   showRemoveDialog(item) {
-    if (!this.itemIsCreatedByMe(item)) {
-      console.log('Delete icon pressed');
+    if (this.itemIsCreatedByMe(item)) {
       Alert.alert(
         'Delete Content',
         'Do you want to remove this item?',
