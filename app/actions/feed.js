@@ -9,6 +9,7 @@ const FEED_LIST_LOADED = 'FEED_LIST_LOADED';
 const FEED_LIST_FAILED = 'FEED_LIST_FAILED';
 const FEED_LIST_REFRESHING = 'FEED_LIST_REFRESHING';
 const FEED_LIST_REFRESHED = 'FEED_LIST_REFRESHED';
+const FEED_ITEM_DELETE = 'FEED_ITEM_DELETE';
 
 const fetchFeed = () => {
   return (dispatch) => {
@@ -44,6 +45,17 @@ const refreshFeed = () => {
   }
 };
 
+const removeFeedItem = (item) => {
+  return dispatch => {
+    api.deleteFeedItem(item)
+      .then(() => dispatch({
+        type: FEED_ITEM_DELETE,
+        item
+      }))
+      .catch(error => console.log('Error when trying to delete feed item', error));
+  }
+};
+
 export {
   FEED_SET,
   FEED_LIST_LOADING,
@@ -51,6 +63,9 @@ export {
   FEED_LIST_FAILED,
   FEED_LIST_REFRESHING,
   FEED_LIST_REFRESHED,
+  FEED_ITEM_DELETE,
+
   fetchFeed,
-  refreshFeed
+  refreshFeed,
+  removeFeedItem
 };

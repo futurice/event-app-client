@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+import { removeFeedItem } from '../../actions/feed';
 import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import theme from '../../style/theme';
@@ -109,7 +110,7 @@ const FeedListItem = React.createClass({
         'Do you want to remove this item?',
         [
           { text: 'No, I\'m having second thoughts', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes, nuke it from the orbit', onPress: () => abuse.deleteItem(item), style: 'destructive' }
+          { text: 'Yes, nuke it from the orbit', onPress: () => this.removeThisItem(), style: 'destructive' }
         ]
       );
     } else {
@@ -124,8 +125,8 @@ const FeedListItem = React.createClass({
     }
   },
 
-  deleteItem(item) {
-    console.log('Delete item clicked');
+  removeThisItem() {
+    this.props.dispatch(removeFeedItem(this.props.item));
   },
 
   // Render "remove" button, which is remove OR flag button,

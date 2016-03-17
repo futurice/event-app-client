@@ -8,6 +8,7 @@ import {
   FEED_LIST_FAILED,
   FEED_LIST_REFRESHING,
   FEED_LIST_REFRESHED,
+  FEED_ITEM_DELETE
 } from '../actions/feed';
 
 const initialState = Immutable.fromJS({
@@ -30,6 +31,18 @@ export default function feed(state = initialState, action) {
       return state.set('refreshState', true);
     case FEED_LIST_REFRESHED:
       return state.set('refreshState', false);
+
+    case FEED_ITEM_DELETE:
+      const originalList = state.get('list');
+      const itemIndex = originalList.findIndex((item) => item.get('id') === action.item.id);
+
+      if (itemIndex < 0) {
+        console.log('Tried to delete item, but it was not found from state:', item);
+        return state;
+      } else {
+        return state.set('list', originalList.delete(itemIndex));
+      }
+
     default:
       return state;
   }

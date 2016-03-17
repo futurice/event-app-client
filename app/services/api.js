@@ -54,6 +54,17 @@ const _put = (url, body) => {
   }).then(checkResponseStatus);
 };
 
+const _delete = (url, body) => {
+  return wapuFetch(url, {
+    method: 'delete',
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(checkResponseStatus);
+};
+
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
   return wapuFetch(url)
@@ -93,7 +104,12 @@ const getUser = uuid => {
     .then(response => response.json());
 };
 
+const deleteFeedItem = item => {
+  return _delete(Endpoints.urls.feedItem(item.id));
+};
+
 export default {
+  deleteFeedItem,
   fetchModels,
   postAction,
   putUser,

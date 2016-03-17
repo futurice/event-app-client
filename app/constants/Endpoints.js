@@ -4,6 +4,7 @@ const ROOT_URL = 'https://wappuapp-backend.herokuapp.com/api';
 const EndpointUrls = {
   events: `${ROOT_URL}/events`,
   feed: `${ROOT_URL}/feed`,
+  feedItem: (itemId) => `${ROOT_URL}/feed/${itemId}`,
   leaderboard: `${ROOT_URL}/leaderboard`,
   guilds: `${ROOT_URL}/guilds`,
   user: (uuid) => `${ROOT_URL}/users/${uuid}`,
