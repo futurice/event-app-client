@@ -150,10 +150,10 @@ const select = store => {
     logos: logos,
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
-    selectedTeam: store.team.get('selectedTeam'),
+    selectedTeam: store.registration.get('selectedTeam'),
     teams: store.team.get('teams'),
     isChooseTeamViewOpen: store.team.get('isChooseTeamViewOpen'),
-    isRegistrationInfoValid: !!store.registration.get('name') && !!store.team.get('selectedTeam')
+    isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam')
   };
 };
 

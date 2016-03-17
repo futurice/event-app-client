@@ -29,7 +29,7 @@ const store = createStoreWithMiddleware(reducer);
 // Fetch teams & actions, check user existance
 store.dispatch(CompetitionActions.fetchActionTypes());
 store.dispatch(TeamActions.fetchTeams());
-store.dispatch(RegistrationActions.getName());
+store.dispatch(RegistrationActions.getUser());
 
 const RootView = React.createClass({
   componentDidMount() {

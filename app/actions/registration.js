@@ -38,16 +38,17 @@ const updateName = name => {
   return { type: UPDATE_NAME, payload: name };
 };
 
-const getName = () => {
+const getUser = () => {
   return dispatch => {
     dispatch({ type: REQUEST_NAME });
     const uuid = DeviceInfo.getUniqueID();
+    console.log("uuid:" + uuid);
     return api.getUser(uuid)
       .then(user => {
-        dispatch({ type: RECEIVE_USER, payload: user.name });
+        dispatch({ type: RECEIVE_USER, payload: user });
       })
       .catch(error => {
-        dispatch({ type: OPEN_REGISTRATION_VIEW });
+        
         dispatch({ type: ERROR_REQUESTING_USER, error: error });
       });
   };
@@ -67,5 +68,5 @@ export {
   openRegistrationView,
   closeRegistrationView,
   updateName,
-  getName
+  getUser
 };

@@ -16,6 +16,7 @@ import {
 const initialState = Immutable.fromJS({
   isRegistrationViewOpen: false,
   name: '',
+  selectedTeam: 0,
   isLoading: false,
   isError: false
 });
@@ -44,7 +45,7 @@ export default function registration(state = initialState, action) {
         'isError': true
       });
     case RECEIVE_USER:
-      return state.set('name', action.payload);
+      return state.merge({'name': action.payload.name, 'selectedTeam': action.payload.team});
     default:
       return state;
   }

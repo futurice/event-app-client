@@ -25,11 +25,12 @@ import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
+import RegistrationView from '../../components/registration/RegistrationView';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
-
+import * as RegistrationActions from '../../actions/registration';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -142,19 +143,24 @@ var feedItemList = React.createClass({
     return <FeedListItem item={item}/>;
   },
   expandButtons() {
-      console.log("expand buttons to visible");
-      if(!this.state.isExpaned) {
-          this.state.isExpaned = true;
-          console.log("animate it");
-      //Animated.spring(this.state.buttons[0], {toValue:{x:-70, y:-70}}).start();
-      BUTTON_POS.forEach((pos, i) => {
-          Animated.spring(this.state.buttons[i], {toValue: pos}).start();
-      });
-      }else {
-        this.state.isExpaned = false;
-        BUTTON_POS.forEach((pos, i) => {
-            Animated.spring(this.state.buttons[i], {toValue: {x:0, y:0}}).start();
-        });
+      if (this.props.isRegistrationInfoValid === false) {
+          this.props.dispatch(RegistrationActions.openRegistrationView());
+
+      } else {
+          console.log("expand buttons to visible");
+          if (!this.state.isExpaned) {
+              this.state.isExpaned = true;
+              console.log("animate it");
+              //Animated.spring(this.state.buttons[0], {toValue:{x:-70, y:-70}}).start();
+              BUTTON_POS.forEach((pos, i) => {
+                  Animated.spring(this.state.buttons[i], { toValue: pos }).start();
+              });
+          } else {
+              this.state.isExpaned = false;
+              BUTTON_POS.forEach((pos, i) => {
+                  Animated.spring(this.state.buttons[i], { toValue: { x: 0, y: 0 } }).start();
+              });
+          }
       }
   },
   buttonPressed(index) {
@@ -283,6 +289,7 @@ var feedItemList = React.createClass({
         <View style={styles.container}>
         {feedRendering}
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
+        <RegistrationView />
         </View>
     );
   },
@@ -312,7 +319,8 @@ const select = store => {
       isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
       actionTypes: store.competition.get('actionTypes'),
       isNotificationVisible: store.competition.get('isNotificationVisible'),
-      notificationText: store.competition.get('notificationText')
+      notificationText: store.competition.get('notificationText'),
+       isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam')
     }
 };
 
