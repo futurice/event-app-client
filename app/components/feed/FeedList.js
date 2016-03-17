@@ -16,7 +16,7 @@ var {
   ScrollView
 } = React;
 import { connect } from 'react-redux';
-
+import { ImagePickerManager } from 'NativeModules';
 import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 
