@@ -35,7 +35,8 @@ const LeaderboardEntry = React.createClass({
 
     const percentageToTopscore = (this.props.team.get('score') / this.props.topscore)  || 0;
     const barWrapWidth = (Dimensions.get('window').width - 110); // 110 other content width
-    const barWidth = barWrapWidth * percentageToTopscore;
+    let barWidth = barWrapWidth * percentageToTopscore;
+    barWidth = barWidth || 25; // minWidth for teams with zero points
     const orderSuffix = this.getOrderSuffix(this.props.position);
 
     return (
@@ -80,8 +81,8 @@ const LeaderboardEntry = React.createClass({
 
 const styles = StyleSheet.create({
   entry: {
-    paddingTop:35,
-    paddingBottom:35,
+    paddingTop:Platform.OS === 'ios' ? 30 : 32,
+    paddingBottom:Platform.OS === 'ios' ? 30 : 32,
     backgroundColor:'#FFF',
     flexDirection:'row',
     alignItems:'center'
@@ -93,7 +94,6 @@ const styles = StyleSheet.create({
     bottom:0,
     height:1,
     backgroundColor:'#f2f2f2',
-
   },
   entryLogo:{
     paddingLeft:20,
@@ -142,12 +142,11 @@ const styles = StyleSheet.create({
     top:Platform.OS === 'ios' ? 6 : 2,
     fontSize:15,
     fontWeight:'bold',
-    color:theme.light
+    color:'#fff'
   },
   barWrap:{
-    backgroundColor:'#ddd',
+    backgroundColor:'transparent',
     marginTop:3,
-    borderRadius:3,
     marginBottom:5,
     overflow:'hidden',
     height:Platform.OS === 'ios' ? 30 : 26,
@@ -157,12 +156,11 @@ const styles = StyleSheet.create({
     height:Platform.OS === 'ios' ? 30 : 26,
     backgroundColor:theme.secondary,
     position:'absolute',
-    borderBottomLeftRadius:3,
-    borderTopLeftRadius:3,
+    borderRadius:3,
     left:0,
     top:0,
     bottom:0,
-    width:0,
+    width:0
   }
 });
 
