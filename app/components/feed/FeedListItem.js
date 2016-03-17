@@ -10,7 +10,7 @@ import React, {
 
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/Ionicons';
-
+import { connect } from 'react-redux';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 
@@ -77,16 +77,29 @@ const styles = StyleSheet.create({
     marginTop: 1,
     paddingRight: 10
   },
+  feedItemListDeleteIcon:{
+    color: '#f00',
+    fontSize: 15,
+    marginRight: 1,
+    paddingRight: 10,
+    right: 0
+  },
   itemTimestamp: {
     color: '#aaa',
     fontSize: 13
   }
 });
 
-export default React.createClass({
+const FeedListItem = React.createClass({
   render() {
     const item = this.props.item;
     const ago = time.getTimeAgo(item.createdAt);
+
+    const userId = this.props.user.uuid;
+    const authorId = item.author.id;
+
+    console.log('item', item);
+    console.log('this.props.user', this.props.user);
 
     return <View style={styles.itemWrapper}>
       <View style={styles.itemContent}>
@@ -111,7 +124,19 @@ export default React.createClass({
           <Text style={styles.feedItemListText}>{item.text}</Text>
         </View>
       }
+
+      {(userId === authorId) &&
+        <Icon name='trash-a' style={styles.feedItemListDeleteIcon}/>
+      }
       </View>
     </View>;
   }
 });
+
+const select = store => {
+    return {
+      user: store.registration.toJS()
+    }
+};
+
+export default connect(select)(FeedListItem);
