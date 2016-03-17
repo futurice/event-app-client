@@ -4,22 +4,19 @@ import React, {
   Component,
   StyleSheet,
   View,
+  ScrollView,
   Text,
   Modal
 } from 'react-native';
 import { connect } from 'react-redux';
-import { ImagePickerManager } from 'NativeModules';
 
 import analytics from '../services/analytics';
-import Notification from '../components/common/Notification';
-import Button from '../components/common/Button';
-import TextActionView from '../components/actions/TextActionView';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
-import RegistrationView from '../components/registration/RegistrationView';
 import ActionTypes from '../constants/ActionTypes';
-import ImageCaptureOptions from '../constants/ImageCaptureOptions';
+import Logos from "../constants/Logos";
+import theme from '../style/theme';
+const Icon = require('react-native-vector-icons/Ionicons');
 import * as CompetitionActions from '../actions/competition';
-import * as RegistrationActions from '../actions/registration';
 
 const VIEW_NAME = 'CompetitionView';
 
@@ -29,67 +26,27 @@ const CompetitionView = React.createClass({
     analytics.viewOpened(VIEW_NAME);
   },
 
-  chooseImage() {
-    ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePickerManager Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const image = 'data:image/jpeg;base64,' + response.data;
-        this.props.dispatch(CompetitionActions.postImage(image));
-      }
-    });
-  },
-
-  sendText() {
-    this.props.dispatch(CompetitionActions.openTextActionView());
-  },
-
-  sendBasicAction(type) {
-    this.props.dispatch(CompetitionActions.postAction(type));
-  },
-
-  onPressAction(type) {
-    switch (type) {
-      case 'IMAGE':
-        return this.chooseImage();
-      case 'TEXT':
-        return this.sendText();
-      default:
-        return this.sendBasicAction(type);
-    }
-  },
-
   render() {
     let topscore = 0
     this.props.teams.map((team) => {
         topscore = team.get('score') > topscore ? team.get('score') : topscore;
     });
 
-
     return (
       <View style={styles.container}>
-        <View style={styles.leaderboard}>
+          <View style={styles.leaderboardIntro}>
+            <View style={styles.leaderboardIconWrap}>
+              <Icon name="trophy" style={styles.leaderboardIcon} />
+            </View>
+            <View style={styles.leaderboardIntroTextWrap}>
+              <Text style={styles.leaderboardIntroText}>Current situation between Killat. Be an active Whappu user and lead your Kilta to victory!</Text>
+            </View>
+          </View>
+        <ScrollView style={styles.leaderboard}>
           {this.props.teams.map((team, index) =>
-            <LeaderboardEntry key={team.get('id')} topscore={topscore} team={team} position={index + 1} />
+            <LeaderboardEntry key={team.get('id')} topscore={topscore} team={team} position={index + 1} logo={this.props.logos[team.get('name')]} />
           )}
-        </View>
-        <View style={styles.actions}>
-          {this.props.actionTypes.map(actionType =>
-            <Button
-              key={actionType.get('id')}
-              style={styles.btn}
-              onPress={this.onPressAction.bind(null, actionType.get('code'))}>
-              {actionType.get('name')}
-            </Button>
-          )}
-        </View>
-        
-        
-        <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
+        </ScrollView>
       </View>
     );
   }
@@ -98,30 +55,44 @@ const CompetitionView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50
+    backgroundColor:'#FFF',
   },
-  btn: {
-    margin: 5
+  leaderboardIntro:{
+    height:80,
+    flexDirection:'row',
+    margin:20,
+    marginBottom:0,
+    marginTop:5,
+    padding:15,
+    paddingLeft:7,
+    justifyContent:'space-between',
+    borderBottomWidth:1,
+    borderBottomColor:'#eee'
+  },
+  leaderboardIconWrap:{
+    width:62,
+    paddingRight:10,
+  },
+  leaderboardIcon: {
+    color:'#FFCC03',
+    fontSize:44,
+  },
+  leaderboardIntroTextWrap:{
+    flex:1,
+  },
+  leaderboardIntroText:{
+    color:'#212121',
+    fontSize:13
   },
   leaderboard: {
-    flex: 0.5
-  },
-  actions: {
-    flex: 0.5,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    padding: 10
+    flex: 1
   }
 });
 
 const select = store => {
   return {
-    isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
-    name: store.registration.get('name'),
+    logos:Logos.killat,
     teams: store.team.get('teams'),
-    isNotificationVisible: store.competition.get('isNotificationVisible'),
-    notificationText: store.competition.get('notificationText'),
     actionTypes: store.competition.get('actionTypes')
   };
 };

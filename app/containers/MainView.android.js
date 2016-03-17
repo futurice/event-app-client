@@ -15,7 +15,7 @@ import React, {
 import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
-import CompetitionView from './CompetitionView';
+import CompetitionView from './CompetitionNavigator';
 import FeedView from './FeedView';
 import ProfileView from './ProfileView';
 import Tabs from '../constants/Tabs';
@@ -42,7 +42,7 @@ const AndroidTabNavigation = React.createClass({
         <FeedView navigator={this.props.navigator} tabLabel='android-time' />
         <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
         <EventMapView navigator={this.props.navigator} tabLabel='android-map' />
-        <CompetitionView tabLabel='android-star' />
+        <CompetitionView tabLabel='stats-bars' />
         <ProfileView tabLabel='android-person' />
       </AndroidTabs>
 

@@ -8,7 +8,7 @@ import React, {
 import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
-import CompetitionView from './CompetitionView';
+import CompetitionView from './CompetitionNavigator';
 import FeedView from './FeedView';
 import SettingsView from './ProfileView';
 import Tabs from '../constants/Tabs';
