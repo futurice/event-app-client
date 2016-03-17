@@ -1,6 +1,5 @@
 'use strict';
 
-import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';
@@ -54,7 +53,6 @@ const postAction = type => {
 const postText = text => {
   return _postAction({
     type: ActionTypes.TEXT,
-    user: DeviceInfo.getUniqueID(),
     text: text
   });
 }
