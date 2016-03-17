@@ -4,12 +4,14 @@ import React, {
   Component,
   StyleSheet,
   View,
+  Platform,
   Text,
   TouchableHighlight
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
+const Icon = require('react-native-vector-icons/Ionicons');
 import analytics from '../../services/analytics';
 import EventDetail from '../calendar/EventDetail';
 import time from '../../utils/time';
@@ -51,7 +53,10 @@ class EventMap extends Component {
           >
             <View style={styles.callout}>
               <View>
-                <Text style={styles.calloutTitle}>{event.name}</Text>
+                <View style={styles.calloutTitleWrap}>
+                  <Text style={styles.calloutTitle}>{event.name}</Text>
+                  <Icon style={styles.calloutIcon} name="ios-arrow-forward" />
+                </View>
                 <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>{time.getEventDay(event.startTime)}</Text>
                 <Text style={styles.calloutInfo}>{event.locationName}</Text>
               </View>
@@ -107,19 +112,23 @@ const styles = StyleSheet.create({
   calloutTouchable: {
     padding: 6
   },
+  calloutTitleWrap:{
+    flex:1,
+    flexDirection:'row',
+  },
   calloutTitle:{
     fontWeight:'bold',
     color:theme.primary,
     fontSize:12,
+    paddingRight:10,
   },
   calloutInfo:{
     fontSize:11,
   },
-  calloutIconWrap:{
-    paddingLeft:15,
-  },
   calloutIcon:{
-    color:'#ddd'
+    top:Platform.OS==='ios' ? 0 : 2,
+    fontSize:14,
+    color:theme.primary
   }
 });
 
