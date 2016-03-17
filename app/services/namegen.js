@@ -2,14 +2,14 @@ const TEAMS = {
   "_default": ["Hämmentävä", "Ylväs", "Kaikkivoipa", "Humanistinen", "Kelvollinen", "Erehtymätön"],
   "autek": ["Automaattinen", "Automatisoitu", "Autonominen", "Keltainen"],
   "bioner": ["Biologinen", "Luomu", "Alkuvoimainen", "Beige"],
-  "hiukkanen": ["Hiukkasteleva", "Tekninen", "Violetti"],
+  "hiukkanen": ["Hiukkasteleva", "Tekninen", "Matemaattinen", "Violetti"],
   "indecs": ["Indeksoitu", "Taloudellinen", "Optimaalinen", "Valkotakkinen"],
-  "kork": ["Koneellinen", "Koneistettu", "Punalahkeinen"],
+  "kork": ["Koneellinen", "Koneistettu", "Korkkaileva", "Punalahkeinen"],
   "man@ger": ["Johtava", "Mikromanageroiva", "Pörssinoteerattu", "Graniitinharmaa"],
   "mik": ["Materiaalinen", "Pintanahkainen", "Jalopuinen", "Kuminen", "Viininpunainen"],
   "skilta": ["Sähköinen", "Elektroninen", "Korkeajännitteinen", "Maadoitettu", "Sähkönsininen"],
   "tamark": ["Arkkitehtoninen", "Suurpiirteinen", "Pimeä", "Tummanpuhuva"],
-  "taraki": ["Rakentava", "Kestopuinen", "Keltakypäräinen", "Tummansininen"],
+  "taraki": ["Rakentava", "Kestopuinen", "Keltakypäräinen", "Rakentava", "Tummansininen"],
   "tite": ["Binäärinen", "Tietotekninen", "Koodintuoksuinen", "Tummasieluinen", "Yönmusta"],
   "yki": ["Ympäristöystävällinen", "Ympäröivä", "Metsämansikkainen", "Skutsinvihreä"]
 };
