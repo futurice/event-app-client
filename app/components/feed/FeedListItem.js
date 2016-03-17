@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
 
   itemTextWrapper: {
     paddingLeft: 36,
-    paddingRight: 15,
+    paddingRight: 30,
     paddingTop: 0,
     paddingBottom: 10,
     top: -10
@@ -78,11 +78,13 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   feedItemListDeleteIcon:{
+    backgroundColor: 'transparent',
     color: '#f00',
-    fontSize: 15,
-    marginRight: 1,
-    paddingRight: 10,
-    right: 0
+    fontSize: 20,
+    padding: 10,
+    position: 'absolute',
+    right: 7,
+    bottom: 10
   },
   itemTimestamp: {
     color: '#aaa',
