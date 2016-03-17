@@ -34,7 +34,7 @@ const LeaderboardEntry = React.createClass({
 
 
     const percentageToTopscore = (this.props.team.get('score') / this.props.topscore)  || 0;
-    const barWrapWidth = (Dimensions.get('window').width - 165); // 165 other content width
+    const barWrapWidth = (Dimensions.get('window').width - 110); // 110 other content width
     const barWidth = barWrapWidth * percentageToTopscore;
     const orderSuffix = this.getOrderSuffix(this.props.position);
 
@@ -149,6 +149,7 @@ const styles = StyleSheet.create({
     marginTop:3,
     borderRadius:3,
     marginBottom:5,
+    overflow:'hidden',
     height:Platform.OS === 'ios' ? 30 : 26,
     flex:1,
   },
