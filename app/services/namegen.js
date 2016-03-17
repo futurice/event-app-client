@@ -1,28 +1,28 @@
 const TEAMS = {
-  "_default": ["Hämmentävä", "Ylväs"],
-  "autek": ["Automaattinen"],
-  "bioner": ["Biologinen", "Luomu"],
-  "hiukkanen": ["Hiukkasteleva"],
-  "indecs": ["Indeksoitu"],
-  "kork": ["Koneellinen"],
-  "man@ger": ["Johtava"],
-  "mik": ["Materiaalinen"],
-  "skilta": ["Sähköinen", "Elektroninen"],
-  "tamark": ["Arkkitehtoninen"],
-  "taraki": ["Rakentava"],
-  "tite": ["Binäärinen"],
-  "yki": ["Ympäröivä"]
+  "_default": ["Hämmentävä", "Ylväs", "Kaikkivoipa", "Humanistinen", "Kelvollinen", "Erehtymätön"],
+  "autek": ["Automaattinen", "Automatisoitu", "Autonominen", "Keltainen"],
+  "bioner": ["Biologinen", "Luomu", "Beige"],
+  "hiukkanen": ["Hiukkasteleva", "Tekninen", "Violetti"],
+  "indecs": ["Indeksoitu", "Taloudellinen", "Optimaalinen", "Valkotakkinen"],
+  "kork": ["Koneellinen", "Koneistettu", "Punalahkeinen"],
+  "man@ger": ["Johtava", "Mikromanageroiva", "Pörssinoteerattu", "Graniitinharmaa"],
+  "mik": ["Materiaalinen", "Pintanahkainen", "Jalopuinen", "Kuminen", "Viininpunainen"],
+  "skilta": ["Sähköinen", "Elektroninen", "Korkeajännitteinen", "Maadoitettu", "Sähkönsininen"],
+  "tamark": ["Arkkitehtoninen", "Suurpiirteinen", "Pimeä"],
+  "taraki": ["Rakentava", "Kestopuinen", "Keltakypäräinen", "Tummansininen"],
+  "tite": ["Binäärinen", "Tietotekninen", "Laventelintuoksuinen", "Tummasieluinen"],
+  "yki": ["Ympäristöystävällinen", "Ympäröivä", "Metsämansikkainen", "Skutsinvihreä"]
 };
 
 const FIRST_NAMES = [
-  "Leksa", "Jönssi", "Pirkko", "Lissu", "Hessu", "Jallu", "Eevertti", "Kaaleppi", "Tenho", "Juuso"
+  "Leksa", "Jönssi", "Pirkko", "Lissu", "Hessu", "Jallu", "Eevertti", "Kaaleppi", "Tenho", "Juuso", "Jorma", "Jorma-Liisa", "Tiuhti", "Viuhti", "Nipsu", "Kyösti", "Kyöstikki", "Kuuno", "Tyyne", "Frida", "Masa", "Mirkku", "Jean-Pierre", "Ihkuli", "Kustaa", "Kukkuluuru", "Mymmeli", "Nuppu", "Kikka", "Gandalf"
 ];
 
 const EPITHETS = [
-  "Nörtti", "Ruuti", "Saha", "Kirves", "Keihäs", "Jallu", "Viski", "Leka", "Puukko", "Näyttöpääte", "Touhu", "Peuhu", "Pauhu", "Kauhu", "Paini", "Mekastus", "Mökellys", "Kökeltäjä", "Örveltäjä", "Luomu"
+  "Nörtti", "Ruuti", "Saha", "Kirves", "Keihäs", "Jallu", "Viski", "Leka", "Puukko", "Näyttöpääte", "Touhu", "Karaoke", "Rymy", "Peuhu", "Pauhu", "Kauhu", "Paini", "Mekastus", "Mökellys", "Kökeltäjä", "Örveltäjä", "Luomu",  "Liivate", "Porakone", "Robotti", "Näköis", "Kukka", "Kökkö", "Kakkosnelos", "Raparperi", "Kehveli", "Räppi", "BB", "Koeputki", "Kannuttelu", "Ruukku", "Skutsi", "Bönde", "Pölhö", "Nöpönenä", "Pissa", "Vehje", "Tööttä", "Krumeluuri", "Peikko", "Velho", "Loitsu", "Haltia", "Autotalli", "Kellari", "Varasto", "Jemma", "Bussi", "Juna", "Toimisto", "Nurmikko", "Reikä", "Rykäys", "Mämmi", "Kilju", "Kojootti", "Kiire", "Cthulhu", "Pipetti", "Tehdas", "Hillo", "Hyntty", "Mähmä"
 ];
 
-const generateName = (team) => {
+const generateName = (team = "") => {
   let teamIdx = team.toLowerCase();
   if (!TEAMS[teamIdx]) {
     teamIdx = "_default";
@@ -43,5 +43,5 @@ export default {
 };
 
 if (!module.parent) {
-  console.log(generateName("tite"));
+  console.log(generateName(process.argv[2]));
 }
