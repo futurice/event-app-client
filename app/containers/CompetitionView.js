@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
 
 const select = store => {
   return {
-    logos:Logos.killat,
+    logos: Logos.killat,
     teams: store.team.get('teams'),
     actionTypes: store.competition.get('actionTypes')
   };

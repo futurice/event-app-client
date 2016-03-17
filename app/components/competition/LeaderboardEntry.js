@@ -12,13 +12,31 @@ import React, {
 } from 'react-native';
 import theme from '../../style/theme';
 
+
+
 const LeaderboardEntry = React.createClass({
 
+  getOrderSuffix(order){
+    const lastNum = order > 20 ? order % 10 : order;
+    switch (lastNum) {
+      case 1:
+      return 'st';
+      case 2:
+      return 'nd';
+      case 3:
+      return 'rd';
+      default:
+      return 'th';
+    }
+  },
+
   render() {
+
 
     const percentageToTopscore = (this.props.team.get('score') / this.props.topscore)  || 0;
     const barWrapWidth = (Dimensions.get('window').width - 165); // 165 other content width
     const barWidth = barWrapWidth * percentageToTopscore;
+    const orderSuffix = this.getOrderSuffix(this.props.position);
 
     return (
       <View style={styles.entry}>
@@ -35,15 +53,21 @@ const LeaderboardEntry = React.createClass({
             {this.props.team.get('name')}
             </Text>
 
+            <View style={styles.entryTitlePosition}>
+              <Text style={styles.entryTitlePositionText}>
+                {this.props.position}{orderSuffix}
+              </Text>
+            </View>
+
           </View>
           <View style={styles.barWrap}>
-                <View style={[
-                  styles.bar,
-                  {width: barWidth }
-                ]} />
+            <View style={[
+              styles.bar,
+              {width: barWidth }
+              ]} />
 
             <Text style={[styles.entryTitleScore, styles.entryTitleScoreOver]}>
-              {this.props.team.get('score')}
+            {this.props.team.get('score')}
             </Text>
 
           </View>
@@ -71,17 +95,6 @@ const styles = StyleSheet.create({
     backgroundColor:'#f2f2f2',
 
   },
-  entryTitlePosition:{
-    position:'absolute',
-    left:30,
-    top:12,
-  },
-  entryTitlePositionText: {
-    fontWeight:'normal',
-    color:'#bbb',
-    fontSize:16,
-    flex:1,
-  },
   entryLogo:{
     paddingLeft:20,
     paddingRight:20,
@@ -101,7 +114,17 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:'space-between',
     flexDirection:'row',
-    alignItems:'stretch',
+    alignItems:'center',
+  },
+  entryTitlePosition:{
+    flex:1,
+  },
+  entryTitlePositionText: {
+    fontWeight:'normal',
+    color:'#bbb',
+    fontSize:16,
+    flex:1,
+    textAlign:'right'
   },
   entryTitleName:{
     fontSize:18,
