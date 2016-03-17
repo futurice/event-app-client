@@ -25,7 +25,7 @@ import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
-
+import TextActionView from '../../components/actions/TextActionView';
 //import SinglePhoto from './SinglePhoto'
 import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
@@ -289,7 +289,7 @@ var feedItemList = React.createClass({
         <View style={styles.container}>
         {feedRendering}
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
-        
+        <TextActionView />
         </View>
     );
   },

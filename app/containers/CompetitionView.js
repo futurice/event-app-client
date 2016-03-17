@@ -87,7 +87,7 @@ const CompetitionView = React.createClass({
             </Button>
           )}
         </View>
-        <TextActionView />
+        
         
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
       </View>
