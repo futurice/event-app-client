@@ -10,7 +10,8 @@ const UPDATE_NAME = 'UPDATE_NAME';
 const REQUEST_NAME = 'REQUEST_NAME';
 const RECEIVE_USER = 'RECEIVE_NAME';
 const ERROR_REQUESTING_USER = 'ERROR_REQUESTING_USER';
-
+const SELECT_TEAM = 'SELECT_TEAM';
+const CLOSE_TEAM_SELECTOR = 'CLOSE_TEAM_SELECTOR';
 const openRegistrationView = () => {
   return { type: OPEN_REGISTRATION_VIEW };
 };
@@ -24,7 +25,7 @@ const putUser = () => {
     dispatch({ type: CREATING_USER });
     const uuid = DeviceInfo.getUniqueID();
     const name = getStore().registration.get('name');
-    const team = getStore().team.get('selectedTeam');
+    const team = getStore().registration.get('selectedTeam');
     return api.putUser({ uuid, name, team })
       .then(response => {
         dispatch({ type: USER_CREATE_SUCCESS });
@@ -33,7 +34,12 @@ const putUser = () => {
       .catch(error => dispatch({ type: USER_CREATE_FAILURE, error: error }));
   };
 };
-
+const selectTeam = team => {
+  return dispatch => {
+    dispatch({ type: CLOSE_TEAM_SELECTOR });
+    dispatch({ type: SELECT_TEAM, payload: team });
+  }
+};
 const updateName = name => {
   return { type: UPDATE_NAME, payload: name };
 };
@@ -64,9 +70,11 @@ export {
   REQUEST_NAME,
   RECEIVE_USER,
   ERROR_REQUESTING_USER,
+  SELECT_TEAM,
   putUser,
   openRegistrationView,
   closeRegistrationView,
   updateName,
-  getUser
+  getUser,
+  selectTeam
 };

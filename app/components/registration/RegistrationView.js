@@ -26,7 +26,7 @@ const RegistrationView = React.createClass({
     this.props.dispatch(RegistrationActions.updateName(name));
   },
   onSelectTeam(id) {
-    this.props.dispatch(TeamActions.selectTeam(id));
+    this.props.dispatch(RegistrationActions.selectTeam(id));
   },
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
