@@ -1,8 +1,6 @@
 'use strict';
 
 import React, {
-  Animated,
-  Easing,
   View,
   Modal,
   Text,
@@ -14,25 +12,11 @@ import theme from '../../style/theme';
 
 const LeaderboardEntry = React.createClass({
 
-  getInitialState: function() {
-    return {
-      growBar: new Animated.Value(0)
-    }
-  },
   render() {
 
     const percentageToTopscore = (this.props.team.get('score') / this.props.topscore)  || 0;
     const barWrapWidth = (Dimensions.get('window').width - 40); // 40px total padding left+right
     const barWidth = barWrapWidth * percentageToTopscore;
-
-    Animated.spring(
-      this.state.growBar,
-      {
-       toValue: barWidth,
-       friction: 10,
-       duration:700
-     },
-     ).start()
 
     return (
       <View style={styles.entry}>
@@ -45,9 +29,9 @@ const LeaderboardEntry = React.createClass({
           </Text>
         </View>
         <View style={styles.barWrap}>
-          <Animated.View style={[
+          <View style={[
             styles.bar,
-            {width: this.state.growBar.interpolate({ inputRange: [0, 1], outputRange: [0,1] }) }
+            {width: barWidth }
           ]} />
         </View>
       </View>
