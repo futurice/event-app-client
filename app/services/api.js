@@ -5,6 +5,7 @@ import Endpoints from '../constants/Endpoints';
 import {version as VERSION_NUMBER} from '../../package.json';
 
 const USER_UUID = DeviceInfo.getUniqueID();
+const API_TOKEN = 'hessu'; // TODO implement build step & get this from env config or some other magical solution
 
 // Our own wrapper for fetch. Logs the request, adds required version headers, etc.
 // Instead of using fetch directly, always use this.
@@ -17,6 +18,9 @@ const wapuFetch = (url, opts) => {
 
   // Set UUID-header
   opts.headers['x-user-uuid'] = USER_UUID;
+
+  // Set API-token
+  opts.headers['x-token'] = API_TOKEN;
 
   console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
