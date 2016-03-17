@@ -8,32 +8,26 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-
-var FAB = React.createClass({
-
-
+const Fab = React.createClass({
   _renderInnerText: function () {
     return (
-      <View style={[this.props.styles, {bottom:0, right:0}]}>
-          <View>{this.props.text}</View>
+      <View style={[this.props.styles, styles.text]}>
+        <View>{this.props.text}</View>
       </View>
     );
   },
 
   render: function () {
-
     const touchableProps = {
       onPress: this.props.onPress,
       onPressIn: this.props.onPressIn,
       onPressOut: this.props.onPressOut,
     };
     return (
-      <TouchableHighlight {...touchableProps}
-      style={[styles.button, this.props.styles]}>
-      {this._renderInnerText()}
+      <TouchableHighlight {...touchableProps} style={[styles.button, this.props.styles]}>
+        {this._renderInnerText()}
       </TouchableHighlight>
-      );
-
+    );
   }
 });
 
@@ -49,7 +43,11 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28
+  },
+  text: {
+    bottom: 0,
+    right: 0
   }
 });
 
-export default FAB;
+export default Fab;
