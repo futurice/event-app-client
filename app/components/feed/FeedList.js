@@ -17,7 +17,7 @@ import React, {
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProgressBar from 'ProgressBarAndroid';
 
 import time from '../../utils/time';
@@ -201,13 +201,13 @@ const FeedList = React.createClass({
 
   getIconForAction(type) {
     var mapping = {
-      'TEXT': 'chatbubble-working',
-      'IMAGE': 'camera',
-      'BEER': 'beer',
-      'CIDER': 'ios-pint',
-      'SODA': 'soup-can-outline',
-      'BUTTON_PUSH': 'ios-circle-filled',
-      'default': 'beer'
+      'TEXT': 'textsms',
+      'IMAGE': 'photo-camera',
+      'BEER': 'local-drink',
+      'CIDER': 'local-bar',
+      'SODA': 'local-cafe',
+      'BUTTON_PUSH': 'touch-app',
+      'default': 'image'
     }
     return mapping[type] || mapping['default'];
   },
@@ -242,7 +242,7 @@ const FeedList = React.createClass({
           );
         });
 
-        plusButtonRendering = this.renderButton((<Icon name="android-add" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
+        plusButtonRendering = this.renderButton((<Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
     }
 
     switch (this.props.feedListState) {
