@@ -3,6 +3,7 @@
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';
+import { refreshFeed } from './feed';
 
 const POSTING_ACTION = 'POSTING_ACTION';
 const ACTION_POST_SUCCESS = 'ACTION_POST_SUCCESS';
@@ -31,6 +32,7 @@ const _postAction = (payload) => {
       .then(response => {
         dispatch({ type: ACTION_POST_SUCCESS });
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
+        dispatch(refreshFeed());
 
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
