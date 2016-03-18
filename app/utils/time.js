@@ -53,8 +53,8 @@ function getTimeAgo(date){
     if (!date) {
       return '';
     }
-
-    const diff = (new Date().getTime() - new Date(date).getTime()) / 60000; // minutes
+    const momentToDateObj = moment(date).toDate();
+    const diff = (new Date().getTime() - momentToDateObj.getTime()) / 60000; // minutes
 
     if (diff <= 0) {
       return 'now';
