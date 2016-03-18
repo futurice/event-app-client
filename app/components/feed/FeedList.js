@@ -12,6 +12,7 @@ import React, {
   View,
   Platform,
   Animated,
+  Easing,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -54,7 +55,25 @@ const styles = StyleSheet.create({
     backgroundColor: theme.secondary,
     width: 56,
     height: 56,
-    borderRadius: 28
+    borderRadius: 28,
+    elevation:2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
+  },
+  mainButton:{
+    elevation:2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
   },
   buttonEnclosure: {
     flexDirection: 'column',
@@ -81,17 +100,26 @@ const styles = StyleSheet.create({
 
 // in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
-const DISTANCE = 70;
-const BUTTON_WIDTH = 56;
+const DISTANCE = 60;
+const BUTTON_WIDTH = 46;
+const BIG_BUTTON_WIDTH = 56;
 const ANGLE_RAD = 30 * Math.PI/180;
 const ANGLE_INNER = 10 * Math.PI/180;
 
 var BUTTON_POS = [];
+
+/*
+Radial Layout
 for (var i = 0; i < BUTTON_COUNT; i++) {
   const radius = (i < 2) ? DISTANCE : DISTANCE * 2;
   const angleMod = (i > 1) ? i - 2 : i + 1;
   const angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
   BUTTON_POS.push({ x: -Math.cos(angle * angleMod) * radius, y: - Math.sin(angle * angleMod) * radius });
+}
+*/
+
+for (var i = 0; i < BUTTON_COUNT; i++) {
+  BUTTON_POS.push({ x: 0, y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10 });
 }
 
 const FeedList = React.createClass({
@@ -99,6 +127,7 @@ const FeedList = React.createClass({
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
       buttons: BUTTON_POS.map((i) => (new Animated.ValueXY() )),
+      plusButton: new Animated.Value(0),
       buttonsExpanded: false
     };
   },
@@ -140,12 +169,14 @@ const FeedList = React.createClass({
         BUTTON_POS.forEach((pos, i) => {
             Animated.spring(this.state.buttons[i], { toValue: pos }).start();
         });
+        Animated.spring(this.state.plusButton, { toValue: 1 }).start();
       } else {
         // state is manipulated here directly on purpose, so the animations works smoothly
         this.state.buttonsExpanded = false;
         BUTTON_POS.forEach((pos, i) => {
           Animated.spring(this.state.buttons[i], { toValue: { x: 0, y: 0 } }).start();
         });
+        Animated.spring(this.state.plusButton, { toValue: 0 }).start();
       }
     }
   },
@@ -237,12 +268,24 @@ const FeedList = React.createClass({
                 { transform: this.state.buttons[i].getTranslateTransform() }
               ]}
             >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
+              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 10, right: 5, width:46, height:46 }) }
             </Animated.View>
           );
         });
 
-        plusButtonRendering = this.renderButton((<Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
+        plusButtonRendering = this.renderButton((
+          <Animated.View
+          style={{ transform: [{
+            rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
+          }]
+          }}
+          >
+            <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
+          </Animated.View>
+          ),
+          this.expandButtons,
+          styles.mainButton
+        );
     }
 
     switch (this.props.feedListState) {
