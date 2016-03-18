@@ -15,7 +15,7 @@ import {
 const initialState = Immutable.fromJS({
   list: [],
   listState: 'none',
-  refreshState: false,
+  isRefreshing: false,
 });
 
 export default function feed(state = initialState, action) {
@@ -31,9 +31,9 @@ export default function feed(state = initialState, action) {
     case FEED_LIST_FAILED:
       return state.set('listState', 'failed');
     case FEED_LIST_REFRESHING:
-      return state.set('refreshState', true);
+      return state.set('isRefreshing', true);
     case FEED_LIST_REFRESHED:
-      return state.set('refreshState', false);
+      return state.set('isRefreshing', false);
 
     case FEED_ITEM_DELETE:
       const originalList = state.get('list');
