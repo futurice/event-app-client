@@ -92,8 +92,17 @@ var TimelineList = React.createClass({
     };
   },
 
+  componentWillReceiveProps({events, announcements}) {
+    if (announcements === this.props.announcements && events === this.props.events) {
+      return;
+    }
+
+    this.updateListItems(events, announcements);
+  },
+
   componentDidMount() {
     this.getViewContent();
+    this.updateListItems(this.props.events, this.props.announcements);
     analytics.viewOpened(VIEW_NAME);
   },
 
@@ -111,7 +120,7 @@ var TimelineList = React.createClass({
     });
   },
 
-  getListItems() {
+  updateListItems(events, announcements) {
     // TODO: Filter the past events away in here?
     let listSections = _.groupBy(this.props.events, event => moment(event.startTime).startOf('day').unix());
     const eventSectionsOrder = _.orderBy(_.keys(listSections));
@@ -122,10 +131,9 @@ var TimelineList = React.createClass({
     // Make the order to be that the first section is the announcements, then comes event sections
     const listOrder = [ANNOUNCEMENTS_SECTION, ...eventSectionsOrder];
 
-    return {
-      sections: listSections,
-      order: listOrder
-    };
+    this.setState({
+      dataSource: this.state.dataSource.cloneWithRowsAndSections(listSections, listOrder)
+    });
   },
 
   renderLoadingView() {
@@ -202,9 +210,8 @@ var TimelineList = React.createClass({
           </View>
         );
       default:
-        const items = this.getListItems();
         return <ListView
-          dataSource={this.state.dataSource.cloneWithRowsAndSections(items.sections, items.order)}
+          dataSource={this.state.dataSource}
           renderSectionHeader={this.renderSectionHeader}
           renderRow={this.renderListItem}
           style={styles.listView}

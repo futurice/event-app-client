@@ -107,6 +107,14 @@ const FeedList = React.createClass({
     this.props.dispatch(FeedActions.fetchFeed());
   },
 
+  componentWillReceiveProps({feed}) {
+    if(feed !== this.props.feed) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(feed)
+      })
+    }
+  },
+
   renderLoadingView() {
     return <View style={styles.container}>
       {(Platform.OS === 'android') ?
@@ -265,7 +273,7 @@ const FeedList = React.createClass({
         feedRendering = (
           <View style={styles.container}>
             <ListView
-              dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
+              dataSource={this.state.dataSource}
               renderRow={this.renderFeedItem}
               style={styles.listView}
               onEndReached={this.loadMoreItems}
