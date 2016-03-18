@@ -11,7 +11,8 @@ import {
   OPEN_TEXTACTION_VIEW,
   CLOSE_TEXTACTION_VIEW,
   SHOW_NOTIFICATION,
-  HIDE_NOTIFICATION
+  HIDE_NOTIFICATION,
+  UPDATE_COOLDOWNS
 } from '../actions/competition';
 
 const initialState = Immutable.fromJS({
@@ -20,11 +21,32 @@ const initialState = Immutable.fromJS({
   isLoadingActionTypes: false,
   isErrorLoadingActionTypes: false,
   actionTypes: [],
+  disabledActionTypes: [],
   cooldownTimes: {},
   isTextActionViewOpen: false,
   isNotificationVisible: false,
   notificationText: ''
 });
+
+const getDisabledActions = (state) => {
+  // Called once a second from FeedList (UPDATE_COOLDOWNS action)
+  // - go through all cooldownTimes
+  // - compare them to current time
+  // - if actionType has cooldownTime and cooldownTime > now, add actionType to disabledActionTypes list
+
+  const now = new Date().getTime();
+  return state
+    .get('actionTypes')
+    .map(at => at.get('code'))
+    .reduce((acc, curr) => {
+      const cooldownEnd = state.getIn(['cooldownTimes', curr]);
+      const isActionCoolingDown = cooldownEnd && cooldownEnd > now;
+      if (isActionCoolingDown) {
+        return acc.push(curr);
+      }
+      return acc;
+    }, Immutable.List());
+};
 
 export default function competition(state = initialState, action) {
   switch (action.type) {
@@ -78,6 +100,9 @@ export default function competition(state = initialState, action) {
         isNotificationVisible: false,
         notificationText: ''
       });
+    }
+    case UPDATE_COOLDOWNS: {
+      return state.set('disabledActionTypes', getDisabledActions(state));
     }
     default:
       return state;
