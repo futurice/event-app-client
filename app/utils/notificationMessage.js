@@ -3,53 +3,28 @@ import ActionTypes from '../constants/ActionTypes';
 const getMessage = (payload) => {
   switch (payload.type) {
     case ActionTypes.IMAGE: {
-      return 'Success! Image sent.';
+      return 'Great shot!';
     }
     case ActionTypes.BEER: {
-      return 'Success! Beer sent.';
+      return 'One beer down!';
     }
     case ActionTypes.CIDER: {
-      return 'Success! Cider sent.';
+      return 'Tasty cider!';
     }
-    case ActionTypes.LONKKU: {
-      return 'Success! Lonkku sent.';
+    case ActionTypes.SODA: {
+      return 'Pop that soda!';
     }
-    case ActionTypes.JALLU: {
-      return 'Success! Jallu sent.';
-    }
-    case ActionTypes.PUSH_THE_BUTTON: {
-      return 'Success! Button push sent.';
+    case ActionTypes.BUTTON_PUSH: {
+      return 'Way to push that button!';
     }
     case ActionTypes.TEXT: {
-      return 'Success! Text sent.';
+      return 'That\'s cool!';
     }
   }
 };
 
 const getErrorMessage = (payload) => {
-  switch (payload.type) {
-    case ActionTypes.IMAGE: {
-      return 'Error sending image!';
-    }
-    case ActionTypes.BEER: {
-      return 'Error sending beer!';
-    }
-    case ActionTypes.CIDER: {
-      return 'Error sending cider!';
-    }
-    case ActionTypes.LONKKU: {
-      return 'Error sending lonkku!';
-    }
-    case ActionTypes.JALLU: {
-      return 'Error sending jallu!';
-    }
-    case ActionTypes.PUSH_THE_BUTTON: {
-      return 'Error sending button push!';
-    }
-    case ActionTypes.TEXT: {
-      return 'Error sending text!';
-    }
-  }
+  return 'Oh no, an error occurred! :-(';
 };
 
 export {
