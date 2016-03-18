@@ -7,7 +7,7 @@ import React, {
   Dimensions,
   Text,
   Platform,
-  TouchableHighlight,
+  TouchableOpacity,
   View
 } from 'react-native';
 
@@ -145,13 +145,15 @@ const FeedListItem = React.createClass({
 
     const iconName = this.itemIsCreatedByMe(item) ? 'delete' : 'flag';
     return (
-      <TouchableHighlight
-        style={styles.listItemRemoveContainer}
+      <TouchableOpacity
+       style={styles.listItemRemoveContainer}
        onPress={() => this.showRemoveDialog(this.props.item)}>
 
-        <Icon name={iconName} style={styles.listItemRemoveButton}/>
+        <Icon name={iconName} style={[styles.listItemRemoveButton,
+          {opacity:item.type!=='IMAGE' ? 0.7 : 1}]
+        }/>
 
-      </TouchableHighlight>
+      </TouchableOpacity>
     );
   },
 
