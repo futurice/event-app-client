@@ -6,13 +6,14 @@ import React, {
   StyleSheet,
   Dimensions,
   Text,
+  Platform,
   TouchableHighlight,
   View
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { removeFeedItem } from '../../actions/feed';
 import abuse from '../../services/abuse';
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
   },
 
   itemTextWrapper: {
-    paddingLeft: 36,
+    paddingLeft: 41,
     paddingRight: 30,
     paddingTop: 0,
     paddingBottom: 10,
@@ -83,21 +84,19 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   listItemRemoveButton:{
-     
     backgroundColor: 'transparent',
-    color: '#f00',
-   
+    color: 'rgba(150,150,150,.65)',
+    fontSize:Platform.OS==='ios' ? 22 : 20,
   },
   listItemRemoveContainer: {
-            position:'absolute',
-            right:6,
-            bottom: 10,
-            width: 30,
-            height:30,
-            flex:1,
-            alignItems: 'center'
-            
-        },
+    position:'absolute',
+    right:8,
+    bottom: 10,
+    width: 30,
+    height:30,
+    flex:1,
+    alignItems: 'center'
+  },
   itemTimestamp: {
     color: '#aaa',
     fontSize: 13
@@ -140,18 +139,18 @@ const FeedListItem = React.createClass({
   renderRemoveButton(item) {
       //console.log("remove render:" + item.author.type);
     if (item.author.type === 'SYSTEM') {
-        
+
       return <View></View>; // currently it is not possible to return null in RN as a view
     }
 
-    const iconName = this.itemIsCreatedByMe(item) ? 'trash-a' : 'flag';
+    const iconName = this.itemIsCreatedByMe(item) ? 'delete' : 'flag';
     return (
-      <TouchableHighlight 
+      <TouchableHighlight
         style={styles.listItemRemoveContainer}
        onPress={() => this.showRemoveDialog(this.props.item)}>
-        
-        <Icon name={iconName} size={22} style={styles.listItemRemoveButton}/>
-        
+
+        <Icon name={iconName} style={styles.listItemRemoveButton}/>
+
       </TouchableHighlight>
     );
   },
@@ -165,7 +164,7 @@ const FeedListItem = React.createClass({
         <View style={styles.itemContent}>
 
           <View style={styles.feedItemListItemInfo}>
-            <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
+            <Icon name='face' style={styles.feedItemListItemAuthorIcon} />
             <View style={styles.feedItemListItemAuthor}>
               <Text style={styles.itemAuthorName}>{item.author.name}</Text>
               <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
