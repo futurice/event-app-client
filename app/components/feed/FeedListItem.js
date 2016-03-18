@@ -29,6 +29,13 @@ const styles = StyleSheet.create({
   itemContent:{
     flex: 1,
     elevation: 2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
     backgroundColor: '#fff'
   },
 
