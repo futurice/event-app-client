@@ -39,8 +39,8 @@ const AndroidTabNavigation = React.createClass({
         renderTabBar={() => <IconTabBar rippleColor={'rgba(255,255,255,.2)'} />}
       >
 
-        <CalendarView navigator={this.props.navigator} tabLabel='event-note' />
         <EventMapView navigator={this.props.navigator} tabLabel='map' />
+        <CalendarView navigator={this.props.navigator} tabLabel='event-note' />
         <FeedView navigator={this.props.navigator} tabLabel='forum' />
         <CompetitionView tabLabel='show-chart' />
         <ProfileView tabLabel='person' />
