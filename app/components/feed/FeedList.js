@@ -23,10 +23,11 @@ import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
-import Notification from '../../components/common/Notification';
-import Loading from '../../components/feed/Loading';
+import Notification from '../common/Notification';
+import Loading from './Loading';
 import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
+import FeedListState from '../../constants/FeedListState';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 28,
     elevation: 2,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.15,
     shadowRadius: 1,
     shadowOffset: {
@@ -214,8 +215,8 @@ const FeedList = React.createClass({
   },
 
   renderActionButtons(isLoading) {
-    return isLoading ? null : this.props.actionTypes.map((actiontype, i) => {
-      const iconName = this.getIconForAction(actiontype.get('code'));
+    return isLoading ? null : this.props.actionTypes.map((actionType, i) => {
+      const iconName = this.getIconForAction(actionType.get('code'));
       return (
         <Animated.View key={'button_' + i}
           style={[
@@ -224,7 +225,7 @@ const FeedList = React.createClass({
           ]}>
           {this.renderButton(
             <Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>,
-            this.onPressAction.bind(this, actiontype.get('code')),
+            this.onPressAction.bind(this, actionType.get('code')),
             styles.actionButton
           )}
         </Animated.View>
@@ -233,11 +234,9 @@ const FeedList = React.createClass({
   },
 
   renderPlusButton(isLoading) {
+    const rotation = this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] });
     return isLoading ? null : this.renderButton((
-      <Animated.View
-        style={{ transform: [{
-          rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
-        }] }}>
+      <Animated.View style={{ transform: [{ rotate: rotation }] }}>
         <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
       </Animated.View>
       ),
@@ -258,9 +257,9 @@ const FeedList = React.createClass({
     const isLoading = isLoadingActionTypes || isLoadingUserData;
 
     switch (feedListState) {
-      case 'loading':
+      case FeedListState.LOADING:
         return <Loading />;
-      case 'failed':
+      case FeedListState.FAILED:
         return (
           <ScrollView style={{flex: 1}} refreshControl={refreshControl}>
             <Text style={{marginTop: 20}}>Could not get feed :(</Text>
