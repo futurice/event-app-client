@@ -122,7 +122,6 @@ var Profile = React.createClass({
           dataSource={this.state.dataSource.cloneWithRows(listData)}
           renderRow={this.renderItem}
         />
-        
       </View>
       );
 
@@ -132,8 +131,6 @@ var Profile = React.createClass({
 const select = store => {
     return {
       name: store.registration.get('name'),
-      selectedTeam: store.team.get('selectedTeam'),
-      teams: store.team.get('teams'),
       links: store.profile.get('links').toJS(),
     }
 };

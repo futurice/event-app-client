@@ -41,8 +41,8 @@ const AndroidTabNavigation = React.createClass({
 
         <EventMapView navigator={this.props.navigator} tabLabel='map' />
         <CalendarView navigator={this.props.navigator} tabLabel='event-note' />
-        <FeedView navigator={this.props.navigator} tabLabel='forum' />
-        <CompetitionView tabLabel='show-chart' />
+        <FeedView navigator={this.props.navigator} tabLabel='whatshot' />
+        <CompetitionView tabLabel='equalizer' />
         <ProfileView tabLabel='person' />
       </AndroidTabs>
 
