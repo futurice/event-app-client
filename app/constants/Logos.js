@@ -1,3 +1,4 @@
+// jscs:ignore maximumLineLength
 const ROOT_URL = 'http://www.ttyy.fi/ttyy/sites/webhotel2.tut.fi.ttyy/files/sisalto/alayhdistykset/logot/';
 const kiltaLogos = {
   'TiTe':'tite.png',

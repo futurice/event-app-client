@@ -1,12 +1,8 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
-  View,
-  Text,
-  TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
 
@@ -15,7 +11,6 @@ import NavRouteMapper from '../components/common/navbarRouteMapper';
 
 import TimelineList from '../components/calendar/TimelineList';
 const theme = require('../style/theme');
-
 
 const styles = StyleSheet.create({
   navigator: {
@@ -34,8 +29,8 @@ const styles = StyleSheet.create({
 var TimelineListWrapper = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
-      const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />;
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />;
     }
   },
 
@@ -59,10 +54,8 @@ var TimelineListWrapper = React.createClass({
   }
 });
 
-
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(TimelineListWrapper);

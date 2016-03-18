@@ -1,27 +1,21 @@
 'use strict';
 
 import React, {
-  Image,
   StyleSheet,
   ListView,
-  Dimensions,
   Text,
-  TouchableHighlight,
   ActivityIndicatorIOS,
   RefreshControl,
   View,
   Platform,
   Animated,
-  Easing,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProgressBar from 'ProgressBarAndroid';
 
-import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
@@ -57,7 +51,7 @@ const styles = StyleSheet.create({
     height: 56,
     borderRadius: 28,
     elevation:2,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.15,
     shadowRadius: 1,
     shadowOffset: {
@@ -67,7 +61,7 @@ const styles = StyleSheet.create({
   },
   mainButton:{
     elevation:2,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.15,
     shadowRadius: 1,
     shadowOffset: {
@@ -103,8 +97,8 @@ const BUTTON_COUNT = 6;
 const DISTANCE = 60;
 const BUTTON_WIDTH = 46;
 const BIG_BUTTON_WIDTH = 56;
-const ANGLE_RAD = 30 * Math.PI/180;
-const ANGLE_INNER = 10 * Math.PI/180;
+// const ANGLE_RAD = 30 * Math.PI / 180;
+// const ANGLE_INNER = 10 * Math.PI / 180;
 
 var BUTTON_POS = [];
 
@@ -119,14 +113,14 @@ for (var i = 0; i < BUTTON_COUNT; i++) {
 */
 
 for (var i = 0; i < BUTTON_COUNT; i++) {
-  BUTTON_POS.push({ x: 0, y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10 });
+  BUTTON_POS.push({ x: 0, y: -DISTANCE * i - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10 });
 }
 
 const FeedList = React.createClass({
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
-      buttons: BUTTON_POS.map((i) => (new Animated.ValueXY() )),
+      buttons: BUTTON_POS.map((j) => new Animated.ValueXY()),
       plusButton: new Animated.Value(0),
       buttonsExpanded: false
     };
@@ -137,7 +131,7 @@ const FeedList = React.createClass({
   },
 
   componentWillReceiveProps({feed}) {
-    if(feed !== this.props.feed) {
+    if (feed !== this.props.feed) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(feed)
       })
@@ -146,7 +140,7 @@ const FeedList = React.createClass({
 
   renderLoadingView() {
     return <View style={styles.container}>
-      {(Platform.OS === 'android') ?
+      {Platform.OS === 'android' ?
         <ProgressBar styleAttr='Inverse' color={theme.primary}/>
       :
         <ActivityIndicatorIOS
@@ -166,28 +160,28 @@ const FeedList = React.createClass({
       if (!this.state.buttonsExpanded) {
         // state is manipulated here directly on purpose, so the animations works smoothly
         this.state.buttonsExpanded = true;
-        BUTTON_POS.forEach((pos, i) => {
-            Animated.spring(this.state.buttons[i], { toValue: pos }).start();
+        BUTTON_POS.forEach((pos, j) => {
+          Animated.spring(this.state.buttons[j], { toValue: pos }).start();
         });
         Animated.spring(this.state.plusButton, { toValue: 1 }).start();
       } else {
         // state is manipulated here directly on purpose, so the animations works smoothly
         this.state.buttonsExpanded = false;
-        BUTTON_POS.forEach((pos, i) => {
-          Animated.spring(this.state.buttons[i], { toValue: { x: 0, y: 0 } }).start();
+        BUTTON_POS.forEach((pos, j) => {
+          Animated.spring(this.state.buttons[j], { toValue: { x: 0, y: 0 } }).start();
         });
         Animated.spring(this.state.plusButton, { toValue: 0 }).start();
       }
     }
   },
 
-  refreshFeed(){
+  refreshFeed() {
     this.props.dispatch(FeedActions.refreshFeed());
   },
 
-  loadMoreItems(){
-    const lastItemID = this.props.feed[this.props.feed.length-1].id || null;
-    if(lastItemID){
+  loadMoreItems() {
+    const lastItemID = this.props.feed[this.props.feed.length - 1].id || null;
+    if (lastItemID) {
       this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
     }
   },
@@ -247,7 +241,7 @@ const FeedList = React.createClass({
     var combinedStyle = [styles.plusButton];
 
     if (extraStyle != null) {
-        combinedStyle.push(extraStyle);
+      combinedStyle.push(extraStyle);
     }
     return <Fab text={text} onPress={onPress} styles={combinedStyle} />
   },
@@ -258,34 +252,39 @@ const FeedList = React.createClass({
     var plusButtonRendering = [];
 
     if (this.props.isLoadingActionTypes === false && this.props.isLoadingUserData === false) {
-        buttonRendering = this.props.actionTypes.map((actiontype, i) => {
-          const iconName = this.getIconForAction(actiontype.get('code'));
-          return (
-            <Animated.View
-              key={'button_' + i}
-              style={[
-                styles.buttonEnclosure,
-                { transform: this.state.buttons[i].getTranslateTransform() }
-              ]}
-            >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 10, right: 5, width:46, height:46 }) }
-            </Animated.View>
-          );
-        });
-
-        plusButtonRendering = this.renderButton((
+      buttonRendering = this.props.actionTypes.map((actiontype, i) => {
+        const iconName = this.getIconForAction(actiontype.get('code'));
+        return (
           <Animated.View
-          style={{ transform: [{
-            rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
-          }]
-          }}
+            key={'button_' + i}
+            style={[
+              styles.buttonEnclosure,
+              { transform: this.state.buttons[i].getTranslateTransform() }
+            ]}
           >
-            <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
+            {this.renderButton(<Icon name={iconName} size={22}
+              style={{color: '#ffffff'}}></Icon>,
+              this.onPressAction.bind(this, actiontype.get('code')),
+              { bottom: 10, right: 5, width:46, height:46 }) }
           </Animated.View>
-          ),
-          this.expandButtons,
-          styles.mainButton
         );
+      });
+
+      plusButtonRendering = this.renderButton((
+        <Animated.View
+        style={{ transform: [{
+          rotate: this.state.plusButton.interpolate({
+            inputRange: [0, 1], outputRange: ['0deg', '225deg']
+          })
+        }]
+        }}
+        >
+          <Icon name='add' size={22} style={{color: '#ffffff'}}></Icon>
+        </Animated.View>
+        ),
+        this.expandButtons,
+        styles.mainButton
+      );
     }
 
     switch (this.props.feedListState) {
@@ -300,7 +299,7 @@ const FeedList = React.createClass({
             <RefreshControl
               refreshing={this.props.refreshListState}
               onRefresh={this.refreshFeed}
-              title="Refreshing..."
+              title='Refreshing...'
               colors={[theme.primary]}
               tintColor={theme.primary}
               progressBackgroundColor={theme.light}
@@ -324,7 +323,7 @@ const FeedList = React.createClass({
                 <RefreshControl
                   refreshing={this.props.refreshListState}
                   onRefresh={this.refreshFeed}
-                  title="Refreshing..."
+                  title='Refreshing...'
                   colors={[theme.primary]}
                   tintColor={theme.primary}
                   progressBackgroundColor={theme.light}
@@ -340,7 +339,9 @@ const FeedList = React.createClass({
     return (
       <View style={styles.container}>
         {feedRendering}
-        <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
+        <Notification visible={this.props.isNotificationVisible}>
+          {this.props.notificationText}
+        </Notification>
         <TextActionView />
       </View>
     );

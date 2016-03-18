@@ -6,7 +6,6 @@ import {
 import DeviceInfo from 'react-native-device-info';
 import {version as VERSION_NUMBER} from '../../package.json';
 
-
 const GA_TRACKING_ID = 'UA-41493366-6';
 const APP_NAME = 'Wappuapp';
 const CLIENT_ID = DeviceInfo.getUniqueID();

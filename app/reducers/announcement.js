@@ -13,7 +13,6 @@ const initialState = Immutable.fromJS({
   listState: 'none'
 });
 
-
 export default function announcement(state = initialState, action) {
   switch (action.type) {
     case ANNOUNCEMENT_SET:

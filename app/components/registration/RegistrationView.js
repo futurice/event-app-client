@@ -13,8 +13,8 @@ import { connect } from 'react-redux';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
-import Team from "./Team";
-import Logos from "../../constants/Logos";
+import Team from './Team';
+import Logos from '../../constants/Logos';
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
@@ -31,7 +31,7 @@ const RegistrationView = React.createClass({
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
   },
-  onCancel(){
+  onCancel() {
     this.props.dispatch(RegistrationActions.closeRegistrationView());
   },
   render() {
@@ -52,7 +52,7 @@ const RegistrationView = React.createClass({
               <View style={styles.inputFieldWrap}>
                 <TextInput
                 autoFocus={true}
-                style={[styles.inputField, styles['inputField_'+Platform.OS]]}
+                style={[styles.inputField, styles['inputField_' + Platform.OS]]}
                 onChangeText={this.onChangeName}
                 value={this.props.name} />
               </View>
@@ -64,7 +64,7 @@ const RegistrationView = React.createClass({
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
 
               <ScrollView style={{flex:1,height:240}}>
-              {this.props.teams.map( (team,i) =>
+              {this.props.teams.map((team,i) =>
                 <Team
                   key={i}
                   name={team.get('name')}
@@ -100,7 +100,6 @@ const RegistrationView = React.createClass({
     );
   }
 });
-
 
 const styles = StyleSheet.create({
   container: {
@@ -154,7 +153,7 @@ const styles = StyleSheet.create({
     height: 40,
     fontSize:18,
   },
-  inputField_android:{
+  inputField_android: {
 
   },
   inputField_ios: {
@@ -175,7 +174,8 @@ const select = store => {
     selectedTeam: store.registration.get('selectedTeam'),
     teams: store.team.get('teams'),
     isChooseTeamViewOpen: store.team.get('isChooseTeamViewOpen'),
-    isRegistrationInfoValid: !!store.registration.get('name') && !!store.registration.get('selectedTeam')
+    isRegistrationInfoValid: !!store.registration.get('name') &&
+      !!store.registration.get('selectedTeam')
   };
 };
 

@@ -32,7 +32,7 @@ export default React.createClass({
     );
   },
 
-  render: function () {
+  render: function() {
     const touchableProps = {
       onPress: this.props.onPress,
       onPressIn: this.props.onPressIn,

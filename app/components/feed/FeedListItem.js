@@ -12,7 +12,6 @@ import React, {
 } from 'react-native';
 
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { removeFeedItem } from '../../actions/feed';
@@ -29,7 +28,7 @@ const styles = StyleSheet.create({
   itemContent:{
     flex: 1,
     elevation: 2,
-    shadowColor: "#000000",
+    shadowColor: '#000000',
     shadowOpacity: 0.15,
     shadowRadius: 1,
     shadowOffset: {
@@ -93,7 +92,7 @@ const styles = StyleSheet.create({
   listItemRemoveButton:{
     backgroundColor: 'transparent',
     color: 'rgba(150,150,150,.65)',
-    fontSize:Platform.OS==='ios' ? 22 : 20,
+    fontSize: Platform.OS === 'ios' ? 22 : 20,
   },
   listItemRemoveContainer: {
     position:'absolute',
@@ -121,8 +120,10 @@ const FeedListItem = React.createClass({
         'Delete Content',
         'Do you want to remove this item?',
         [
-          { text: 'No, I\'m having second thoughts', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes, nuke it from the orbit', onPress: () => this.removeThisItem(), style: 'destructive' }
+          { text: 'No, I\'m having second thoughts',
+            onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Yes, nuke it from the orbit',
+            onPress: () => this.removeThisItem(), style: 'destructive' }
         ]
       );
     } else {
@@ -130,8 +131,10 @@ const FeedListItem = React.createClass({
         'Flag Content',
         'Do you want to report this item?',
         [
-          { text: 'No, I missclicked', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes, let\'s erase this abonomination', onPress: () => abuse.reportFeedItem(item), style: 'destructive' }
+          { text: 'No, I missclicked',
+            onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+          { text: 'Yes, let\'s erase this abonomination',
+            onPress: () => abuse.reportFeedItem(item), style: 'destructive' }
         ]
       );
     }
@@ -156,7 +159,7 @@ const FeedListItem = React.createClass({
        onPress={() => this.showRemoveDialog(this.props.item)}>
 
         <Icon name={iconName} style={[styles.listItemRemoveButton,
-          {opacity:item.type!=='IMAGE' ? 0.7 : 1}]
+          {opacity:item.type !== 'IMAGE' ? 0.7 : 1}]
         }/>
 
       </TouchableOpacity>
@@ -180,7 +183,7 @@ const FeedListItem = React.createClass({
             <Text style={styles.itemTimestamp}>{ago}</Text>
           </View>
 
-          {item.type==='IMAGE' ?
+          {item.type === 'IMAGE' ?
             <View style={styles.itemImageWrapper}>
               <Image
                 source={{ uri: item.url }}
@@ -201,9 +204,9 @@ const FeedListItem = React.createClass({
 });
 
 const select = store => {
-    return {
-      user: store.registration.toJS()
-    }
+  return {
+    user: store.registration.toJS()
+  }
 };
 
 export default connect(select)(FeedListItem);

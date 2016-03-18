@@ -2,13 +2,9 @@
 
 var React = require('react-native');
 var {
-  Image,
-  ScrollView,
   StyleSheet,
   ListView,
-  Dimensions,
   Text,
-  Navigator,
   Platform,
   TouchableHighlight,
   ActivityIndicatorIOS,
@@ -16,7 +12,6 @@ var {
 } = React;
 import { connect } from 'react-redux';
 
-import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
 import moment from 'moment';
 
@@ -30,10 +25,8 @@ import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
 
-
 const VIEW_NAME = 'TimelineList';
 const ANNOUNCEMENTS_SECTION = 'announcements';
-
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +99,7 @@ var TimelineList = React.createClass({
     analytics.viewOpened(VIEW_NAME);
   },
 
-  getViewContent(){
+  getViewContent() {
     // ...should these be throttled?
     this.props.dispatch(EventActions.fetchEvents());
     this.props.dispatch(AnnouncementActions.fetchAnnouncements());
@@ -122,7 +115,8 @@ var TimelineList = React.createClass({
 
   updateListItems(events, announcements) {
     // TODO: Filter the past events away in here?
-    let listSections = _.groupBy(this.props.events, event => moment(event.startTime).startOf('day').unix());
+    let listSections = _.groupBy(this.props.events,
+      event => moment(event.startTime).startOf('day').unix());
     const eventSectionsOrder = _.orderBy(_.keys(listSections));
 
     // Add the announcements-section to the listSections
@@ -172,8 +166,10 @@ var TimelineList = React.createClass({
     sectionCaption = sectionCaption.toUpperCase();
 
     // # Style
-    const headerStyle = (sectionId === ANNOUNCEMENTS_SECTION) ? styles.sectionHeaderAnnouncement : styles.sectionHeader;
-    const headerTextStyle = (sectionId === ANNOUNCEMENTS_SECTION) ? styles.sectionHeaderAnnouncementText : {};
+    const headerStyle = (sectionId === ANNOUNCEMENTS_SECTION) ?
+      styles.sectionHeaderAnnouncement : styles.sectionHeader;
+    const headerTextStyle = (sectionId === ANNOUNCEMENTS_SECTION) ?
+      styles.sectionHeaderAnnouncementText : {};
 
     return <View style={headerStyle}>
       <Text style={[styles.sectionHeaderText,headerTextStyle]}>{sectionCaption}</Text>
@@ -221,23 +217,23 @@ var TimelineList = React.createClass({
 });
 
 const select = store => {
-    let announcements = store.announcement.get('list').toJS()
-      .map(item => {
-        item.timelineType = 'announcement';
-        return item;
+  let announcements = store.announcement.get('list').toJS()
+    .map(item => {
+      item.timelineType = 'announcement';
+      return item;
     });
 
-    let events = store.event.get('list').toJS()
-      .map(item => {
-        item.timelineType = 'event';
-        return item;
+  let events = store.event.get('list').toJS()
+    .map(item => {
+      item.timelineType = 'event';
+      return item;
     });
 
-    return {
-      announcements,
-      events,
-      eventsFetchState: store.event.get('listState')
-    }
+  return {
+    announcements,
+    events,
+    eventsFetchState: store.event.get('listState')
+  }
 };
 
 export default connect(select)(TimelineList);

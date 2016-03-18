@@ -2,13 +2,9 @@
 
 import React, {
   View,
-  Text,
-  TextInput,
   StyleSheet
 } from 'react-native';
-import Team from "./Team";
-import Button from "../../components/common/Button";
-import Modal from 'react-native-modalbox';
+import Team from './Team';
 
 /** DEPRECATED */
 const TeamSelector = React.createClass({

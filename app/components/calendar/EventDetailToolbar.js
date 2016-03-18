@@ -8,9 +8,8 @@ var {
 import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
 
-
 const toolbarActions = [
-  {title: 'Share',id:'share'}
+  {title: 'Share', id:'share'}
 ];
 
 const styles = StyleSheet.create({
@@ -21,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 var EventDetailToolbar = React.createClass({
-  _goBack(){
+  _goBack() {
     this.props.navigator.pop();
   },
 
@@ -30,17 +29,17 @@ var EventDetailToolbar = React.createClass({
   },
 
   render() {
-    return(
-    <Icon.ToolbarAndroid
-    //actions={toolbarActions} TODO - SHARE
-    //onActionSelected={this._onActionSelected}
-    onIconClicked={this._goBack}
-    navIconName={'android-arrow-back'}
-    titleColor={theme.light}
-    iconColor={theme.light}
-    style={styles.toolbar}
-    title={this.props.title}
-    />
+    return (
+      <Icon.ToolbarAndroid
+      //actions={toolbarActions} TODO - SHARE
+      //onActionSelected={this._onActionSelected}
+      onIconClicked={this._goBack}
+      navIconName={'android-arrow-back'}
+      titleColor={theme.light}
+      iconColor={theme.light}
+      style={styles.toolbar}
+      title={this.props.title}
+      />
     );
   }
 });

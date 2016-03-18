@@ -77,12 +77,12 @@ var Profile = React.createClass({
     this.props.dispatch(ProfileActions.fetchLinks());
   },
 
-  openRegistration(){
+  openRegistration() {
     this.props.dispatch(RegistrationActions.openRegistrationView());
   },
 
   renderLinkItem(item) {
-    return(
+    return (
       <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={() => Linking.openURL( item.link )}>
         <View style={styles.listItem}>
           <Icon style={styles.listItemIcon} name={item.icon} />
@@ -94,7 +94,7 @@ var Profile = React.createClass({
   },
 
   renderModalItem(item){
-    return(
+    return (
       <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={this.openRegistration}>
         <View style={styles.listItem}>
           <Icon style={styles.listItemIcon} name={item.icon} />
@@ -107,7 +107,7 @@ var Profile = React.createClass({
   },
 
   renderItem(item) {
-    if(item.link){
+    if (item.link){
       return this.renderLinkItem(item);
     }
     return this.renderModalItem(item);

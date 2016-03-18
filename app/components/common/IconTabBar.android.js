@@ -3,15 +3,12 @@
 var React = require('react-native');
 var {
   StyleSheet,
-  Text,
-  TouchableOpacity,
   TouchableNativeFeedback,
   View,
   Animated,
 } = React;
 
 const Icon = require('react-native-vector-icons/MaterialIcons');
-
 
 var styles = StyleSheet.create({
   tab: {
@@ -52,8 +49,11 @@ var DefaultTabBar = React.createClass({
         background={TouchableNativeFeedback.Ripple(rippleColor, false)}
         delayPressIn={0}
       >
-        <View style={[styles.tab]} >
-          <Icon name={name} size={22} style={{color: isTabActive ? activeTextColor : inactiveTextColor}}> </Icon>
+        <View style={[styles.tab]}>
+          <Icon name={name}
+            size={22}
+            style={{color: isTabActive ? activeTextColor : inactiveTextColor}}>
+          </Icon>
         </View>
       </TouchableNativeFeedback>
     );
@@ -71,13 +71,13 @@ var DefaultTabBar = React.createClass({
     };
 
     var left = this.props.scrollValue.interpolate({
-      inputRange: [0, 1], outputRange: [0,  containerWidth / numberOfTabs]
+      inputRange: [0, 1], outputRange: [0, containerWidth / numberOfTabs]
     });
 
     return (
-      <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style, ]}>
+      <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style]}>
         {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
-        <Animated.View style={[tabUnderlineStyle, {left: left} ]} />
+        <Animated.View style={[tabUnderlineStyle, {left: left}]} />
       </View>
     );
   },

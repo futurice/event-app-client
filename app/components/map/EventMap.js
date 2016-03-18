@@ -19,7 +19,6 @@ import theme from '../../style/theme';
 
 const VIEW_NAME = 'EventMap';
 
-
 class EventMap extends Component {
 
   constructor() {
@@ -45,7 +44,8 @@ class EventMap extends Component {
     });
 
     const markers = events.map((event, i) =>
-      <MapView.Marker image={require('../../../assets/marker.png')} key={i} coordinate={event.location}>
+      <MapView.Marker image={require('../../../assets/marker.png')}
+        key={i} coordinate={event.location}>
         <MapView.Callout onPress={this.onCalloutPress.bind(this, event)}>
           <TouchableHighlight
             underlayColor='transparent'
@@ -55,9 +55,11 @@ class EventMap extends Component {
               <View>
                 <View style={styles.calloutTitleWrap}>
                   <Text style={styles.calloutTitle}>{event.name}</Text>
-                  <Icon style={styles.calloutIcon} name="ios-arrow-forward" />
+                  <Icon style={styles.calloutIcon} name='ios-arrow-forward' />
                 </View>
-                <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>{time.getEventDay(event.startTime)}</Text>
+                <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>
+                  {time.getEventDay(event.startTime)}
+                </Text>
                 <Text style={styles.calloutInfo}>{event.locationName}</Text>
               </View>
             </View>
@@ -126,7 +128,7 @@ const styles = StyleSheet.create({
     fontSize:11,
   },
   calloutIcon:{
-    top:Platform.OS==='ios' ? 0 : 2,
+    top:Platform.OS === 'ios' ? 0 : 2,
     fontSize:14,
     color:theme.primary
   }

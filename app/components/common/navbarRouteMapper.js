@@ -22,7 +22,7 @@ const theme = require('../../style/theme');
 
 
 let showShareActionSheet = function(url){
-  if(Platform.OS === 'ios'){
+  if (Platform.OS === 'ios'){
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: url
     },
@@ -51,8 +51,8 @@ let NavigationBarRouteMapper = {
   },
 
   RightButton: function(route, navigator, index, navState) {
-    if(route.actions){
-      return(
+    if (route.actions){
+      return (
         <TouchableHighlight
         onPress={() => {
           showShareActionSheet(route.post.link)

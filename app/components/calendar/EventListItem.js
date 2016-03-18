@@ -6,14 +6,11 @@ var {
   StyleSheet,
   Dimensions,
   Text,
-  Navigator,
   TouchableHighlight,
   View
 } = React;
 
 import Icon from 'react-native-vector-icons/Ionicons';
-import _ from 'lodash';
-
 import time from '../../utils/time';
 import theme from '../../style/theme';
 
@@ -105,7 +102,8 @@ export default React.createClass({
             <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
           </Text>
           <View style={styles.gridListItemIconsWrapper}>
-            {item.teemu && <Text style={styles.gridListItemIcon}><Icon name='university' size={15} /> Emäteemu!</Text>}
+            {item.teemu && <Text style={styles.gridListItemIcon}>
+              <Icon name='university' size={15} /> Emäteemu!</Text>}
             {timepoint.onGoing && <Text style={styles.gridListItemIcon}>Käynnissä ny!</Text>}
             {timepoint.startsSoon && <Text style={styles.gridListItemIcon}>Alkaa kohta!</Text>}
           </View>
@@ -114,4 +112,3 @@ export default React.createClass({
     </TouchableHighlight>;
   }
 });
-

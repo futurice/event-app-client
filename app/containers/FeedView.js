@@ -1,15 +1,10 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
-  View,
-  Text,
-  TouchableHighlight,
   Platform
 } from 'react-native';
-import { connect } from 'react-redux';
 
 import analytics from '../services/analytics';
 import FeedList from '../components/feed/FeedList';
@@ -20,7 +15,7 @@ const VIEW_NAME = 'FeedView';
 
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: (Platform.OS === 'ios') ? 62 : 0
+    paddingTop: Platform.OS === 'ios' ? 62 : 0
   },
   navbar: {
     backgroundColor: theme.primary,
@@ -31,7 +26,6 @@ const styles = StyleSheet.create({
   }
 });
 
-
 export default React.createClass({
   componentDidMount() {
     analytics.viewOpened(VIEW_NAME);
@@ -39,8 +33,8 @@ export default React.createClass({
 
   renderScene(route, navigator) {
     if (route.component) {
-      const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />
     }
   },
 
