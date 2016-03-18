@@ -1,7 +1,6 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, {
   Image,
   StyleSheet,
   ListView,
@@ -14,7 +13,7 @@ var {
   Platform,
   Animated,
   ScrollView
-} = React;
+} from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -32,6 +31,7 @@ import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import * as RegistrationActions from '../../actions/registration';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -94,7 +94,7 @@ for (var i = 0; i < BUTTON_COUNT; i++) {
   BUTTON_POS.push({ x: -Math.cos(angle * angleMod) * radius, y: - Math.sin(angle * angleMod) * radius });
 }
 
-var feedItemList = React.createClass({
+const FeedItemList = React.createClass({
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
@@ -221,6 +221,14 @@ var feedItemList = React.createClass({
     var buttonRendering = [];
     var plusButtonRendering = [];
 
+    const refreshControl = <RefreshControl
+      refreshing={this.props.refreshListState}
+      onRefresh={this.refreshFeed}
+      title="Refreshing..."
+      colors={[theme.primary]}
+      tintColor={theme.primary}
+      progressBackgroundColor={theme.light} />;
+
     if (this.props.isLoadingActionTypes === false && this.props.isLoadingUserData === false) {
         buttonRendering = this.props.actionTypes.map((actiontype, i) => {
           const iconName = this.getIconForAction(actiontype.get('code'));
@@ -247,18 +255,7 @@ var feedItemList = React.createClass({
 
       case 'failed':
         feedRendering = (
-          <ScrollView style={{flex: 1}}
-          refreshControl={
-            <RefreshControl
-              refreshing={this.props.refreshListState}
-              onRefresh={this.refreshFeed}
-              title="Refreshing..."
-              colors={[theme.primary]}
-              tintColor={theme.primary}
-              progressBackgroundColor={theme.light}
-             />
-            }
-          >
+          <ScrollView style={{flex: 1}} refreshControl={refreshControl}>
             <Text style={{marginTop: 20}}>Could not get feed :(</Text>
           </ScrollView>
         );
@@ -271,17 +268,7 @@ var feedItemList = React.createClass({
               dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
               renderRow={this.renderFeedItem}
               style={styles.listView}
-              refreshControl={
-                <RefreshControl
-                  refreshing={this.props.refreshListState}
-                  onRefresh={this.refreshFeed}
-                  title="Refreshing..."
-                  colors={[theme.primary]}
-                  tintColor={theme.primary}
-                  progressBackgroundColor={theme.light}
-                 />
-              }
-            />
+              refreshControl={refreshControl} />
               {buttonRendering}
               {plusButtonRendering}
           </View>
@@ -318,4 +305,4 @@ const select = store => {
   };
 };
 
-export default connect(select)(feedItemList);
+export default connect(select)(FeedItemList);
