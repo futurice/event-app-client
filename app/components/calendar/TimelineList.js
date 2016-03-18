@@ -66,9 +66,12 @@ const styles = StyleSheet.create({
     flex: 1
   },
   sectionHeaderAnnouncement: {
-    backgroundColor: theme.danger,
+    backgroundColor: theme.secondary,
     padding: 20,
     flex: 1
+  },
+  sectionHeaderAnnouncementText:{
+    color: theme.accent
   },
   sectionHeaderText: {
     textAlign: 'left',
@@ -162,9 +165,10 @@ var TimelineList = React.createClass({
 
     // # Style
     const headerStyle = (sectionId === ANNOUNCEMENTS_SECTION) ? styles.sectionHeaderAnnouncement : styles.sectionHeader;
+    const headerTextStyle = (sectionId === ANNOUNCEMENTS_SECTION) ? styles.sectionHeaderAnnouncementText : {};
 
     return <View style={headerStyle}>
-      <Text style={styles.sectionHeaderText}>{sectionCaption}</Text>
+      <Text style={[styles.sectionHeaderText,headerTextStyle]}>{sectionCaption}</Text>
     </View>;
   },
 
