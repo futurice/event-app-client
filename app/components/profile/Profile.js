@@ -122,7 +122,7 @@ var Profile = React.createClass({
           dataSource={this.state.dataSource.cloneWithRows(listData)}
           renderRow={this.renderItem}
         />
-        <RegistrationView />
+        
       </View>
       );
 

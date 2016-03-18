@@ -8,11 +8,23 @@ import React, {
   StyleSheet
 } from 'react-native';
 
+const styles = StyleSheet.create({
+  button: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1,
+    position:'absolute',
+    bottom: Platform.OS === 'ios' ? 67 : 20,
+    right: 20,
+    width: 56,
+    height: 56,
+    borderRadius: 28
+  }
+});
 
-var FAB = React.createClass({
-
-
-  _renderInnerText: function () {
+export default React.createClass({
+  renderInnerText() {
     return (
       <View style={[this.props.styles, {bottom:0, right:0}]}>
           <View>{this.props.text}</View>
@@ -21,35 +33,19 @@ var FAB = React.createClass({
   },
 
   render: function () {
-
     const touchableProps = {
       onPress: this.props.onPress,
       onPressIn: this.props.onPressIn,
       onPressOut: this.props.onPressOut,
     };
+
     return (
-      <TouchableHighlight {...touchableProps}
-      style={[styles.button, this.props.styles]}>
-      {this._renderInnerText()}
+      <TouchableHighlight
+        {...touchableProps}
+        style={[styles.button, this.props.styles]}
+      >
+        {this.renderInnerText()}
       </TouchableHighlight>
-      );
-
+    );
   }
 });
-
-const styles = StyleSheet.create({
-  button: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    position:'absolute',
-    bottom: Platform.OS==='ios' ? 67 : 20,
-    right: 20,
-    width: 56,
-    height: 56,
-    borderRadius: 28
-  }
-});
-
-export default FAB;
