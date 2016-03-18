@@ -10,7 +10,7 @@ var {
   Animated,
 } = React;
 
-var Icon = require('react-native-vector-icons/Ionicons');
+const Icon = require('react-native-vector-icons/MaterialIcons');
 
 
 var styles = StyleSheet.create({

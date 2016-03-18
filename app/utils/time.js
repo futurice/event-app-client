@@ -50,21 +50,22 @@ function getEventDay(startTime){
 }
 
 function getTimeAgo(date){
-    if (!date) {
-      return '';
-    }
+  if (!date) {
+    return '';
+  }
 
-    const diff = (new Date().getTime() - new Date(date).getTime()) / 60000; // minutes
+  const pastMoment = moment(date);
+  const minutesInPast = moment().diff(pastMoment, 'minutes');
 
-    if (diff <= 0) {
-      return 'now';
-    } else if (diff < 60) {
-      return Math.round(diff) + 'm';
-    } else if(diff < 60 * 24) {
-      return Math.round(diff/60) + 'h';
-    } else {
-      return Math.round(diff / 60 / 24) + 'd';
-    }
+  if (minutesInPast <= 4) {
+    return 'now';
+  } else if (minutesInPast < 60) {
+    return Math.round(minutesInPast) + 'm';
+  } else if (minutesInPast / 60 < 24) {
+    return Math.round(minutesInPast / 60) + 'h';
+  } else {
+    return Math.round(minutesInPast / 60 / 24) + 'd';
+  }
 }
 
 export default {

@@ -23,7 +23,6 @@ import RegistrationView from '../components/registration/RegistrationView';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
 const theme = require('../style/theme');
-const Icon = require('react-native-vector-icons/Ionicons');
 const IconTabBar = require('../components/common/IconTabBar');
 
 
@@ -34,16 +33,17 @@ const AndroidTabNavigation = React.createClass({
         tabBarPosition={'top'}
         tabBarUnderlineColor={theme.accent}
         tabBarBackgroundColor={theme.primary}
-        tabBarActiveTextColor={theme.light}
-        tabBarInactiveTextColor={'rgba(255,255,255,.8)'}
+        tabBarActiveTextColor={'#FFF'}
+        initialPage={2}
+        tabBarInactiveTextColor={'#FFF'}
         renderTabBar={() => <IconTabBar rippleColor={'rgba(255,255,255,.2)'} />}
       >
 
-        <FeedView navigator={this.props.navigator} tabLabel='android-time' />
-        <CalendarView navigator={this.props.navigator} tabLabel='android-calendar' />
-        <EventMapView navigator={this.props.navigator} tabLabel='android-map' />
-        <CompetitionView tabLabel='stats-bars' />
-        <ProfileView tabLabel='android-person' />
+        <EventMapView navigator={this.props.navigator} tabLabel='map' />
+        <CalendarView navigator={this.props.navigator} tabLabel='event-note' />
+        <FeedView navigator={this.props.navigator} tabLabel='whatshot' />
+        <CompetitionView tabLabel='equalizer' />
+        <ProfileView tabLabel='person' />
       </AndroidTabs>
 
     )
@@ -80,7 +80,7 @@ export default class App extends Component {
     return (
       <View style={{flex:1}}>
 
-      <StatusBar backgroundColor={theme.primaryDark} />
+      <StatusBar backgroundColor={theme.primaryDarker} />
 
       <Navigator
         initialRoute={{

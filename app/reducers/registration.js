@@ -45,6 +45,7 @@ export default function registration(state = initialState, action) {
         'isError': false
       });
     case USER_CREATE_FAILURE:
+    case ERROR_REQUESTING_USER:
       return state.merge({
         'isLoading': false,
         'isError': true

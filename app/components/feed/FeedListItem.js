@@ -6,13 +6,14 @@ import React, {
   StyleSheet,
   Dimensions,
   Text,
-  TouchableHighlight,
+  Platform,
+  TouchableOpacity,
   View
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import { removeFeedItem } from '../../actions/feed';
 import abuse from '../../services/abuse';
@@ -28,6 +29,13 @@ const styles = StyleSheet.create({
   itemContent:{
     flex: 1,
     elevation: 2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
     backgroundColor: '#fff'
   },
 
@@ -37,7 +45,7 @@ const styles = StyleSheet.create({
   },
 
   itemTextWrapper: {
-    paddingLeft: 36,
+    paddingLeft: 41,
     paddingRight: 30,
     paddingTop: 0,
     paddingBottom: 10,
@@ -84,12 +92,17 @@ const styles = StyleSheet.create({
   },
   listItemRemoveButton:{
     backgroundColor: 'transparent',
-    color: '#f00',
-    fontSize: 20,
-    padding: 10,
-    position: 'absolute',
-    right: 6,
-    bottom: 10
+    color: 'rgba(150,150,150,.65)',
+    fontSize:Platform.OS==='ios' ? 22 : 20,
+  },
+  listItemRemoveContainer: {
+    position:'absolute',
+    right:8,
+    bottom: 10,
+    width: 30,
+    height:30,
+    flex:1,
+    alignItems: 'center'
   },
   itemTimestamp: {
     color: '#aaa',
@@ -132,14 +145,21 @@ const FeedListItem = React.createClass({
   // depending is the user the creator of this feed item or not
   renderRemoveButton(item) {
     if (item.author.type === 'SYSTEM') {
+
       return <View></View>; // currently it is not possible to return null in RN as a view
     }
 
-    const iconName = this.itemIsCreatedByMe(item) ? 'trash-a' : 'flag';
+    const iconName = this.itemIsCreatedByMe(item) ? 'delete' : 'flag';
     return (
-      <TouchableHighlight onPress={() => this.showRemoveDialog(this.props.item)}>
-        <Icon name={iconName} style={styles.listItemRemoveButton} />
-      </TouchableHighlight>
+      <TouchableOpacity
+       style={styles.listItemRemoveContainer}
+       onPress={() => this.showRemoveDialog(this.props.item)}>
+
+        <Icon name={iconName} style={[styles.listItemRemoveButton,
+          {opacity:item.type!=='IMAGE' ? 0.7 : 1}]
+        }/>
+
+      </TouchableOpacity>
     );
   },
 
@@ -152,7 +172,7 @@ const FeedListItem = React.createClass({
         <View style={styles.itemContent}>
 
           <View style={styles.feedItemListItemInfo}>
-            <Icon name='android-contact' style={styles.feedItemListItemAuthorIcon} />
+            <Icon name='face' style={styles.feedItemListItemAuthorIcon} />
             <View style={styles.feedItemListItemAuthor}>
               <Text style={styles.itemAuthorName}>{item.author.name}</Text>
               <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>

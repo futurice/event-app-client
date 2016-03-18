@@ -12,12 +12,14 @@ import React, {
   View,
   Platform,
   Animated,
+  Easing,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
-import Icon from 'react-native-vector-icons/Ionicons';
 import _ from 'lodash';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import ProgressBar from 'ProgressBarAndroid';
 
 import time from '../../utils/time';
 import theme from '../../style/theme';
@@ -27,7 +29,6 @@ import Notification from '../../components/common/Notification';
 import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
 
-import ProgressBar from 'ProgressBarAndroid';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import * as RegistrationActions from '../../actions/registration';
@@ -49,12 +50,30 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: Platform.OS==='ios' ? 67 : 20,
+    bottom: Platform.OS === 'ios' ? 67 : 20,
     right: 20,
     backgroundColor: theme.secondary,
     width: 56,
     height: 56,
-    borderRadius: 28
+    borderRadius: 28,
+    elevation:2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
+  },
+  mainButton:{
+    elevation:2,
+    shadowColor: "#000000",
+    shadowOpacity: 0.15,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    },
   },
   buttonEnclosure: {
     flexDirection: 'column',
@@ -62,7 +81,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position:'absolute',
-    bottom: Platform.OS==='ios' ? 67 : 20,
+    bottom: Platform.OS === 'ios' ? 67 : 20,
     right: 20,
     width: 56,
     height: 56,
@@ -81,30 +100,48 @@ const styles = StyleSheet.create({
 
 // in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
-const DISTANCE = 70;
-const BUTTON_WIDTH = 56;
+const DISTANCE = 60;
+const BUTTON_WIDTH = 46;
+const BIG_BUTTON_WIDTH = 56;
 const ANGLE_RAD = 30 * Math.PI/180;
 const ANGLE_INNER = 10 * Math.PI/180;
 
 var BUTTON_POS = [];
+
+/*
+Radial Layout
 for (var i = 0; i < BUTTON_COUNT; i++) {
   const radius = (i < 2) ? DISTANCE : DISTANCE * 2;
   const angleMod = (i > 1) ? i - 2 : i + 1;
   const angle = (i < 1) ? ANGLE_INNER : ANGLE_RAD;
   BUTTON_POS.push({ x: -Math.cos(angle * angleMod) * radius, y: - Math.sin(angle * angleMod) * radius });
 }
+*/
 
-const FeedItemList = React.createClass({
+for (var i = 0; i < BUTTON_COUNT; i++) {
+  BUTTON_POS.push({ x: 0, y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10 });
+}
+
+const FeedList = React.createClass({
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
-      buttons: BUTTON_POS.map((i) => (new Animated.ValueXY() )),
+      buttons: BUTTON_POS.map((i) => (new Animated.ValueXY())),
+      plusButton: new Animated.Value(0),
       buttonsExpanded: false
     };
   },
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
+  },
+
+  componentWillReceiveProps({feed}) {
+    if(feed !== this.props.feed) {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(feed)
+      })
+    }
   },
 
   renderLoadingView() {
@@ -122,16 +159,6 @@ const FeedItemList = React.createClass({
     </View>;
   },
 
-  navigateToSingleFeedItem(model) {
-    // TODO: remove this, unused?
-    this.props.navigator.push({
-      component: SingleFeedItem,
-      name: model.name,
-      actions: ['share'],
-      model
-    });
-  },
-
   expandButtons() {
     if (this.props.isRegistrationInfoValid === false) {
       this.props.dispatch(RegistrationActions.openRegistrationView());
@@ -142,18 +169,27 @@ const FeedItemList = React.createClass({
         BUTTON_POS.forEach((pos, i) => {
             Animated.spring(this.state.buttons[i], { toValue: pos }).start();
         });
+        Animated.spring(this.state.plusButton, { toValue: 1 }).start();
       } else {
         // state is manipulated here directly on purpose, so the animations works smoothly
         this.state.buttonsExpanded = false;
         BUTTON_POS.forEach((pos, i) => {
           Animated.spring(this.state.buttons[i], { toValue: { x: 0, y: 0 } }).start();
         });
+        Animated.spring(this.state.plusButton, { toValue: 0 }).start();
       }
     }
   },
 
   refreshFeed(){
     this.props.dispatch(FeedActions.refreshFeed());
+  },
+
+  loadMoreItems(){
+    const lastItemID = this.props.feed[this.props.feed.length-1].id || null;
+    if(lastItemID){
+      this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
+    }
   },
 
   renderFeedItem(item) {
@@ -196,13 +232,13 @@ const FeedItemList = React.createClass({
 
   getIconForAction(type) {
     var mapping = {
-      'TEXT': 'chatbubble-working',
-      'IMAGE': 'camera',
-      'BEER': 'beer',
-      'CIDER': 'ios-pint',
-      'SODA': 'soup-can-outline',
-      'BUTTON_PUSH': 'ios-circle-filled',
-      'default': 'beer'
+      'TEXT': 'textsms',
+      'IMAGE': 'photo-camera',
+      'BEER': 'local-drink',
+      'CIDER': 'local-bar',
+      'SODA': 'local-cafe',
+      'BUTTON_PUSH': 'touch-app',
+      'default': 'image'
     }
     return mapping[type] || mapping['default'];
   },
@@ -240,17 +276,29 @@ const FeedItemList = React.createClass({
                 { transform: this.state.buttons[i].getTranslateTransform() }
               ]}
             >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 0, right: 0 }) }
+              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 10, right: 5, width:46, height:46 }) }
             </Animated.View>
           );
         });
 
-        plusButtonRendering = this.renderButton((<Icon name="android-add" size={22} style={{color: '#ffffff'}}></Icon>),this.expandButtons, { elevation:2 });
+        plusButtonRendering = this.renderButton((
+          <Animated.View
+          style={{ transform: [{
+            rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
+          }]
+          }}
+          >
+            <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
+          </Animated.View>
+          ),
+          this.expandButtons,
+          styles.mainButton
+        );
     }
 
     switch (this.props.feedListState) {
       case 'loading':
-        feedRendering =  this.renderLoadingView();
+        feedRendering = this.renderLoadingView();
         break;
 
       case 'failed':
@@ -265,9 +313,10 @@ const FeedItemList = React.createClass({
         feedRendering = (
           <View style={styles.container}>
             <ListView
-              dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
+              dataSource={this.state.dataSource}
               renderRow={this.renderFeedItem}
               style={styles.listView}
+              onEndReached={this.loadMoreItems}
               refreshControl={refreshControl} />
               {buttonRendering}
               {plusButtonRendering}
@@ -288,7 +337,7 @@ const FeedItemList = React.createClass({
 const select = store => {
 
   const user = store.registration.toJS();
-  const isRegistrationInfoValid = user.name && user.selectedTeam;
+  const isRegistrationInfoValid = user.name !== '' && user.selectedTeam > 0;
 
   return {
     feed: store.feed.get('list').toJS(),
@@ -305,4 +354,4 @@ const select = store => {
   };
 };
 
-export default connect(select)(FeedItemList);
+export default connect(select)(FeedList);

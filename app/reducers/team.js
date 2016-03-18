@@ -36,8 +36,7 @@ export default function team(state = initialState, action) {
         isLoading: false,
         isError: true
       });
-    case SELECT_TEAM:
-      return state.set('selectedTeam', action.payload);
+    
     case SHOW_TEAM_SELECTOR:
       return state.set('isChooseTeamViewOpen', true);
     case CLOSE_TEAM_SELECTOR:

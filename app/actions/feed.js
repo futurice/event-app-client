@@ -4,6 +4,7 @@ import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';
 
 const FEED_SET = 'FEED_SET';
+const FEED_APPEND = 'FEED_APPEND';
 const FEED_LIST_LOADING = 'FEED_LIST_LOADING';
 const FEED_LIST_LOADED = 'FEED_LIST_LOADED';
 const FEED_LIST_FAILED = 'FEED_LIST_FAILED';
@@ -45,6 +46,23 @@ const refreshFeed = () => {
   }
 };
 
+const loadMoreItems = (lastID) => {
+  return (dispatch) => {
+
+    dispatch({ type: FEED_LIST_REFRESHING });
+    api.fetchMoreFeed(lastID)
+      .then(items => {
+        dispatch({
+          type: FEED_APPEND,
+          feed: items
+        });
+        dispatch({ type: FEED_LIST_REFRESHED });
+        dispatch({ type: FEED_LIST_LOADED });
+      })
+      .catch(error => dispatch({ type: FEED_LIST_REFRESHED }));
+  }
+};
+
 const removeFeedItem = (item) => {
   return dispatch => {
     api.deleteFeedItem(item)
@@ -58,6 +76,7 @@ const removeFeedItem = (item) => {
 
 export {
   FEED_SET,
+  FEED_APPEND,
   FEED_LIST_LOADING,
   FEED_LIST_LOADED,
   FEED_LIST_FAILED,
@@ -67,5 +86,6 @@ export {
 
   fetchFeed,
   refreshFeed,
+  loadMoreItems,
   removeFeedItem
 };

@@ -48,13 +48,12 @@ const getUser = () => {
   return dispatch => {
     dispatch({ type: REQUEST_NAME });
     const uuid = DeviceInfo.getUniqueID();
-    console.log("uuid:" + uuid);
     return api.getUser(uuid)
       .then(user => {
         dispatch({ type: RECEIVE_USER, payload: user });
       })
       .catch(error => {
-        
+
         dispatch({ type: ERROR_REQUESTING_USER, error: error });
       });
   };

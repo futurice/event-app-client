@@ -31,6 +31,9 @@ const RegistrationView = React.createClass({
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
   },
+  onCancel(){
+    this.props.dispatch(RegistrationActions.closeRegistrationView());
+  },
   render() {
     const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]);
     const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
@@ -48,6 +51,7 @@ const RegistrationView = React.createClass({
               </View>
               <View style={styles.inputFieldWrap}>
                 <TextInput
+                autoFocus={true}
                 style={[styles.inputField, styles['inputField_'+Platform.OS]]}
                 onChangeText={this.onChangeName}
                 value={this.props.name} />
@@ -73,6 +77,14 @@ const RegistrationView = React.createClass({
               </View>
             </View>
 
+            <View style={styles.bottomButtons}>
+
+
+              <Button
+                onPress={this.onCancel}
+                style={styles.cancelButton}>
+                Cancel
+              </Button>
 
               <Button
                 onPress={this.onRegister}
@@ -80,6 +92,8 @@ const RegistrationView = React.createClass({
                 isDisabled={!this.props.isRegistrationInfoValid}>
                 Save
               </Button>
+
+            </View>
           </View>
         </View>
       </Modal>
@@ -96,8 +110,20 @@ const styles = StyleSheet.create({
     flex:1,
     paddingTop:Platform.OS === 'ios' ? 20 : 0,
   },
+  bottomButtons:{
+    flex:1,
+    flexDirection:'row',
+    margin:10,
+    alignItems:'stretch',
+  },
   modalButton: {
-    margin: 15,
+    flex:1,
+    marginLeft:5,
+  },
+  cancelButton: {
+    flex:1,
+    marginRight:5,
+    backgroundColor:'#BBB',
   },
   modalBackgroundStyle: {
     backgroundColor: '#eee'

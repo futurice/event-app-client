@@ -1,9 +1,9 @@
 'use strict';
 
-import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';
+import { refreshFeed } from './feed';
 
 const POSTING_ACTION = 'POSTING_ACTION';
 const ACTION_POST_SUCCESS = 'ACTION_POST_SUCCESS';
@@ -27,20 +27,25 @@ const closeTextActionView = () => {
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
     dispatch({ type: POSTING_ACTION });
+
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
+        dispatch({ type: ACTION_POST_SUCCESS });
+        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
+        dispatch(refreshFeed());
+
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);
-        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
-        dispatch({ type: ACTION_POST_SUCCESS });
       })
       .catch(e => {
+        console.log('Error catched on competition action post!', e);
+        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getErrorMessage(payload) });
+        dispatch({ type: ACTION_POST_FAILURE, error: e })
+
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);
-        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getErrorMessage(payload) });
-        dispatch({ type: ACTION_POST_FAILURE, error: e })
       });
   };
 };
@@ -54,7 +59,6 @@ const postAction = type => {
 const postText = text => {
   return _postAction({
     type: ActionTypes.TEXT,
-    user: DeviceInfo.getUniqueID(),
     text: text
   });
 }
