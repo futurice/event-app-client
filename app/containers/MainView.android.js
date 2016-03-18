@@ -80,7 +80,7 @@ export default class App extends Component {
     return (
       <View style={{flex:1}}>
 
-      <StatusBar backgroundColor={theme.primaryDark} />
+      <StatusBar backgroundColor={theme.primaryDarker} />
 
       <Navigator
         initialRoute={{
