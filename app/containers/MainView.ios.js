@@ -23,10 +23,28 @@ const MainView = React.createClass({
   _onChangeTab(tab) {
     this.props.dispatch(NavigationActions.changeTab(tab));
   },
+
   render() {
     return (
       <View style={{flex:1}}>
         <TabBarIOS tintColor={theme.primaryDark} barTintColor={theme.primary}>
+          <Icon.TabBarItem
+            iconName='ios-clock-outline'
+            selectedIconName='ios-clock'
+            title='Events'
+            selected={this.props.currentTab === Tabs.CALENDAR}
+            onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
+            <CalendarView />
+          </Icon.TabBarItem>
+
+          <Icon.TabBarItem
+            iconName='ios-location-outline'
+            selectedIconName='ios-location'
+            title='Map'
+            selected={this.props.currentTab === Tabs.MAP}
+            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
+            <EventMapView />
+          </Icon.TabBarItem>
 
           <Icon.TabBarItem
             iconName='ios-flame-outline'
@@ -37,22 +55,6 @@ const MainView = React.createClass({
             <FeedView />
           </Icon.TabBarItem>
 
-         <Icon.TabBarItem
-            iconName='ios-clock-outline'
-            selectedIconName='ios-clock'
-            title='Events'
-            selected={this.props.currentTab === Tabs.CALENDAR}
-            onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
-            <CalendarView />
-          </Icon.TabBarItem>
-          <Icon.TabBarItem
-            iconName='ios-location-outline'
-            selectedIconName='ios-location'
-            title='Map'
-            selected={this.props.currentTab === Tabs.MAP}
-            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
-            <EventMapView />
-          </Icon.TabBarItem>
           <Icon.TabBarItem
             iconName='stats-bars'
             selectedIconName='stats-bars'
@@ -61,6 +63,7 @@ const MainView = React.createClass({
             onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
             <CompetitionView />
           </Icon.TabBarItem>
+
           <Icon.TabBarItem
             iconName='ios-person-outline'
             selectedIconName='ios-person'
@@ -68,9 +71,9 @@ const MainView = React.createClass({
             selected={this.props.currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
             <SettingsView />
-
           </Icon.TabBarItem>
         </TabBarIOS>
+
         <RegistrationView />
       </View>
     );
