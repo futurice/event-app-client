@@ -156,6 +156,13 @@ var feedItemList = React.createClass({
     this.props.dispatch(FeedActions.refreshFeed());
   },
 
+  loadMoreItems(){
+    const lastItemID = this.props.feed[this.props.feed.length-1].id || null;
+    if(lastItemID){
+      this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
+    }
+  },
+
   renderFeedItem(item) {
     return <FeedListItem item={item}/>;
   },
@@ -271,6 +278,7 @@ var feedItemList = React.createClass({
               dataSource={this.state.dataSource.cloneWithRows(this.props.feed)}
               renderRow={this.renderFeedItem}
               style={styles.listView}
+              onEndReached={this.loadMoreItems}
               refreshControl={
                 <RefreshControl
                   refreshing={this.props.refreshListState}

@@ -70,6 +70,34 @@ const fetchModels = modelType => {
   });
 };
 
+//?beforeId=VANHIMMAN_ID&limit=20
+const fetchMoreFeed = lastID => {
+  const params = {beforeId: lastID, limit: 20};
+  let url = Endpoints.urls['feed'];
+  url += '?' + Object.keys(params).map(function(k) {
+    return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+  }).join('&');
+
+  return wapuFetch(url)
+  .then(response => response.json())
+  .then(response => {
+    return response;
+    //return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
+  })
+  .catch((error) => {
+    console.log('Error catched on API-fetch', error);
+    return AsyncStorage.getItem(url)
+    .then((value) => {
+      if (value != null) {
+        return Promise.resolve(JSON.parse(value));
+      } else {
+        return Promise.reject(null);
+      }
+
+    });
+  });
+};
+
 const postAction = (payload, location) => {
   const finalPayload = Object.assign({}, payload, {
     user: DeviceInfo.getUniqueID(),
@@ -90,6 +118,7 @@ const getUser = uuid => {
 
 export default {
   fetchModels,
+  fetchMoreFeed,
   postAction,
   putUser,
   getUser
