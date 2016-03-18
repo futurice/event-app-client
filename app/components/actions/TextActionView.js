@@ -44,6 +44,7 @@ const TextActionView = React.createClass({
 
             <View style={styles.title}><Text style={styles.titleText} >Hi, how's your Whappu going?</Text></View>
             <TextInput
+              autoFocus={true}
               style={[styles.inputField, styles['inputField_'+Platform.OS]]}
               onChangeText={this.onChangeText}
               value={this.state.text} />
