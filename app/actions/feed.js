@@ -30,6 +30,7 @@ const fetchFeed = () => {
 
 const refreshFeed = () => {
   return (dispatch) => {
+
     dispatch({ type: FEED_LIST_REFRESHING });
     api.fetchModels('feed')
       .then(items => {
