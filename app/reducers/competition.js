@@ -20,6 +20,7 @@ const initialState = Immutable.fromJS({
   isLoadingActionTypes: false,
   isErrorLoadingActionTypes: false,
   actionTypes: [],
+  cooldownTimes: {},
   isTextActionViewOpen: false,
   isNotificationVisible: false,
   notificationText: ''
@@ -39,10 +40,12 @@ export default function competition(state = initialState, action) {
         isError: false
       });
     case ACTION_POST_SUCCESS:
-      return state.merge({
-        isSending: false,
-        isError: false
-      });
+      const actionType = state.get('actionTypes').find(at => at.get('code') === action.payload.type);
+      const actionCooldownTime = actionType ? actionType.get('cooldown') : 0;
+      const availableNextTime = new Date().getTime() + actionCooldownTime;
+      return state
+        .merge({ isSending: false, isError: false })
+        .update('cooldownTimes', times => times.set(action.payload.type, availableNextTime));
     case ACTION_POST_FAILURE:
       return state.merge({
         isSending: false,

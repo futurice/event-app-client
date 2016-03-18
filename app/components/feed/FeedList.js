@@ -211,6 +211,7 @@ const FeedList = React.createClass({
     if (extraStyle != null) {
         combinedStyle.push(extraStyle);
     }
+
     return <Fab text={text} onPress={onPress} styles={combinedStyle} />
   },
 

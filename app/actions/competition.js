@@ -30,7 +30,9 @@ const _postAction = (payload) => {
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
-        dispatch({ type: ACTION_POST_SUCCESS });
+        dispatch({ type: ACTION_POST_SUCCESS, payload: {
+          type: payload.type
+        }});
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
         dispatch(refreshFeed());
 
