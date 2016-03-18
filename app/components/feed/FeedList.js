@@ -95,7 +95,11 @@ const styles = StyleSheet.create({
     fontSize:16,
     color:'#fff'
   },
-
+  activityIndicator: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 8
+  }
 });
 
 // in a happy world all this would be calculated on the fly but no
@@ -103,10 +107,8 @@ const BUTTON_COUNT = 6;
 const DISTANCE = 60;
 const BUTTON_WIDTH = 46;
 const BIG_BUTTON_WIDTH = 56;
-const ANGLE_RAD = 30 * Math.PI/180;
-const ANGLE_INNER = 10 * Math.PI/180;
-
-var BUTTON_POS = [];
+const ANGLE_RAD = 30 * Math.PI / 180;
+const ANGLE_INNER = 10 * Math.PI / 180;
 
 /*
 Radial Layout
@@ -118,8 +120,12 @@ for (var i = 0; i < BUTTON_COUNT; i++) {
 }
 */
 
-for (var i = 0; i < BUTTON_COUNT; i++) {
-  BUTTON_POS.push({ x: 0, y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10 });
+const BUTTON_POS = [];
+for (let i = 0; i < BUTTON_COUNT; i++) {
+  BUTTON_POS.push({
+    x: 0,
+    y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10
+  });
 }
 
 const FeedList = React.createClass({
@@ -137,26 +143,11 @@ const FeedList = React.createClass({
   },
 
   componentWillReceiveProps({feed}) {
-    if(feed !== this.props.feed) {
+    if (feed !== this.props.feed) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(feed)
       })
     }
-  },
-
-  renderLoadingView() {
-    return <View style={styles.container}>
-      {(Platform.OS === 'android') ?
-        <ProgressBar styleAttr='Inverse' color={theme.primary}/>
-      :
-        <ActivityIndicatorIOS
-          color={theme.primary}
-          animating={true}
-          style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
-          size='large' />
-      }
-      <Text>Downloading the latest awesomeness...</Text>
-    </View>;
   },
 
   expandButtons() {
@@ -181,30 +172,24 @@ const FeedList = React.createClass({
     }
   },
 
-  refreshFeed(){
+  refreshFeed() {
     this.props.dispatch(FeedActions.refreshFeed());
   },
 
-  loadMoreItems(){
-    const lastItemID = this.props.feed[this.props.feed.length-1].id || null;
-    if(lastItemID){
+  loadMoreItems() {
+    const lastItemID = this.props.feed[this.props.feed.length - 1].id || null;
+    if (lastItemID) {
       this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
     }
   },
 
   renderFeedItem(item) {
-    return <FeedListItem item={item}/>;
+    return <FeedListItem item={item} />;
   },
 
   chooseImage() {
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePickerManager Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
+      if (!response.didCancel && !response.error) {
         const image = 'data:image/jpeg;base64,' + response.data;
         this.props.dispatch(CompetitionActions.postImage(image));
       }
@@ -231,7 +216,7 @@ const FeedList = React.createClass({
   },
 
   getIconForAction(type) {
-    var mapping = {
+    const mapping = {
       'TEXT': 'textsms',
       'IMAGE': 'photo-camera',
       'BEER': 'local-drink',
@@ -244,7 +229,7 @@ const FeedList = React.createClass({
   },
 
   renderButton(text, onPress, extraStyle)  {
-    var combinedStyle = [styles.plusButton];
+    const combinedStyle = [styles.plusButton];
 
     if (extraStyle != null) {
         combinedStyle.push(extraStyle);
@@ -252,11 +237,53 @@ const FeedList = React.createClass({
     return <Fab text={text} onPress={onPress} styles={combinedStyle} />
   },
 
-  render() {
-    var feedRendering;
-    var buttonRendering = [];
-    var plusButtonRendering = [];
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        {(Platform.OS === 'android') ?
+          <ProgressBar styleAttr='Inverse' color={theme.primary}/>
+        :
+          <ActivityIndicatorIOS
+            color={theme.primary}
+            animating={true}
+            style={styles.activityIndicator}
+            size='large' />
+        }
+        <Text>Downloading the latest awesomeness...</Text>
+      </View>
+    );
+  },
 
+  renderActionButtons(isLoading) {
+    return isLoading ? null : this.props.actionTypes.map((actiontype, i) => {
+      const iconName = this.getIconForAction(actiontype.get('code'));
+      return (
+        <Animated.View key={'button_' + i}
+          style={[
+            styles.buttonEnclosure,
+            { transform: this.state.buttons[i].getTranslateTransform() }
+          ]}>
+          {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 10, right: 5, width:46, height:46 }) }
+        </Animated.View>
+      );
+    });
+  },
+
+  renderPlusButton(isLoading) {
+    return isLoading ? null : this.renderButton((
+      <Animated.View
+        style={{ transform: [{
+          rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
+        }] }}>
+        <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
+      </Animated.View>
+      ),
+      this.expandButtons,
+      styles.mainButton
+    );
+  },
+
+  renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const refreshControl = <RefreshControl
       refreshing={this.props.refreshListState}
       onRefresh={this.refreshFeed}
@@ -265,52 +292,19 @@ const FeedList = React.createClass({
       tintColor={theme.primary}
       progressBackgroundColor={theme.light} />;
 
-    if (this.props.isLoadingActionTypes === false && this.props.isLoadingUserData === false) {
-        buttonRendering = this.props.actionTypes.map((actiontype, i) => {
-          const iconName = this.getIconForAction(actiontype.get('code'));
-          return (
-            <Animated.View
-              key={'button_' + i}
-              style={[
-                styles.buttonEnclosure,
-                { transform: this.state.buttons[i].getTranslateTransform() }
-              ]}
-            >
-              {this.renderButton(<Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>, this.onPressAction.bind(this, actiontype.get('code')), { bottom: 10, right: 5, width:46, height:46 }) }
-            </Animated.View>
-          );
-        });
+    const isLoading = isLoadingActionTypes || isLoadingUserData;
 
-        plusButtonRendering = this.renderButton((
-          <Animated.View
-          style={{ transform: [{
-            rotate: this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] })
-          }]
-          }}
-          >
-            <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
-          </Animated.View>
-          ),
-          this.expandButtons,
-          styles.mainButton
-        );
-    }
-
-    switch (this.props.feedListState) {
+    switch (feedListState) {
       case 'loading':
-        feedRendering = this.renderLoadingView();
-        break;
-
+        return this.renderLoadingView();
       case 'failed':
-        feedRendering = (
+        return (
           <ScrollView style={{flex: 1}} refreshControl={refreshControl}>
             <Text style={{marginTop: 20}}>Could not get feed :(</Text>
           </ScrollView>
         );
-        break;
-
       default:
-        feedRendering = (
+        return (
           <View style={styles.container}>
             <ListView
               dataSource={this.state.dataSource}
@@ -318,15 +312,21 @@ const FeedList = React.createClass({
               style={styles.listView}
               onEndReached={this.loadMoreItems}
               refreshControl={refreshControl} />
-              {buttonRendering}
-              {plusButtonRendering}
+              {this.renderActionButtons(isLoading)}
+              {this.renderPlusButton(isLoading)}
           </View>
         );
     }
+  },
 
+  render() {
     return (
       <View style={styles.container}>
-        {feedRendering}
+        {this.renderFeed(
+          this.props.feedListState,
+          this.props.isLoadingActionTypes,
+          this.props.isLoadingUserData
+        )}
         <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
         <TextActionView />
       </View>
@@ -335,7 +335,6 @@ const FeedList = React.createClass({
 });
 
 const select = store => {
-
   const user = store.registration.toJS();
   const isRegistrationInfoValid = user.name !== '' && user.selectedTeam > 0;
 
