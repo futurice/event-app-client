@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
   textButton: {
     alignSelf: 'center',
     fontSize: 12,
-    fontFamily: 'Avenir Next',
     fontWeight: 'bold',
     color: '#fff'
   },

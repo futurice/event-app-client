@@ -54,7 +54,7 @@ const getUser = () => {
         dispatch({ type: RECEIVE_USER, payload: user });
       })
       .catch(error => {
-        
+
         dispatch({ type: ERROR_REQUESTING_USER, error: error });
       });
   };
