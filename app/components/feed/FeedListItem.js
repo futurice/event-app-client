@@ -137,7 +137,6 @@ const FeedListItem = React.createClass({
   // Render "remove" button, which is remove OR flag button,
   // depending is the user the creator of this feed item or not
   renderRemoveButton(item) {
-      //console.log("remove render:" + item.author.type);
     if (item.author.type === 'SYSTEM') {
 
       return <View></View>; // currently it is not possible to return null in RN as a view

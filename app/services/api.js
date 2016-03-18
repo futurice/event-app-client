@@ -103,7 +103,7 @@ const wapuFetch = (url, opts) => {
   // Set API-token
   opts.headers['x-token'] = API_TOKEN;
 
-  console.log('Fetch:', url, opts || '');
+  // console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
 };
 

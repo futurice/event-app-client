@@ -37,7 +37,8 @@ export default React.createClass({
   // TODO: set some fallback-image?
   render() {
     const item = this.props.item;
-    console.log(item);
+
+    console.log(item.created_time);
 
     return (
       <View style={styles.container}>
