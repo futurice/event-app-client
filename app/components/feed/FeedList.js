@@ -134,6 +134,15 @@ const FeedList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
+    this.cooldownUpdater = setInterval(() => {
+      this.props.dispatch(CompetitionActions.updateCooldowns());
+    }, 1000);
+    this.props.dispatch(CompetitionActions.updateCooldowns());
+  },
+
+  componentWillUnmount() {
+    // TODO: Never called (does it matter?)
+    clearInterval(this.cooldownUpdater);
   },
 
   componentWillReceiveProps({feed}) {
@@ -205,7 +214,7 @@ const FeedList = React.createClass({
     return mapping[type] || mapping['default'];
   },
 
-  renderButton(text, onPress, extraStyle)  {
+  renderButton(text, onPress, extraStyle) {
     const combinedStyle = [styles.plusButton];
 
     if (extraStyle != null) {
@@ -215,9 +224,20 @@ const FeedList = React.createClass({
     return <Fab text={text} onPress={onPress} styles={combinedStyle} />
   },
 
+  getIconOrCooldownTimer(actionType) {
+    const isEnabled = this.props.disabledActionTypes.indexOf(actionType) < 0;
+    if (isEnabled) {
+      const iconName = this.getIconForAction(actionType);
+      return <Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>;
+    } else {
+      const now = new Date().getTime();
+      const timeLeft = Math.floor((this.props.cooldownTimes.get(actionType) - now) / 1000);
+      return <Text>{timeLeft}</Text>;
+    }
+  },
+
   renderActionButtons(isLoading) {
     return isLoading ? null : this.props.actionTypes.map((actionType, i) => {
-      const iconName = this.getIconForAction(actionType.get('code'));
       return (
         <Animated.View key={'button_' + i}
           style={[
@@ -225,7 +245,7 @@ const FeedList = React.createClass({
             { transform: this.state.buttons[i].getTranslateTransform() }
           ]}>
           {this.renderButton(
-            <Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>,
+            this.getIconOrCooldownTimer(actionType.get('code')),
             this.onPressAction.bind(this, actionType.get('code')),
             styles.actionButton
           )}
@@ -309,6 +329,8 @@ const select = store => {
     actionTypes: store.competition.get('actionTypes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
+    disabledActionTypes: store.competition.get('disabledActionTypes'),
+    cooldownTimes: store.competition.get('cooldownTimes'),
 
     user,
     isRegistrationInfoValid,
