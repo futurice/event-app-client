@@ -19,7 +19,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: theme.light,
-    padding: 20
+  },
+  textContainer:{
+    padding:20,
   },
   timestampText: {
     position: 'absolute',
@@ -49,7 +51,9 @@ export default React.createClass({
             </Text>
           </Image>
         }
-        <Text style={styles.text}>{item.message}</Text>
+        <View style={styles.textContainer}>
+          <Text style={styles.text}>{item.message}</Text>
+        </View>
       </View>
     );
   }
