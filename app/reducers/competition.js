@@ -30,10 +30,8 @@ export default function competition(state = initialState, action) {
   switch (action.type) {
     case OPEN_TEXTACTION_VIEW:
       return state.set('isTextActionViewOpen', true);
-      break;
     case CLOSE_TEXTACTION_VIEW:
       return state.set('isTextActionViewOpen', false);
-      break;
     case POSTING_ACTION:
       return state.merge({
         isSending: true,
