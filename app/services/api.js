@@ -31,10 +31,13 @@ const fetchModels = modelType => {
 };
 
 const postAction = (params, location) => {
-  let payload = Object.assign({}, params, {
-    user: DeviceInfo.getUniqueID(),
-    location: location
-  });
+  let payload = Object.assign({}, params, { user: DeviceInfo.getUniqueID() });
+
+  // Add locatino to payload, if it exists
+  if (location) {
+    payload.location = location;
+  }
+
   return _post(Endpoints.urls.action, payload);
 };
 
