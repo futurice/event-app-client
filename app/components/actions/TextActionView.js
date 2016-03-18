@@ -67,7 +67,9 @@ const TextActionView = React.createClass({
 
 
              <View style={styles.bottomInfo}>
-              <Text style={styles.bottomInfoText}>Each message gives points to your Kilta and boosts the Wappu spirit!</Text>
+              <Text style={styles.bottomInfoText}>
+                Each message gives points to your Kilta and boosts the Wappu spirit!
+              </Text>
              </View>
 
           </View>
@@ -77,6 +79,7 @@ const TextActionView = React.createClass({
   }
 });
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 const styles = StyleSheet.create({
   container: {
     flex: 1,

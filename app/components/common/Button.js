@@ -32,7 +32,8 @@ var Button = React.createClass({
   render: function() {
     if (this.props.isDisabled === true) {
       return (
-        <View style={[styles.button, this.props.style, (this.props.disabledStyle || styles.opacity)]}>
+        <View style={[styles.button, this.props.style,
+            this.props.disabledStyle || styles.opacity]}>
           {this._renderInnerText()}
         </View>
       );

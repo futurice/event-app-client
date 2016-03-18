@@ -101,6 +101,7 @@ const RegistrationView = React.createClass({
   }
 });
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -46,12 +46,14 @@ const styles = StyleSheet.create({
 export default React.createClass({
   // TODO: parse away the Finnish-part of the message?
   // TODO: set some fallback-image?
+  // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers
   render() {
     const item = this.props.item;
-    //const text = item.message;
+    // const text = item.message;
     const fallbackImage = 'http://ttyy.kuvat.fi/kuvat/Wappu/Teekkarikaste/Korikuvat/Jussi/_PTE6061.jpg?img=smaller';
     const langSeparator = '-------';
-    const text = item.message.indexOf(langSeparator) > 0 ? item.message.split(langSeparator)[1].trim() : item.message;
+    const text = item.message.indexOf(langSeparator) > 0 ?
+      item.message.split(langSeparator)[1].trim() : item.message;
 
     return (
       <View style={styles.container}>

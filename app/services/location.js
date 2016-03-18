@@ -12,9 +12,9 @@ function getGeoUrl(event) {
     geoUrl += '&q=' + event.locationName;
     geoUrl += '&ll=' + latitude + ',' + longitude;
   } else {
-      //<lat>,<long>?q=<lat>,<long>(Label+Name)"
-      geoUrl = 'geo:' +
-        latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +'(' + encodeURIComponent(event.locationName) + ')';
+    //<lat>,<long>?q=<lat>,<long>(Label+Name)"
+    geoUrl = 'geo:' + latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +
+      '(' + encodeURIComponent(event.locationName) + ')';
   }
 
   return geoUrl;

@@ -12,10 +12,7 @@ var {
 } = React;
 import { connect } from 'react-redux';
 
-
-import RegistrationView from '../registration/RegistrationView';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import _ from 'lodash';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
 import * as RegistrationActions from '../../actions/registration';
@@ -38,7 +35,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   listItemIcon:{
-    fontSize:Platform.OS==='ios' ? 22 : 24,
+    fontSize:Platform.OS === 'ios' ? 22 : 24,
     color:theme.primary,
     width:50,
   },
@@ -83,7 +80,8 @@ var Profile = React.createClass({
 
   renderLinkItem(item) {
     return (
-      <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={() => Linking.openURL( item.link )}>
+      <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary}
+        onPress={() => Linking.openURL(item.link)}>
         <View style={styles.listItem}>
           <Icon style={styles.listItemIcon} name={item.icon} />
           <Text style={styles.listItemText}>{item.title}</Text>
@@ -93,9 +91,10 @@ var Profile = React.createClass({
     );
   },
 
-  renderModalItem(item){
+  renderModalItem(item) {
     return (
-      <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={this.openRegistration}>
+      <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary}
+        onPress={this.openRegistration}>
         <View style={styles.listItem}>
           <Icon style={styles.listItemIcon} name={item.icon} />
           <Text style={[styles.listItemText, styles.listItemTextHighlight]}>{item.title}</Text>
@@ -107,14 +106,15 @@ var Profile = React.createClass({
   },
 
   renderItem(item) {
-    if (item.link){
+    if (item.link) {
       return this.renderLinkItem(item);
     }
     return this.renderModalItem(item);
   },
 
   render() {
-    const listData = [{title:this.props.name, icon:'person-outline', link:'', rightIcon:'create'}].concat(this.props.links)
+    const listData = [{title:this.props.name,
+      icon:'person-outline', link:'', rightIcon:'create'}].concat(this.props.links)
 
     return (
       <View style={styles.container}>
@@ -129,7 +129,7 @@ var Profile = React.createClass({
 });
 
 const select = store => {
-    return {
+  return {
       name: store.registration.get('name'),
       links: store.profile.get('links').toJS(),
     }
