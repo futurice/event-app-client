@@ -186,7 +186,7 @@ var TimelineList = React.createClass({
     switch (this.props.eventsFetchState) {
       case 'loading':
         return this.renderLoadingView();
-      case 'loading':
+      case 'failed':
         return (
           <View style={styles.container}>
             <Text style={styles.loaderText}>Could not get events :(</Text>
