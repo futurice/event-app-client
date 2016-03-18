@@ -291,7 +291,7 @@ const FeedList = React.createClass({
 const select = store => {
 
   const user = store.registration.toJS();
-  const isRegistrationInfoValid = user.name && user.selectedTeam;
+  const isRegistrationInfoValid = user.name !== '' && user.selectedTeam > 0;
 
   return {
     feed: store.feed.get('list').toJS(),
