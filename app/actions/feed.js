@@ -61,6 +61,7 @@ const loadMoreItems = (lastID) => {
       })
       .catch(error => dispatch({ type: FEED_LIST_REFRESHED }));
   }
+};
 
 const removeFeedItem = (item) => {
   return dispatch => {
@@ -85,6 +86,6 @@ export {
 
   fetchFeed,
   refreshFeed,
-  loadMoreItems
+  loadMoreItems,
   removeFeedItem
 };
