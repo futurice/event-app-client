@@ -2,8 +2,7 @@ export default {
   IMAGE: 'IMAGE',
   BEER: 'BEER',
   CIDER: 'CIDER',
-  LONKKU: 'LONKKU',
-  JALLU: 'JALLU',
-  PUSH_THE_BUTTON: 'PUSH_THE_BUTTON',
-  TEXT: 'TEXT'
+  BUTTON_PUSH: 'BUTTON_PUSH',
+  TEXT: 'TEXT',
+  SODA: 'SODA'
 };
