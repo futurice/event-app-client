@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   textButton: {
-    alignSelf: 'center',
+    textAlign: 'center',
     fontSize: 12,
     fontWeight: 'bold',
     color: '#fff'
