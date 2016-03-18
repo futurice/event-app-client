@@ -26,10 +26,10 @@ let showShareActionSheet = function(url){
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: url
     },
-    (error) => { /**/ },
-    (success, method) => {
-       /* */
-    });
+  (error) => { /* */ },
+  (success, method) => {
+   /* */
+ });
   }
 }
 
@@ -38,27 +38,27 @@ let NavigationBarRouteMapper = {
     return (<TouchableHighlight
       underlayColor={'transparent'}
       onPress={() => {
-      if (index > 0) {
-        navigator.pop();
-      }
-    }}>
+        if (index > 0) {
+          navigator.pop();
+        }
+      }}>
       { index>0 ?
         <Icon name='ios-arrow-back' style={styles.navBarIcon} /> :
         <View/>
       }
-    </TouchableHighlight>
-    )
+      </TouchableHighlight>
+      )
   },
 
   RightButton: function(route, navigator, index, navState) {
     if(route.actions){
       return(
         <TouchableHighlight
-          onPress={() => {
-            showShareActionSheet(route.post.link)
-          }}
+        onPress={() => {
+          showShareActionSheet(route.post.link)
+        }}
         >
-          <Icon name='ios-upload-outline' style={styles.navBarIcon} />
+        <Icon name='ios-upload-outline' style={styles.navBarIcon} />
         </TouchableHighlight>
         );
     }
@@ -67,11 +67,11 @@ let NavigationBarRouteMapper = {
 
   Title: function(route, navigator, index, navState) {
 
-      return (
-          <Text style={styles.navBarTitle}>
-            {route.name}
-          </Text>
-      )
+    return (
+      <Text style={styles.navBarTitle}>
+      {route.name}
+      </Text>
+    );
   }
 };
 

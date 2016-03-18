@@ -5,6 +5,7 @@ import React, {
   Navigator,
   StyleSheet,
   BackAndroid,
+  Platform,
   View,
   Text,
   TouchableHighlight
@@ -12,8 +13,23 @@ import React, {
 import { connect } from 'react-redux';
 import EventMap from '../components/map/EventMap';
 import sceneConfig from '../utils/sceneConfig';
+import NavRouteMapper from '../components/common/navbarRouteMapper';
 import theme from '../style/theme';
 
+const VIEW_NAME = 'FeedView';
+
+const styles = StyleSheet.create({
+  navigator: {
+    paddingTop: (Platform.OS === 'ios') ? 62 : 0
+  },
+  navbar: {
+    backgroundColor: theme.primary,
+    height: 62,
+    paddingBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
+});
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -23,7 +39,6 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   }
   return false;
 });
-
 
 var EventMapView = React.createClass({
   renderScene (route, navigator) {
@@ -37,10 +52,17 @@ var EventMapView = React.createClass({
   render() {
     return (
       <Navigator
+        style={styles.navigator}
         initialRoute={{
           component: EventMap,
-          name: 'Tapahtumat'
+          name: 'Map'
         }}
+        navigationBar={
+          (Platform.OS === 'ios') ? <Navigator.NavigationBar
+            style={styles.navbar}
+            routeMapper={NavRouteMapper} /> : null
+        }
+
         renderScene={this.renderScene}
         configureScene={() => sceneConfig}
       />
