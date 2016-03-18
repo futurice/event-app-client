@@ -83,14 +83,21 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   listItemRemoveButton:{
+     
     backgroundColor: 'transparent',
     color: '#f00',
-    fontSize: 20,
-    padding: 10,
-    position: 'absolute',
-    right: 6,
-    bottom: 10
+   
   },
+  listItemRemoveContainer: {
+            position:'absolute',
+            right:6,
+            bottom: 10,
+            width: 30,
+            height:30,
+            flex:1,
+            alignItems: 'center'
+            
+        },
   itemTimestamp: {
     color: '#aaa',
     fontSize: 13
@@ -131,14 +138,20 @@ const FeedListItem = React.createClass({
   // Render "remove" button, which is remove OR flag button,
   // depending is the user the creator of this feed item or not
   renderRemoveButton(item) {
+      //console.log("remove render:" + item.author.type);
     if (item.author.type === 'SYSTEM') {
+        
       return <View></View>; // currently it is not possible to return null in RN as a view
     }
 
     const iconName = this.itemIsCreatedByMe(item) ? 'trash-a' : 'flag';
     return (
-      <TouchableHighlight onPress={() => this.showRemoveDialog(this.props.item)}>
-        <Icon name={iconName} style={styles.listItemRemoveButton} />
+      <TouchableHighlight 
+        style={styles.listItemRemoveContainer}
+       onPress={() => this.showRemoveDialog(this.props.item)}>
+        
+        <Icon name={iconName} size={22} style={styles.listItemRemoveButton}/>
+        
       </TouchableHighlight>
     );
   },
