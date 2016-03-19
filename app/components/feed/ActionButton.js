@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { StyleSheet, Platform, Text } from 'react-native';
+import React, { StyleSheet, Platform } from 'react-native';
 import Fab from '../common/Fab';
 import theme from '../../style/theme';
 

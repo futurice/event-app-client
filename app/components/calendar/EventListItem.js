@@ -88,7 +88,7 @@ export default React.createClass({
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
-    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : ''
+    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
     return <TouchableHighlight onPress={this.props.handlePress} underlayColor={'transparent'}>
       <View style={styles.gridListItem}>
@@ -98,7 +98,8 @@ export default React.createClass({
             style={styles.gridListItemImg} />
           <View style={[
             styles.gridListItemImgColorLayer,
-            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
+            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ?
+              '#164140' : '#6e3b56' }
           ]} />
         </View>
 
