@@ -25,7 +25,7 @@ const fetchFeed = () => {
         dispatch({ type: FEED_LIST_LOADED });
       })
       .catch(error => dispatch({ type: FEED_LIST_FAILED }));
-  }
+  };
 };
 
 const refreshFeed = () => {
@@ -42,7 +42,7 @@ const refreshFeed = () => {
         dispatch({ type: FEED_LIST_LOADED });
       })
       .catch(error => dispatch({ type: FEED_LIST_REFRESHED }));
-  }
+  };
 };
 
 const loadMoreItems = (lastID) => {
@@ -59,7 +59,7 @@ const loadMoreItems = (lastID) => {
         dispatch({ type: FEED_LIST_LOADED });
       })
       .catch(error => dispatch({ type: FEED_LIST_REFRESHED }));
-  }
+  };
 };
 
 const removeFeedItem = (item) => {
@@ -70,7 +70,7 @@ const removeFeedItem = (item) => {
         item
       }))
       .catch(error => console.log('Error when trying to delete feed item', error));
-  }
+  };
 };
 
 export {

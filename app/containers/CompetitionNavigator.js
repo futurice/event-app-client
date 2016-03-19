@@ -1,7 +1,6 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
   Platform
@@ -24,11 +23,11 @@ const styles = StyleSheet.create({
   }
 });
 
-var ProfileView = React.createClass({
+const ProfileView = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
       const RouteComponent = route.component;
-      return <RouteComponent navigator={navigator} route={route} {...this.props} />
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />;
     }
   },
 
