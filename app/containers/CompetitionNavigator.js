@@ -1,7 +1,6 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
   Platform

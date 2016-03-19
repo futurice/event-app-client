@@ -9,6 +9,7 @@ var {
   TouchableHighlight,
   Linking,
   Platform,
+  PropTypes
 } = React;
 import { connect } from 'react-redux';
 
@@ -63,6 +64,11 @@ const styles = StyleSheet.create({
 });
 
 var Profile = React.createClass({
+  propTypes: {
+    dispatch: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    links: PropTypes.array.isRequired
+  },
 
   getInitialState() {
     return {

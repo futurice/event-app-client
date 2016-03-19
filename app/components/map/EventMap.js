@@ -5,6 +5,7 @@ import React, {
   StyleSheet,
   View,
   Platform,
+  PropTypes,
   Text,
   TouchableHighlight
 } from 'react-native';
@@ -18,6 +19,11 @@ import time from '../../utils/time';
 import theme from '../../style/theme';
 
 const VIEW_NAME = 'EventMap';
+
+EventMap.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  events: PropTypes.array.isRequired
+}
 
 class EventMap extends Component {
 

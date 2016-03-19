@@ -3,6 +3,7 @@
 import React, {
   Navigator,
   BackAndroid,
+  PropTypes
 } from 'react-native';
 import { connect } from 'react-redux';
 import TimelineList from '../components/calendar/TimelineList';
@@ -17,6 +18,9 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 var TimelineListWrapper = React.createClass({
+  propTypes: {
+    navigator: PropTypes.object.isRequired
+  },
   renderScene(route, navigator) {
     _navigator = navigator;
     if (route.component) {

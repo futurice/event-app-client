@@ -7,6 +7,7 @@ import React, {
   Dimensions,
   Text,
   Platform,
+  PropTypes,
   TouchableOpacity,
   View
 } from 'react-native';
@@ -110,6 +111,11 @@ const styles = StyleSheet.create({
 });
 
 const FeedListItem = React.createClass({
+  propTypes: {
+    item: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired
+  },
+
   itemIsCreatedByMe(item) {
     return item.author.type === 'ME';
   },

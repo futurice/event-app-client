@@ -3,8 +3,8 @@
 import React, {
   View,
   TouchableHighlight,
-  Text,
   Platform,
+  PropTypes,
   StyleSheet
 } from 'react-native';
 
@@ -24,6 +24,14 @@ const styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    text: PropTypes.string.isRequired,
+    styles: View.propTypes.style,
+    onPress: PropTypes.func,
+    onPressIn: PropTypes.func,
+    onPressOut: PropTypes.func
+  },
+
   renderInnerText() {
     return (
       <View style={[this.props.styles, {bottom:0, right:0}]}>

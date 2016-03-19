@@ -1,12 +1,12 @@
 'use strict';
 
-import _ from 'lodash';
 import React, {
   View,
   Text,
   TextInput,
   StyleSheet,
   Platform,
+  PropTypes,
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -19,6 +19,15 @@ import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
 const RegistrationView = React.createClass({
+  propTypes: {
+    name: PropTypes.string.isRequired,
+    teams: PropTypes.array.isRequired,
+    logos: PropTypes.array.isRequired,
+    selectedTeam: PropTypes.number.isRequired,
+    isRegistrationViewOpen: PropTypes.bool.isRequired,
+    isRegistrationInfoValid: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  },
   onRegister() {
     this.props.dispatch(RegistrationActions.putUser());
   },

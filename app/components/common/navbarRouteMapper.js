@@ -11,13 +11,11 @@ import React, {
   Text,
   View,
   ActionSheetIOS,
-  Navigator,
   Platform,
   TouchableHighlight
 } from 'react-native';
 
 const Icon = require('react-native-vector-icons/Ionicons');
-const theme = require('../../style/theme');
 
 let showShareActionSheet = function(url) {
   if (Platform.OS === 'ios') {

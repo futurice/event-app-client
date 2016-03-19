@@ -4,6 +4,7 @@ import React, {
   StyleSheet,
   View,
   ScrollView,
+  PropTypes,
   Text,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -11,13 +12,16 @@ import { connect } from 'react-redux';
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
 import Logos from '../constants/Logos';
-import theme from '../style/theme';
 const Icon = require('react-native-vector-icons/Ionicons');
-import * as CompetitionActions from '../actions/competition';
 
 const VIEW_NAME = 'CompetitionView';
 
 const CompetitionView = React.createClass({
+  propTypes: {
+    teams: PropTypes.array.isRequired,
+    logos: PropTypes.array.isRequired
+  },
+
   componentDidMount() {
     analytics.viewOpened(VIEW_NAME);
   },

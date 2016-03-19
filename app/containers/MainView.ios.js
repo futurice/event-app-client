@@ -2,6 +2,7 @@
 
 import React, {
   TabBarIOS,
+  PropTypes,
   View
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -18,6 +19,12 @@ const theme = require('../style/theme');
 const Icon = require('react-native-vector-icons/Ionicons');
 
 const MainView = React.createClass({
+  propTypes: {
+    navigator: PropTypes.object.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    currentTab: PropTypes.string.isRequired
+  },
+
   _onChangeTab(tab) {
     this.props.dispatch(NavigationActions.changeTab(tab));
   },

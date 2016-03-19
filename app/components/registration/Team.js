@@ -5,12 +5,20 @@ import React, {
   Text,
   StyleSheet,
   Image,
+  PropTypes,
   TouchableOpacity
 } from 'react-native';
 
 import theme from '../../style/theme';
 
 const Team = React.createClass({
+  propTypes: {
+    name: PropTypes.string.isRequired,
+    logo: PropTypes.string.isRequired,
+    teamid: PropTypes.number.isRequired,
+    selected: PropTypes.number.selected,
+    onPress: PropTypes.func.isRequired
+  },
   render() {
     const selected = this.props.teamid === this.props.selected;
     return (

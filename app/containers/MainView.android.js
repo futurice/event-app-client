@@ -5,6 +5,7 @@ import React, {
   View,
   Navigator,
   StatusBar,
+  PropTypes,
   BackAndroid
 } from 'react-native'
 
@@ -21,6 +22,9 @@ const theme = require('../style/theme');
 const IconTabBar = require('../components/common/IconTabBar');
 
 const AndroidTabNavigation = React.createClass({
+  propTypes: {
+    navigator: PropTypes.object.isRequired
+  },
   render() {
     return (
       <AndroidTabs

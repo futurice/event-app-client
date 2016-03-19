@@ -3,6 +3,7 @@
 var React = require('react-native');
 var {
   Image,
+  PropTypes,
   StyleSheet,
   Dimensions,
   Text,
@@ -78,6 +79,12 @@ const styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    item: PropTypes.object.isRequired,
+    handlePress: PropTypes.func.isRequired,
+    rowId: PropTypes.number.isRequired
+  },
+
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);

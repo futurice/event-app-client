@@ -1,6 +1,5 @@
 'use strict';
 
-import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';
 
 const EVENT_SET = 'EVENT_SET';

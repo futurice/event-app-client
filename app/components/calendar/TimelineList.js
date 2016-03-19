@@ -6,6 +6,7 @@ var {
   ListView,
   Text,
   Platform,
+  PropTypes,
   TouchableHighlight,
   ActivityIndicatorIOS,
   View,
@@ -75,7 +76,13 @@ const styles = StyleSheet.create({
 });
 
 var TimelineList = React.createClass({
-
+  propTypes: {
+    announcements: PropTypes.array.isRequired,
+    events: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
+    eventsFetchState: PropTypes.oneOf(['loading', 'ready', 'failed']).isRequired
+  },
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({
