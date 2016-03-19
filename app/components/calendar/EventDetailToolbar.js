@@ -4,13 +4,15 @@ import React from 'react-native';
 var {
   ToolbarAndroid,
   StyleSheet,
+  PropTypes
 } = React;
 import Icon from 'react-native-vector-icons/Ionicons';
 import theme from '../../style/theme';
 
-const toolbarActions = [
-  {title: 'Share', id:'share'}
-];
+// TODO re-enable
+// const toolbarActions = [
+//   {title: 'Share', id:'share'}
+// ];
 
 const styles = StyleSheet.create({
   toolbar: {
@@ -20,6 +22,11 @@ const styles = StyleSheet.create({
 });
 
 var EventDetailToolbar = React.createClass({
+  propTypes: {
+    title: PropTypes.string.isRequired,
+    navigator: PropTypes.object.isRequired
+  },
+
   _goBack() {
     this.props.navigator.pop();
   },

@@ -2,6 +2,7 @@
 import React, {
   Image,
   StyleSheet,
+  PropTypes,
   Text,
   View
 } from 'react-native';
@@ -44,6 +45,11 @@ const styles = StyleSheet.create({
 });
 
 export default React.createClass({
+
+  propTypes: {
+    item: PropTypes.object.isRequired
+  },
+
   // TODO: parse away the Finnish-part of the message?
   // TODO: set some fallback-image?
   // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers

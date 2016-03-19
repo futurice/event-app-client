@@ -3,6 +3,7 @@
 var React = require('react-native');
 var {
   Image,
+  PropTypes,
   StyleSheet,
   Dimensions,
   Text,
@@ -78,6 +79,12 @@ const styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    item: PropTypes.object.isRequired,
+    handlePress: PropTypes.func.isRequired,
+    rowId: PropTypes.number
+  },
+
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
@@ -91,7 +98,7 @@ export default React.createClass({
             style={styles.gridListItemImg} />
           <View style={[
             styles.gridListItemImgColorLayer,
-            { backgroundColor: this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
+            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
           ]} />
         </View>
 

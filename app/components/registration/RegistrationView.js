@@ -1,15 +1,16 @@
 'use strict';
 
-import _ from 'lodash';
 import React, {
   View,
   Text,
   TextInput,
   StyleSheet,
   Platform,
+  PropTypes,
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Immutable from 'immutable';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
@@ -19,6 +20,15 @@ import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
 const RegistrationView = React.createClass({
+  propTypes: {
+    name: PropTypes.string.isRequired,
+    teams: PropTypes.instanceOf(Immutable.List).isRequired,
+    logos: PropTypes.object.isRequired,
+    selectedTeam: PropTypes.number.isRequired,
+    isRegistrationViewOpen: PropTypes.bool.isRequired,
+    isRegistrationInfoValid: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  },
   onRegister() {
     this.props.dispatch(RegistrationActions.putUser());
   },

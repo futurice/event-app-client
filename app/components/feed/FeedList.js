@@ -8,11 +8,15 @@ import React, {
   RefreshControl,
   View,
   Platform,
+  PropTypes,
   Animated,
   ScrollView
 } from 'react-native';
+
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
+import Immutable from 'immutable';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ProgressBar from 'ProgressBarAndroid';
 
@@ -22,7 +26,7 @@ import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
 import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
-
+import LoadingStates from '../../constants/LoadingStates';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import * as RegistrationActions from '../../actions/registration';
@@ -117,6 +121,19 @@ for (var i = 0; i < BUTTON_COUNT; i++) {
 }
 
 const FeedList = React.createClass({
+  propTypes: {
+    feed: PropTypes.array.isRequired,
+    isRegistrationInfoValid: PropTypes.bool.isRequired,
+    isLoadingActionTypes: PropTypes.bool.isRequired,
+    isLoadingUserData: PropTypes.bool.isRequired,
+    isNotificationVisible: PropTypes.bool.isRequired,
+    notificationText: PropTypes.string.isRequired,
+    feedListState: PropTypes.oneOf(_.values(LoadingStates)).isRequired,
+    refreshListState: PropTypes.bool.isRequired,
+    actionTypes: PropTypes.instanceOf(Immutable.List).isRequired,
+    dispatch: PropTypes.func.isRequired
+  },
+
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
@@ -252,14 +269,14 @@ const FeedList = React.createClass({
     var plusButtonRendering = [];
 
     if (this.props.isLoadingActionTypes === false && this.props.isLoadingUserData === false) {
-      buttonRendering = this.props.actionTypes.map((actiontype, i) => {
+      buttonRendering = this.props.actionTypes.map((actiontype, index) => {
         const iconName = this.getIconForAction(actiontype.get('code'));
         return (
           <Animated.View
-            key={'button_' + i}
+            key={'button_' + index}
             style={[
               styles.buttonEnclosure,
-              { transform: this.state.buttons[i].getTranslateTransform() }
+              { transform: this.state.buttons[index].getTranslateTransform() }
             ]}
           >
             {this.renderButton(<Icon name={iconName} size={22}

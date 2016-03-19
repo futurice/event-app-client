@@ -5,6 +5,7 @@ import React, {
   StyleSheet,
   View,
   Platform,
+  PropTypes,
   Text,
   TouchableHighlight
 } from 'react-native';
@@ -85,6 +86,11 @@ class EventMap extends Component {
         </MapView>
     );
   }
+}
+
+EventMap.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  events: PropTypes.array.isRequired
 }
 
 const styles = StyleSheet.create({
