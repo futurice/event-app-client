@@ -31,9 +31,7 @@ const _postAction = (payload) => {
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
-        dispatch({ type: ACTION_POST_SUCCESS, payload: {
-          type: payload.type
-        }});
+        dispatch({ type: ACTION_POST_SUCCESS, payload: { type: payload.type } });
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
         dispatch(refreshFeed());
 
@@ -47,7 +45,7 @@ const _postAction = (payload) => {
           type: SHOW_NOTIFICATION,
           payload: NotificationMessages.getErrorMessage(payload)
         });
-        dispatch({ type: ACTION_POST_FAILURE, error: e })
+        dispatch({ type: ACTION_POST_FAILURE, error: e });
 
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
@@ -67,7 +65,7 @@ const postText = text => {
     type: ActionTypes.TEXT,
     text: text
   });
-}
+};
 
 const postImage = image => {
   return _postAction({

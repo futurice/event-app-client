@@ -44,6 +44,7 @@ const getDisabledActions = (state) => {
       if (isActionCoolingDown) {
         return acc.push(curr);
       }
+
       return acc;
     }, Immutable.List());
 };
@@ -60,7 +61,9 @@ export default function competition(state = initialState, action) {
         isError: false
       });
     case ACTION_POST_SUCCESS:
-      const actionType = state.get('actionTypes').find(at => at.get('code') === action.payload.type);
+      const actionType = state
+        .get('actionTypes')
+        .find(at => at.get('code') === action.payload.type);
       const actionCooldownTime = actionType ? actionType.get('cooldown') : 0;
       const availableNextTime = new Date().getTime() + actionCooldownTime;
       return state
@@ -76,34 +79,29 @@ export default function competition(state = initialState, action) {
         isLoadingActionTypes: true,
         isErrorLoadingActionTypes: false
       });
-    case RECEIVE_ACTION_TYPES: {
+    case RECEIVE_ACTION_TYPES:
       return state.merge({
         isLoadingActionTypes: false,
         isErrorLoadingActionTypes: false,
         actionTypes: action.payload
       });
-    }
-    case ERROR_REQUESTING_ACTION_TYPES: {
+    case ERROR_REQUESTING_ACTION_TYPES:
       return state.merge({
         isLoadingActionTypes: false,
         isErrorLoadingActionTypes: true
       });
-    }
-    case SHOW_NOTIFICATION: {
+    case SHOW_NOTIFICATION:
       return state.merge({
         isNotificationVisible: true,
         notificationText: action.payload
       });
-    }
-    case HIDE_NOTIFICATION: {
+    case HIDE_NOTIFICATION:
       return state.merge({
         isNotificationVisible: false,
         notificationText: ''
       });
-    }
-    case UPDATE_COOLDOWNS: {
+    case UPDATE_COOLDOWNS:
       return state.set('disabledActionTypes', getDisabledActions(state));
-    }
     default:
       return state;
   }

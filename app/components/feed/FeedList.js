@@ -19,7 +19,7 @@ import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../common/Notification';
 import Loading from './Loading';
-import Fab from '../common/Fab';
+import ActionButton from './ActionButton';
 import TextActionView from '../../components/actions/TextActionView';
 import FeedListState from '../../constants/FeedListState';
 
@@ -37,27 +37,6 @@ const styles = StyleSheet.create({
   },
   listView: {
     flex: 1
-  },
-  plusButton: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
-    position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 67 : 20,
-    right: 20,
-    backgroundColor: theme.secondary,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    elevation: 2,
-    shadowColor: '#000000',
-    shadowOpacity: 0.15,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 2,
-      width: 0
-    },
   },
   mainButton: {
     elevation:2,
@@ -94,6 +73,9 @@ const styles = StyleSheet.create({
     right: 5,
     width: 46,
     height: 46
+  },
+  actionButtonContent: {
+    color: '#fff'
   }
 });
 
@@ -126,6 +108,14 @@ const FeedList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
+    this.updateCooldownInterval = setInterval(() => {
+      this.props.dispatch(CompetitionActions.updateCooldowns());
+    }, 1000);
+    this.props.dispatch(CompetitionActions.updateCooldowns());
+  },
+
+  componentWillUnmount() {
+    clearInterval(this.updateCooldownInterval);
   },
 
   componentWillReceiveProps({ feed }) {
@@ -200,30 +190,37 @@ const FeedList = React.createClass({
     return mapping[type] || mapping['default'];
   },
 
-  renderButton(text, onPress, extraStyle)  {
-    const combinedStyle = [styles.plusButton];
+  getCooldownTime(actionType) {
+    const now = new Date().getTime();
+    const diffInSecs = (this.props.cooldownTimes.get(actionType) - now) / 1000;
+    const minutes = Math.floor(diffInSecs / 60);
+    const seconds = Math.floor(diffInSecs % 60);
 
-    if (extraStyle != null) {
-      combinedStyle.push(extraStyle);
-    }
-
-    return <Fab text={text} onPress={onPress} styles={combinedStyle} />;
+    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
   },
 
   renderActionButtons(isLoading) {
     return isLoading ? null : this.props.actionTypes.map((actionType, i) => {
-      const iconName = this.getIconForAction(actionType.get('code'));
+      const actionTypeCode = actionType.get('code');
+      const iconName = this.getIconForAction(actionTypeCode);
+      const isCoolingDown = this.props.disabledActionTypes.find(dat => dat === actionTypeCode);
+
+      const iconOrCooldownTime = isCoolingDown ?
+        <Text style={styles.actionButtonContent}>{this.getCooldownTime(actionTypeCode)}</Text> :
+        <Icon name={iconName} size={22} style={styles.actionButtonContent}></Icon>;
+
       return (
         <Animated.View key={'button_' + i}
           style={[
             styles.buttonEnclosure,
             { transform: this.state.buttons[i].getTranslateTransform() }
           ]}>
-          {this.renderButton(
-            <Icon name={iconName} size={22} style={{ color: '#ffffff' }}></Icon>,
-            this.onPressAction.bind(this, actionType.get('code')),
-            styles.actionButton
-          )}
+          <ActionButton
+            onPress={this.onPressAction.bind(this, actionType.get('code'))}
+            disabled={isCoolingDown}
+            extraStyle={styles.actionButton}>
+            {iconOrCooldownTime}
+          </ActionButton>
         </Animated.View>
       );
     });
@@ -233,13 +230,15 @@ const FeedList = React.createClass({
     const rotation = this.state.plusButton.interpolate({
       inputRange: [0, 1], outputRange: ['0deg', '225deg']
     });
-    return isLoading ? null : this.renderButton(
-      <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-        <Icon name={'add'} size={22} style={{ color: '#ffffff' }}></Icon>
-      </Animated.View>,
-      this.onToggleActionButtons,
-      styles.mainButton
-    );
+
+    return isLoading ? null :
+      <ActionButton
+        onPress={this.onToggleActionButtons}
+        extraStyle={styles.mainButton}>
+        <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+          <Icon name={'add'} size={22} style={{ color: '#ffffff' }}></Icon>
+        </Animated.View>
+      </ActionButton>;
   },
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
@@ -305,6 +304,8 @@ const select = store => {
     isRefreshing: store.feed.get('isRefreshing'),
     isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
     actionTypes: store.competition.get('actionTypes'),
+    disabledActionTypes: store.competition.get('disabledActionTypes'),
+    cooldownTimes: store.competition.get('cooldownTimes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
 
