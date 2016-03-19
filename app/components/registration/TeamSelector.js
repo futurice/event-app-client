@@ -2,12 +2,18 @@
 
 import React, {
   View,
+  PropTypes,
   StyleSheet
 } from 'react-native';
 import Team from './Team';
 
 /** DEPRECATED */
 const TeamSelector = React.createClass({
+  propTypes: {
+    teams: PropTypes.array.isRequired,
+    onSelectTeam: PropTypes.func.isRequired
+  },
+
   render() {
     return (
       <View style={styles.teamList}>

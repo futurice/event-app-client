@@ -1,3 +1,6 @@
+/*eslint-disable react/display-name*/
+/*react-eslint misfires for jsx-returning functions*/
+
 /**
  * Navigation Bar for IOS
  * Used with Navigator
@@ -11,13 +14,11 @@ import React, {
   Text,
   View,
   ActionSheetIOS,
-  Navigator,
   Platform,
   TouchableHighlight
 } from 'react-native';
 
 const Icon = require('react-native-vector-icons/Ionicons');
-const theme = require('../../style/theme');
 
 let showShareActionSheet = function(url) {
   if (Platform.OS === 'ios') {

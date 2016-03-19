@@ -128,7 +128,10 @@ const FeedList = React.createClass({
               style={styles.listView}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
-            <ActionButtons style={styles.actionButtons} isLoading={isLoading} onPressAction={this.onPressAction} />
+            <ActionButtons
+              style={styles.actionButtons}
+              isLoading={isLoading}
+              onPressAction={this.onPressAction} />
           </View>
         );
     }

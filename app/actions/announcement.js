@@ -1,8 +1,6 @@
 'use strict';
 
 import _ from 'lodash';
-
-import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';
 
 const ANNOUNCEMENT_SET = 'ANNOUNCEMENT_SET';

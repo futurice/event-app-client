@@ -1,6 +1,5 @@
 'use strict';
 
-import ActionTypes from '../constants/ActionTypes';
 import Links from '../constants/Links';
 
 const LINK_SET = 'LINK_SET';

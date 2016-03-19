@@ -37,6 +37,9 @@ var DefaultTabBar = React.createClass({
     activeTextColor : React.PropTypes.string,
     inactiveTextColor : React.PropTypes.string,
     rippleColor : React.PropTypes.string,
+    containerWidth: React.PropTypes.number,
+    scrollValue: React.PropTypes.number,
+    style: View.propTypes.style
   },
 
   renderTabOption(name, page) {

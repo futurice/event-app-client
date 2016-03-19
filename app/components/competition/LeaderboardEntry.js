@@ -5,16 +5,24 @@ import React, {
   Text,
   Image,
   Platform,
+  PropTypes,
   Dimensions,
   StyleSheet,
   LayoutAnimation
 } from 'react-native';
+import Immutable from 'immutable';
 import theme from '../../style/theme';
 
 import TimerMixin from 'react-timer-mixin';
 
 const LeaderboardEntry = React.createClass({
   mixins: [TimerMixin],
+  propTypes: {
+    team: PropTypes.instanceOf(Immutable.Map).isRequired,
+    topscore: PropTypes.number.isRequired,
+    position: PropTypes.number.isRequired,
+    logo: PropTypes.string.isRequired
+  },
   getOrderSuffix(order) {
     const lastNum = order > 20 ? order % 10 : order;
     switch (lastNum) {

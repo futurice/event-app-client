@@ -6,6 +6,7 @@ var {
   ListView,
   Text,
   Platform,
+  PropTypes,
   TouchableHighlight,
   ActivityIndicatorIOS,
   View,
@@ -19,7 +20,7 @@ import analytics from '../../services/analytics';
 import theme from '../../style/theme';
 import * as AnnouncementActions from '../../actions/announcement';
 import * as EventActions from '../../actions/event';
-
+import LoadingStates from '../../constants/LoadingStates';
 import EventListItem from './EventListItem';
 import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
@@ -75,7 +76,13 @@ const styles = StyleSheet.create({
 });
 
 var TimelineList = React.createClass({
-
+  propTypes: {
+    announcements: PropTypes.array.isRequired,
+    events: PropTypes.array.isRequired,
+    dispatch: PropTypes.func.isRequired,
+    navigator: PropTypes.object.isRequired,
+    eventsFetchState: PropTypes.oneOf(_.values(LoadingStates)).isRequired
+  },
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({
@@ -184,7 +191,7 @@ var TimelineList = React.createClass({
       default:
         return <EventListItem
           item={item}
-          rowId={rowId}
+          rowId={+rowId}
           handlePress={() => this.navigateToSingleEvent(item)}
         />;
     }

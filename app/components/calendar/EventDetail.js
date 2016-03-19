@@ -8,6 +8,7 @@ var {
   Dimensions,
   TouchableHighlight,
   View,
+  PropTypes,
   Platform,
   Linking
 } = React;
@@ -111,6 +112,11 @@ const styles = StyleSheet.create({
 });
 
 const EventDetail = React.createClass({
+  propTypes: {
+    navigator: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired
+  },
+
   componentDidMount() {
     analytics.viewOpened(VIEW_NAME);
   },

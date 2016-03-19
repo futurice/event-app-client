@@ -4,6 +4,7 @@ import React, {
   View,
   TouchableHighlight,
   Platform,
+  PropTypes,
   StyleSheet
 } from 'react-native';
 
@@ -30,6 +31,13 @@ const styles = StyleSheet.create({
 });
 
 export default React.createClass({
+  propTypes: {
+    styles: View.propTypes.style,
+    onPress: PropTypes.func,
+    onPressIn: PropTypes.func,
+    onPressOut: PropTypes.func
+  },
+
   render() {
     const touchableProps = this.props.disabled ? {} : {
       onPress: this.props.onPress,

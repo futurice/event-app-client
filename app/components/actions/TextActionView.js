@@ -5,6 +5,7 @@ import React, {
   Text,
   TextInput,
   Platform,
+  PropTypes,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -15,6 +16,10 @@ import Modal from 'react-native-modalbox';
 import * as CompetitionActions from '../../actions/competition';
 
 const TextActionView = React.createClass({
+  propTypes: {
+    dispatch: PropTypes.func.isRequired,
+    isTextActionViewOpen: PropTypes.bool.isRequired
+  },
   getInitialState() {
     return {
       text: ''
