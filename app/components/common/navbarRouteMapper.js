@@ -1,3 +1,6 @@
+/*eslint-disable react/display-name*/
+/*react-eslint misfires for jsx-returning functions*/
+
 /**
  * Navigation Bar for IOS
  * Used with Navigator
