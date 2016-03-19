@@ -20,11 +20,6 @@ import theme from '../../style/theme';
 
 const VIEW_NAME = 'EventMap';
 
-EventMap.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  events: PropTypes.array.isRequired
-}
-
 class EventMap extends Component {
 
   constructor() {
@@ -91,6 +86,11 @@ class EventMap extends Component {
         </MapView>
     );
   }
+}
+
+EventMap.propTypes = {
+  navigator: PropTypes.object.isRequired,
+  events: PropTypes.array.isRequired
 }
 
 const styles = StyleSheet.create({
