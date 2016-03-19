@@ -1,11 +1,11 @@
 'use strict';
 
-import React, { StyleSheet, Platform } from 'react-native';
+import React, { StyleSheet, Platform, Text } from 'react-native';
 import Fab from '../common/Fab';
 import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
-  plusButton: {
+  button: {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
@@ -30,15 +30,16 @@ const styles = StyleSheet.create({
 
 const ActionButton = React.createClass({
   render() {
-    const combinedStyle = [styles.plusButton];
+    const combinedStyle = [styles.button];
+    const { extraStyle, onPress, disabled, children } = this.props;
 
-    if (this.props.extraStyle) {
-      combinedStyle.push(this.props.extraStyle);
+    if (extraStyle) {
+      combinedStyle.push(extraStyle);
     }
 
     return (
-      <Fab onPress={this.props.onPress} styles={combinedStyle} disabled={this.props.disabled}>
-        {this.props.children}
+      <Fab onPress={onPress} styles={combinedStyle} disabled={disabled}>
+        {children}
       </Fab>
     );
   }

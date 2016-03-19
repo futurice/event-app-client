@@ -6,26 +6,22 @@ import React, {
   Text,
   RefreshControl,
   View,
-  Platform,
-  Animated,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
 import Notification from '../common/Notification';
 import Loading from './Loading';
-import ActionButton from './ActionButton';
+import ActionButtons from './ActionButtons';
 import TextActionView from '../../components/actions/TextActionView';
 import FeedListState from '../../constants/FeedListState';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
-import * as RegistrationActions from '../../actions/registration';
 
 const styles = StyleSheet.create({
   container: {
@@ -38,71 +34,17 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1
   },
-  mainButton: {
-    elevation:2,
-    shadowColor: '#000000',
-    shadowOpacity: 0.15,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 2,
-      width: 0
-    },
-  },
-  buttonEnclosure: {
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    flex: 1,
+  actionButtons: {
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 67 : 20,
-    right: 20,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-  },
-  plusText: {
-    alignSelf: 'center',
-    flex: 1,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: 16,
-    color: '#fff'
-  },
-  actionButton: {
-    bottom: 10,
-    right: 5,
-    width: 46,
-    height: 46
-  },
-  actionButtonContent: {
-    color: '#fff'
+    bottom: 0,
+    right: 0
   }
 });
-
-// in a happy world all this would be calculated on the fly but no
-const BUTTON_COUNT = 6;
-const DISTANCE = 60;
-const BUTTON_WIDTH = 46;
-const BIG_BUTTON_WIDTH = 56;
-
-const OPEN = 'OPEN';
-const CLOSED = 'CLOSED';
-
-const BUTTON_POS = [];
-for (let i = 0; i < BUTTON_COUNT; i++) {
-  BUTTON_POS.push({
-    x: 0,
-    y: -DISTANCE * i - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10
-  });
-}
 
 const FeedList = React.createClass({
   getInitialState() {
     return {
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
-      buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
-      plusButton: new Animated.Value(0),
-      actionButtonsOpen: false
+      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     };
   },
 
@@ -123,26 +65,6 @@ const FeedList = React.createClass({
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(feed)
       });
-    }
-  },
-
-  animateButtonsToState(nextState) {
-    // state is manipulated here directly on purpose, so the animations works smoothly
-    /*eslint-disable */
-    this.state.actionButtonsOpen = nextState === OPEN;
-    /*eslint-enable */
-    BUTTON_POS.forEach((pos, i) => {
-      Animated.spring(this.state.buttons[i],
-        { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
-    });
-    Animated.spring(this.state.plusButton, { toValue: nextState === OPEN ? 1 : 0 }).start();
-  },
-
-  onToggleActionButtons() {
-    if (this.props.isRegistrationInfoValid === false) {
-      this.props.dispatch(RegistrationActions.openRegistrationView());
-    } else {
-      this.animateButtonsToState(this.state.actionButtonsOpen ? CLOSED : OPEN);
     }
   },
 
@@ -177,70 +99,6 @@ const FeedList = React.createClass({
     }
   },
 
-  getIconForAction(type) {
-    const mapping = {
-      TEXT: 'textsms',
-      IMAGE: 'photo-camera',
-      BEER: 'local-drink',
-      CIDER: 'local-bar',
-      SODA: 'local-cafe',
-      BUTTON_PUSH: 'touch-app',
-      default: 'image'
-    };
-    return mapping[type] || mapping['default'];
-  },
-
-  getCooldownTime(actionType) {
-    const now = new Date().getTime();
-    const diffInSecs = (this.props.cooldownTimes.get(actionType) - now) / 1000;
-    const minutes = Math.floor(diffInSecs / 60);
-    const seconds = Math.floor(diffInSecs % 60);
-
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-  },
-
-  renderActionButtons(isLoading) {
-    return isLoading ? null : this.props.actionTypes.map((actionType, i) => {
-      const actionTypeCode = actionType.get('code');
-      const iconName = this.getIconForAction(actionTypeCode);
-      const isCoolingDown = this.props.disabledActionTypes.find(dat => dat === actionTypeCode);
-
-      const iconOrCooldownTime = isCoolingDown ?
-        <Text style={styles.actionButtonContent}>{this.getCooldownTime(actionTypeCode)}</Text> :
-        <Icon name={iconName} size={22} style={styles.actionButtonContent}></Icon>;
-
-      return (
-        <Animated.View key={'button_' + i}
-          style={[
-            styles.buttonEnclosure,
-            { transform: this.state.buttons[i].getTranslateTransform() }
-          ]}>
-          <ActionButton
-            onPress={this.onPressAction.bind(this, actionType.get('code'))}
-            disabled={isCoolingDown}
-            extraStyle={styles.actionButton}>
-            {iconOrCooldownTime}
-          </ActionButton>
-        </Animated.View>
-      );
-    });
-  },
-
-  renderPlusButton(isLoading) {
-    const rotation = this.state.plusButton.interpolate({
-      inputRange: [0, 1], outputRange: ['0deg', '225deg']
-    });
-
-    return isLoading ? null :
-      <ActionButton
-        onPress={this.onToggleActionButtons}
-        extraStyle={styles.mainButton}>
-        <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-          <Icon name={'add'} size={22} style={{ color: '#ffffff' }}></Icon>
-        </Animated.View>
-      </ActionButton>;
-  },
-
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing}
@@ -270,8 +128,7 @@ const FeedList = React.createClass({
               style={styles.listView}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
-              {this.renderActionButtons(isLoading)}
-              {this.renderPlusButton(isLoading)}
+            <ActionButtons style={styles.actionButtons} isLoading={isLoading} onPressAction={this.onPressAction} />
           </View>
         );
     }
@@ -304,8 +161,6 @@ const select = store => {
     isRefreshing: store.feed.get('isRefreshing'),
     isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
     actionTypes: store.competition.get('actionTypes'),
-    disabledActionTypes: store.competition.get('disabledActionTypes'),
-    cooldownTimes: store.competition.get('cooldownTimes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
 
