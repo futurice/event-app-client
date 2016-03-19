@@ -1,19 +1,14 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
-  View,
-  Text,
-  Platform,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import Profile from '../components/profile/Profile';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
-
 
 const styles = StyleSheet.create({
   navigator: {
@@ -31,8 +26,8 @@ const styles = StyleSheet.create({
 var ProfileView = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
-      const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />
     }
   },
 
@@ -41,7 +36,7 @@ var ProfileView = React.createClass({
       <Navigator
         style={styles.navigator}
         navigationBar={
-          Platform.OS === 'ios' ?<Navigator.NavigationBar
+          Platform.OS === 'ios' ? <Navigator.NavigationBar
             style={styles.navbar}
             routeMapper={NavRouteMapper} /> : null
         }
@@ -58,10 +53,8 @@ var ProfileView = React.createClass({
   }
 });
 
-
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(ProfileView);

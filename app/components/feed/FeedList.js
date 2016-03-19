@@ -1,25 +1,19 @@
 'use strict';
 
 import React, {
-  Image,
   StyleSheet,
   ListView,
-  Dimensions,
   Text,
-  TouchableHighlight,
   RefreshControl,
   View,
   Platform,
   Animated,
-  Easing,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
-import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import time from '../../utils/time';
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
 import FeedListItem from './FeedListItem';
@@ -108,8 +102,6 @@ const BUTTON_COUNT = 6;
 const DISTANCE = 60;
 const BUTTON_WIDTH = 46;
 const BIG_BUTTON_WIDTH = 56;
-const ANGLE_RAD = 30 * Math.PI / 180;
-const ANGLE_INNER = 10 * Math.PI / 180;
 
 const OPEN = 'OPEN';
 const CLOSED = 'CLOSED';
@@ -118,7 +110,7 @@ const BUTTON_POS = [];
 for (let i = 0; i < BUTTON_COUNT; i++) {
   BUTTON_POS.push({
     x: 0,
-    y: -DISTANCE * (i) - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10
+    y: -DISTANCE * i - (BUTTON_WIDTH + BIG_BUTTON_WIDTH / 2) + 10
   });
 }
 
@@ -126,7 +118,7 @@ const FeedList = React.createClass({
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
-      buttons: BUTTON_POS.map((i) => (new Animated.ValueXY())),
+      buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
       plusButton: new Animated.Value(0),
       actionButtonsOpen: false
     };
@@ -134,30 +126,24 @@ const FeedList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
-    this.cooldownUpdater = setInterval(() => {
-      this.props.dispatch(CompetitionActions.updateCooldowns());
-    }, 1000);
-    this.props.dispatch(CompetitionActions.updateCooldowns());
   },
 
-  componentWillUnmount() {
-    // TODO: Never called (does it matter?)
-    clearInterval(this.cooldownUpdater);
-  },
-
-  componentWillReceiveProps({feed}) {
+  componentWillReceiveProps({ feed }) {
     if (feed !== this.props.feed) {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(feed)
-      })
+      });
     }
   },
 
   animateButtonsToState(nextState) {
     // state is manipulated here directly on purpose, so the animations works smoothly
+    /*eslint-disable */
     this.state.actionButtonsOpen = nextState === OPEN;
+    /*eslint-enable */
     BUTTON_POS.forEach((pos, i) => {
-      Animated.spring(this.state.buttons[i], { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
+      Animated.spring(this.state.buttons[i],
+        { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
     });
     Animated.spring(this.state.plusButton, { toValue: nextState === OPEN ? 1 : 0 }).start();
   },
@@ -203,41 +189,30 @@ const FeedList = React.createClass({
 
   getIconForAction(type) {
     const mapping = {
-      'TEXT': 'textsms',
-      'IMAGE': 'photo-camera',
-      'BEER': 'local-drink',
-      'CIDER': 'local-bar',
-      'SODA': 'local-cafe',
-      'BUTTON_PUSH': 'touch-app',
-      'default': 'image'
-    }
+      TEXT: 'textsms',
+      IMAGE: 'photo-camera',
+      BEER: 'local-drink',
+      CIDER: 'local-bar',
+      SODA: 'local-cafe',
+      BUTTON_PUSH: 'touch-app',
+      default: 'image'
+    };
     return mapping[type] || mapping['default'];
   },
 
-  renderButton(text, onPress, extraStyle) {
+  renderButton(text, onPress, extraStyle)  {
     const combinedStyle = [styles.plusButton];
 
     if (extraStyle != null) {
-        combinedStyle.push(extraStyle);
+      combinedStyle.push(extraStyle);
     }
 
-    return <Fab text={text} onPress={onPress} styles={combinedStyle} />
-  },
-
-  getIconOrCooldownTimer(actionType) {
-    const isEnabled = this.props.disabledActionTypes.indexOf(actionType) < 0;
-    if (isEnabled) {
-      const iconName = this.getIconForAction(actionType);
-      return <Icon name={iconName} size={22} style={{color: '#ffffff'}}></Icon>;
-    } else {
-      const now = new Date().getTime();
-      const timeLeft = Math.floor((this.props.cooldownTimes.get(actionType) - now) / 1000);
-      return <Text>{timeLeft}</Text>;
-    }
+    return <Fab text={text} onPress={onPress} styles={combinedStyle} />;
   },
 
   renderActionButtons(isLoading) {
     return isLoading ? null : this.props.actionTypes.map((actionType, i) => {
+      const iconName = this.getIconForAction(actionType.get('code'));
       return (
         <Animated.View key={'button_' + i}
           style={[
@@ -245,7 +220,7 @@ const FeedList = React.createClass({
             { transform: this.state.buttons[i].getTranslateTransform() }
           ]}>
           {this.renderButton(
-            this.getIconOrCooldownTimer(actionType.get('code')),
+            <Icon name={iconName} size={22} style={{ color: '#ffffff' }}></Icon>,
             this.onPressAction.bind(this, actionType.get('code')),
             styles.actionButton
           )}
@@ -255,12 +230,13 @@ const FeedList = React.createClass({
   },
 
   renderPlusButton(isLoading) {
-    const rotation = this.state.plusButton.interpolate({ inputRange: [0, 1], outputRange: ['0deg', '225deg'] });
-    return isLoading ? null : this.renderButton((
+    const rotation = this.state.plusButton.interpolate({
+      inputRange: [0, 1], outputRange: ['0deg', '225deg']
+    });
+    return isLoading ? null : this.renderButton(
       <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-        <Icon name="add" size={22} style={{color: '#ffffff'}}></Icon>
-      </Animated.View>
-      ),
+        <Icon name={'add'} size={22} style={{ color: '#ffffff' }}></Icon>
+      </Animated.View>,
       this.onToggleActionButtons,
       styles.mainButton
     );
@@ -270,7 +246,7 @@ const FeedList = React.createClass({
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing}
       onRefresh={this.onRefreshFeed}
-      title="Refreshing..."
+      title='Refreshing...'
       colors={[theme.primary]}
       tintColor={theme.primary}
       progressBackgroundColor={theme.light} />;
@@ -282,8 +258,8 @@ const FeedList = React.createClass({
         return <Loading />;
       case FeedListState.FAILED:
         return (
-          <ScrollView style={{flex: 1}} refreshControl={refreshControl}>
-            <Text style={{marginTop: 20}}>Could not get feed :(</Text>
+          <ScrollView style={{ flex: 1 }} refreshControl={refreshControl}>
+            <Text style={{ marginTop: 20 }}>Could not get feed :(</Text>
           </ScrollView>
         );
       default:
@@ -310,11 +286,13 @@ const FeedList = React.createClass({
           this.props.isLoadingActionTypes,
           this.props.isLoadingUserData
         )}
-        <Notification visible={this.props.isNotificationVisible}>{this.props.notificationText}</Notification>
+        <Notification visible={this.props.isNotificationVisible}>
+          {this.props.notificationText}
+        </Notification>
         <TextActionView />
       </View>
     );
-  }
+  },
 });
 
 const select = store => {
@@ -329,12 +307,10 @@ const select = store => {
     actionTypes: store.competition.get('actionTypes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
-    disabledActionTypes: store.competition.get('disabledActionTypes'),
-    cooldownTimes: store.competition.get('cooldownTimes'),
 
     user,
     isRegistrationInfoValid,
-    isLoadingUserData: store.registration.get('isLoading')
+    isLoadingUserData: store.registration.get('isLoading'),
   };
 };
 

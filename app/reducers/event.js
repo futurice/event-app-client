@@ -13,7 +13,6 @@ const initialState = Immutable.fromJS({
   listState: 'none'
 });
 
-
 export default function event(state = initialState, action) {
   switch (action.type) {
     case EVENT_SET:

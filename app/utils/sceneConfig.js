@@ -1,5 +1,4 @@
 import React, { Navigator } from 'react-native';
-import { connect } from 'react-redux';
 const SCREEN_WIDTH = require('Dimensions').get('window').width;
 const { Platform } = React;
 

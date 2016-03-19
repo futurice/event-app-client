@@ -6,7 +6,6 @@
 
 'use strict';
 
-
 import React, {
   StyleSheet,
   Text,
@@ -20,16 +19,15 @@ import React, {
 const Icon = require('react-native-vector-icons/Ionicons');
 const theme = require('../../style/theme');
 
-
-let showShareActionSheet = function(url){
-  if(Platform.OS === 'ios'){
+let showShareActionSheet = function(url) {
+  if (Platform.OS === 'ios') {
     ActionSheetIOS.showShareActionSheetWithOptions({
       url: url
     },
   (error) => { /* */ },
   (success, method) => {
-   /* */
- });
+    /* */
+  });
   }
 }
 
@@ -42,7 +40,7 @@ let NavigationBarRouteMapper = {
           navigator.pop();
         }
       }}>
-      { index>0 ?
+      { index > 0 ?
         <Icon name='ios-arrow-back' style={styles.navBarIcon} /> :
         <View/>
       }
@@ -51,8 +49,8 @@ let NavigationBarRouteMapper = {
   },
 
   RightButton: function(route, navigator, index, navState) {
-    if(route.actions){
-      return(
+    if (route.actions) {
+      return (
         <TouchableHighlight
         onPress={() => {
           showShareActionSheet(route.post.link)
@@ -75,11 +73,7 @@ let NavigationBarRouteMapper = {
   }
 };
 
-
-
-
 var styles = StyleSheet.create({
-
 
   navBarLogoWrap:{
     flex:1,
@@ -108,6 +102,5 @@ var styles = StyleSheet.create({
     fontWeight:'bold',
   }
 });
-
 
 module.exports = NavigationBarRouteMapper;

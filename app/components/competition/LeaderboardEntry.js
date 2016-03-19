@@ -2,58 +2,53 @@
 
 import React, {
   View,
-  Modal,
   Text,
-  TextInput,
   Image,
   Platform,
   Dimensions,
   StyleSheet,
-  LayoutAnimation,
-  TouchableOpacity
+  LayoutAnimation
 } from 'react-native';
 import theme from '../../style/theme';
 
 import TimerMixin from 'react-timer-mixin';
 
 const LeaderboardEntry = React.createClass({
-    mixins: [TimerMixin],
-  getOrderSuffix(order){
+  mixins: [TimerMixin],
+  getOrderSuffix(order) {
     const lastNum = order > 20 ? order % 10 : order;
     switch (lastNum) {
       case 1:
-      return 'st';
+        return 'st';
       case 2:
-      return 'nd';
+        return 'nd';
       case 3:
-      return 'rd';
+        return 'rd';
       default:
-      return 'th';
+        return 'th';
     }
   },
   componentWillMount() {
-     LayoutAnimation.spring();
+    LayoutAnimation.spring();
   },
   getInitialState() {
-      return {
-          width: 25
-      }
+    return {
+      width: 25
+    }
   },
   componentDidMount() {
-      this.setTimeout(() => {
-          LayoutAnimation.spring();
-            const percentageToTopscore = (this.props.team.get('score') / this.props.topscore)  || 0;
-            const barWrapWidth = (Dimensions.get('window').width - 110); // 110 other content width
-            let barWidth = barWrapWidth * percentageToTopscore;
-            barWidth = barWidth || 25; // minWidth for teams with zero points
-            this.setState({width: barWidth});
-      }, 1000);
+    this.setTimeout(() => {
+      LayoutAnimation.spring();
+      const percentageToTopscore = (this.props.team.get('score') / this.props.topscore) || 0;
+      const barWrapWidth = Dimensions.get('window').width - 110; // 110 other content width
+      let barWidth = barWrapWidth * percentageToTopscore;
+      barWidth = barWidth || 25; // minWidth for teams with zero points
+      this.setState({ width: barWidth });
+    }, 1000);
   },
-  
+
   render() {
 
-
-    
     const orderSuffix = this.getOrderSuffix(this.props.position);
 
     return (
@@ -78,18 +73,18 @@ const LeaderboardEntry = React.createClass({
             </View>
 
           </View>
-          
+
           <View style={styles.barWrap}>
-          
+
             <View style={[
               styles.bar,
               {width: this.state.width }
               ]} />
-                
+
             <Text style={[styles.entryTitleScore, styles.entryTitleScoreOver]}>
             {this.props.team.get('score')}
             </Text>
-            
+
           </View>
         </View>
         <View style={styles.entryBottomLine} />

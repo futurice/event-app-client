@@ -1,6 +1,5 @@
 'use strict';
 
-import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';
 
 const FEED_SET = 'FEED_SET';

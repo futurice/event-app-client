@@ -7,7 +7,6 @@ const RECEIVE_TEAMS = 'RECEIVE_TEAMS';
 const ERROR_REQUESTING_TEAMS = 'ERROR_REQUESTING_TEAMS';
 const SHOW_TEAM_SELECTOR = 'SHOW_TEAM_SELECTOR';
 
-
 const fetchTeams = () => {
   return dispatch => {
     dispatch({ type: REQUEST_TEAMS });
@@ -16,8 +15,6 @@ const fetchTeams = () => {
       .catch(e => dispatch({ type: ERROR_REQUESTING_TEAMS, error: e }));
   };
 };
-
-
 
 const showChooseTeam = () => {
   return { type: SHOW_TEAM_SELECTOR };

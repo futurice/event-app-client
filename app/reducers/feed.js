@@ -40,7 +40,7 @@ export default function feed(state = initialState, action) {
       const itemIndex = originalList.findIndex((item) => item.get('id') === action.item.id);
 
       if (itemIndex < 0) {
-        console.log('Tried to delete item, but it was not found from state:', item);
+        console.log('Tried to delete item, but it was not found from state:', itemIndex);
         return state;
       } else {
         return state.set('list', originalList.delete(itemIndex));

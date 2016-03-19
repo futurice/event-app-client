@@ -1,7 +1,6 @@
 'use strict';
 
 import _ from 'lodash';
-import moment from 'moment';
 
 import ActionTypes from '../constants/ActionTypes';
 import api from '../services/api';

@@ -1,25 +1,21 @@
 'use strict';
 
 import React, {
-  Component,
   StyleSheet,
   View,
   ScrollView,
   Text,
-  Modal
 } from 'react-native';
 import { connect } from 'react-redux';
 
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
-import ActionTypes from '../constants/ActionTypes';
-import Logos from "../constants/Logos";
+import Logos from '../constants/Logos';
 import theme from '../style/theme';
 const Icon = require('react-native-vector-icons/Ionicons');
 import * as CompetitionActions from '../actions/competition';
 
 const VIEW_NAME = 'CompetitionView';
-
 
 const CompetitionView = React.createClass({
   componentDidMount() {
@@ -29,22 +25,26 @@ const CompetitionView = React.createClass({
   render() {
     let topscore = 0
     this.props.teams.map((team) => {
-        topscore = team.get('score') > topscore ? team.get('score') : topscore;
+      topscore = team.get('score') > topscore ? team.get('score') : topscore;
     });
 
     return (
       <View style={styles.container}>
           <View style={styles.leaderboardIntro}>
             <View style={styles.leaderboardIconWrap}>
-              <Icon name="trophy" style={styles.leaderboardIcon} />
+              <Icon name='trophy' style={styles.leaderboardIcon} />
             </View>
             <View style={styles.leaderboardIntroTextWrap}>
-              <Text style={styles.leaderboardIntroText}>Current situation between Killat. Be an active Whappu user and lead your Kilta to victory!</Text>
+              <Text style={styles.leaderboardIntroText}>
+                Current situation between Killat.
+                Be an active Whappu user and lead your Kilta to victory!
+              </Text>
             </View>
           </View>
         <ScrollView style={styles.leaderboard}>
           {this.props.teams.map((team, index) =>
-            <LeaderboardEntry key={team.get('id')} topscore={topscore} team={team} position={index + 1} logo={this.props.logos[team.get('name')]} />
+            <LeaderboardEntry key={team.get('id')} topscore={topscore}
+              team={team} position={index + 1} logo={this.props.logos[team.get('name')]} />
           )}
         </ScrollView>
       </View>

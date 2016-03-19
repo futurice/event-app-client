@@ -5,7 +5,6 @@ import React, {
   Easing,
   Animated,
   Dimensions,
-  StyleSheet,
   View
 } from 'react-native';
 
@@ -55,8 +54,8 @@ class Notification extends Component {
     super(props);
 
     this.state = {
-        translate: new Animated.ValueXY(),
-        height: 0
+      translate: new Animated.ValueXY(),
+      height: 0
     };
   }
 
@@ -86,23 +85,23 @@ class Notification extends Component {
 
   fadeIn() {
     Animated.timing(this.state.translate, {
-        duration: 300,
-        easing: Easing.linear,
-        toValue: {x:0, y:0}
+      duration: 300,
+      easing: Easing.linear,
+      toValue: {x:0, y:0}
     }).start();
   }
 
   fadeOut() {
     Animated.timing(this.state.translate, {
-        duration: 300,
-        easing: Easing.linear,
-        toValue: {x:0, y:-this.state.height}
+      duration: 300,
+      easing: Easing.linear,
+      toValue: {x:0, y:-this.state.height}
     }).start();
   }
 
   getViewSize(e) {
     if (this.state.height == 0) {
-      this.state.translate.setValue({ x: 0, y: - e.nativeEvent.layout.height });
+      this.state.translate.setValue({ x: 0, y: -e.nativeEvent.layout.height });
     }
     this.state.height = e.nativeEvent.layout.height;
   }
@@ -111,14 +110,15 @@ class Notification extends Component {
     const message = this.props.children;
     return (
       <View
-        style={{position:'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0)', width: Screen.width, height: 400}}
+        style={{position:'absolute', top: 0, left: 0, backgroundColor: 'rgba(0,0,0,0)',
+          width: Screen.width, height: 400}}
         pointerEvents={'box-none'}
       >
         <Animated.View
           onLayout={this.getViewSize.bind(this)}
           style={[
             Notification.styles.container,
-            { top:(this.state.height === 0) ? -100 : 0 },
+            { top: this.state.height === 0 ? -100 : 0 },
             { transform:this.state.translate.getTranslateTransform() }
           ]}
         >

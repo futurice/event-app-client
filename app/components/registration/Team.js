@@ -2,9 +2,7 @@
 
 import React, {
   View,
-  Modal,
   Text,
-  TextInput,
   StyleSheet,
   Image,
   TouchableOpacity
@@ -14,7 +12,7 @@ import theme from '../../style/theme';
 
 const Team = React.createClass({
   render() {
-    const selected = this.props.teamid===this.props.selected;
+    const selected = this.props.teamid === this.props.selected;
     return (
       <View style={styles.item}>
         <TouchableOpacity

@@ -1,6 +1,5 @@
 'use strict';
 
-import _ from 'lodash';
 import React, {
   View,
   Text,
@@ -24,7 +23,7 @@ const TextActionView = React.createClass({
   onChangeText(text) {
     this.setState({text: text});
   },
-  onCancel(){
+  onCancel() {
     this.setState({text: ''});
     this.props.dispatch(CompetitionActions.closeTextActionView());
   },
@@ -41,11 +40,12 @@ const TextActionView = React.createClass({
         backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
           <View style={[styles.innerContainer]}>
-
-            <View style={styles.title}><Text style={styles.titleText} >Hi, how's your Whappu going?</Text></View>
+            <View style={styles.title}><Text style={styles.titleText}>
+              Hi, how's your Whappu going?</Text>
+            </View>
             <TextInput
               autoFocus={true}
-              style={[styles.inputField, styles['inputField_'+Platform.OS]]}
+              style={[styles.inputField, styles['inputField_' + Platform.OS]]}
               onChangeText={this.onChangeText}
               value={this.state.text} />
 
@@ -67,7 +67,9 @@ const TextActionView = React.createClass({
 
 
              <View style={styles.bottomInfo}>
-              <Text style={styles.bottomInfoText}>Each message gives points to your Kilta and boosts the Wappu spirit!</Text>
+              <Text style={styles.bottomInfoText}>
+                Each message gives points to your Kilta and boosts the Wappu spirit!
+              </Text>
              </View>
 
           </View>
@@ -77,6 +79,7 @@ const TextActionView = React.createClass({
   }
 });
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -117,8 +120,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     margin: 10,
   },
-  inputField_android:{
-
+  inputField_android: {
   },
   inputField_ios: {
     padding:5,

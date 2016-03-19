@@ -12,18 +12,15 @@ function getGeoUrl(event) {
     geoUrl += '&q=' + event.locationName;
     geoUrl += '&ll=' + latitude + ',' + longitude;
   } else {
-      
-      geoUrl = "geo:";//<lat>,<long>?q=<lat>,<long>(Label+Name)"
-      geoUrl += latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +'(' + encodeURIComponent(event.locationName) + ')';
-    
+    //<lat>,<long>?q=<lat>,<long>(Label+Name)"
+    geoUrl = 'geo:' + latitude + ',' + longitude + '?q=' + latitude + ',' + longitude +
+      '(' + encodeURIComponent(event.locationName) + ')';
   }
 
   return geoUrl;
 }
 
-
 // In here could be functions for calculating distances between locations, etc
-
 
 export default {
   getGeoUrl

@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Component, Platform, StatusBarIOS } from 'react-native';
+import React, { Platform, StatusBarIOS } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -36,7 +36,7 @@ const RootView = React.createClass({
     navigator.geolocation.getCurrentPosition(
       position => this.updateLocation,
       error => console.log(error.message),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000*60*5 }
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 * 60 * 5 }
     );
     this.watchID = navigator.geolocation.watchPosition(this.updateLocation);
 
@@ -45,7 +45,6 @@ const RootView = React.createClass({
       StatusBarIOS.setHidden(false)
       StatusBarIOS.setStyle('light-content')
     }
-
   },
 
   componentWillUnmount() {
@@ -63,7 +62,6 @@ const RootView = React.createClass({
     return (
       <Provider store={store}>
         <MainView />
-
       </Provider>
     );
   }

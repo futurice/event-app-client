@@ -37,8 +37,8 @@ export default function registration(state = initialState, action) {
         'isLoading': true,
         'isError': false
       });
-      case REQUEST_NAME:
-        return state.set('isLoading', true);
+    case REQUEST_NAME:
+      return state.set('isLoading', true);
     case USER_CREATE_SUCCESS:
       return state.merge({
         'isLoading': false,

@@ -21,7 +21,7 @@ var Button = React.createClass({
     },
   ),
 
-  _renderInnerText: function () {
+  _renderInnerText: function() {
     return (
       <Text style={[styles.textButton, this.props.textStyle]}>
         {this.props.children}
@@ -29,10 +29,11 @@ var Button = React.createClass({
     );
   },
 
-  render: function () {
+  render: function() {
     if (this.props.isDisabled === true) {
       return (
-        <View style={[styles.button, this.props.style, (this.props.disabledStyle || styles.opacity)]}>
+        <View style={[styles.button, this.props.style,
+            this.props.disabledStyle || styles.opacity]}>
           {this._renderInnerText()}
         </View>
       );

@@ -2,7 +2,6 @@
 
 import React from 'react-native';
 var {
-  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -137,7 +136,8 @@ const EventDetail = React.createClass({
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
 
     return <View style={styles.wrapper}>
-      {(Platform.OS === 'android') ? <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
+      {(Platform.OS === 'android') ?
+        <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
       <ScrollView>
         <EventListItem item={model} handlePress={() => true} />
@@ -147,11 +147,14 @@ const EventDetail = React.createClass({
             {model.facebookId &&
             <TouchableHighlight
               style={styles.detailEventInfoWrapper}
-              onPress={() => Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+              onPress={() =>
+                Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
             >
               <View style={styles.detailEventInfoWrapper}>
                 <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={20}/>
-                <Text style={styles.detailEventInfoAttending}>{model.attendingCount} attending</Text>
+                <Text style={styles.detailEventInfoAttending}>
+                  {model.attendingCount} attending
+                </Text>
               </View>
             </TouchableHighlight>
             }

@@ -1,14 +1,10 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
   StyleSheet,
   BackAndroid,
-  Platform,
-  View,
-  Text,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import EventMap from '../components/map/EventMap';
@@ -16,11 +12,9 @@ import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 import theme from '../style/theme';
 
-const VIEW_NAME = 'FeedView';
-
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: (Platform.OS === 'ios') ? 62 : 0
+    paddingTop: Platform.OS === 'ios' ? 62 : 0
   },
   navbar: {
     backgroundColor: theme.primary,
@@ -41,11 +35,11 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 var EventMapView = React.createClass({
-  renderScene (route, navigator) {
+  renderScene(route, navigator) {
     _navigator = navigator;
     if (route.component) {
-      const Component = route.component
-      return <Component navigator={navigator} route={route} {...this.props} />
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />
     }
   },
 
@@ -71,8 +65,7 @@ var EventMapView = React.createClass({
 });
 
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(EventMapView);

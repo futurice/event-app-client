@@ -4,16 +4,12 @@ import React, {
   Component,
   Navigator,
   StyleSheet,
-  View,
-  Text,
-  Platform,
-  TouchableHighlight
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
 import CompetitionView from './CompetitionView';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 const theme = require('../style/theme');
-
 
 const styles = StyleSheet.create({
   navigator: {
@@ -31,8 +27,8 @@ const styles = StyleSheet.create({
 var ProfileView = React.createClass({
   renderScene(route, navigator) {
     if (route.component) {
-      const Component = route.component;
-      return <Component navigator={navigator} route={route} {...this.props} />
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={navigator} route={route} {...this.props} />
     }
   },
 
@@ -58,10 +54,8 @@ var ProfileView = React.createClass({
   }
 });
 
-
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(ProfileView);

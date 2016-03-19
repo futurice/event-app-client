@@ -5,7 +5,6 @@ import {
   REQUEST_TEAMS,
   RECEIVE_TEAMS,
   ERROR_REQUESTING_TEAMS,
-  SELECT_TEAM,
   SHOW_TEAM_SELECTOR,
   CLOSE_TEAM_SELECTOR
 } from '../actions/team';
@@ -36,7 +35,6 @@ export default function team(state = initialState, action) {
         isLoading: false,
         isError: true
       });
-    
     case SHOW_TEAM_SELECTOR:
       return state.set('isChooseTeamViewOpen', true);
     case CLOSE_TEAM_SELECTOR:

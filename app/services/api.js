@@ -1,12 +1,11 @@
 import DeviceInfo from 'react-native-device-info';
-import React, { AsyncStorage } from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 import Endpoints from '../constants/Endpoints';
 import {version as VERSION_NUMBER} from '../../package.json';
 
 const USER_UUID = DeviceInfo.getUniqueID();
 const API_TOKEN = 'hessu'; // TODO implement build step & get this from env config or some other magical solution
-
 
 // # Exported functions --------------------------------------------------
 //
@@ -34,8 +33,8 @@ const fetchModels = modelType => {
 const fetchMoreFeed = lastID => {
   const params = {beforeId: lastID, limit: 6};
   let url = Endpoints.urls['feed'];
-  url += '?'+ Object.keys(params).map(function(k) {
-    return encodeURIComponent(k) + "=" + encodeURIComponent(params[k]);
+  url += '?' + Object.keys(params).map(function(k) {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
   }).join('&');
 
   return wapuFetch(url)
@@ -83,10 +82,7 @@ const deleteFeedItem = item => {
   return _delete(Endpoints.urls.feedItem(item.id));
 };
 
-
-
 // # Internal functions --------------------------------------------------
-//
 
 // Our own wrapper for fetch. Logs the request, adds required version headers, etc.
 // Instead of using fetch directly, always use this.
@@ -153,7 +149,6 @@ const _delete = (url, body) => {
     body: JSON.stringify(body)
   }).then(checkResponseStatus);
 };
-
 
 export default {
   deleteFeedItem,

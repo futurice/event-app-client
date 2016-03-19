@@ -1,18 +1,11 @@
 'use strict';
 
 import React, {
-  Component,
   Navigator,
-  StyleSheet,
   BackAndroid,
-  View,
-  Text,
-  TouchableHighlight
 } from 'react-native';
 import { connect } from 'react-redux';
-
 import TimelineList from '../components/calendar/TimelineList';
-import theme from '../style/theme';
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -24,11 +17,11 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
 });
 
 var TimelineListWrapper = React.createClass({
-  renderScene (route, navigator) {
+  renderScene(route, navigator) {
     _navigator = navigator;
     if (route.component) {
-      const Component = route.component
-      return <Component navigator={this.props.navigator} route={route} {...this.props} />
+      const RouteComponent = route.component;
+      return <RouteComponent navigator={this.props.navigator} route={route} {...this.props} />
     }
   },
 
@@ -49,8 +42,7 @@ var TimelineListWrapper = React.createClass({
 });
 
 const select = store => {
-    return {
-    }
+  return {};
 };
 
 export default connect(select)(TimelineListWrapper);
