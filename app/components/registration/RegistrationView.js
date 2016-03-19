@@ -35,8 +35,6 @@ const RegistrationView = React.createClass({
     this.props.dispatch(RegistrationActions.closeRegistrationView());
   },
   render() {
-    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]);
-    const currentTeamName = currentTeam ? currentTeam.name : 'Not selected';
     return (
       <Modal
         isOpen={this.props.isRegistrationViewOpen}
@@ -78,7 +76,6 @@ const RegistrationView = React.createClass({
             </View>
 
             <View style={styles.bottomButtons}>
-
 
               <Button
                 onPress={this.onCancel}

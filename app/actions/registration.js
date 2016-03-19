@@ -1,5 +1,7 @@
 import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
+import namegen from '../services/namegen';
+import _ from 'lodash';
 
 const CREATING_USER = 'CREATING_USER';
 const USER_CREATE_SUCCESS = 'USER_CREATE_SUCCESS';
@@ -12,6 +14,7 @@ const RECEIVE_USER = 'RECEIVE_NAME';
 const ERROR_REQUESTING_USER = 'ERROR_REQUESTING_USER';
 const SELECT_TEAM = 'SELECT_TEAM';
 const CLOSE_TEAM_SELECTOR = 'CLOSE_TEAM_SELECTOR';
+
 const openRegistrationView = () => {
   return { type: OPEN_REGISTRATION_VIEW };
 };
@@ -35,10 +38,15 @@ const putUser = () => {
   };
 };
 const selectTeam = team => {
-  return dispatch => {
+  return (dispatch, getStore) => {
+    const teams = getStore().team.get('teams').toJS();
+    const currentTeam = _.find(teams, ['id', team]);
+
+    const newUserName = namegen.generateName(currentTeam.name);
     dispatch({ type: CLOSE_TEAM_SELECTOR });
     dispatch({ type: SELECT_TEAM, payload: team });
-  }
+    dispatch({ type: UPDATE_NAME, payload: newUserName });
+  };
 };
 const updateName = name => {
   return { type: UPDATE_NAME, payload: name };
@@ -53,7 +61,6 @@ const getUser = () => {
         dispatch({ type: RECEIVE_USER, payload: user });
       })
       .catch(error => {
-
         dispatch({ type: ERROR_REQUESTING_USER, error: error });
       });
   };
