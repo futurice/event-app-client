@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
 
 export default React.createClass({
   propTypes: {
-    text: PropTypes.string.isRequired,
+    text: PropTypes.element.isRequired,
     styles: View.propTypes.style,
     onPress: PropTypes.func,
     onPressIn: PropTypes.func,

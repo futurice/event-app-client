@@ -16,7 +16,7 @@ const Team = React.createClass({
     name: PropTypes.string.isRequired,
     logo: PropTypes.string.isRequired,
     teamid: PropTypes.number.isRequired,
-    selected: PropTypes.number.selected,
+    selected: PropTypes.number.isRequired,
     onPress: PropTypes.func.isRequired
   },
   render() {

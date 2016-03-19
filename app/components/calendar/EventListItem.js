@@ -82,7 +82,7 @@ export default React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
     handlePress: PropTypes.func.isRequired,
-    rowId: PropTypes.number.isRequired
+    rowId: PropTypes.number
   },
 
   render() {
@@ -98,7 +98,7 @@ export default React.createClass({
             style={styles.gridListItemImg} />
           <View style={[
             styles.gridListItemImgColorLayer,
-            { backgroundColor: this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
+            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ? '#164140' : '#6e3b56' }
           ]} />
         </View>
 

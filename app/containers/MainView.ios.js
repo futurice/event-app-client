@@ -20,7 +20,6 @@ const Icon = require('react-native-vector-icons/Ionicons');
 
 const MainView = React.createClass({
   propTypes: {
-    navigator: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     currentTab: PropTypes.string.isRequired
   },

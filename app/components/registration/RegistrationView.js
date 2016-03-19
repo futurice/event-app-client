@@ -10,6 +10,7 @@ import React, {
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Immutable from 'immutable';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
@@ -21,8 +22,8 @@ import * as TeamActions from '../../actions/team';
 const RegistrationView = React.createClass({
   propTypes: {
     name: PropTypes.string.isRequired,
-    teams: PropTypes.array.isRequired,
-    logos: PropTypes.array.isRequired,
+    teams: PropTypes.instanceOf(Immutable.List).isRequired,
+    logos: PropTypes.object.isRequired,
     selectedTeam: PropTypes.number.isRequired,
     isRegistrationViewOpen: PropTypes.bool.isRequired,
     isRegistrationInfoValid: PropTypes.bool.isRequired,

@@ -7,6 +7,7 @@ import React, {
   PropTypes,
   Text,
 } from 'react-native';
+import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
 import analytics from '../services/analytics';
@@ -18,8 +19,8 @@ const VIEW_NAME = 'CompetitionView';
 
 const CompetitionView = React.createClass({
   propTypes: {
-    teams: PropTypes.array.isRequired,
-    logos: PropTypes.array.isRequired
+    teams: PropTypes.instanceOf(Immutable.List).isRequired,
+    logos: PropTypes.object.isRequired
   },
 
   componentDidMount() {
@@ -47,7 +48,7 @@ const CompetitionView = React.createClass({
           </View>
         <ScrollView style={styles.leaderboard}>
           {this.props.teams.map((team, index) =>
-            <LeaderboardEntry key={team.get('id')} topscore={topscore}
+            <LeaderboardEntry key={team.get('id')} topscore={+topscore}
               team={team} position={index + 1} logo={this.props.logos[team.get('name')]} />
           )}
         </ScrollView>

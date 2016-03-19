@@ -20,7 +20,7 @@ import analytics from '../../services/analytics';
 import theme from '../../style/theme';
 import * as AnnouncementActions from '../../actions/announcement';
 import * as EventActions from '../../actions/event';
-
+import LoadingStates from '../../constants/LoadingStates';
 import EventListItem from './EventListItem';
 import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
@@ -81,7 +81,7 @@ var TimelineList = React.createClass({
     events: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
-    eventsFetchState: PropTypes.oneOf(['loading', 'ready', 'failed']).isRequired
+    eventsFetchState: PropTypes.oneOf(_.values(LoadingStates)).isRequired
   },
   getInitialState() {
     return {
@@ -191,7 +191,7 @@ var TimelineList = React.createClass({
       default:
         return <EventListItem
           item={item}
-          rowId={rowId}
+          rowId={+rowId}
           handlePress={() => this.navigateToSingleEvent(item)}
         />;
     }

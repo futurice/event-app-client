@@ -12,6 +12,8 @@ import React, {
   Animated,
   ScrollView
 } from 'react-native';
+
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import { ImagePickerManager } from 'NativeModules';
 import Immutable from 'immutable';
@@ -24,7 +26,7 @@ import FeedListItem from './FeedListItem';
 import Notification from '../../components/common/Notification';
 import Fab from '../common/Fab';
 import TextActionView from '../../components/actions/TextActionView';
-
+import LoadingStates from '../../constants/LoadingStates';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import * as RegistrationActions from '../../actions/registration';
@@ -126,8 +128,8 @@ const FeedList = React.createClass({
     isLoadingUserData: PropTypes.bool.isRequired,
     isNotificationVisible: PropTypes.bool.isRequired,
     notificationText: PropTypes.string.isRequired,
-    feedListState: PropTypes.oneOf(['loading', 'ready', 'failed']).isRequired,
-    refreshListState: PropTypes.oneOf(['loading', 'ready', 'failed']).isRequired,
+    feedListState: PropTypes.oneOf(_.values(LoadingStates)).isRequired,
+    refreshListState: PropTypes.bool.isRequired,
     actionTypes: PropTypes.instanceOf(Immutable.List).isRequired,
     dispatch: PropTypes.func.isRequired
   },
