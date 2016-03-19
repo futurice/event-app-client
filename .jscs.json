@@ -25,6 +25,7 @@
 
     "requireCamelCaseOrUpperCaseIdentifiers": true,
     "requireCommaBeforeLineBreak": true,
+    "requireTrailingComma": false,
     "requireCurlyBraces": [
         "if",
         "else",

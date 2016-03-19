@@ -69,6 +69,8 @@
 
         "quotes":               0, // allow both single and double quotes
         "space-infix-ops":      1,
-        "strict":               0
+        "strict":               0,
+
+        "react/prop-types":     0
     }
 }

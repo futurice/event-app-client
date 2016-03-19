@@ -15,6 +15,7 @@ const OPEN_TEXTACTION_VIEW = 'OPEN_TEXTACTION_VIEW';
 const CLOSE_TEXTACTION_VIEW = 'CLOSE_TEXTACTION_VIEW';
 const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
 const HIDE_NOTIFICATION = 'HIDE_NOTIFICATION';
+const UPDATE_COOLDOWNS = 'UPDATE_COOLDOWNS';
 
 const openTextActionView = () => {
   return { type: OPEN_TEXTACTION_VIEW };
@@ -30,7 +31,7 @@ const _postAction = (payload) => {
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
-        dispatch({ type: ACTION_POST_SUCCESS });
+        dispatch({ type: ACTION_POST_SUCCESS, payload: { type: payload.type } });
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
         dispatch(refreshFeed());
 
@@ -44,7 +45,7 @@ const _postAction = (payload) => {
           type: SHOW_NOTIFICATION,
           payload: NotificationMessages.getErrorMessage(payload)
         });
-        dispatch({ type: ACTION_POST_FAILURE, error: e })
+        dispatch({ type: ACTION_POST_FAILURE, error: e });
 
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
@@ -64,7 +65,7 @@ const postText = text => {
     type: ActionTypes.TEXT,
     text: text
   });
-}
+};
 
 const postImage = image => {
   return _postAction({
@@ -82,6 +83,10 @@ const fetchActionTypes = () => {
   };
 };
 
+const updateCooldowns = () => {
+  return { type: UPDATE_COOLDOWNS };
+};
+
 export {
   POSTING_ACTION,
   ACTION_POST_SUCCESS,
@@ -93,10 +98,12 @@ export {
   CLOSE_TEXTACTION_VIEW,
   SHOW_NOTIFICATION,
   HIDE_NOTIFICATION,
+  UPDATE_COOLDOWNS,
   postAction,
   postText,
   postImage,
   openTextActionView,
   closeTextActionView,
-  fetchActionTypes
+  fetchActionTypes,
+  updateCooldowns
 };
