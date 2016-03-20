@@ -66,6 +66,7 @@
     "requireSpacesInFunctionExpression": {
         "beforeOpeningCurlyBrace": true
     },
+    "requirePaddingNewLinesBeforeLineComments": false,
 
     "validateLineBreaks": "LF",
     "validateIndentation": 2,
