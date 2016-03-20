@@ -92,7 +92,7 @@ var TimelineList = React.createClass({
     };
   },
 
-  componentWillReceiveProps({events, announcements}) {
+  componentWillReceiveProps({ events, announcements }) {
     if (announcements === this.props.announcements && events === this.props.events) {
       return;
     }
@@ -107,7 +107,7 @@ var TimelineList = React.createClass({
   },
 
   getViewContent() {
-    // ...should these be throttled?
+    // TODO: ...should these be throttled?
     this.props.dispatch(EventActions.fetchEvents());
     this.props.dispatch(AnnouncementActions.fetchAnnouncements());
   },

@@ -18,7 +18,7 @@ import Notification from '../common/Notification';
 import Loading from './Loading';
 import ActionButtons from './ActionButtons';
 import TextActionView from '../../components/actions/TextActionView';
-import FeedListState from '../../constants/FeedListState';
+import LoadingStates from '../../constants/LoadingStates';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
@@ -111,9 +111,9 @@ const FeedList = React.createClass({
     const isLoading = isLoadingActionTypes || isLoadingUserData;
 
     switch (feedListState) {
-      case FeedListState.LOADING:
+      case LoadingStates.LOADING:
         return <Loading />;
-      case FeedListState.FAILED:
+      case LoadingStates.FAILED:
         return (
           <ScrollView style={{ flex: 1 }} refreshControl={refreshControl}>
             <Text style={{ marginTop: 20 }}>Could not get feed :(</Text>
