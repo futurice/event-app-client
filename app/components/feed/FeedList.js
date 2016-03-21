@@ -73,6 +73,9 @@ const FeedList = React.createClass({
   },
 
   onLoadMoreItems() {
+    if(!this.props.feed.length){
+      return;
+    }
     const lastItemID = this.props.feed[this.props.feed.length - 1].id || null;
     if (lastItemID) {
       this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
