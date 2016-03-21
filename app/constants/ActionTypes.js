@@ -4,5 +4,6 @@ export default {
   CIDER: 'CIDER',
   BUTTON_PUSH: 'BUTTON_PUSH',
   TEXT: 'TEXT',
-  SODA: 'SODA'
+  SODA: 'SODA',
+  SIMA: 'SIMA'
 };
