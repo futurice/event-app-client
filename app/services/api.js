@@ -29,9 +29,8 @@ const fetchModels = modelType => {
   });
 };
 
-//?beforeId=VANHIMMAN_ID&limit=20
 const fetchMoreFeed = lastID => {
-  const params = { beforeId: lastID, limit: 6 };
+  const params = { beforeId: lastID, limit: 20 };
   let url = Endpoints.urls.feed;
   url += '?' + Object.keys(params).map(k => {
     return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
