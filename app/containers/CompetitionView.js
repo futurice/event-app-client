@@ -12,15 +12,13 @@ import { connect } from 'react-redux';
 
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
-import Logos from '../constants/Logos';
 const Icon = require('react-native-vector-icons/Ionicons');
 
 const VIEW_NAME = 'CompetitionView';
 
 const CompetitionView = React.createClass({
   propTypes: {
-    teams: PropTypes.instanceOf(Immutable.List).isRequired,
-    logos: PropTypes.object.isRequired
+    teams: PropTypes.instanceOf(Immutable.List).isRequired
   },
 
   componentDidMount() {
@@ -49,7 +47,7 @@ const CompetitionView = React.createClass({
         <ScrollView style={styles.leaderboard}>
           {this.props.teams.map((team, index) =>
             <LeaderboardEntry key={team.get('id')} topscore={+topscore}
-              team={team} position={index + 1} logo={this.props.logos[team.get('name')]} />
+              team={team} position={index + 1} logo={team.get('imagePath')} />
           )}
         </ScrollView>
       </View>
@@ -96,7 +94,6 @@ const styles = StyleSheet.create({
 
 const select = store => {
   return {
-    logos: Logos.killat,
     teams: store.team.get('teams'),
     actionTypes: store.competition.get('actionTypes')
   };

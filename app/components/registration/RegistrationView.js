@@ -15,7 +15,6 @@ import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
 import Team from './Team';
-import Logos from '../../constants/Logos';
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 
@@ -23,7 +22,6 @@ const RegistrationView = React.createClass({
   propTypes: {
     name: PropTypes.string.isRequired,
     teams: PropTypes.instanceOf(Immutable.List).isRequired,
-    logos: PropTypes.object.isRequired,
     selectedTeam: PropTypes.number.isRequired,
     isRegistrationViewOpen: PropTypes.bool.isRequired,
     isRegistrationInfoValid: PropTypes.bool.isRequired,
@@ -77,7 +75,7 @@ const RegistrationView = React.createClass({
                   key={i}
                   name={team.get('name')}
                   teamid={team.get('id')}
-                  logo={this.props.logos[team.get('name')]}
+                  logo={team.get('imagePath')}
                   selected={this.props.selectedTeam}
                   onPress={this.onSelectTeam.bind(null, team.get('id'))} />
               )}
@@ -176,7 +174,6 @@ const styles = StyleSheet.create({
 
 const select = store => {
   return {
-    logos: Logos.killat,
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
     selectedTeam: store.registration.get('selectedTeam'),
