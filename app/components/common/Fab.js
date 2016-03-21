@@ -35,7 +35,8 @@ export default React.createClass({
     styles: View.propTypes.style,
     onPress: PropTypes.func,
     onPressIn: PropTypes.func,
-    onPressOut: PropTypes.func
+    onPressOut: PropTypes.func,
+    underlayColor: PropTypes.string
   },
 
   render() {
@@ -43,6 +44,7 @@ export default React.createClass({
       onPress: this.props.onPress,
       onPressIn: this.props.onPressIn,
       onPressOut: this.props.onPressOut,
+      underlayColor: this.props.underlayColor
     };
 
     const buttonStyles = this.props.disabled ?
@@ -51,7 +53,7 @@ export default React.createClass({
 
     return (
       <TouchableHighlight {...touchableProps} style={buttonStyles}>
-        <View style={[this.props.styles, styles.content]}>
+        <View style={[styles.content]}>
           <View>
             {this.props.children}
           </View>

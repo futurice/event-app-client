@@ -4,6 +4,7 @@ import React, { Animated, Platform, StyleSheet, Text, View } from 'react-native'
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
+import ActionButtonLabel from './ActionButtonLabel';
 import * as RegistrationActions from '../../actions/registration';
 
 // in a happy world all this would be calculated on the fly but no
@@ -11,6 +12,7 @@ const BUTTON_COUNT = 6;
 const DISTANCE = 60;
 const BUTTON_WIDTH = 46;
 const BIG_BUTTON_WIDTH = 56;
+const BUTTON_DELAY = 40;
 
 const OPEN = 'OPEN';
 const CLOSED = 'CLOSED';
@@ -42,12 +44,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 67 : 20,
     right: 20,
-    width: 56,
+    overflow:'visible',
+    width: 200,
     height: 56,
-    borderRadius: 28,
+    borderRadius: 28
   },
   actionButton: {
-    bottom: 10,
+    bottom: 4,
     right: 5,
     width: 46,
     height: 46
@@ -72,6 +75,7 @@ const ActionButtons = React.createClass({
     return {
       buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
       plusButton: new Animated.Value(0),
+      labels: BUTTON_POS.map(() => new Animated.Value(0)),
       actionButtonsOpen: false
     };
   },
@@ -82,8 +86,18 @@ const ActionButtons = React.createClass({
     this.state.actionButtonsOpen = nextState === OPEN;
     /*eslint-enable */
     BUTTON_POS.forEach((pos, i) => {
-      Animated.spring(this.state.buttons[i],
-        { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
+      // Animate action buttons
+      Animated.sequence([
+        Animated.delay(nextState === OPEN ? BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
+        Animated.spring(this.state.buttons[i],
+          { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } })
+      ]).start();
+
+      // Animate action button labels, 200ms later than buttons
+      Animated.sequence([
+        Animated.delay(nextState === OPEN ? 200 + BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
+        Animated.timing(this.state.labels[i], {duration:200, toValue:  nextState === OPEN ? 1 : 0})
+      ]).start();
     });
     Animated.spring(this.state.plusButton, { toValue: nextState === OPEN ? 1 : 0 }).start();
   },
@@ -109,6 +123,20 @@ const ActionButtons = React.createClass({
     return mapping[type] || mapping['default'];
   },
 
+  getLabelForAction(type) {
+    const mapping = {
+      TEXT: 'Write a message',
+      IMAGE: 'Take a photo',
+      BEER: 'Had a beer',
+      CIDER: 'Had a cider',
+      SODA: 'Had a soda',
+      BUTTON_PUSH: 'Push the button',
+      default: 'image'
+    };
+    return mapping[type] || mapping['default'];
+  },
+
+
   getCooldownTime(actionType) {
     const now = new Date().getTime();
     const diffInSecs = (this.props.cooldownTimes.get(actionType) - now) / 1000;
@@ -122,6 +150,7 @@ const ActionButtons = React.createClass({
     return this.props.actionTypes.map((actionType, i) => {
       const actionTypeCode = actionType.get('code');
       const iconName = this.getIconForAction(actionTypeCode);
+      const labelName = this.getLabelForAction(actionTypeCode);
       const isCoolingDown = this.props.disabledActionTypes.find(dat => dat === actionTypeCode);
 
       const iconOrCooldownTime = isCoolingDown ?
@@ -135,6 +164,9 @@ const ActionButtons = React.createClass({
 
       return (
         <Animated.View key={`button-${i}`} style={actionButtonStyles}>
+          <ActionButtonLabel extraStyle={{opacity:this.state.labels[i] }}>
+            {labelName}
+          </ActionButtonLabel>
           <ActionButton
             onPress={getBoundAction(actionTypeCode, this.props.onPressAction)}
             disabled={isCoolingDown}
@@ -154,7 +186,7 @@ const ActionButtons = React.createClass({
     return (
       <ActionButton onPress={this.onToggleActionButtons} extraStyle={styles.mainButton}>
         <Animated.View style={{ transform: [{ rotate: rotation }] }}>
-          <Icon name={'add'} size={22} style={styles.actionButtonContent}></Icon>
+          <Icon name={'add'} size={24} style={styles.actionButtonContent}></Icon>
         </Animated.View>
       </ActionButton>
     );

@@ -19,7 +19,11 @@ const styles = StyleSheet.create({
   activityIndicator: {
     alignItems: 'center',
     justifyContent: 'center',
-    height: 8
+    height: 60
+  },
+  loadMessage: {
+    textAlign:'center',
+    color:'#999'
   }
 });
 
@@ -35,7 +39,7 @@ const Loading = props => {
           style={styles.activityIndicator}
           size='large' />
       }
-      <Text>Downloading the latest awesomeness...</Text>
+      <Text style={ styles.loadMessage}>Loading the latest awesomeness...</Text>
     </View>
   );
 };
