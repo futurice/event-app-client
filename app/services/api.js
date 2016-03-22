@@ -38,10 +38,9 @@ const fetchMoreFeed = lastID => {
 
   return wapuFetch(url)
   .then(response => response.json())
-  // TODO: Why is this commented?
-  // .then(response => {
-  //   return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
-  // })
+  .then(response => {
+    return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
+  })
   .catch((error) => {
     console.log('Error catched on API-fetch', error);
     return AsyncStorage.getItem(url)
