@@ -5,14 +5,11 @@ const getMessage = (payload) => {
     case ActionTypes.IMAGE: {
       return 'Great shot!';
     }
-    case ActionTypes.BEER: {
-      return 'One beer down!';
+    case ActionTypes.SIMA: {
+      return 'One sima down!';
     }
-    case ActionTypes.CIDER: {
-      return 'Tasty cider!';
-    }
-    case ActionTypes.SODA: {
-      return 'Pop that soda!';
+    case ActionTypes.LECTURE: {
+      return 'Absorb that knowledge!';
     }
     case ActionTypes.BUTTON_PUSH: {
       return 'Way to push that button!';

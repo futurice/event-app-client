@@ -1,9 +1,7 @@
 export default {
   IMAGE: 'IMAGE',
-  BEER: 'BEER',
-  CIDER: 'CIDER',
+  LECTURE: 'LECTURE',
   BUTTON_PUSH: 'BUTTON_PUSH',
   TEXT: 'TEXT',
-  SODA: 'SODA',
   SIMA: 'SIMA'
 };

@@ -122,9 +122,8 @@ const ActionButtons = React.createClass({
     const mapping = {
       TEXT: 'textsms',
       IMAGE: 'photo-camera',
-      BEER: 'local-drink',
-      CIDER: 'local-bar',
-      SODA: 'local-cafe',
+      SIMA: 'local-drink',
+      LECTURE: 'local-cafe',
       BUTTON_PUSH: 'touch-app',
       default: 'image'
     };
@@ -135,9 +134,8 @@ const ActionButtons = React.createClass({
     const mapping = {
       TEXT: 'Write a message',
       IMAGE: 'Take a photo',
-      BEER: 'Had a beer',
-      CIDER: 'Had a cider',
-      SODA: 'Had a soda',
+      SIMA: 'Had a sima',
+      LECTURE: 'At a lecture',
       BUTTON_PUSH: 'Push the button',
       default: 'image'
     };
