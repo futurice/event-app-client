@@ -125,12 +125,12 @@ const FeedListItem = React.createClass({
   showRemoveDialog(item) {
     if (this.itemIsCreatedByMe(item)) {
       Alert.alert(
-        'Delete Content',
+        'Remove Content',
         'Do you want to remove this item?',
         [
-          { text: 'No, I\'m having second thoughts',
+          { text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes, nuke it from the orbit',
+          { text: 'Yes, remove item',
             onPress: () => this.removeThisItem(), style: 'destructive' }
         ]
       );
@@ -139,9 +139,9 @@ const FeedListItem = React.createClass({
         'Flag Content',
         'Do you want to report this item?',
         [
-          { text: 'No, I missclicked',
+          { text: 'Cancel',
             onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
-          { text: 'Yes, let\'s erase this abonomination',
+          { text: 'Yes, report item',
             onPress: () => abuse.reportFeedItem(item), style: 'destructive' }
         ]
       );
