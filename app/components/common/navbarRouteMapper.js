@@ -15,6 +15,7 @@ import React, {
   View,
   ActionSheetIOS,
   Platform,
+  Image,
   TouchableHighlight
 } from 'react-native';
 
@@ -67,9 +68,11 @@ let NavigationBarRouteMapper = {
   Title: function(route, navigator, index, navState) {
 
     return (
-      <Text style={styles.navBarTitle}>
-      {route.name}
-      </Text>
+      <View style={styles.navBarLogoWrap}>
+        <Image
+          source={require('../../../assets/headericon.png')}
+          style={styles.navBarLogo} />
+      </View>
     );
   }
 };
@@ -78,7 +81,6 @@ var styles = StyleSheet.create({
 
   navBarLogoWrap:{
     flex:1,
-    marginTop:10,
     alignItems:'center'
   },
   navBarButton:{
@@ -95,10 +97,15 @@ var styles = StyleSheet.create({
     fontSize:28,
     textAlign:'center',
   },
+  navBarLogo:{
+    top:-5,
+    width:64,
+    height:64,
+  },
   navBarTitle:{
     padding:10,
     fontSize:16,
-    color:'#ffffff',
+    color:'#ffff00',
     textAlign:'center',
     fontWeight:'bold',
   }

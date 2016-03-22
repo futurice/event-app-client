@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     paddingTop: Platform.OS === 'ios' ? 42 : 0
   },
   navbar: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
     height: 62,
     paddingBottom: 5,
     flexDirection: 'row',

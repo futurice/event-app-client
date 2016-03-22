@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     paddingBottom:30,
   },
   navbar: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
     height: 62,
     paddingBottom: 5,
     flexDirection: 'row',
