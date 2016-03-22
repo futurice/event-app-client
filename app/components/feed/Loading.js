@@ -39,7 +39,7 @@ const Loading = props => {
           style={styles.activityIndicator}
           size='large' />
       }
-      <Text style={ styles.loadMessage}>Loading the latest awesomeness...</Text>
+      <Text style={ styles.loadMessage}>Loading awesomeness...</Text>
     </View>
   );
 };
