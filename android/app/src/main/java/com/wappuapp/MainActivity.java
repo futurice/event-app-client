@@ -7,6 +7,8 @@ import com.oblador.vectoricons.VectorIconsPackage;
 import com.learnium.RNDeviceInfo.*;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
+import com.slowpath.hockeyapp.RNHockeyAppModule;
+import com.slowpath.hockeyapp.RNHockeyAppPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,11 +40,12 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-            new MainReactPackage(),
-        new ImagePickerPackage(),
-        new RNDeviceInfo(),
-        new AirPackage(),
-        new VectorIconsPackage()
+          new RNHockeyAppPackage(this),
+          new MainReactPackage(),
+          new ImagePickerPackage(),
+          new RNDeviceInfo(),
+          new AirPackage(),
+          new VectorIconsPackage()
         );
     }
 }
