@@ -109,7 +109,6 @@ const FeedList = React.createClass({
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing}
       onRefresh={this.onRefreshFeed}
-      title='Refreshing...'
       colors={[theme.primary]}
       tintColor={theme.primary}
       progressBackgroundColor={theme.light} />;
