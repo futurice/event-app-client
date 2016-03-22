@@ -11,7 +11,8 @@ const styles = StyleSheet.create({
     padding: 6,
     top: 16,
     height: Platform.OS === 'ios' ? 26 : 27,
-    backgroundColor: 'rgba(245,245,245,.9)',
+    backgroundColor: '#FFF',
+    elevation:2,
     borderRadius: 3,
     right: 60
   },

@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
 import ActionButtonLabel from './ActionButtonLabel';
 import * as RegistrationActions from '../../actions/registration';
+import theme from '../../style/theme';
 
 // in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
@@ -57,6 +58,16 @@ const styles = StyleSheet.create({
   },
   actionButtonContent: {
     color: '#fff'
+  },
+  overlay:{
+    right:43,
+    bottom:Platform.OS === 'ios' ? 90 : 43,
+    position:'absolute',
+    backgroundColor:theme.light,
+    opacity:0.9,
+    width:10,
+    height:10,
+    borderRadius:5
   }
 });
 
@@ -76,7 +87,8 @@ const ActionButtons = React.createClass({
       buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
       plusButton: new Animated.Value(0),
       labels: BUTTON_POS.map(() => new Animated.Value(0)),
-      actionButtonsOpen: false
+      actionButtonsOpen: false,
+      overlayOpacity: new Animated.Value(0)
     };
   },
 
@@ -113,7 +125,7 @@ const ActionButtons = React.createClass({
       this.props.dispatch(RegistrationActions.openRegistrationView());
     } else {
 
-      Animated.timing(this.props.overlay, {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
+      Animated.timing(this.state.overlayOpacity, {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
       this.animateButtonsToState(this.state.actionButtonsOpen ? CLOSED : OPEN);
     }
   },
@@ -209,8 +221,12 @@ const ActionButtons = React.createClass({
 
     return (
       <View style={style}>
+        <Animated.View style={[styles.overlay, {
+          transform:[{scale:this.state.overlayOpacity.interpolate({ inputRange: [0, 1], outputRange: [1,200]  })}]
+        }]} />
         {this.renderActionButtons()}
         {this.renderMenuButton()}
+
       </View>
     );
   }
