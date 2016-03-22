@@ -6,6 +6,8 @@ import React, {
   Text,
   RefreshControl,
   View,
+  Animated,
+  Platform,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -38,13 +40,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     right: 0
+  },
+  overlay:{
+    right:50,
+    bottom:Platform.OS === 'ios' ? 100 : 50,
+    position:'absolute',
+    backgroundColor:theme.light,
+    opacity:0.9,
+    width:10,
+    height:10,
+    borderRadius:5
   }
 });
 
 const FeedList = React.createClass({
   getInitialState() {
     return {
-      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
+      dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 }),
+      overlayOpacity: new Animated.Value(0)
     };
   },
 
@@ -126,14 +139,21 @@ const FeedList = React.createClass({
       default:
         return (
           <View style={styles.container}>
+
             <ListView
               dataSource={this.state.dataSource}
               renderRow={item => <FeedListItem item={item} />}
-              style={styles.listView}
+              style={[styles.listView]}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
+
+            <Animated.View style={[styles.overlay, {
+              transform:[{scale:this.state.overlayOpacity.interpolate({ inputRange: [0, 1], outputRange: [1,200]  })}]
+            }]} />
+
             <ActionButtons
               style={styles.actionButtons}
+              overlay={this.state.overlayOpacity}
               isLoading={isLoading}
               onPressAction={this.onPressAction} />
           </View>
@@ -142,6 +162,7 @@ const FeedList = React.createClass({
   },
 
   render() {
+
     return (
       <View style={styles.container}>
         {this.renderFeed(

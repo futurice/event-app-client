@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Animated, Platform, StyleSheet, Text, View } from 'react-native';
+import React, { Animated, Easing, Platform, StyleSheet, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
@@ -81,6 +81,7 @@ const ActionButtons = React.createClass({
   },
 
   animateButtonsToState(nextState) {
+
     // state is manipulated here directly on purpose, so the animations works smoothly
     /*eslint-disable */
     this.state.actionButtonsOpen = nextState === OPEN;
@@ -111,6 +112,8 @@ const ActionButtons = React.createClass({
     if (this.props.isRegistrationInfoValid === false) {
       this.props.dispatch(RegistrationActions.openRegistrationView());
     } else {
+
+      Animated.timing(this.props.overlay, {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
       this.animateButtonsToState(this.state.actionButtonsOpen ? CLOSED : OPEN);
     }
   },
