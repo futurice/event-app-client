@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   },
   reloadButtonText:{
     fontSize:30,
-    color:theme.accent,
+    color:theme.white,
     fontWeight:'bold',
   },
   listView: {
@@ -61,11 +61,12 @@ const styles = StyleSheet.create({
   },
   sectionHeaderAnnouncement: {
     backgroundColor: theme.secondary,
+    marginTop: 30,
     padding: 20,
     flex: 1
   },
   sectionHeaderAnnouncementText:{
-    color: theme.accent
+    color: theme.light
   },
   sectionHeaderText: {
     textAlign: 'left',
@@ -160,7 +161,7 @@ var TimelineList = React.createClass({
     // # Caption
     // Announcement-section
     if (sectionId === ANNOUNCEMENTS_SECTION) {
-      sectionCaption = 'Wapputiimi announces';
+      sectionCaption = 'Wappu team announces';
     }
     // Day-sections
     else if (sectionStartMoment.isSame(moment(), 'day')) {
