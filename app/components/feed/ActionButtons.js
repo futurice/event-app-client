@@ -86,12 +86,17 @@ const ActionButtons = React.createClass({
     this.state.actionButtonsOpen = nextState === OPEN;
     /*eslint-enable */
     BUTTON_POS.forEach((pos, i) => {
-      // Animate action buttons
-      Animated.sequence([
-        Animated.delay(nextState === OPEN ? BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
-        Animated.spring(this.state.buttons[i],
-          { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } })
-      ]).start();
+
+      // Animate action buttons, iOS handles delay better
+      if(Platform.OS === 'ios'){
+        Animated.sequence([
+          Animated.delay(nextState === OPEN ? BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
+          Animated.spring(this.state.buttons[i],
+            { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } })
+        ]).start();
+      } else {
+         Animated.spring(this.state.buttons[i], { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
+      }
 
       // Animate action button labels, 200ms later than buttons
       Animated.sequence([
