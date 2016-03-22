@@ -99,10 +99,12 @@ const styles = StyleSheet.create({
     position:'absolute',
     right:8,
     bottom: 10,
+    borderRadius:15,
     width: 30,
     height:30,
     flex:1,
-    alignItems: 'center'
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   itemTimestamp: {
     color: '#aaa',
@@ -161,7 +163,7 @@ const FeedListItem = React.createClass({
     const iconName = this.itemIsCreatedByMe(item) ? 'delete' : 'flag';
     return (
       <TouchableOpacity
-       style={styles.listItemRemoveContainer}
+       style={[styles.listItemRemoveContainer, {backgroundColor:item.type !== 'IMAGE' ? 'transparent' : 'rgba(255,255,255,.1)'}]}
        onPress={() => this.showRemoveDialog(this.props.item)}>
 
         <Icon name={iconName} style={[styles.listItemRemoveButton,
