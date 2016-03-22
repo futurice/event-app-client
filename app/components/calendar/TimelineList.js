@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
   },
   loaderText:{
     color:theme.light,
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   listView: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 0 : 20,
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
   },
   sectionHeader: {
     backgroundColor: theme.dark,

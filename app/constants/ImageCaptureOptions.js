@@ -1,8 +1,8 @@
 export default {
   title: null,
-  cancelButtonTitle: 'Peruuta',
-  takePhotoButtonTitle: 'Ota kuva...',
-  chooseFromLibraryButtonTitle: 'Valitse kuvista...',
+  cancelButtonTitle: 'Cancel',
+  takePhotoButtonTitle: 'Take a photo...',
+  chooseFromLibraryButtonTitle: 'Choose from library...',
   customButtons: {},
   cameraType: 'back',
   mediaType: 'photo',
@@ -12,7 +12,7 @@ export default {
   maxHeight: 500,
   aspectX: 2, // android only - aspectX:aspectY, the cropping image's ratio of width to height
   aspectY: 1, // android only - aspectX:aspectY, the cropping image's ratio of width to height
-  quality: 0.8, // 0 to 1, photos only
+  quality: 0.9, // 0 to 1, photos only
   angle: 0,
   allowsEditing: false, // Built in functionality to resize/reposition the image after selection
   noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)

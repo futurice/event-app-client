@@ -50,6 +50,11 @@ const TextActionView = React.createClass({
   },
   onSendText() {
 
+    if(!this.state.text.length){
+      this.onCancel();
+      return;
+    }
+
     this.showOK()
     setTimeout( () => {
       this.props.dispatch(CompetitionActions.postText(this.state.text));
@@ -87,7 +92,6 @@ const TextActionView = React.createClass({
             </View>
             <TextInput
               autoFocus={true}
-              autoCorrect={false}
               underlineColorAndroid={theme.light}
               clearButtonMode={'while-editing'}
               returnKeyType={'send'}

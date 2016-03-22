@@ -58,6 +58,7 @@ const RegistrationView = React.createClass({
               <View style={styles.inputFieldWrap}>
                 <TextInput
                 autoFocus={true}
+                autoCorrect={false}
                 style={[styles.inputField, styles['inputField_' + Platform.OS]]}
                 onChangeText={this.onChangeName}
                 value={this.props.name} />
