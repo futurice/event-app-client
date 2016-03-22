@@ -117,7 +117,7 @@ const TextActionView = React.createClass({
 
              <View style={styles.bottomInfo}>
               <Text style={styles.bottomInfoText}>
-                Each message gives points to your Kilta and boosts the Wappu spirit!
+                Each message gives points to your Guild and boosts the Wappu spirit!
               </Text>
              </View>
           </Animated.View>

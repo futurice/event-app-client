@@ -39,8 +39,9 @@ const CompetitionView = React.createClass({
             </View>
             <View style={styles.leaderboardIntroTextWrap}>
               <Text style={styles.leaderboardIntroText}>
-                Current situation between Killat.
-                Be an active Whappu user and lead your Kilta to victory!
+                Current situation between Guilds.
+                Be an active Whappu user and lead your Guild to the victory!
+                Competition ends at 30th April 00:00.
               </Text>
             </View>
           </View>
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
     backgroundColor:'#FFF',
   },
   leaderboardIntro:{
-    height:80,
+    height:100,
     flexDirection:'row',
     margin:20,
     marginBottom:0,
