@@ -105,6 +105,7 @@ class EventMap extends Component {
             latitudeDelta: 0.2,
             longitudeDelta: 0.2,
           }}
+          showsUserLocation={true}
           showsPointsOfInterest={false}
           showsBuildings={false}
           showsIndoors={false}
