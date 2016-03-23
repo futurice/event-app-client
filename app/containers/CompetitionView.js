@@ -26,9 +26,10 @@ const CompetitionView = React.createClass({
   },
 
   render() {
-    let topscore = 0
+    let topscore = 0;
     this.props.teams.map((team) => {
-      topscore = team.get('score') > topscore ? team.get('score') : topscore;
+      topscore = Math.max(
+        parseInt(team.get('score'), 10), topscore);
     });
 
     return (
