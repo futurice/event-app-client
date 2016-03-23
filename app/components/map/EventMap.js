@@ -6,17 +6,32 @@ import React, {
   View,
   Platform,
   PropTypes,
+  Linking,
   Text,
   TouchableHighlight
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
+import _ from 'lodash';
 const Icon = require('react-native-vector-icons/Ionicons');
 import analytics from '../../services/analytics';
+import * as MarkerActions from '../../actions/marker';
+import * as EventActions from '../../actions/event';
 import EventDetail from '../calendar/EventDetail';
+import Loader from '../common/Loader';
 import time from '../../utils/time';
 import theme from '../../style/theme';
+import LoadingStates from '../../constants/LoadingStates';
+
+const MARKER_IMAGES = {
+  EVENT: require('../../../assets/marker.png'),
+  RESTAURANT: require('../../../assets/fork-knife.png'),
+  TOILET: require('../../../assets/toilet.png'),
+  TAXI: require('../../../assets/taxi.png'),
+  STORE: require('../../../assets/shopping-cart.png'),
+  ALKO: require('../../../assets/wine.png')
+};
 
 const VIEW_NAME = 'EventMap';
 
@@ -27,10 +42,12 @@ class EventMap extends Component {
   }
 
   componentDidMount() {
+    this.props.dispatch(EventActions.fetchEvents());
+    this.props.dispatch(MarkerActions.fetchMarkers());
     analytics.viewOpened(VIEW_NAME);
   }
 
-  onCalloutPress(event) {
+  onEventMarkerPress(event) {
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
@@ -41,40 +58,43 @@ class EventMap extends Component {
   // Enables swiping between tabs
   // 20px of right part of map can not be used to navigate map
   renderSwipeHelperOverlay() {
-    if(Platform.OS === 'ios') return;
+    if (Platform.OS === 'ios') {
+      return;
+    }
+
     return <View style={styles.androidSwipeHelper}></View>;
   }
 
   render() {
     const allEvents = [].concat(this.props.events);
     const events = allEvents.filter(event => {
-      return event.location && !!event.location.latitude && !!event.location.longitude;
+      const hasLocation = event.location && !!event.location.latitude && !!event.location.longitude;
+      return hasLocation && this._isEventBetweenSelectedTime(event);
     });
 
-    const markers = events.map((event, i) =>
-      <MapView.Marker image={require('../../../assets/marker.png')}
-        key={i} coordinate={event.location}>
-        <MapView.Callout onPress={this.onCalloutPress.bind(this, event)}>
-          <TouchableHighlight
-            underlayColor='transparent'
-            style={styles.calloutTouchable}
-          >
-            <View style={styles.callout}>
-              <View>
-                <View style={styles.calloutTitleWrap}>
-                  <Text style={styles.calloutTitle}>{event.name}</Text>
-                  <Icon style={styles.calloutIcon} name='ios-arrow-forward' />
-                </View>
-                <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>
-                  {time.getEventDay(event.startTime)}
-                </Text>
-                <Text style={styles.calloutInfo}>{event.locationName}</Text>
-              </View>
-            </View>
-          </TouchableHighlight>
-        </MapView.Callout>
-      </MapView.Marker>
-    );
+    let locations = _.map(events, event => {
+      return _.merge({}, event, {type: 'EVENT'});
+    });
+    locations = locations.concat(this.props.markers);
+
+    // Filter markers which do not have correct type
+    locations = locations.filter(location => {
+      return _.has(MARKER_IMAGES, location.type);
+    });
+    const markers = locations.map((location, i) => {
+      return <MapView.Marker
+        centerOffset={{x: 0, y:-20}}
+        anchor={{x: 0.5, y: 0.9}}
+        image={MARKER_IMAGES[location.type]}
+        key={i} coordinate={location.location}
+      >
+        {
+          location.type === 'EVENT'
+            ? this._renderEventMarker(location)
+            : this._renderStaticMarker(location)
+        }
+      </MapView.Marker>;
+    });
 
     return (
       <View style={{flex:1}}>
@@ -94,14 +114,103 @@ class EventMap extends Component {
         </MapView>
 
         {this.renderSwipeHelperOverlay()}
+        {this._maybeRenderLoading()}
       </View>
     );
+  }
+
+  _renderEventMarker(event) {
+    return <MapView.Callout onPress={this.onEventMarkerPress.bind(this, event)}>
+      <TouchableHighlight
+        underlayColor='transparent'
+        style={styles.calloutTouchable}
+      >
+        <View style={styles.callout}>
+          <View>
+            <View style={styles.calloutTitleWrap}>
+              <Text style={styles.calloutTitle}>{event.name}</Text>
+              <Icon style={styles.calloutIcon} name='ios-arrow-forward' />
+            </View>
+            <Text style={[styles.calloutInfo,{color:'#aaa', marginBottom:10}]}>
+              {time.getEventDay(event.startTime)}
+            </Text>
+            <Text style={styles.calloutInfo}>{event.locationName}</Text>
+          </View>
+        </View>
+      </TouchableHighlight>
+    </MapView.Callout>;
+  }
+
+  _renderStaticMarker(location) {
+    let calloutProps = {};
+    if (location.url) {
+      calloutProps = {
+        onPress: () => Linking.openURL(location.url)
+      }
+    }
+
+    return <MapView.Callout {...calloutProps}>
+      <TouchableHighlight
+        underlayColor='transparent'
+        style={styles.calloutTouchable}
+      >
+        <View style={styles.callout}>
+          {
+            location.url
+              ? this._renderStaticUrlMarkerView(location)
+              : this._renderStaticMarkerView(location)
+          }
+        </View>
+      </TouchableHighlight>
+    </MapView.Callout>;
+  }
+
+  _renderStaticUrlMarkerView(location) {
+    return <View>
+      <View style={styles.calloutTitleWrap}>
+        <Text style={styles.calloutTitle}>{location.title}</Text>
+        <Icon style={styles.calloutIcon} name='ios-arrow-forward' />
+      </View>
+
+      <Text style={[styles.calloutInfo, {color:'#aaa'}]}>
+        {location.subtitle}
+      </Text>
+    </View>;
+  }
+
+  _renderStaticMarkerView(location) {
+    return <View>
+      <View style={styles.calloutTitleWrap}>
+        <Text style={[styles.calloutTitle, {color:'#333'}]}>
+          {location.title}
+        </Text>
+      </View>
+
+      <Text style={[styles.calloutInfo, {color:'#aaa'}]}>
+        {location.subtitle}
+      </Text>
+    </View>;
+  }
+
+  _maybeRenderLoading() {
+    if (this.props.loading) {
+      return <View style={styles.loaderContainer}>
+        <Loader />
+      </View>;
+    }
+
+    return false;
+  }
+
+  _isEventBetweenSelectedTime(event) {
+    return true;
   }
 }
 
 EventMap.propTypes = {
   navigator: PropTypes.object.isRequired,
-  events: PropTypes.array.isRequired
+  events: PropTypes.array.isRequired,
+  markers: PropTypes.array.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -120,6 +229,11 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  loaderContainer: {
+    position: 'absolute',
+    top: 10,
+    left: 10,
   },
   callout: {
     padding: 0,
@@ -163,7 +277,10 @@ const styles = StyleSheet.create({
 
 const select = store => {
   return {
-    events: store.event.get('list').toJS()
+    events: store.event.get('list').toJS(),
+    markers: store.marker.get('list').toJS(),
+    loading: store.event.get('listState') === LoadingStates.LOADING ||
+             store.marker.get('listState') === LoadingStates.LOADING
   };
 };
 
