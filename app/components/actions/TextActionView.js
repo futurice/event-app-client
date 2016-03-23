@@ -16,9 +16,10 @@ import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
 import theme from '../../style/theme';
 import Modal from 'react-native-modalbox';
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import * as CompetitionActions from '../../actions/competition';
-const Icon = require('react-native-vector-icons/Ionicons');
+const IOS = Platform.OS === 'ios';
 
 const {width} = Dimensions.get('window');
 const TextActionView = React.createClass({
@@ -82,24 +83,36 @@ const TextActionView = React.createClass({
           <Animated.View style={[styles.okWrap,
             {opacity: this.state.okAnimation, transform:[{scale:this.state.okAnimation}]}
           ]}>
-            <Icon name="android-done" style={styles.okSign} />
+            <Icon name="done" style={styles.okSign} />
           </Animated.View>
           <Animated.Text style={[styles.okText, { opacity: this.state.okAnimation}]}>Let's publish your message...</Animated.Text>
 
           <Animated.View style={[styles.innerContainer, {opacity:this.state.formAnimation}]}>
 
-            <View style={styles.title}><Text style={styles.titleText}>
-              Hi, how's your Whappu going?</Text>
+            <View>
+              <View style={styles.title}>
+                <Text style={styles.titleText}> Share your Wappu feelings</Text>
+                <Icon name="textsms" style={styles.titleIcon} />
+              </View>
             </View>
             <TextInput
               autoFocus={true}
-              underlineColorAndroid={theme.light}
+              multiLine={true}
+              underlineColorAndroid={theme.accent}
               clearButtonMode={'while-editing'}
               returnKeyType={'send'}
               onSubmitEditing={this.onSendText}
               style={[styles.inputField, styles['inputField_' + Platform.OS]]}
               onChangeText={this.onChangeText}
               value={this.state.text} />
+
+
+
+            <View style={styles.bottomInfo}>
+              <Text style={styles.bottomInfoText}>
+                Earn points for your Kilta by sharing your wappu message!
+              </Text>
+            </View>
 
             <View style={styles.bottomButtons}>
               <Button
@@ -115,12 +128,6 @@ const TextActionView = React.createClass({
                 Send!
               </Button>
             </View>
-
-             <View style={styles.bottomInfo}>
-              <Text style={styles.bottomInfoText}>
-                Each message gives points to your Guild and boosts the Wappu spirit!
-              </Text>
-             </View>
           </Animated.View>
         </View>
       </Modal>
@@ -132,34 +139,55 @@ const TextActionView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:40,
+    paddingTop:0,
+    paddingBottom:IOS ? 49 : 0,
   },
   innerContainer: {
     padding:10,
+    flex:1,
   },
   title:{
     padding: 10,
-    backgroundColor:'transparent'
+    paddingTop: IOS ? 0 : 0,
+    backgroundColor:'transparent',
+    flex:1,
+    flexDirection: 'row',
+    justifyContent: IOS ? 'center' : 'flex-start',
   },
   titleText:{
-    fontSize: 22,
-    color: theme.accent,
+    fontSize: 20,
+    color: theme.light,
     fontWeight: 'bold',
-    textAlign: Platform.OS === 'ios' ? 'center' : 'left',
+    textAlign: IOS ? 'center' : 'left',
+  },
+  titleIcon:{
+    fontSize:25,
+    marginLeft:10,
+    color:theme.accent,
   },
   bottomButtons:{
     flex: 1,
     flexDirection: 'row',
-    margin: 10,
-    alignItems: 'stretch',
+    alignItems: IOS ? 'stretch':'flex-end',
+    justifyContent: IOS ? 'center': 'flex-end',
+    position: IOS ? 'relative' : 'absolute',
+    bottom:0,
+    right:0,
+    left:0,
+    padding:10,
+    paddingLeft:20,
+    paddingRight: IOS ? 20 : 0,
+    borderTopWidth: IOS ? 0 : 1,
+    borderTopColor:'rgba(0,0,0,.1)'
+    //margin: 10,
   },
   modalButton: {
-    flex: 1,
-    marginLeft: 5,
+    flex:1,
+    marginLeft: 10,
   },
   cancelButton: {
-    flex: 1,
-    marginRight: 5,
+    flex:1,
+    marginRight: 10,
     backgroundColor: '#999',
   },
   modalBackgroundStyle: {
@@ -172,18 +200,20 @@ const styles = StyleSheet.create({
     color:'#FFF',
   },
   inputField_android: {
+
   },
   inputField_ios: {
     padding:10,
-    backgroundColor: 'rgba(250,250,250,0.5)',
+    backgroundColor: 'rgba(250,250,250,0.4)',
   },
   bottomInfo:{
-    marginTop: 50,
     padding: 10,
+    paddingBottom:10,
+    paddingTop:5,
     backgroundColor: 'transparent'
   },
   bottomInfoText:{
-    textAlign: Platform.OS === 'ios' ? 'center' : 'left',
+    textAlign: IOS ? 'center' : 'left',
     fontSize: 11,
     color: theme.light
   },
@@ -213,7 +243,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     backgroundColor: 'transparent',
     fontSize: 15,
-    top: 185
+    top: 220
   }
 });
 
