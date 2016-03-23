@@ -142,8 +142,8 @@ const ActionButtons = React.createClass({
     const mapping = {
       TEXT: 'textsms',
       IMAGE: 'photo-camera',
-      SIMA: 'local-drink',
-      LECTURE: 'local-cafe',
+      SIMA: 'local-bar',
+      LECTURE: 'school',
       BUTTON_PUSH: 'touch-app',
       default: 'image'
     };
