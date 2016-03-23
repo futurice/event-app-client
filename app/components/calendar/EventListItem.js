@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   },
   gridListItemImgColorLayer: {
     // backgroundColor is set programmatically on render() based on rowId
-    opacity: 0.8,
+    opacity: 0.7,
     elevation: 1,
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
@@ -99,7 +99,7 @@ export default React.createClass({
           <View style={[
             styles.gridListItemImgColorLayer,
             { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ?
-              '#164140' : '#6e3b56' }
+              '#444' : '#444' }
           ]} />
         </View>
 

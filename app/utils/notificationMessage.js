@@ -21,10 +21,16 @@ const getMessage = (payload) => {
 };
 
 const getErrorMessage = (payload) => {
+  console.log(payload);
   return 'Oh no, an error occurred! :-(';
+};
+
+const getRateLimitMessage = (payload) => {
+  return 'Hold your horses!'
 };
 
 export {
   getMessage,
-  getErrorMessage
+  getErrorMessage,
+  getRateLimitMessage
 };

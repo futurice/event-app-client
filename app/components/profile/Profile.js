@@ -12,11 +12,12 @@ var {
   PropTypes
 } = React;
 import { connect } from 'react-redux';
-
+import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
 import * as RegistrationActions from '../../actions/registration';
+import * as TeamActions from '../../actions/team';
 
 const styles = StyleSheet.create({
   container: {
@@ -32,26 +33,37 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     backgroundColor:'#FFF',
   },
+  listItem__hero:{
+    paddingTop:25,
+    paddingBottom:25,
+  },
   listItemButton:{
     flex:1,
   },
-  listItemIcon:{
-    fontSize:Platform.OS === 'ios' ? 22 : 24,
-    color:theme.primary,
-    width:50,
+  listItemIcon: {
+    fontSize: Platform.OS === 'ios' ? 22 :  24,
+    color: theme.primary,
+    alignItems: 'center',
+    width: 50,
+  },
+  listItemIcon__hero:{
+    top: 0
   },
   listItemIconRight:{
-    position:'absolute',
-    right:0,
-    color:'#aaa',
-    top:20,
+    position: 'absolute',
+    right: 0,
+    color: '#aaa',
+    top: 28,
   },
   listItemText:{
     color:'#000',
     fontSize:18,
   },
-  listItemTextHighlight: {
+  listItemText__highlight: {
     color:theme.primary
+  },
+  listItemText__small: {
+    fontSize:12,
   },
   listItemBottomLine:{
     position:'absolute',
@@ -98,14 +110,19 @@ var Profile = React.createClass({
   },
 
   renderModalItem(item) {
+    const currentTeam = _.find(this.props.teams, ['id', this.props.selectedTeam]) || {name:''};
+
     return (
       <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary}
         onPress={this.openRegistration}>
-        <View style={styles.listItem}>
-          <Icon style={styles.listItemIcon} name={item.icon} />
-          <Text style={[styles.listItemText, styles.listItemTextHighlight]}>{item.title}</Text>
-          <View style={styles.listItemBottomLine} />
+        <View style={[styles.listItem, styles.listItem__hero]}>
+          <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
+          <View style={{flexDirection:'column',flex:1}}>
+            <Text style={[styles.listItemText, styles.listItemText__highlight]}>{item.title}</Text>
+            <Text style={[styles.listItemText, styles.listItemText__small]}>{currentTeam.name}</Text>
+          </View>
           <Icon style={[styles.listItemIcon, styles.listItemIconRight]} name={item.rightIcon} />
+          <View style={styles.listItemBottomLine} />
         </View>
       </TouchableHighlight>
     );
@@ -136,6 +153,8 @@ var Profile = React.createClass({
 
 const select = store => {
   return {
+      selectedTeam: store.registration.get('selectedTeam'),
+      teams: store.team.get('teams').toJS(),
       name: store.registration.get('name'),
       links: store.profile.get('links').toJS(),
     }

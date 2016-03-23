@@ -179,7 +179,6 @@ const styles = StyleSheet.create({
     paddingRight: IOS ? 20 : 0,
     borderTopWidth: IOS ? 0 : 1,
     borderTopColor:'rgba(0,0,0,.1)'
-    //margin: 10,
   },
   modalButton: {
     flex:1,
