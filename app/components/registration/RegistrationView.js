@@ -7,6 +7,7 @@ import React, {
   StyleSheet,
   Platform,
   PropTypes,
+  TouchableOpacity,
   ScrollView,
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -17,6 +18,9 @@ import Modal from 'react-native-modalbox';
 import Team from './Team';
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+
+const IOS = Platform.OS === 'ios';
 
 const RegistrationView = React.createClass({
   propTypes: {
@@ -36,6 +40,9 @@ const RegistrationView = React.createClass({
   onSelectTeam(id) {
     this.props.dispatch(RegistrationActions.selectTeam(id));
   },
+  onGenerateName() {
+    this.props.dispatch(RegistrationActions.generateName());
+  },
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
   },
@@ -49,21 +56,8 @@ const RegistrationView = React.createClass({
         swipeToClose={false}
         backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
+          <ScrollView style={{flex:1}}>
           <View style={[styles.innerContainer]}>
-
-            <View style={styles.inputGroup}>
-              <View style={styles.inputLabel}>
-                <Text style={styles.inputLabelText}>Hi there! What's your name?</Text>
-              </View>
-              <View style={styles.inputFieldWrap}>
-                <TextInput
-                autoFocus={true}
-                autoCorrect={false}
-                style={[styles.inputField, styles['inputField_' + Platform.OS]]}
-                onChangeText={this.onChangeName}
-                value={this.props.name} />
-              </View>
-            </View>
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
                 <Text style={styles.inputLabelText}>Choose your Kilta</Text>
@@ -84,8 +78,35 @@ const RegistrationView = React.createClass({
               </View>
             </View>
 
-            <View style={styles.bottomButtons}>
+            <View style={styles.inputGroup}>
+              <View style={styles.inputLabel}>
+                <Text style={styles.inputLabelText}>Hi there! What's your wappu name?</Text>
+              </View>
+              <View style={styles.inputFieldWrap}>
+                <TextInput
+                autoCorrect={false}
+                clearButtonMode={'while-editing'}
+                returnKeyType={'done'}
+                style={[styles.inputField, styles['inputField_' + Platform.OS]]}
+                onChangeText={this.onChangeName}
+                value={this.props.name} />
+              </View>
+              {
+              this.props.selectedTeam ?
+              <View>
+                <TouchableOpacity onPress={this.onGenerateName}>
+                  <View style={styles.textButton}>
+                    <Icon name="loop" style={styles.textButtonIcon} />
+                    <Text style={styles.textButtonText}>Generate wappu name</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+              :
+              <View />
+              }
+            </View>
 
+            <View style={styles.bottomButtons}>
               <Button
                 onPress={this.onCancel}
                 style={styles.cancelButton}>
@@ -98,9 +119,9 @@ const RegistrationView = React.createClass({
                 isDisabled={!this.props.isRegistrationInfoValid}>
                 Save
               </Button>
-
             </View>
           </View>
+          </ScrollView>
         </View>
       </Modal>
     );
@@ -151,7 +172,7 @@ const styles = StyleSheet.create({
     fontSize:14,
     color:theme.primary,
     fontWeight:'bold',
-    textAlign: Platform.OS === 'ios' ? 'center' : 'left',
+    textAlign: IOS ? 'center' : 'left',
   },
   inputFieldWrap:{
     padding:15,
@@ -166,6 +187,26 @@ const styles = StyleSheet.create({
   inputField_ios: {
     padding:5,
     backgroundColor: 'rgba(20,20,20,0.05)',
+  },
+  textButton: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: IOS ? 'center' : 'flex-start',
+    padding: IOS ? 10 : 5,
+    paddingLeft:20,
+    paddingRight:20,
+    marginBottom:15,
+  },
+  textButtonIcon: {
+    color: theme.secondary,
+    fontSize:18,
+    paddingRight:5
+  },
+  textButtonText:{
+    color: theme.secondary,
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   header: {
     fontSize: 20,

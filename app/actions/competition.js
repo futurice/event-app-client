@@ -41,10 +41,18 @@ const _postAction = (payload) => {
       })
       .catch(e => {
         console.log('Error catched on competition action post!', e);
-        dispatch({
-          type: SHOW_NOTIFICATION,
-          payload: NotificationMessages.getErrorMessage(payload)
-        });
+
+        if (e.response.status === 429) {
+          dispatch({
+            type: SHOW_NOTIFICATION,
+            payload: NotificationMessages.getRateLimitMessage(payload)
+          });
+        } else {
+          dispatch({
+            type: SHOW_NOTIFICATION,
+            payload: NotificationMessages.getErrorMessage(payload)
+          });
+        }
         dispatch({ type: ACTION_POST_FAILURE, error: e });
 
         setTimeout(() => {

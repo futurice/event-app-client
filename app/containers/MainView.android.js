@@ -30,10 +30,10 @@ const AndroidTabNavigation = React.createClass({
       <AndroidTabs
         initialPage={2}
         tabBarPosition={'top'}
-        tabBarBackgroundColor={theme.primary}
+        tabBarBackgroundColor={theme.secondary}
         tabBarActiveTextColor={theme.accent}
         tabBarInactiveTextColor={theme.light}
-        renderTabBar={() => <IconTabBar rippleColor={theme.primaryDarker} />}
+        renderTabBar={() => <IconTabBar rippleColor={theme.secondaryDark} />}
       >
         <EventMapView navigator={this.props.navigator} tabLabel={{title:'Map', icon:'map'}} />
         <CalendarView navigator={this.props.navigator} tabLabel={{title:'Events', icon:'event-note'}} />
@@ -72,7 +72,7 @@ export default class App extends Component {
     return (
       <View style={{flex:1}}>
 
-      <StatusBar backgroundColor={theme.primaryDarker} />
+      <StatusBar backgroundColor={theme.secondaryDark} />
 
       <Navigator
         initialRoute={{

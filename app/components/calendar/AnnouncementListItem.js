@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
     height: 150,
   },
   text: {
-    color: 'rgba(255,255,255,.95)',
+    color: '#888',
   },
   textContainer:{
     padding:20,
+    backgroundColor:'#FFF'
   },
   timestampText: {
     position: 'absolute',

@@ -54,14 +54,14 @@ const styles = StyleSheet.create({
     backgroundColor: theme.secondary,
   },
   sectionHeader: {
-    backgroundColor: theme.dark,
+    backgroundColor: theme.primary,//theme.dark,
     opacity: 0.88,
     padding: 20,
     flex: 1
   },
   sectionHeaderAnnouncement: {
     backgroundColor: theme.secondary,
-    marginTop: 30,
+    marginTop: Platform.OS === 'ios' ? 30 : 0,
     padding: 20,
     flex: 1
   },
