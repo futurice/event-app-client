@@ -161,7 +161,7 @@ var TimelineList = React.createClass({
     // # Caption
     // Announcement-section
     if (sectionId === ANNOUNCEMENTS_SECTION) {
-      sectionCaption = 'Wappu team announces';
+      sectionCaption = 'Announcement';
     }
     // Day-sections
     else if (sectionStartMoment.isSame(moment(), 'day')) {

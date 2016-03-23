@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 67 : 20,
+    bottom: Platform.OS === 'ios' ? 37 : 20,
     right: 20,
     overflow:'visible',
     width: 200,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
   },
   overlay:{
     right:43,
-    bottom:Platform.OS === 'ios' ? 90 : 43,
+    bottom:Platform.OS === 'ios' ? 60 : 43,
     position:'absolute',
     backgroundColor:theme.light,
     opacity:0.9,

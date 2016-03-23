@@ -4,6 +4,8 @@ import React, {
   StyleSheet,
   PropTypes,
   Text,
+  Animated,
+  Easing,
   View
 } from 'react-native';
 
@@ -13,27 +15,55 @@ import time from '../../utils/time';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.secondary,
+    backgroundColor:'#eee',
+  },
+  card:{
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    padding:15,
+    margin:20,
+    backgroundColor: theme.light,
+    elevation:2,
+    borderRadius:2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 2,
+      width: 0
+    }
   },
   imgWrap:{
-    height:150,
     flex:1,
+    backgroundColor: '#DDD',
+    height:140,
+    marginBottom:15,
+    margin:-15,
   },
   img: {
-    height: 150,
+    flex:1,
+  },
+  text__title:{
+    color: theme.secondary,
+    marginBottom:10,
+    fontWeight:'bold',
   },
   text: {
     color: '#888',
+    fontSize:12,
   },
   textContainer:{
-    padding:20,
-    backgroundColor:'#FFF'
+    flex:1,
+    padding:0,
+    backgroundColor:theme.light,
   },
   timestampText: {
     position: 'absolute',
-    top: 10,
-    right: 10,
-    color: 'white',
+    top: 15,
+    right: 15,
+    fontSize:12,
+    color: '#eee',
     backgroundColor: 'transparent'
   },
   imgColorLayer: {
@@ -51,36 +81,48 @@ export default React.createClass({
     item: PropTypes.object.isRequired
   },
 
+  getInitialState() {
+    return {
+      announcementAnimation: new Animated.Value(0)
+    };
+  },
+
   // TODO: parse away the Finnish-part of the message?
   // TODO: set some fallback-image?
   // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers
   render() {
+    Animated.timing(this.state.announcementAnimation, {duration:300, easing:Easing.ease, toValue: 1}).start();
     const item = this.props.item;
-    // const text = item.message;
-    const fallbackImage = 'http://ttyy.kuvat.fi/kuvat/Wappu/Teekkarikaste/Korikuvat/Jussi/_PTE6061.jpg?img=smaller';
-    const langSeparator = '-------';
-    const text = item.message.indexOf(langSeparator) > 0 ?
-      item.message.split(langSeparator)[1].trim() : item.message;
+    const fallbackImage = 'https://storage.googleapis.com/wappuapp/assets/wappu-intro.jpg';
 
     return (
       <View style={styles.container}>
-        {item.picture &&
-
-          <View style={styles.imgWrap}>
-            <Image
-              source={{ uri: item.picture || fallbackImage}}
-              style={styles.img}
-            >
+        <Animated.View style={[styles.card,
+          {opacity:this.state.announcementAnimation,
+          transform:[
+            {scale:this.state.announcementAnimation.interpolate({
+              inputRange: [0, 1], outputRange: [1.05,1]
+            })
+          }]
+        }]}>
+        <View style={styles.imgWrap}>
+          <Image
+          source={{ uri: item.picture || fallbackImage}}
+          style={styles.img}
+          >
             <View style={styles.imgColorLayer} />
-            <Text style={styles.timestampText}>
-              {time.getTimeAgo(item.created_time)}
-            </Text>
           </Image>
-          </View>
-        }
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{text}</Text>
         </View>
+
+        <View style={styles.textContainer}>
+          <Text style={styles.text__title}>WAPPU TEAM SAYS: </Text>
+          <Text style={styles.text}>{item.message}</Text>
+
+        </View>
+        <Text style={styles.timestampText}>
+          {time.getTimeAgo(item.created_time)}
+        </Text>
+        </Animated.View>
       </View>
     );
   }

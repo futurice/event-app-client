@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     padding: 20
   },
   gridListItemTitle: {
-    fontSize: 26,
+    fontSize: 25,
     fontWeight: 'bold',
     textAlign: 'center',
     color: theme.light
@@ -56,19 +56,18 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   },
   gridListItemPlace: {
-    fontSize: 18,
-    color: '#BBBBBB'
+    fontSize: 17,
+    color: '#CCC'
   },
   gridListItemTime: {
-    fontSize: 18,
-    color: '#CF3C89',
+    fontSize: 17,
+    color: theme.secondaryLight,
     fontWeight: 'bold'
   },
-
   gridListItemIconsWrapper: {
     position: 'absolute',
     right: 20,
-    top: 10,
+    top: 13,
   },
   gridListItemIcon: {
     color: theme.light,
