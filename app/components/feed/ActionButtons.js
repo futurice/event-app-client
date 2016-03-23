@@ -130,6 +130,14 @@ const ActionButtons = React.createClass({
     }
   },
 
+  onPressActionButtons(type, fn){
+    // Start the action
+    getBoundAction(type, fn)();
+
+    // Close Action buttons
+    this.onToggleActionButtons();
+  },
+
   getIconForAction(type) {
     const mapping = {
       TEXT: 'textsms',
@@ -186,7 +194,7 @@ const ActionButtons = React.createClass({
             {labelName}
           </ActionButtonLabel>
           <ActionButton
-            onPress={getBoundAction(actionTypeCode, this.props.onPressAction)}
+            onPress={this.onPressActionButtons.bind(this, actionTypeCode, this.props.onPressAction)}
             disabled={isCoolingDown}
             extraStyle={styles.actionButton}>
             {iconOrCooldownTime}
