@@ -2,6 +2,7 @@ import _ from 'lodash';
 const ROOT_URL = 'https://wappuapp-backend.herokuapp.com/api';
 
 const EndpointUrls = {
+  markers: `${ROOT_URL}/markers`,
   events: `${ROOT_URL}/events`,
   feed: `${ROOT_URL}/feed`,
   feedItem: (itemId) => `${ROOT_URL}/feed/${itemId}`,

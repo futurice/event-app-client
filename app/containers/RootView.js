@@ -14,8 +14,7 @@ import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
 
 const middlewares = [thunk];
-
-if (process.env.NODE_ENV === `development` && process.env.REDUX_LOG !== 'false') {
+if (__DEV__) {
   // Disabling logging might help performance as XCode prints the whole objects
   // without respecing the collapsed parameter
   const logger = createLoggerMiddleware(loggerConfig)
