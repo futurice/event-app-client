@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingBottom: Platform.OS === 'ios' ? 50 : 0,
+    paddingBottom: 0,
   },
   leaderboardIntro:{
     height:90,

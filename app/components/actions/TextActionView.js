@@ -91,8 +91,8 @@ const TextActionView = React.createClass({
 
             <View>
               <View style={styles.title}>
-                <Text style={styles.titleText}> Share your Wappu feelings</Text>
                 <Icon name="textsms" style={styles.titleIcon} />
+                <Text style={styles.titleText}> Share your Wappu feelings</Text>
               </View>
             </View>
             <TextInput
@@ -161,8 +161,9 @@ const styles = StyleSheet.create({
     textAlign: IOS ? 'center' : 'left',
   },
   titleIcon:{
-    fontSize:25,
-    marginLeft:10,
+    top:5,
+    fontSize:20,
+    marginRight:5,
     color:theme.accent,
   },
   bottomButtons:{
@@ -206,7 +207,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(250,250,250,0.4)',
   },
   bottomInfo:{
-    padding: 10,
+    padding: 15,
     paddingBottom:10,
     paddingTop:5,
     backgroundColor: 'transparent'

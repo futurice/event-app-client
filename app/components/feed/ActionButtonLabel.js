@@ -13,6 +13,13 @@ const styles = StyleSheet.create({
     height: Platform.OS === 'ios' ? 26 : 27,
     backgroundColor: '#FFF',
     elevation:2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    },
     borderRadius: 3,
     right: 60
   },
