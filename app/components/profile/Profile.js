@@ -62,6 +62,9 @@ const styles = StyleSheet.create({
   listItemText__highlight: {
     color:theme.primary
   },
+  listItemText__downgrade: {
+    color:'#aaa'
+  },
   listItemText__small: {
     fontSize:12,
   },
@@ -118,7 +121,11 @@ var Profile = React.createClass({
         <View style={[styles.listItem, styles.listItem__hero]}>
           <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
           <View style={{flexDirection:'column',flex:1}}>
-            <Text style={[styles.listItemText, styles.listItemText__highlight]}>{item.title}</Text>
+            {
+              item.title ?
+              <Text style={[styles.listItemText, styles.listItemText__highlight]}>{item.title}</Text> :
+              <Text style={[styles.listItemText, styles.listItemText__downgrade]}>Unnamed Whappu user</Text>
+            }
             <Text style={[styles.listItemText, styles.listItemText__small]}>{currentTeam.name}</Text>
           </View>
           <Icon style={[styles.listItemIcon, styles.listItemIconRight]} name={item.rightIcon} />

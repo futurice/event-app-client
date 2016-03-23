@@ -18,6 +18,8 @@ import RegistrationView from '../components/registration/RegistrationView';
 const theme = require('../style/theme');
 const Icon = require('react-native-vector-icons/Ionicons');
 
+
+
 const MainView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
@@ -53,7 +55,7 @@ const MainView = React.createClass({
           <Icon.TabBarItem
             iconName='ios-flame-outline'
             selectedIconName='ios-flame'
-            title='Feed'
+            title='Buzz'
             selected={this.props.currentTab === Tabs.FEED}
             onPress={() => { this._onChangeTab(Tabs.FEED); }}>
             <FeedView />

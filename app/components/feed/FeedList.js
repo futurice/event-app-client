@@ -136,6 +136,7 @@ const FeedList = React.createClass({
               refreshControl={refreshControl} />
 
             <ActionButtons
+              isRegistrationInfoValid={this.props.isRegistrationInfoValid}
               style={styles.actionButtons}
               isLoading={isLoading}
               onPressAction={this.onPressAction} />
