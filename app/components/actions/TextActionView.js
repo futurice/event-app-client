@@ -84,6 +84,7 @@ const TextActionView = React.createClass({
           ]}>
             <Icon name="android-done" style={styles.okSign} />
           </Animated.View>
+          <Animated.Text style={[styles.okText, { opacity: this.state.okAnimation}]}>Let's publish your message...</Animated.Text>
 
           <Animated.View style={[styles.innerContainer, {opacity:this.state.formAnimation}]}>
 
@@ -188,22 +189,31 @@ const styles = StyleSheet.create({
   },
   okWrap:{
     top: 60,
-    left: width / 2 - 77,
+    left: width / 2 - 72,
     position: 'absolute',
-    borderWidth:5,
+    overflow: 'visible',
+    borderWidth: 5,
     borderColor: theme.light,
     paddingTop: 32,
-    borderRadius: 75,
-    width: 150,
-    height: 150,
+    borderRadius: 70,
+    width: 140,
+    height: 140,
     opacity: 0,
     transform: [{scale: 0}]
   },
   okSign:{
-    fontSize:75,
-    color:theme.light,
-    backgroundColor:'transparent',
-    textAlign:'center'
+    fontSize: 65,
+    color: theme.light,
+    backgroundColor: 'transparent',
+    textAlign: 'center'
+  },
+  okText:{
+    color: theme.light,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    fontSize: 15,
+    top: 185
   }
 });
 
