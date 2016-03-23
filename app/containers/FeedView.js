@@ -16,7 +16,7 @@ const VIEW_NAME = 'FeedView';
 const styles = StyleSheet.create({
   navigator: {
     paddingTop: Platform.OS === 'ios' ? 62 : 0,
-    paddingBottom:30
+    paddingBottom:Platform.OS === 'ios' ? 30 : 0,
   },
   navbar: {
     backgroundColor: theme.secondary,
