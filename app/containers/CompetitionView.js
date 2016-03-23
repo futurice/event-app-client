@@ -3,6 +3,7 @@
 import React, {
   StyleSheet,
   View,
+  Platform,
   ScrollView,
   PropTypes,
   Text,
@@ -42,7 +43,8 @@ const CompetitionView = React.createClass({
               <Text style={styles.leaderboardIntroText}>
                 Current situation between Guilds.
                 Be an active Whappu user and lead your Guild to the victory!
-                Competition ends at 30th April 00:00.
+              </Text>
+              <Text style={[styles.leaderboardIntroText, styles.leaderboardIntroText__grey]}>Competition ends at 30th April 00:00
               </Text>
             </View>
           </View>
@@ -60,19 +62,21 @@ const CompetitionView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'#FFF',
+    backgroundColor: '#FFF',
+    paddingBottom: Platform.OS === 'ios' ? 50 : 0,
   },
   leaderboardIntro:{
-    height:100,
+    height:90,
     flexDirection:'row',
     margin:20,
     marginBottom:0,
     marginTop:5,
-    padding:15,
+    padding: Platform.OS === 'ios' ? 13 : 9,
     paddingLeft:7,
+    paddingRight:5,
     justifyContent:'space-between',
     borderBottomWidth:1,
-    borderBottomColor:'#eee'
+    borderBottomColor:'#eee',
   },
   leaderboardIconWrap:{
     width:62,
@@ -81,16 +85,22 @@ const styles = StyleSheet.create({
   leaderboardIcon: {
     color:'#FFCC03',
     fontSize:44,
+    top:5
   },
   leaderboardIntroTextWrap:{
     flex:1,
   },
   leaderboardIntroText:{
     color:'#212121',
-    fontSize:13
+    fontSize:12
+  },
+  leaderboardIntroText__grey:{
+    color:'#aaa',
+    marginTop:5,
   },
   leaderboard: {
-    flex: 1
+    flex: 1,
+
   }
 });
 

@@ -16,7 +16,7 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
     height: 56,
   }
 });
