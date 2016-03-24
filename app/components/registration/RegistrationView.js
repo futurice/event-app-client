@@ -18,6 +18,7 @@ import Modal from 'react-native-modalbox';
 import Team from './Team';
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
+import * as keyboard from '../../utils/keyboard';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const IOS = Platform.OS === 'ios';
@@ -56,7 +57,7 @@ const RegistrationView = React.createClass({
         swipeToClose={false}
         backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
-          <ScrollView style={{flex:1}}>
+          <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
           <View style={[styles.innerContainer]}>
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
@@ -84,12 +85,20 @@ const RegistrationView = React.createClass({
               </View>
               <View style={styles.inputFieldWrap}>
                 <TextInput
-                autoCorrect={false}
-                clearButtonMode={'while-editing'}
-                returnKeyType={'done'}
-                style={[styles.inputField, styles['inputField_' + Platform.OS]]}
-                onChangeText={this.onChangeName}
-                value={this.props.name} />
+                  ref={view => this.nameTextInputRef = view}
+                  autoCorrect={false}
+                  clearButtonMode={'while-editing'}
+                  returnKeyType={'done'}
+                  style={[styles.inputField, styles['inputField_' + Platform.OS]]}
+                  onChangeText={this.onChangeName}
+                  onFocus={() => {
+                    keyboard.onInputFocus(this.containerScrollViewRef, this.nameTextInputRef);
+                  }}
+                  onBlur={() => {
+                    keyboard.onInputBlur(this.containerScrollViewRef)
+                  }}
+                  value={this.props.name}
+                  />
               </View>
               {
               this.props.selectedTeam ?
