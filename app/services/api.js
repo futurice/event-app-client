@@ -12,6 +12,7 @@ const API_TOKEN = 'hessu'; // TODO implement build step & get this from env conf
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
   return wapuFetch(url)
+  .then(checkResponseStatus)
   .then(response => response.json())
   .then(response => {
     return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
@@ -20,8 +21,9 @@ const fetchModels = modelType => {
     console.log('Error catched on API-fetch', error);
     return AsyncStorage.getItem(url)
     .then((value) => {
-      if (value != null) {
-        return Promise.resolve(JSON.parse(value));
+      value = JSON.parse(value);
+      if (value != null && !value.error) {
+        return Promise.resolve(value);
       } else {
         return Promise.reject(null);
       }
@@ -37,6 +39,7 @@ const fetchMoreFeed = lastID => {
   }).join('&');
 
   return wapuFetch(url)
+  .then(checkResponseStatus)
   .then(response => response.json())
   .then(response => {
     return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
