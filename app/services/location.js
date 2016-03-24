@@ -1,4 +1,6 @@
 import {Platform} from 'react-native';
+import geolib from 'geolib';
+import _ from 'lodash';
 
 function getGeoUrl(event) {
   const ZOOM_LEVEL = '18';
@@ -20,8 +22,19 @@ function getGeoUrl(event) {
   return geoUrl;
 }
 
-// In here could be functions for calculating distances between locations, etc
+function getDistance(userLocation, eventLocation) {
+  if (!userLocation) {
+    return '';
+  }
+
+  const distanceInMetres = geolib.getDistance(userLocation, eventLocation);
+  const distanceInKilometres = distanceInMetres / 1000;
+
+
+  return '(' + _.round(distanceInKilometres, 1) + ' km)';
+}
 
 export default {
-  getGeoUrl
+  getGeoUrl,
+  getDistance
 };
