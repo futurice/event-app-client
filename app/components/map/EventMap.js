@@ -8,7 +8,8 @@ import React, {
   PropTypes,
   Linking,
   Text,
-  TouchableHighlight
+  TouchableHighlight,
+  TouchableOpacity
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { connect } from 'react-redux';
@@ -26,12 +27,23 @@ import LoadingStates from '../../constants/LoadingStates';
 
 const MARKER_IMAGES = {
   EVENT: require('../../../assets/marker.png'),
+  RESTAURANT: require('../../../assets/marker__food.png'),
+  TOILET: require('../../../assets/marker__toilet.png'),
+  TAXI: require('../../../assets/marker__taxi.png'),
+  STORE: require('../../../assets/marker__shop.png'),
+  ALKO: require('../../../assets/marker__wine.png')
+};
+
+/*
+const MARKER_IMAGES = {
+  EVENT: require('../../../assets/marker.png'),
   RESTAURANT: require('../../../assets/fork-knife.png'),
   TOILET: require('../../../assets/toilet.png'),
   TAXI: require('../../../assets/taxi.png'),
   STORE: require('../../../assets/shopping-cart.png'),
   ALKO: require('../../../assets/wine.png')
 };
+*/
 
 const VIEW_NAME = 'EventMap';
 
@@ -55,21 +67,19 @@ class EventMap extends Component {
     });
   }
 
-  // Enables swiping between tabs
-  // 20px of right part of map can not be used to navigate map
-  renderSwipeHelperOverlay() {
-    if (Platform.OS === 'ios') {
-      return;
-    }
-
-    return <View style={styles.androidSwipeHelper}></View>;
-  }
-
   render() {
     const allEvents = [].concat(this.props.events);
+
+    const firstFutureEvent = _
+      .chain([].concat(this.props.events))
+      .filter( item => time.isEventInFuture(item.endTime) )
+      .sortBy( item => time.getTimeStamp(item.endTime) )
+      .head()
+      .value();
+
     const events = allEvents.filter(event => {
       const hasLocation = event.location && !!event.location.latitude && !!event.location.longitude;
-      return hasLocation && this._isEventBetweenSelectedTime(event);
+      return hasLocation && this._isEventBetweenSelectedTime(event, firstFutureEvent);
     });
 
     let locations = _.map(events, event => {
@@ -83,8 +93,8 @@ class EventMap extends Component {
     });
     const markers = locations.map((location, i) => {
       return <MapView.Marker
-        centerOffset={{x: 0, y:-20}}
-        anchor={{x: 0.5, y: 0.9}}
+        centerOffset={{x: 0, y: location.type === 'EVENT' ? -20 : 0}}
+        anchor={{x: 0.5, y: location.type === 'EVENT' ? 0.9 : 0.5}}
         image={MARKER_IMAGES[location.type]}
         key={i} coordinate={location.location}
       >
@@ -105,7 +115,7 @@ class EventMap extends Component {
             latitudeDelta: 0.2,
             longitudeDelta: 0.2,
           }}
-          showsUserLocation={true}
+          showsUserLocation={Platform.OS === 'android' || this.props.locateMe}
           showsPointsOfInterest={false}
           showsBuildings={false}
           showsIndoors={false}
@@ -114,8 +124,12 @@ class EventMap extends Component {
           {markers}
         </MapView>
 
-        {this.renderSwipeHelperOverlay()}
+        {this._renderSwipeHelperOverlay()}
         {this._maybeRenderLoading()}
+
+        {this._renderFilterSelection()}
+        {this._renderLocateMe()}
+
       </View>
     );
   }
@@ -193,6 +207,63 @@ class EventMap extends Component {
     </View>;
   }
 
+  // Enables swiping between tabs
+  // 20px of right part of map can not be used to navigate map
+  _renderSwipeHelperOverlay() {
+    if (Platform.OS === 'ios') {
+      return;
+    }
+
+    return <View style={styles.androidSwipeHelper}></View>;
+  }
+
+  _renderFilterSelection() {
+
+    const availableFilters = [
+     {id:'24H', title:'SOON'},
+     {id:'ALL', title:'ALL'}
+    ];
+    return(
+      <View style={styles.filterSelection}>
+      {
+        availableFilters.map((filter) => {
+          return this._renderFilterSelectionButton(filter)
+        })
+      }
+      </View>
+    );
+  }
+
+  _renderFilterSelectionButton(item){
+    return <View key={item.id}>
+          <TouchableOpacity onPress={this._changeShowFilter.bind(this, item.id)}
+          style={styles.filterSelectionButton}>
+            <Text style={[styles.filterSelectionButtonText,
+              {color: this.props.showFilter === item.id ? theme.secondary : '#999' } ]}>
+              {item.title}
+            </Text>
+          </TouchableOpacity>
+        </View>
+  }
+
+  _renderLocateMe(){
+    return Platform.OS === 'ios' ? <View style={styles.locateButton}>
+          <TouchableOpacity onPress={this._toggleLocateMe.bind(this,null)}
+            style={styles.locateButtonText} >
+            <Icon size={20} style={{ color:this.props.locateMe ? '#1D7BF7' : '#888' }} name="navigate" />
+          </TouchableOpacity>
+        </View> :
+        false;
+  }
+
+  _changeShowFilter(filterName) {
+    this.props.dispatch(EventActions.updateShowFilter(filterName));
+  }
+
+  _toggleLocateMe() {
+    this.props.dispatch(EventActions.toggleLocateMe());
+  }
+
   _maybeRenderLoading() {
     if (this.props.loading) {
       return <View style={styles.loaderContainer}>
@@ -203,8 +274,15 @@ class EventMap extends Component {
     return false;
   }
 
-  _isEventBetweenSelectedTime(event) {
-    return true;
+  _isEventBetweenSelectedTime(event, firstFutureEvent) {
+    switch (this.props.showFilter) {
+      case '24H':
+        return firstFutureEvent &&
+               firstFutureEvent.endTime &&
+               time.eventsBetweenHours(event.endTime, firstFutureEvent.endTime, 24 );
+      default:
+        return true;
+    }
   }
 }
 
@@ -233,8 +311,8 @@ const styles = StyleSheet.create({
   },
   loaderContainer: {
     position: 'absolute',
-    top: 10,
-    left: 10,
+    bottom: 10,
+    right: 10,
   },
   callout: {
     padding: 0,
@@ -264,7 +342,62 @@ const styles = StyleSheet.create({
     fontSize:14,
     color:theme.primary
   },
-  androidSwipeHelper:{
+  filterSelection: {
+    position: 'absolute',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'rgba(255,255,255,.8)',
+    elevation:2,
+    shadowColor: '#000000',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    },
+
+    top: 12,
+    left: 12,
+    borderRadius: 3,
+    height: 40,
+    width: 110
+  },
+  filterSelectionButton: {
+    padding: 10,
+    paddingLeft: 12,
+    paddingRight: 12
+  },
+  filterSelectionButtonText: {
+    fontWeight: 'bold',
+    fontSize: 11,
+    color:'#aaa'
+  },
+  locateButton:{
+    backgroundColor:'rgba(255,255,255,.8)',
+    shadowColor: '#000000',
+    shadowOpacity: 0.25,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 1,
+      width: 0
+    },
+    borderRadius:2,
+    justifyContent:'center',
+    position:'absolute',
+    right:12,
+    top:12,
+    width:40,
+    height:40
+  },
+  locateButtonText:{
+    flex:1,
+    alignItems:'center',
+    justifyContent:'center',
+    paddingTop:5
+  },
+  androidSwipeHelper: {
     position: 'absolute',
     right: 0,
     width: 20,
@@ -277,7 +410,10 @@ const styles = StyleSheet.create({
 });
 
 const select = store => {
+
   return {
+    locateMe: store.event.get('locateMe'),
+    showFilter: store.event.get('showFilter'),
     events: store.event.get('list').toJS(),
     markers: store.marker.get('list').toJS(),
     loading: store.event.get('listState') === LoadingStates.LOADING ||

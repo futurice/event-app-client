@@ -5,6 +5,7 @@ const FORMATS = {
   long:     { day: 'dddd D.M.',    time: 'HH:mm' }
 }
 const TRESHOLD_FOR_STARTS_SOON = 120; // in minutes
+const TRESHOLD_FOR_EVENT_ENDING = 4; // in hours, bars might be open 4 hours after ending time
 
 // opts.formatLong==true -> returns time and date in a longer format
 function formatEventTime(startTime, endTime, opts) {
@@ -49,6 +50,19 @@ function getEventDay(startTime) {
   return moment(startTime).format(FORMATS.long.day)
 }
 
+function isEventInFuture(endTime) {
+  return moment(endTime).isAfter( moment().add(TRESHOLD_FOR_EVENT_ENDING, 'hours') );
+}
+
+function eventsBetweenHours(endTime1, endTime2, hours) {
+  const diffInHours = moment(endTime1).diff(moment(endTime2), 'hours');
+  return diffInHours <= hours && diffInHours >= -TRESHOLD_FOR_EVENT_ENDING;
+}
+
+function getTimeStamp(time){
+  return moment(time).toDate().getTime();
+}
+
 function getTimeAgo(date) {
   if (!date) {
     return '';
@@ -72,5 +86,8 @@ export default {
   formatEventTime,
   eventIsOnGoing,
   getEventDay,
+  isEventInFuture,
+  getTimeStamp,
+  eventsBetweenHours,
   getTimeAgo
 };

@@ -31,7 +31,7 @@ const AndroidTabNavigation = React.createClass({
         initialPage={2}
         tabBarPosition={'top'}
         tabBarBackgroundColor={theme.secondary}
-        tabBarActiveTextColor={theme.accent}
+        tabBarActiveTextColor={theme.light}
         tabBarInactiveTextColor={theme.light}
         renderTabBar={() => <IconTabBar rippleColor={theme.secondaryDark} />}
       >
