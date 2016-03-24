@@ -38,6 +38,7 @@ const styles = StyleSheet.create({
   content: {
     paddingTop:10,
     padding: 20,
+    paddingBottom:40,
     flex: 1,
   },
   detailEventInfoContainer: {
@@ -145,7 +146,7 @@ const EventDetail = React.createClass({
       {(Platform.OS === 'android') ?
         <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
-      <ScrollView>
+      <ScrollView style={{flex:1}}>
         <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} />
 
        {model.facebookId && this.getEventStatus(timepoint) &&
@@ -160,7 +161,7 @@ const EventDetail = React.createClass({
               <View style={styles.detailEventInfoWrapper}>
                 <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
                 <Text style={styles.detailEventInfoAttending}>
-                  {model.attendingCount}541 attending
+                  {model.attendingCount}
                 </Text>
               </View>
             </TouchableHighlight>
@@ -174,9 +175,11 @@ const EventDetail = React.createClass({
           <Text style={styles.detailEventDescription}>{model.description}</Text>
         </View>
 
+        {/*
         <View style={styles.navigationButtonWrapper}>
           <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
         </View>
+        */}
       </ScrollView>
     </View>;
   }
