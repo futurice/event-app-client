@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
+    "release:ios": "node node_modules/react-native/local-cli/cli.js bundle --platform=ios --entry-file=index.ios.js --bundle-output=iOS/wappuapp/main.jsbundle --dev=false",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch",
     "eslint": "eslint --ext .js ./app",

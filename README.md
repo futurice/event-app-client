@@ -10,6 +10,16 @@ Short facts:
 * iOS and Android
 * Developed in very short time(=expect some code quality issues)
 
+## Release
+
+### iOS
+
+* Make sure you have latest App Store provisioning profile installed
+* Package production script bundle with `npm run release:ios`
+* In XCode project settings, bump Version field
+* Choose `Generic iOS Device` (or a connected iPhone) as build target
+* Run `Product > Clean` (for paranoia) and `Product > Archive`
+* Go to `Window > Organizer`, select latest build with correct version and press Upload to App Store
 
 ## Local development
 
