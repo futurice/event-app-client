@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.secondary,
   },
   sectionHeader: {
-    backgroundColor: theme.primary,//theme.dark,
+    backgroundColor: theme.secondary,//theme.dark,
     opacity: 0.88,
     padding: 20,
     flex: 1

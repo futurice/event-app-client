@@ -33,8 +33,7 @@ const styles = StyleSheet.create({
   },
   gridListItemImgColorLayer: {
     // backgroundColor is set programmatically on render() based on rowId
-    opacity: 0.7,
-    elevation: 1,
+    opacity: 0.75,
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
   },
@@ -46,34 +45,45 @@ const styles = StyleSheet.create({
     padding: 20
   },
   gridListItemTitle: {
-    fontSize: 25,
+    fontSize: 23,
+    lineHeight:26,
     fontWeight: 'bold',
-    textAlign: 'center',
-    color: theme.light
+    textAlign: 'left',
+    color: theme.light,
+    paddingBottom:10
   },
 
   gridListItemMeta: {
-    textAlign: 'center'
+  flex:1
   },
   gridListItemPlace: {
-    fontSize: 17,
-    color: '#CCC'
+    fontSize: 15,
+    color: '#ddd'
+  },
+  gridListItemDistance: {
+    color:'#ddd',
+    fontSize:14,
   },
   gridListItemTime: {
-    fontSize: 17,
-    color: theme.secondaryLight,
-    fontWeight: 'bold'
+    fontSize: 15,
+    color: theme.accent,
+    fontWeight: 'bold',
+  },
+  gridListItemIconsWrapper__left:{
+    position: 'absolute',
+    left: 20,
+    bottom: 15,
   },
   gridListItemIconsWrapper: {
     position: 'absolute',
     right: 20,
-    top: 13,
+    bottom: 15,
   },
   gridListItemIcon: {
     color: theme.light,
     opacity: 0.9,
     height: 20,
-    fontSize: 15
+    fontSize: 14
   }
 });
 
@@ -104,10 +114,16 @@ export default React.createClass({
 
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
-          <Text style={styles.gridListItemMeta}>
+          <View style={styles.gridListItemMeta}>
             <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}, </Text>
-            <Text style={styles.gridListItemPlace}>{item.locationName} {this.props.currentDistance}</Text>
-          </Text>
+            <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
+
+          </View>
+
+          <View style={styles.gridListItemIconsWrapper__left}>
+            <Text style={styles.gridListItemDistance}>{this.props.currentDistance}</Text>
+          </View>
+
           <View style={styles.gridListItemIconsWrapper}>
             {item.teemu && <Text style={styles.gridListItemIcon}>
               <Icon name='university' size={15} /> Emäteemu!</Text>}

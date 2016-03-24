@@ -20,6 +20,7 @@ import analytics from '../../services/analytics';
 import locationService from '../../services/location';
 import time from '../../utils/time';
 import EventListItem from './EventListItem';
+import Button from '../common/Button';
 
 const VIEW_NAME = 'EventDetail';
 
@@ -27,13 +28,15 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingBottom: 20
+    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
+    paddingTop: Platform.OS === 'ios' ? 20 : 0,
   },
   detailEventImg: {
     width: Dimensions.get('window').width,
     height: 200,
   },
   content: {
+    paddingTop:10,
     padding: 20,
     flex: 1,
   },
@@ -41,10 +44,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     alignItems:'flex-start',
     justifyContent:'center',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    height: 40
+    padding:20,
+    backgroundColor:'#eee'
   },
   detailEventInfoWrapper: {
     flex:1,
@@ -53,18 +54,18 @@ const styles = StyleSheet.create({
   },
   detailEventInfoIcon: {
     fontSize:25,
+    color:'#888',
     marginTop:1,
     paddingRight:10,
   },
   detailEventInfoAttending: {
-    fontSize:12,
+    fontSize:14,
     color:'#aaa',
-    lineHeight: 12,
     alignSelf: 'center'
   },
   detailEventInfoTime: {
     color: '#aaa',
-    fontSize: 13,
+    fontSize: 14,
     alignSelf: 'center'
   },
   detailEventName: {
@@ -75,17 +76,15 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   detailEventDescription: {
-    color: '#aaa',
-    fontWeight: 'bold',
+    color: '#888',
+    fontWeight: 'normal',
     fontSize: 15,
     marginTop: 10,
   },
 
   navigationButtonWrapper: {
-    height: 50,
-    marginLeft: 20,
-    marginRight: 20,
-    marginTop: 10,
+    margin: 20,
+    marginTop:10,
     marginBottom: 50,
   },
   navigationButton: {
@@ -149,6 +148,7 @@ const EventDetail = React.createClass({
       <ScrollView>
         <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} />
 
+       {model.facebookId && this.getEventStatus(timepoint) &&
         <View style={styles.detailEventInfoContainer}>
           <View style={styles.detailEventInfoWrapper}>
             {model.facebookId &&
@@ -158,9 +158,9 @@ const EventDetail = React.createClass({
                 Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
             >
               <View style={styles.detailEventInfoWrapper}>
-                <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={20}/>
+                <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
                 <Text style={styles.detailEventInfoAttending}>
-                  {model.attendingCount} attending
+                  {model.attendingCount}541 attending
                 </Text>
               </View>
             </TouchableHighlight>
@@ -168,21 +168,14 @@ const EventDetail = React.createClass({
           </View>
           <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
         </View>
+        }
 
         <View style={styles.content}>
           <Text style={styles.detailEventDescription}>{model.description}</Text>
         </View>
 
         <View style={styles.navigationButtonWrapper}>
-          <TouchableHighlight
-            style={styles.navigationButton}
-            onPress={() => Linking.openURL(locationService.getGeoUrl(model))}
-          >
-            <Text style={styles.navigationButtonText}>
-              Get me there!
-            </Text>
-          </TouchableHighlight>
-          <Icon name='navigate' size={35} color='#EA489C' style={styles.navigationButtonIcon} />
+          <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
         </View>
       </ScrollView>
     </View>;

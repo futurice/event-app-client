@@ -31,7 +31,7 @@ function getDistance(userLocation, eventLocation) {
   const distanceInKilometres = distanceInMetres / 1000;
 
 
-  return '(' + _.round(distanceInKilometres, 1) + ' km)';
+  return '' + _.round(distanceInKilometres, 1) + ' km';
 }
 
 export default {
