@@ -106,7 +106,7 @@ export default React.createClass({
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <Text style={styles.gridListItemMeta}>
             <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}, </Text>
-            <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
+            <Text style={styles.gridListItemPlace}>{item.locationName} {this.props.currentDistance}</Text>
           </Text>
           <View style={styles.gridListItemIconsWrapper}>
             {item.teemu && <Text style={styles.gridListItemIcon}>

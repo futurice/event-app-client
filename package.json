@@ -21,6 +21,7 @@
   ],
   "dependencies": {
     "@exponent/react-native-navigator": "^0.4.2",
+    "geolib": "^2.0.20",
     "immutable": "^3.7.6",
     "lodash": "^4.6.1",
     "moment": "^2.12.0",

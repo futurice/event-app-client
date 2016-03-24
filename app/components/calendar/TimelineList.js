@@ -17,6 +17,7 @@ import _ from 'lodash';
 import moment from 'moment';
 
 import analytics from '../../services/analytics';
+import location from '../../services/location';
 import theme from '../../style/theme';
 import * as AnnouncementActions from '../../actions/announcement';
 import * as EventActions from '../../actions/event';
@@ -117,6 +118,7 @@ var TimelineList = React.createClass({
     this.props.navigator.push({
       component: EventDetail,
       name: model.name,
+      currentDistance: location.getDistance(this.props.userLocation, model.location),
       model
     });
   },
@@ -193,6 +195,7 @@ var TimelineList = React.createClass({
         return <EventListItem
           item={item}
           rowId={+rowId}
+          currentDistance={location.getDistance(this.props.userLocation, item.location)}
           handlePress={() => this.navigateToSingleEvent(item)}
         />;
     }
@@ -240,7 +243,8 @@ const select = store => {
   return {
     announcements,
     events,
-    eventsFetchState: store.event.get('listState')
+    eventsFetchState: store.event.get('listState'),
+    userLocation: store.location.get('currentLocation')
   }
 };
 
