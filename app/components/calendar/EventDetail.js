@@ -139,6 +139,7 @@ const EventDetail = React.createClass({
     // TODO: stylize the "meta-elements"
 
     const model = this.props.route.model;
+    const currentDistance = this.props.route.currentDistance;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
 
     return <View style={styles.wrapper}>
@@ -146,7 +147,7 @@ const EventDetail = React.createClass({
         <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
       <ScrollView>
-        <EventListItem item={model} handlePress={() => true} />
+        <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} />
 
         <View style={styles.detailEventInfoContainer}>
           <View style={styles.detailEventInfoWrapper}>
