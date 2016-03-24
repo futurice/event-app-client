@@ -38,12 +38,10 @@ const styles = StyleSheet.create({
     },
     backgroundColor: '#fff'
   },
-
   itemImageWrapper: {
     height: 400,
     width: Dimensions.get('window').width,
   },
-
   itemTextWrapper: {
     paddingLeft: 41,
     paddingRight: 30,
@@ -96,19 +94,44 @@ const styles = StyleSheet.create({
     fontSize: Platform.OS === 'ios' ? 22 : 20,
   },
   listItemRemoveContainer: {
-    position:'absolute',
-    right:8,
+    position: 'absolute',
+    right: 8,
     bottom: 10,
     borderRadius:15,
     width: 30,
-    height:30,
-    flex:1,
+    height: 30,
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
   },
   itemTimestamp: {
     color: '#aaa',
     fontSize: 13
+  },
+  itemContent__admin:{
+    marginTop: 0,
+    marginLeft: 15,
+    marginRight: 15,
+    paddingTop: 0,
+    paddingBottom: 0,
+    borderRadius: 2,
+    backgroundColor: '#fffff4'
+  },
+  itemTextWrapper__admin: {
+    paddingLeft: 25,
+  },
+  feedItemListItemInfo__admin: {
+    paddingLeft: 0,
+    paddingBottom: 15,
+  },
+  feedItemListItemAuthor__admin:  {
+    paddingLeft: 25,
+  },
+  feedItemListText__admin: {
+    color: 'rgba(30,20,0,.6)',
+    fontWeight: 'normal',
+    fontSize: 15,
+    lineHeight: 23,
   }
 });
 
@@ -174,9 +197,44 @@ const FeedListItem = React.createClass({
     );
   },
 
+  renderAdminItem() {
+    const item = this.props.item;
+    const ago = time.getTimeAgo(item.createdAt);
+
+    return (
+      <View style={styles.itemWrapper}>
+        <View style={[styles.itemContent, styles.itemContent__admin]}>
+
+          <View style={[styles.feedItemListItemInfo, styles.feedItemListItemInfo__admin]}>
+            <View style={[styles.feedItemListItemAuthor, styles.feedItemListItemAuthor__admin]}>
+              <Text style={styles.itemAuthorName}>Whappu</Text>
+              <Text style={styles.itemTimestamp}>{ago}</Text>
+            </View>
+          </View>
+
+          {item.type === 'IMAGE' ?
+            <View style={styles.itemImageWrapper}>
+              <Image
+                source={{ uri: item.url }}
+                style={styles.feedItemListItemImg} />
+            </View>
+          :
+            <View style={[styles.itemTextWrapper, styles.itemTextWrapper__admin]}>
+              <Text style={[styles.feedItemListText, styles.feedItemListText__admin]}>{item.text}</Text>
+            </View>
+          }
+        </View>
+      </View>
+    );
+  },
+
   render() {
     const item = this.props.item;
     const ago = time.getTimeAgo(item.createdAt);
+
+    if(item.author.type === 'SYSTEM') {
+      return this.renderAdminItem();
+    }
 
     return (
       <View style={styles.itemWrapper}>
