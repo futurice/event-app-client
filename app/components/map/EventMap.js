@@ -34,17 +34,6 @@ const MARKER_IMAGES = {
   ALKO: require('../../../assets/marker__wine.png')
 };
 
-/*
-const MARKER_IMAGES = {
-  EVENT: require('../../../assets/marker.png'),
-  RESTAURANT: require('../../../assets/fork-knife.png'),
-  TOILET: require('../../../assets/toilet.png'),
-  TAXI: require('../../../assets/taxi.png'),
-  STORE: require('../../../assets/shopping-cart.png'),
-  ALKO: require('../../../assets/wine.png')
-};
-*/
-
 const VIEW_NAME = 'EventMap';
 
 class EventMap extends Component {

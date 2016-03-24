@@ -30,7 +30,6 @@ export default function event(state = initialState, action) {
     case EVENT_SHOWFILTER_UPDATE:
       return state.set('showFilter', Immutable.fromJS(action.payload));
     case EVENT_MAP_LOCATE_TOGGLE:
-    console.log('change')
       return state.set('locateMe', !state.get('locateMe'));
     default:
       return state;
