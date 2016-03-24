@@ -80,7 +80,7 @@ const RegistrationView = React.createClass({
 
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
-                <Text style={styles.inputLabelText}>Hi there! What's your wappu name?</Text>
+                <Text style={styles.inputLabelText}>{`Hi there! What's your wappu name?`}</Text>
               </View>
               <View style={styles.inputFieldWrap}>
                 <TextInput
