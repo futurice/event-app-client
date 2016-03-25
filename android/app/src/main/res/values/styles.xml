@@ -3,9 +3,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#CE3E8A</item>
+        <item name="colorPrimary">#ec449c</item>
         <!-- Status Bar color -->
-        <item name="colorPrimaryDark">#aa3573</item>
+        <item name="colorPrimaryDark">#dd4997</item>
         <!-- Details color -->
         <item name="colorAccent">#00d7d2</item>
     </style>

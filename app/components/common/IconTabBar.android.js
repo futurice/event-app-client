@@ -7,6 +7,7 @@ var {
   StyleSheet,
   Text,
   TouchableNativeFeedback,
+  Image,
   View,
   Animated
 } = React;
@@ -25,12 +26,22 @@ var styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderWidth: 0,
-    elevation:2,
+    elevation: 2,
   },
-  textLabel:{
-    fontSize:12,
-    top:2,
+  textLabel: {
+    fontSize: 12,
+    top: 2,
   },
+  navBarLogo: {
+    width: 48,
+    height: 48,
+  },
+  triangle:{
+    position: 'absolute',
+    top: 5,
+    width: 56,
+    height: 56,
+  }
 });
 
 var AndroidTabBar = React.createClass({
@@ -61,12 +72,40 @@ var AndroidTabBar = React.createClass({
     const iconScale = this.state.buttonIconScale[page];
     const textScale = this.state.buttonText[page];
 
-    if (isTabActive) {
+    if(isTabActive) {
       Animated.timing(iconScale, { toValue: 1.15, duration:250 }).start();
       Animated.timing(textScale, { toValue: 1,  duration:200 }).start();
+    } else if(name.logo) {
+      Animated.timing(iconScale, { toValue: 1, duration:100 }).start();
     } else {
       iconScale.setValue(1);
       textScale.setValue(0);
+    }
+
+      if(name.logo) {
+      return (
+      <TouchableNativeFeedback
+        key={name.title}
+        onPress={() => this.props.goToPage(page)}
+        background={TouchableNativeFeedback.Ripple(rippleColor, true)}
+        delayPressIn={0}
+      >
+        <View style={[styles.tab, {paddingLeft:5, paddingRight:5}]} >
+        <Image
+          source={require('../../../assets/logo_triangle.png')}
+          style={[styles.triangle, {left:this.props.containerWidth / this.props.tabs.length / 2 - 24}]} />
+        <Animated.Image
+            source={require('../../../assets/whappu_text.png')}
+            style={[styles.navBarLogo,
+              {
+                top: iconScale.interpolate({inputRange: [1, 1.15], outputRange: [7,6]}),
+                transform: [{
+                scale: iconScale.interpolate({inputRange: [1, 1.15], outputRange: [1,1.2]})
+              }]},
+            ]} />
+        </View>
+      </TouchableNativeFeedback>
+      )
     }
 
     return (
@@ -80,13 +119,13 @@ var AndroidTabBar = React.createClass({
         <AnimatedIcon
         name={name.icon}
         size={21}
-        style={[
-          styles.icon,
+        style={
           {transform: [{
             scale: isTabActive ? iconScale : 1
-          }]},
-          {color: isTabActive ? activeTextColor : inactiveTextColor}
-        ]} />
+          }],
+          color: isTabActive ? activeTextColor : inactiveTextColor
+        }
+        } />
 
         {isTabActive ?
           <Animated.Text style={[
@@ -109,9 +148,15 @@ var AndroidTabBar = React.createClass({
   },
 
   render() {
+    var containerWidth = this.props.containerWidth;
     return (
-      <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style]}>
-      {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+      <View>
+        <Image
+            source={require('../../../assets/logo_triangle.png')}
+            style={[styles.triangle, {left:containerWidth / 2 - 28, elevation:2}]} />
+        <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style]}>
+          {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+        </View>
       </View>
       );
   },
