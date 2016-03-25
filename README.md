@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/futurice/wappuapp-client.svg?token=4Z4JTnNSis9VpuFymYo8&branch=master)](https://travis-ci.com/futurice/wappuapp-client)
+
 # Whappu app
 
 ![](docs/logo.png)
