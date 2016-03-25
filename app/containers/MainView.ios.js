@@ -18,8 +18,6 @@ import RegistrationView from '../components/registration/RegistrationView';
 const theme = require('../style/theme');
 const Icon = require('react-native-vector-icons/Ionicons');
 
-
-
 const MainView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,

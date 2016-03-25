@@ -105,7 +105,7 @@ const RegistrationView = React.createClass({
               <View>
                 <TouchableOpacity onPress={this.onGenerateName}>
                   <View style={styles.textButton}>
-                    <Icon name="loop" style={styles.textButtonIcon} />
+                    <Icon name='loop' style={styles.textButtonIcon} />
                     <Text style={styles.textButtonText}>Generate wappu name</Text>
                   </View>
                 </TouchableOpacity>

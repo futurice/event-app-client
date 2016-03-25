@@ -5,11 +5,9 @@ import React, {
   Text,
   TextInput,
   Platform,
-  Image,
   PropTypes,
   Dimensions,
   Animated,
-  Easing,
   StyleSheet
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -38,7 +36,7 @@ const TextActionView = React.createClass({
     Animated.spring(this.state.okAnimation, {toValue:1, duration:250}).start();
     Animated.timing(this.state.formAnimation, {toValue:0, duration:100}).start();
   },
-  hideOK(){
+  hideOK() {
     this.state.formAnimation.setValue(1);
     this.state.okAnimation.setValue(0);
   },
@@ -51,19 +49,19 @@ const TextActionView = React.createClass({
   },
   onSendText() {
 
-    if(!this.state.text.length){
+    if (!this.state.text.length) {
       this.onCancel();
       return;
     }
 
     this.showOK()
-    setTimeout( () => {
+    setTimeout(() => {
       this.props.dispatch(CompetitionActions.postText(this.state.text));
       this.setState({text: ''});
       this.props.dispatch(CompetitionActions.closeTextActionView());
 
       // reset values for the next time
-      setTimeout( () => {
+      setTimeout(() => {
         this.hideOK();
       },100);
 
@@ -71,7 +69,6 @@ const TextActionView = React.createClass({
 
   },
   render() {
-    const AnimatedIcon = Animated.createAnimatedComponent(Icon);
     return (
       <Modal
         isOpen={this.props.isTextActionViewOpen}
@@ -83,15 +80,17 @@ const TextActionView = React.createClass({
           <Animated.View style={[styles.okWrap,
             {opacity: this.state.okAnimation, transform:[{scale:this.state.okAnimation}]}
           ]}>
-            <Icon name="done" style={styles.okSign} />
+            <Icon name='done' style={styles.okSign} />
           </Animated.View>
-          <Animated.Text style={[styles.okText, { opacity: this.state.okAnimation}]}>Let's publish your message...</Animated.Text>
+          <Animated.Text style={[styles.okText, { opacity: this.state.okAnimation}]}>
+            Let's publish your message...
+          </Animated.Text>
 
           <Animated.View style={[styles.innerContainer, {opacity:this.state.formAnimation}]}>
 
             <View>
               <View style={styles.title}>
-                <Icon name="textsms" style={styles.titleIcon} />
+                <Icon name='textsms' style={styles.titleIcon} />
                 <Text style={styles.titleText}> Share your Wappu feelings</Text>
               </View>
             </View>
@@ -169,8 +168,8 @@ const styles = StyleSheet.create({
   bottomButtons:{
     flex: 1,
     flexDirection: 'row',
-    alignItems: IOS ? 'stretch':'flex-end',
-    justifyContent: IOS ? 'center': 'flex-end',
+    alignItems: IOS ? 'stretch' : 'flex-end',
+    justifyContent: IOS ? 'center' : 'flex-end',
     position: IOS ? 'relative' : 'absolute',
     bottom:0,
     right:0,

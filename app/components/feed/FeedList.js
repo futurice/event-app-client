@@ -6,7 +6,6 @@ import React, {
   Text,
   RefreshControl,
   View,
-  Platform,
   ScrollView
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -75,7 +74,7 @@ const FeedList = React.createClass({
   },
 
   onLoadMoreItems() {
-    if(this.props.isRefreshing || !this.props.feed.length || this.props.feed.length < 10) {
+    if (this.props.isRefreshing || !this.props.feed.length || this.props.feed.length < 10) {
       return;
     }
 

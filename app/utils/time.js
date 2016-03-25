@@ -51,7 +51,7 @@ function getEventDay(startTime) {
 }
 
 function isEventInFuture(endTime) {
-  return moment(endTime).isAfter( moment().add(TRESHOLD_FOR_EVENT_ENDING, 'hours') );
+  return moment(endTime).isAfter(moment().add(TRESHOLD_FOR_EVENT_ENDING, 'hours'));
 }
 
 function eventsBetweenHours(endTime1, endTime2, hours) {
@@ -59,7 +59,7 @@ function eventsBetweenHours(endTime1, endTime2, hours) {
   return diffInHours <= hours && diffInHours >= -TRESHOLD_FOR_EVENT_ENDING;
 }
 
-function getTimeStamp(time){
+function getTimeStamp(time) {
   return moment(time).toDate().getTime();
 }
 

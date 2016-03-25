@@ -22,6 +22,7 @@ function getGeoUrl(event) {
   return geoUrl;
 }
 
+// jscs:disable disallowImplicitTypeConversion
 function getDistance(userLocation, eventLocation) {
   if (!userLocation) {
     return '';
@@ -29,7 +30,6 @@ function getDistance(userLocation, eventLocation) {
 
   const distanceInMetres = geolib.getDistance(userLocation, eventLocation);
   const distanceInKilometres = distanceInMetres / 1000;
-
 
   return '' + _.round(distanceInKilometres, 1) + ' km';
 }

@@ -61,8 +61,8 @@ class EventMap extends Component {
 
     const firstFutureEvent = _
       .chain([].concat(this.props.events))
-      .filter( item => time.isEventInFuture(item.endTime) )
-      .sortBy( item => time.getTimeStamp(item.endTime) )
+      .filter(item => time.isEventInFuture(item.endTime))
+      .sortBy(item => time.getTimeStamp(item.endTime))
       .head()
       .value();
 
@@ -212,7 +212,7 @@ class EventMap extends Component {
      {id:'24H', title:'SOON'},
      {id:'ALL', title:'ALL'}
     ];
-    return(
+    return (
       <View style={styles.filterSelection}>
       {
         availableFilters.map((filter) => {
@@ -223,23 +223,23 @@ class EventMap extends Component {
     );
   }
 
-  _renderFilterSelectionButton(item){
+  _renderFilterSelectionButton(item) {
     return <View key={item.id}>
           <TouchableOpacity onPress={this._changeShowFilter.bind(this, item.id)}
           style={styles.filterSelectionButton}>
             <Text style={[styles.filterSelectionButtonText,
-              {color: this.props.showFilter === item.id ? theme.secondary : '#999' } ]}>
+              {color: this.props.showFilter === item.id ? theme.secondary : '#999' }]}>
               {item.title}
             </Text>
           </TouchableOpacity>
         </View>
   }
 
-  _renderLocateMe(){
+  _renderLocateMe() {
     return Platform.OS === 'ios' ? <View style={styles.locateButton}>
           <TouchableOpacity onPress={this._toggleLocateMe.bind(this,null)}
             style={styles.locateButtonText} >
-            <Icon size={20} style={{ color:this.props.locateMe ? '#1D7BF7' : '#888' }} name="navigate" />
+            <Icon size={20} style={{ color:this.props.locateMe ? '#1D7BF7' : '#888' }} name='navigate' />
           </TouchableOpacity>
         </View> :
         false;
@@ -268,7 +268,7 @@ class EventMap extends Component {
       case '24H':
         return firstFutureEvent &&
                firstFutureEvent.endTime &&
-               time.eventsBetweenHours(event.endTime, firstFutureEvent.endTime, 24 );
+               time.eventsBetweenHours(event.endTime, firstFutureEvent.endTime, 24);
       default:
         return true;
     }

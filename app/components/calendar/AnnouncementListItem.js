@@ -1,4 +1,6 @@
 'use strict';
+
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, {
   Image,
   StyleSheet,

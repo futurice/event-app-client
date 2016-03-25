@@ -8,8 +8,7 @@ var {
   Text,
   TouchableNativeFeedback,
   View,
-  Animated,
-  Easing,
+  Animated
 } = React;
 
 const Icon = require('react-native-vector-icons/MaterialIcons');
@@ -62,7 +61,7 @@ var AndroidTabBar = React.createClass({
     const iconScale = this.state.buttonIconScale[page];
     const textScale = this.state.buttonText[page];
 
-    if(isTabActive){
+    if (isTabActive) {
       Animated.timing(iconScale, { toValue: 1.15, duration:250 }).start();
       Animated.timing(textScale, { toValue: 1,  duration:200 }).start();
     } else {

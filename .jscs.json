@@ -16,7 +16,7 @@
     "disallowTrailingWhitespace": true,
 
     "maximumLineLength": {
-        "value": 100,
+        "value": 120,
         "allowComments": true,
         "allowRegex": true
     },

@@ -101,20 +101,30 @@ const ActionButtons = React.createClass({
     BUTTON_POS.forEach((pos, i) => {
 
       // Animate action buttons, iOS handles delay better
-      if(Platform.OS === 'ios'){
+      if (Platform.OS === 'ios') {
         Animated.sequence([
-          Animated.delay(nextState === OPEN ? BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
+          Animated.delay(nextState === OPEN ?
+            BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) :
+            0),
           Animated.spring(this.state.buttons[i],
-            { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } })
+            { toValue: nextState === OPEN ?
+                pos :
+                { x: 0, y: 0 } })
         ]).start();
       } else {
-         Animated.spring(this.state.buttons[i], { toValue: nextState === OPEN ? pos : { x: 0, y: 0 } }).start();
+        Animated.spring(this.state.buttons[i],
+          { toValue: nextState === OPEN ?
+              pos :
+              { x: 0, y: 0 } }).start();
       }
 
       // Animate action button labels, 200ms later than buttons
       Animated.sequence([
-        Animated.delay(nextState === OPEN ? 200 + BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) : 0),
-        Animated.timing(this.state.labels[i], {duration:200, toValue:  nextState === OPEN ? 1 : 0})
+        Animated.delay(nextState === OPEN ?
+          200 + BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) :
+          0),
+        Animated.timing(this.state.labels[i],
+          {duration:200, toValue: nextState === OPEN ? 1 : 0})
       ]).start();
     });
     Animated.spring(this.state.plusButton, { toValue: nextState === OPEN ? 1 : 0 }).start();
@@ -125,12 +135,13 @@ const ActionButtons = React.createClass({
       this.props.dispatch(RegistrationActions.openRegistrationView());
     } else {
 
-      Animated.timing(this.state.overlayOpacity, {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
+      Animated.timing(this.state.overlayOpacity,
+        {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
       this.animateButtonsToState(this.state.actionButtonsOpen ? CLOSED : OPEN);
     }
   },
 
-  onPressActionButtons(type, fn){
+  onPressActionButtons(type, fn) {
     // Start the action
     getBoundAction(type, fn)();
 
@@ -161,7 +172,6 @@ const ActionButtons = React.createClass({
     };
     return mapping[type] || mapping['default'];
   },
-
 
   getCooldownTime(actionType) {
     const now = new Date().getTime();
@@ -228,7 +238,10 @@ const ActionButtons = React.createClass({
     return (
       <View style={style}>
         <Animated.View style={[styles.overlay, {
-          transform:[{scale:this.state.overlayOpacity.interpolate({ inputRange: [0, 1], outputRange: [1,200]  })}]
+          transform:[{scale:this.state.overlayOpacity.interpolate({
+            inputRange: [0, 1],
+            outputRange: [1,200]
+          })}]
         }]} />
         {this.renderActionButtons()}
         {this.renderMenuButton()}

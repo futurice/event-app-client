@@ -1,5 +1,6 @@
 'use strict';
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 var React = require('react-native');
 var {
   Image,
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   },
 
   gridListItemMeta: {
-  flex:1
+    flex:1
   },
   gridListItemPlace: {
     fontSize: 15,

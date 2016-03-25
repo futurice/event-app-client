@@ -1,5 +1,6 @@
 'use strict';
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, {
   StyleSheet,
   View,
@@ -44,7 +45,8 @@ const CompetitionView = React.createClass({
                 Current situation between Guilds.
                 Be an active Whappu user and lead your Guild to the victory!
               </Text>
-              <Text style={[styles.leaderboardIntroText, styles.leaderboardIntroText__grey]}>Competition ends at 30th April 00:00
+              <Text style={[styles.leaderboardIntroText, styles.leaderboardIntroText__grey]}>
+                Competition ends at 30th April 00:00
               </Text>
             </View>
           </View>

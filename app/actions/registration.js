@@ -46,7 +46,7 @@ const selectTeam = team => {
     dispatch({ type: CLOSE_TEAM_SELECTOR });
     dispatch({ type: SELECT_TEAM, payload: team });
     // Generate new name if not given name
-    if(!currentName) {
+    if (!currentName) {
       dispatch({ type: UPDATE_NAME, payload: namegen.generateName(currentTeam.name) });
     }
   };
@@ -57,10 +57,9 @@ const updateName = name => {
 
 const generateName = () => {
   return (dispatch, getStore) => {
-    const teams = getStore().team.get('teams').toJS();
     const currentTeam = getStore().registration.get('selectedTeam');
 
-    if(currentTeam) {
+    if (currentTeam) {
       dispatch({ type: UPDATE_NAME, payload: namegen.generateName(currentTeam.name) });
     }
   };

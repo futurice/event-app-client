@@ -1,5 +1,6 @@
 'use strict';
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, {
   Alert,
   Image,
@@ -186,7 +187,8 @@ const FeedListItem = React.createClass({
     const iconName = this.itemIsCreatedByMe(item) ? 'delete' : 'flag';
     return (
       <TouchableOpacity
-       style={[styles.listItemRemoveContainer, {backgroundColor:item.type !== 'IMAGE' ? 'transparent' : 'rgba(255,255,255,.1)'}]}
+       style={[styles.listItemRemoveContainer,
+         {backgroundColor:item.type !== 'IMAGE' ? 'transparent' : 'rgba(255,255,255,.1)'}]}
        onPress={() => this.showRemoveDialog(this.props.item)}>
 
         <Icon name={iconName} style={[styles.listItemRemoveButton,
@@ -220,7 +222,9 @@ const FeedListItem = React.createClass({
             </View>
           :
             <View style={[styles.itemTextWrapper, styles.itemTextWrapper__admin]}>
-              <Text style={[styles.feedItemListText, styles.feedItemListText__admin]}>{item.text}</Text>
+              <Text style={[styles.feedItemListText, styles.feedItemListText__admin]}>
+                {item.text}
+              </Text>
             </View>
           }
         </View>
@@ -232,7 +236,7 @@ const FeedListItem = React.createClass({
     const item = this.props.item;
     const ago = time.getTimeAgo(item.createdAt);
 
-    if(item.author.type === 'SYSTEM') {
+    if (item.author.type === 'SYSTEM') {
       return this.renderAdminItem();
     }
 
