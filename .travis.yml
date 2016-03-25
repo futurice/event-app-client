@@ -1,0 +1,14 @@
+language: node_js
+
+node_js:
+  - 4
+  - 5
+
+before_install:
+   - npm install -g npm@'2.x.x'
+
+before_script:
+  - npm install
+
+script:
+  - npm run ci
