@@ -38,7 +38,8 @@ const ActionButton = React.createClass({
     }
 
     return (
-      <Fab onPress={onPress} styles={combinedStyle} disabled={disabled} underlayColor={theme.secondaryLight}>
+      <Fab onPress={onPress} styles={combinedStyle}
+        disabled={disabled} underlayColor={theme.secondaryLight}>
         {children}
       </Fab>
     );

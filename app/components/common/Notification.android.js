@@ -36,14 +36,14 @@ class Notification extends Component {
   }
 
   shouldComponentUpdate(nextProps) {
-    if ( this.props.visible !== nextProps.visible) {
+    if (this.props.visible !== nextProps.visible) {
       return true;
     }
     return false;
   }
 
-  _show(){
-    setTimeout( () => {
+  _show() {
+    setTimeout(() => {
       console.log(this.props.children)
 
       ToastAndroid.show(this.props.children, ToastAndroid.LONG)
@@ -51,7 +51,7 @@ class Notification extends Component {
     }, 300)
   }
 
-  _hide(){
+  _hide() {
     // hidden
   }
 

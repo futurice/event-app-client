@@ -11,7 +11,6 @@
 
 import React, {
   StyleSheet,
-  Text,
   View,
   ActionSheetIOS,
   Platform,

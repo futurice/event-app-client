@@ -1,0 +1,17 @@
+language: node_js
+
+node_js:
+  - 4
+
+before_install:
+  - npm install -g npm@'2.x.x'
+
+before_script:
+  - npm install
+
+script:
+  - npm run ci
+
+notifications:
+  flowdock:
+    secure: SbjOsCpwm07zr8l+H4ei3Q524ag3F1T+cYp2ZvmXJr3W2ccx3xiMw3wLHD/dfFgoza+DBb5xo2k3s6+9WeVg24b2URSyPp5A2RvMbtq1fLcswSRZGajPeK5tA/pwac8M1iG/ElKEaAcA8JrtFSRLT2NJgXBh8KKnQKOJSb92EIX1kwWqj1JHUu7CFd04+PJm7fPuNNlpsYIOEdIb9viHEzySjhFNeOqOPqx4mpcLKPBXTD08aevvXZutcsrec7srv4p38ZRGMVRD78NTFLWNVmFGeS+EO8uYC33xjBJ0fT52sRWQSFCl9yLTKtEf5uasm/Z0ngm5yQYRoOYGMuu/shtU1E2o5qgx+VMsKWmV1M1lFNG1efIdjxo2IAZaxzlxl7Vi58bDwciJVUzNZOrn3CrOSYPd0UGGAth9ciIAH+mFAr7MgqGPESc3fRWEs0lawPbJclHbIgSjJJEElrHp4rRzl+OOUacWhe+tNeDgyzdZR7lYDVvPA27Co2Sefs7WNW/3XkZeWnTh13OrI0RXJ3KJH1AXnowFATK3ZiS6mize7Vj/pzB5pZ348yT67c/QrjWrT4S+bVQXwUzBNP1KgZO2yMcxzWb/Q13ORrT9I3qyAJCZylJik6gWgaJUufAOrWjDyPJDH2n5Cw22JkJT3Kr+ZdxoC5KGwxzAVSrC0/E=

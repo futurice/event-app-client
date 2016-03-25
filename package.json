@@ -8,7 +8,8 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
     "test:watch": "npm run test -- --watch",
     "eslint": "eslint --ext .js ./app",
-    "jscs": "jscs ./app"
+    "jscs": "jscs ./app",
+    "ci": "bash ./tools/ci.sh"
   },
   "author": "Futurice Tammerforce <tammerforce@futurice.com> (http://tammerforce.com/)",
   "contributors": [
@@ -42,6 +43,7 @@
   },
   "devDependencies": {
     "babel-eslint": "^6.0.0-beta.5",
+    "david": "^7.0.1",
     "eslint": "^2.4.0",
     "eslint-plugin-react": "^4.2.3",
     "jscs": "^2.11.0"

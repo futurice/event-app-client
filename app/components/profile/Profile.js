@@ -1,5 +1,6 @@
 'use strict';
 
+// jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 var React = require('react-native');
 var {
   StyleSheet,
@@ -17,7 +18,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
 import * as RegistrationActions from '../../actions/registration';
-import * as TeamActions from '../../actions/team';
 
 const styles = StyleSheet.create({
   container: {
@@ -123,10 +123,16 @@ var Profile = React.createClass({
           <View style={{flexDirection:'column',flex:1}}>
             {
               item.title ?
-              <Text style={[styles.listItemText, styles.listItemText__highlight]}>{item.title}</Text> :
-              <Text style={[styles.listItemText, styles.listItemText__downgrade]}>Unnamed Whappu user</Text>
+              <Text style={[styles.listItemText, styles.listItemText__highlight]}>
+                {item.title}
+              </Text> :
+              <Text style={[styles.listItemText, styles.listItemText__downgrade]}>
+                Unnamed Whappu user
+              </Text>
             }
-            <Text style={[styles.listItemText, styles.listItemText__small]}>{currentTeam.name}</Text>
+            <Text style={[styles.listItemText, styles.listItemText__small]}>
+              {currentTeam.name}
+            </Text>
           </View>
           <Icon style={[styles.listItemIcon, styles.listItemIconRight]} name={item.rightIcon} />
           <View style={styles.listItemBottomLine} />

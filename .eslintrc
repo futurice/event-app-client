@@ -37,6 +37,7 @@
         "afterEach":  true,
         "expect":     true,
         "should":     true,
+        "__DEV__":    true,
 
         "Promise":    true, // allow possibly overwriting Promise
     },
