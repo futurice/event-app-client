@@ -115,7 +115,7 @@ export default React.createClass({
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <View style={styles.gridListItemMeta}>
-            <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}, </Text>
+            <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}</Text>
             <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
 
           </View>
