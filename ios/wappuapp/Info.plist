@@ -28,7 +28,7 @@
 		<true/>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Used to show your location in map, how far you are from events and in Buzz actions.</string>
+	<string>Used to show your location on map, how far you are from events and in Buzz actions.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Entypo.ttf</string>
