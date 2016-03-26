@@ -31,7 +31,7 @@ Short facts:
 * (Optional) https://facebook.github.io/react-native/docs/debugging.html#content
 * `npm install` (you might need to use npm@2 version)
 * `npm dedupe` (maybe necessary if you encounter Namespace collision error)
-
+* `cp env.example.js env.js` and fill in the blank secrets in the file
 
 ### iOS
 

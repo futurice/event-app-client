@@ -1,5 +1,6 @@
 import _ from 'lodash';
-const ROOT_URL = 'https://wappuapp-backend.herokuapp.com/api';
+import * as ENV from '../../env';
+const ROOT_URL = ENV.API_URL;
 
 const EndpointUrls = {
   markers: `${ROOT_URL}/markers`,
