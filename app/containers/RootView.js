@@ -12,6 +12,7 @@ import * as CompetitionActions from '../actions/competition';
 import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
+import * as ENV from '../../env';
 var HockeyApp = require('react-native-hockeyapp');
 
 const middlewares = [thunk];
@@ -33,11 +34,11 @@ store.dispatch(RegistrationActions.getUser());
 
 const RootView = React.createClass({
   componentWillMount() {
-    //HockeyApp.configure('HOCKEY_APP_ID', true);
+    HockeyApp.configure(ENV.HOCKEYAPP_ID, true);
   },
 
   componentDidMount() {
-    //HockeyApp.start();
+    HockeyApp.start();
 
     navigator.geolocation.getCurrentPosition(
       position => this.updateLocation,
