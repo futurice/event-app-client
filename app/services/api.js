@@ -3,9 +3,10 @@ import { AsyncStorage } from 'react-native';
 
 import Endpoints from '../constants/Endpoints';
 import { version as VERSION_NUMBER } from '../../package.json';
+import * as ENV from '../../env';
 
 const USER_UUID = DeviceInfo.getUniqueID();
-const API_TOKEN = 'hessu'; // TODO implement build step & get this from env config or some other magical solution
+const API_TOKEN = ENV.API_TOKEN;
 
 // # Exported functions --------------------------------------------------
 //
