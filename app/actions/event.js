@@ -1,45 +1,47 @@
-'use strict';
-
 import api from '../services/api';
+import {createRequestActionTypes} from '.';
 
-const EVENT_SET = 'EVENT_SET';
-const EVENT_LIST_LOADING = 'EVENT_LIST_LOADING';
-const EVENT_LIST_LOADED = 'EVENT_LIST_LOADED';
-const EVENT_LIST_FAILED = 'EVENT_LIST_FAILED';
-const EVENT_SHOWFILTER_UPDATE = 'EVENT_SHOWFILTER_UPDATE';
-const EVENT_MAP_LOCATE_TOGGLE = 'EVENT_MAP_LOCATE_TOGGLE';
+const SET_EVENT_LIST = 'SET_EVENT_LIST';
+const {
+  GET_EVENT_LIST_REQUEST,
+  GET_EVENT_LIST_SUCCESS,
+  GET_EVENT_LIST_FAILURE
+} = createRequestActionTypes('GET_EVENT_LIST');
+
+const UPDATE_EVENT_SHOWFILTER = 'UPDATE_EVENT_SHOWFILTER';
+const TOGGLE_EVENT_MAP_LOCATE = 'TOGGLE_EVENT_MAP_LOCATE';
 
 const fetchEvents = () => {
   return (dispatch) => {
-    dispatch({ type: EVENT_LIST_LOADING });
+    dispatch({ type: GET_EVENT_LIST_REQUEST });
 
     api.fetchModels('events')
       .then(events => {
         dispatch({
-          type: EVENT_SET,
+          type: SET_EVENT_LIST,
           payload: events
         });
-        dispatch({ type: EVENT_LIST_LOADED });
+        dispatch({ type: GET_EVENT_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: EVENT_LIST_FAILED }));
+      .catch(error => dispatch({ type: GET_EVENT_LIST_FAILURE }));
   }
 };
 
 const updateShowFilter = filterName => {
-  return { type: EVENT_SHOWFILTER_UPDATE, payload: filterName };
+  return { type: UPDATE_EVENT_SHOWFILTER, payload: filterName };
 };
 
 const toggleLocateMe = () => {
-  return { type: EVENT_MAP_LOCATE_TOGGLE };
+  return { type: TOGGLE_EVENT_MAP_LOCATE };
 }
 
 export {
-  EVENT_SET,
-  EVENT_LIST_LOADING,
-  EVENT_LIST_LOADED,
-  EVENT_LIST_FAILED,
-  EVENT_SHOWFILTER_UPDATE,
-  EVENT_MAP_LOCATE_TOGGLE,
+  SET_EVENT_LIST,
+  GET_EVENT_LIST_REQUEST,
+  GET_EVENT_LIST_SUCCESS,
+  GET_EVENT_LIST_FAILURE,
+  UPDATE_EVENT_SHOWFILTER,
+  TOGGLE_EVENT_MAP_LOCATE,
   fetchEvents,
   updateShowFilter,
   toggleLocateMe

@@ -1,18 +1,21 @@
 'use strict';
 
 import api from '../services/api';
+import {createRequestActionTypes} from '.'
 
-const REQUEST_TEAMS = 'FETCH_TEAMS';
-const RECEIVE_TEAMS = 'RECEIVE_TEAMS';
-const ERROR_REQUESTING_TEAMS = 'ERROR_REQUESTING_TEAMS';
+const {
+  GET_TEAMS_REQUEST,
+  GET_TEAMS_SUCCESS,
+  GET_TEAMS_FAILURE
+} = createRequestActionTypes('GET_TEAMS');
 const SHOW_TEAM_SELECTOR = 'SHOW_TEAM_SELECTOR';
 
 const fetchTeams = () => {
   return dispatch => {
-    dispatch({ type: REQUEST_TEAMS });
+    dispatch({ type: GET_TEAMS_REQUEST });
     api.fetchModels('teams')
-      .then(teams => dispatch({ type: RECEIVE_TEAMS, payload: teams }))
-      .catch(e => dispatch({ type: ERROR_REQUESTING_TEAMS, error: e }));
+      .then(teams => dispatch({ type: GET_TEAMS_SUCCESS, payload: teams }))
+      .catch(e => dispatch({ type: GET_TEAMS_FAILURE, error: e }));
   };
 };
 
@@ -21,9 +24,9 @@ const showChooseTeam = () => {
 };
 
 export {
-  REQUEST_TEAMS,
-  RECEIVE_TEAMS,
-  ERROR_REQUESTING_TEAMS,
+  GET_TEAMS_REQUEST,
+  GET_TEAMS_SUCCESS,
+  GET_TEAMS_FAILURE,
 
   SHOW_TEAM_SELECTOR,
 

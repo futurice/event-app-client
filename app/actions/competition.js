@@ -4,13 +4,19 @@ import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';
 import { refreshFeed } from './feed';
+import {createRequestActionTypes} from '.';
 
-const POSTING_ACTION = 'POSTING_ACTION';
-const ACTION_POST_SUCCESS = 'ACTION_POST_SUCCESS';
-const ACTION_POST_FAILURE = 'ACTION_POST_FAILURE';
-const REQUEST_ACTION_TYPES = 'REQUEST_ACTION_TYPES';
-const RECEIVE_ACTION_TYPES = 'RECEIVE_ACTION_TYPES';
-const ERROR_REQUESTING_ACTION_TYPES = 'ERROR_REQUESTING_ACTION_TYPES';
+const {
+  POST_ACTION_REQUEST,
+  POST_ACTION_SUCCESS,
+  POST_ACTION_FAILURE
+} = createRequestActionTypes('POST_ACTION');
+const {
+  GET_ACTION_TYPES_REQUEST,
+  GET_ACTION_TYPES_SUCCESS,
+  GET_ACTION_TYPES_FAILURE
+} = createRequestActionTypes('GET_ACTION_TYPES');
+
 const OPEN_TEXTACTION_VIEW = 'OPEN_TEXTACTION_VIEW';
 const CLOSE_TEXTACTION_VIEW = 'CLOSE_TEXTACTION_VIEW';
 const SHOW_NOTIFICATION = 'SHOW_NOTIFICATION';
@@ -27,11 +33,11 @@ const closeTextActionView = () => {
 
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
-    dispatch({ type: POSTING_ACTION });
+    dispatch({ type: POST_ACTION_REQUEST });
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
-        dispatch({ type: ACTION_POST_SUCCESS, payload: { type: payload.type } });
+        dispatch({ type: POST_ACTION_SUCCESS, payload: { type: payload.type } });
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
         dispatch(refreshFeed());
 
@@ -53,7 +59,7 @@ const _postAction = (payload) => {
             payload: NotificationMessages.getErrorMessage(payload)
           });
         }
-        dispatch({ type: ACTION_POST_FAILURE, error: e });
+        dispatch({ type: POST_ACTION_FAILURE, error: e });
 
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
@@ -84,10 +90,10 @@ const postImage = image => {
 
 const fetchActionTypes = () => {
   return dispatch => {
-    dispatch({ type: REQUEST_ACTION_TYPES });
+    dispatch({ type: GET_ACTION_TYPES_REQUEST });
     api.fetchModels('actionTypes')
-      .then(actionTypes => dispatch({ type: RECEIVE_ACTION_TYPES, payload: actionTypes }))
-      .catch(e => dispatch({ type: ERROR_REQUESTING_ACTION_TYPES, error: e }));
+      .then(actionTypes => dispatch({ type: GET_ACTION_TYPES_SUCCESS, payload: actionTypes }))
+      .catch(e => dispatch({ type: GET_ACTION_TYPES_FAILURE, error: e }));
   };
 };
 
@@ -96,12 +102,12 @@ const updateCooldowns = () => {
 };
 
 export {
-  POSTING_ACTION,
-  ACTION_POST_SUCCESS,
-  ACTION_POST_FAILURE,
-  REQUEST_ACTION_TYPES,
-  RECEIVE_ACTION_TYPES,
-  ERROR_REQUESTING_ACTION_TYPES,
+  POST_ACTION_REQUEST,
+  POST_ACTION_SUCCESS,
+  POST_ACTION_FAILURE,
+  GET_ACTION_TYPES_REQUEST,
+  GET_ACTION_TYPES_SUCCESS,
+  GET_ACTION_TYPES_FAILURE,
   OPEN_TEXTACTION_VIEW,
   CLOSE_TEXTACTION_VIEW,
   SHOW_NOTIFICATION,

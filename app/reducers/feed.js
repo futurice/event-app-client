@@ -2,14 +2,14 @@
 import Immutable from 'immutable';
 
 import {
-  FEED_SET,
-  FEED_APPEND,
-  FEED_LIST_LOADING,
-  FEED_LIST_LOADED,
-  FEED_LIST_FAILED,
-  FEED_LIST_REFRESHING,
-  FEED_LIST_REFRESHED,
-  FEED_ITEM_DELETE
+  SET_FEED,
+  APPEND_FEED,
+  GET_FEED_REQUEST,
+  GET_FEED_SUCCESS,
+  GET_FEED_FAILURE,
+  REFRESH_FEED_REQUEST,
+  REFRESH_FEED_SUCCESS,
+  DELETE_FEED_ITEM
 } from '../actions/feed';
 import LoadingStates from '../constants/LoadingStates';
 
@@ -21,23 +21,23 @@ const initialState = Immutable.fromJS({
 
 export default function feed(state = initialState, action) {
   switch (action.type) {
-    case FEED_SET:
+    case SET_FEED:
       return state.set('list', Immutable.fromJS(action.feed));
-    case FEED_APPEND:
+    case APPEND_FEED:
       return (action.feed && action.feed.length) ?
         state.set('list', state.get('list').concat(action.feed)) :
         state;
-    case FEED_LIST_LOADING:
+    case GET_FEED_REQUEST:
       return state.set('listState', LoadingStates.LOADING);
-    case FEED_LIST_LOADED:
+    case GET_FEED_SUCCESS:
       return state.set('listState', LoadingStates.READY);
-    case FEED_LIST_FAILED:
+    case GET_FEED_FAILURE:
       return state.set('listState', LoadingStates.FAILED);
-    case FEED_LIST_REFRESHING:
+    case REFRESH_FEED_REQUEST:
       return state.set('isRefreshing', true);
-    case FEED_LIST_REFRESHED:
+    case REFRESH_FEED_SUCCESS:
       return state.set('isRefreshing', false);
-    case FEED_ITEM_DELETE:
+    case DELETE_FEED_ITEM:
       const originalList = state.get('list');
       const itemIndex = originalList.findIndex((item) => item.get('id') === action.item.id);
 

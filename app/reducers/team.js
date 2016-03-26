@@ -2,9 +2,9 @@
 import Immutable from 'immutable';
 
 import {
-  REQUEST_TEAMS,
-  RECEIVE_TEAMS,
-  ERROR_REQUESTING_TEAMS,
+  GET_TEAMS_REQUEST,
+  GET_TEAMS_SUCCESS,
+  GET_TEAMS_FAILURE,
   SHOW_TEAM_SELECTOR,
   CLOSE_TEAM_SELECTOR
 } from '../actions/team';
@@ -19,18 +19,18 @@ const initialState = Immutable.fromJS({
 
 export default function team(state = initialState, action) {
   switch (action.type) {
-    case REQUEST_TEAMS:
+    case GET_TEAMS_REQUEST:
       return state.merge({
         isLoading: true,
         isError: false
       });
-    case RECEIVE_TEAMS:
+    case GET_TEAMS_SUCCESS:
       return state.merge({
         isLoading: false,
         isError: false,
         teams: action.payload
       });
-    case ERROR_REQUESTING_TEAMS:
+    case GET_TEAMS_FAILURE:
       return state.merge({
         isLoading: false,
         isError: true

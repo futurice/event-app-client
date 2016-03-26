@@ -2,10 +2,10 @@
 import Immutable from 'immutable';
 
 import {
-  MARKER_SET,
-  MARKER_LIST_LOADING,
-  MARKER_LIST_LOADED,
-  MARKER_LIST_FAILED
+  SET_MARKER_LIST,
+  GET_MARKER_LIST_REQUEST,
+  GET_MARKER_LIST_SUCCESS,
+  GET_MARKER_LIST_FAILURE
 } from '../actions/marker';
 
 const initialState = Immutable.fromJS({
@@ -15,13 +15,13 @@ const initialState = Immutable.fromJS({
 
 export default function event(state = initialState, action) {
   switch (action.type) {
-    case MARKER_SET:
+    case SET_MARKER_LIST:
       return state.set('list', Immutable.fromJS(action.payload));
-    case MARKER_LIST_LOADING:
+    case GET_MARKER_LIST_REQUEST:
       return state.set('listState', 'loading');
-    case MARKER_LIST_LOADED:
+    case GET_MARKER_LIST_SUCCESS:
       return state.set('listState', 'ready');
-    case MARKER_LIST_FAILED:
+    case GET_MARKER_LIST_FAILURE:
       return state.set('listState', 'failed');
     default:
       return state;
