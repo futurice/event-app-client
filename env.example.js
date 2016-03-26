@@ -4,5 +4,6 @@
 
 module.exports = {
   API_TOKEN: '',
+  HOCKEYAPP_ID: '',
   API_URL: 'https://wappuapp-backend-qa.herokuapp.com/api'
 };

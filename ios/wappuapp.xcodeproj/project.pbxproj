@@ -28,6 +28,7 @@
 		28F883274D23429887A482E1 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 347D8CF6683B49D1B12CFA61 /* Ionicons.ttf */; };
 		53096267122E4ADCA742A172 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CBD9E8AE8724B88AC891AD6 /* Octicons.ttf */; };
 		5E91A2CB10134C2D9FEA8753 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3E92ED1DE64D2F9EA2F3DD /* Foundation.ttf */; };
+		64B74E281CA733C9007E9813 /* RNHockeyApp.m in Sources */ = {isa = PBXBuildFile; fileRef = 64B74E271CA733C9007E9813 /* RNHockeyApp.m */; settings = {ASSET_TAGS = (); }; };
 		77B69CC8986D4651A5973F61 /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1DB0566430504D6B905BAFF2 /* MaterialIcons.ttf */; };
 		80C5EAD2BF5640D7B6CF8356 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8AD312F23BD64C4E9577C26E /* FontAwesome.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -35,6 +36,7 @@
 		88387F9C428F4ECCBBFCA085 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA08A9EE9B3F47B6B10BBE98 /* EvilIcons.ttf */; };
 		AFBA8E17CF944F7A9B438961 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A9FE7BCF8447DF9D7DAEC6 /* libRNVectorIcons.a */; };
 		CC4BBCA4F72742B3BB297AD8 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C1E69C1B10F4F37B64501B0 /* libAirMaps.a */; };
+		E11AAC97C27321DD1FE670BB /* libPods-wappuapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -181,13 +183,18 @@
 		347D8CF6683B49D1B12CFA61 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
 		38A9FE7BCF8447DF9D7DAEC6 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		4CBD9E8AE8724B88AC891AD6 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		64B74E261CA733C9007E9813 /* RNHockeyApp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNHockeyApp.h; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.h"; sourceTree = "<group>"; };
+		64B74E271CA733C9007E9813 /* RNHockeyApp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNHockeyApp.m; path = "../node_modules/react-native-hockeyapp/RNHockeyApp/RNHockeyApp.m"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7D855D43AE6649F296E5E251 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8AD312F23BD64C4E9577C26E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		9059A6A55AB242BC9651BC1E /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wappuapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp.debug.xcconfig"; sourceTree = "<group>"; };
+		B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wappuapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA08A9EE9B3F47B6B10BBE98 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		BF3431218EFB4E3CB655F80B /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
+		FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wappuapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,6 +225,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				AFBA8E17CF944F7A9B438961 /* libRNVectorIcons.a in Frameworks */,
 				CC4BBCA4F72742B3BB297AD8 /* libAirMaps.a in Frameworks */,
+				E11AAC97C27321DD1FE670BB /* libPods-wappuapp.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,6 +296,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		0A2C2640D9C498A3728AB1F6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -341,6 +357,15 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		2D8B8EA9199FFF6DD6898517 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */,
+				FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		681C05A01C90601F00AF4D09 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -360,6 +385,8 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				64B74E261CA733C9007E9813 /* RNHockeyApp.h */,
+				64B74E271CA733C9007E9813 /* RNHockeyApp.m */,
 				08AED6B01C933BE500CDE30F /* RNDeviceInfo.xcodeproj */,
 				08AED6A71C93270800CDE30F /* RNLocation.xcodeproj */,
 				082B19D01C91CB440096720C /* RNImagePicker.xcodeproj */,
@@ -395,6 +422,8 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				280C357C3F9A47288CC331C2 /* Resources */,
+				2D8B8EA9199FFF6DD6898517 /* Pods */,
+				0A2C2640D9C498A3728AB1F6 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -442,10 +471,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wappuapp" */;
 			buildPhases = (
+				17093B83782473347CF5E232 /* Check Pods Manifest.lock */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				E1E9AF2799E74F6CEA8C9104 /* Embed Pods Frameworks */,
+				560B5D8810532F0723CDEA80 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -703,7 +735,52 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export NODE_BINARY=node\n# Uncomment if you use nvm\n#. ~/.nvm/nvm.sh\n#nvm use 4\n../node_modules/react-native/packager/react-native-xcode.sh";
+			shellScript = "export NODE_BINARY=node\n# Uncomment if you use nvm\n. ~/.nvm/nvm.sh\nnvm use 4\n../node_modules/react-native/packager/react-native-xcode.sh";
+		};
+		17093B83782473347CF5E232 /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		560B5D8810532F0723CDEA80 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E1E9AF2799E74F6CEA8C9104 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -721,6 +798,7 @@
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				64B74E281CA733C9007E9813 /* RNHockeyApp.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -798,6 +876,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -812,7 +891,10 @@
 				INFOPLIST_FILE = wappuapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.Whappu;
 				PRODUCT_NAME = Whappu;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -821,6 +903,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -834,7 +917,10 @@
 				INFOPLIST_FILE = wappuapp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.Whappu;
 				PRODUCT_NAME = Whappu;
 				TARGETED_DEVICE_FAMILY = 1;
