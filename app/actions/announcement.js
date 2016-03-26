@@ -2,34 +2,37 @@
 
 import _ from 'lodash';
 import api from '../services/api';
+import {createRequestActionTypes} from '.';
 
-const ANNOUNCEMENT_SET = 'ANNOUNCEMENT_SET';
-const ANNOUNCEMENT_LIST_LOADING = 'ANNOUNCEMENT_LIST_LOADING';
-const ANNOUNCEMENT_LIST_LOADED = 'ANNOUNCEMENT_LIST_LOADED';
-const ANNOUNCEMENT_LIST_FAILED = 'ANNOUNCEMENT_LIST_FAILED';
+const SET_ANNOUNCEMENT_LIST = 'SET_ANNOUNCEMENT_LIST';
+const {
+  GET_ANNOUNCEMENT_LIST_REQUEST,
+  GET_ANNOUNCEMENT_LIST_SUCCESS,
+  GET_ANNOUNCEMENT_LIST_FAILURE
+} = createRequestActionTypes('GET_ANNOUNCEMENT_LIST');
 
 const fetchAnnouncements = () => {
   return (dispatch) => {
-    dispatch({ type: ANNOUNCEMENT_LIST_LOADING });
+    dispatch({ type: GET_ANNOUNCEMENT_LIST_REQUEST });
 
     api.fetchModels('announcements')
       .then(announcements => {
         announcements = _.isArray(announcements) ? announcements : [announcements];
 
         dispatch({
-          type: ANNOUNCEMENT_SET,
+          type: SET_ANNOUNCEMENT_LIST,
           payload: announcements
         });
-        dispatch({ type: ANNOUNCEMENT_LIST_LOADED });
+        dispatch({ type: GET_ANNOUNCEMENT_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: ANNOUNCEMENT_LIST_FAILED }));
+      .catch(error => dispatch({ type: GET_ANNOUNCEMENT_LIST_FAILURE }));
   }
 };
 
 export {
-  ANNOUNCEMENT_SET,
-  ANNOUNCEMENT_LIST_LOADING,
-  ANNOUNCEMENT_LIST_LOADED,
-  ANNOUNCEMENT_LIST_FAILED,
+  SET_ANNOUNCEMENT_LIST,
+  GET_ANNOUNCEMENT_LIST_REQUEST,
+  GET_ANNOUNCEMENT_LIST_SUCCESS,
+  GET_ANNOUNCEMENT_LIST_FAILURE,
   fetchAnnouncements
 };

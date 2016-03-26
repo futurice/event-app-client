@@ -2,12 +2,12 @@
 import Immutable from 'immutable';
 
 import {
-  EVENT_SET,
-  EVENT_LIST_LOADING,
-  EVENT_LIST_LOADED,
-  EVENT_LIST_FAILED,
-  EVENT_SHOWFILTER_UPDATE,
-  EVENT_MAP_LOCATE_TOGGLE
+  SET_EVENT_LIST,
+  GET_EVENT_LIST_REQUEST,
+  GET_EVENT_LIST_SUCCESS,
+  GET_EVENT_LIST_FAILURE,
+  UPDATE_EVENT_SHOWFILTER,
+  TOGGLE_EVENT_MAP_LOCATE
 } from '../actions/event';
 
 const initialState = Immutable.fromJS({
@@ -19,17 +19,17 @@ const initialState = Immutable.fromJS({
 
 export default function event(state = initialState, action) {
   switch (action.type) {
-    case EVENT_SET:
+    case SET_EVENT_LIST:
       return state.set('list', Immutable.fromJS(action.payload));
-    case EVENT_LIST_LOADING:
+    case GET_EVENT_LIST_REQUEST:
       return state.set('listState', 'loading');
-    case EVENT_LIST_LOADED:
+    case GET_EVENT_LIST_SUCCESS:
       return state.set('listState', 'ready');
-    case EVENT_LIST_FAILED:
+    case GET_EVENT_LIST_FAILURE:
       return state.set('listState', 'failed');
-    case EVENT_SHOWFILTER_UPDATE:
+    case UPDATE_EVENT_SHOWFILTER:
       return state.set('showFilter', Immutable.fromJS(action.payload));
-    case EVENT_MAP_LOCATE_TOGGLE:
+    case TOGGLE_EVENT_MAP_LOCATE:
       return state.set('locateMe', !state.get('locateMe'));
     default:
       return state;

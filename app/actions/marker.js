@@ -1,32 +1,33 @@
-'use strict';
-
 import api from '../services/api';
+import {createRequestActionTypes} from '.';
 
-const MARKER_SET = 'MARKER_SET';
-const MARKER_LIST_LOADING = 'MARKER_LIST_LOADING';
-const MARKER_LIST_LOADED = 'MARKER_LIST_LOADED';
-const MARKER_LIST_FAILED = 'MARKER_LIST_FAILED';
+const SET_MARKER_LIST = 'SET_MARKER_LIST';
+const {
+  GET_MARKER_LIST_REQUEST,
+  GET_MARKER_LIST_SUCCESS,
+  GET_MARKER_LIST_FAILURE
+} = createRequestActionTypes('GET_MARKER_LIST');
 
 const fetchMarkers = () => {
   return (dispatch) => {
-    dispatch({ type: MARKER_LIST_LOADING });
+    dispatch({ type: GET_MARKER_LIST_REQUEST });
 
     api.fetchModels('markers')
       .then(events => {
         dispatch({
-          type: MARKER_SET,
+          type: SET_MARKER_LIST,
           payload: events
         });
-        dispatch({ type: MARKER_LIST_LOADED });
+        dispatch({ type: GET_MARKER_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: MARKER_LIST_FAILED }));
+      .catch(error => dispatch({ type: GET_MARKER_LIST_FAILURE }));
   }
 };
 
 export {
-  MARKER_SET,
-  MARKER_LIST_LOADING,
-  MARKER_LIST_LOADED,
-  MARKER_LIST_FAILED,
+  SET_MARKER_LIST,
+  GET_MARKER_LIST_REQUEST,
+  GET_MARKER_LIST_SUCCESS,
+  GET_MARKER_LIST_FAILURE,
   fetchMarkers
 };

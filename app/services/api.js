@@ -8,28 +8,9 @@ import * as ENV from '../../env';
 const USER_UUID = DeviceInfo.getUniqueID();
 const API_TOKEN = ENV.API_TOKEN;
 
-// # Exported functions --------------------------------------------------
-//
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
-  return wapuFetch(url)
-  .then(checkResponseStatus)
-  .then(response => response.json())
-  .then(response => {
-    return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
-  })
-  .catch((error) => {
-    console.log('Error catched on API-fetch', error);
-    return AsyncStorage.getItem(url)
-    .then((value) => {
-      value = JSON.parse(value);
-      if (value != null && !value.error) {
-        return Promise.resolve(value);
-      } else {
-        return Promise.reject(null);
-      }
-    });
-  });
+  return cachedFetch(url);
 };
 
 const fetchMoreFeed = lastID => {
@@ -39,23 +20,7 @@ const fetchMoreFeed = lastID => {
     return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
   }).join('&');
 
-  return wapuFetch(url)
-  .then(checkResponseStatus)
-  .then(response => response.json())
-  .then(response => {
-    return AsyncStorage.setItem(url, JSON.stringify(response)).then(() => response);
-  })
-  .catch((error) => {
-    console.log('Error catched on API-fetch', error);
-    return AsyncStorage.getItem(url)
-    .then((value) => {
-      if (value != null) {
-        return Promise.resolve(JSON.parse(value));
-      } else {
-        return Promise.reject(null);
-      }
-    });
-  });
+  return cachedFetch(url);
 };
 
 const postAction = (params, location) => {
@@ -83,7 +48,42 @@ const deleteFeedItem = item => {
   return _delete(Endpoints.urls.feedItem(item.id));
 };
 
-// # Internal functions --------------------------------------------------
+const cachedFetch = (url, opts) => {
+  return wapuFetch(url, opts)
+  .then(response => {
+    // If server responds with error, it is thrown
+    if (isErrorResponse(response.status)) {
+      const error = new Error(response.statusText);
+      error.response = response;
+      error.status = response.status;
+      throw error;
+    }
+
+    return response.json();
+  })
+  .then(response => {
+    return AsyncStorage.setItem(url, JSON.stringify(response))
+      .then(() => response);
+  })
+  .catch(error => {
+    if (error.response) {
+      // Re-throw server errors
+      throw error;
+    }
+
+    // In case of a network failure, return data from cache
+    console.log('Error catched on API-fetch', error);
+    return AsyncStorage.getItem(url)
+    .then(value => {
+      value = JSON.parse(value);
+      if (value != null && !value.error) {
+        return Promise.resolve(value);
+      } else {
+        return Promise.reject(null);
+      }
+    });
+  });
+}
 
 // Our own wrapper for fetch. Logs the request, adds required version headers, etc.
 // Instead of using fetch directly, always use this.
@@ -91,16 +91,9 @@ const wapuFetch = (url, opts) => {
   opts = opts || {};
   opts.headers = opts.headers || {};
 
-  // Set version header
   opts.headers['x-client-version'] = VERSION_NUMBER;
-
-  // Set UUID-header
   opts.headers['x-user-uuid'] = USER_UUID;
-
-  // Set API-token
   opts.headers['x-token'] = API_TOKEN;
-
-  // console.log('Fetch:', url, opts || '');
   return fetch(url, opts);
 };
 
@@ -117,6 +110,10 @@ const checkResponseStatus = response => {
       });
   }
 };
+
+function isErrorResponse(status) {
+  return status && status >= 400;
+}
 
 const _post = (url, body) => {
   return wapuFetch(url, {
