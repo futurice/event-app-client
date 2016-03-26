@@ -16,6 +16,7 @@ import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Modal from 'react-native-modalbox';
 import Team from './Team';
+import Toolbar from './RegistrationToolbar';
 import * as RegistrationActions from '../../actions/registration';
 import * as TeamActions from '../../actions/team';
 import * as keyboard from '../../utils/keyboard';
@@ -32,6 +33,7 @@ const RegistrationView = React.createClass({
     isRegistrationInfoValid: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
   },
+
   onRegister() {
     this.props.dispatch(RegistrationActions.putUser());
   },
@@ -47,7 +49,10 @@ const RegistrationView = React.createClass({
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
   },
-  onCancel() {
+  onClose() {
+    if(this.props.isRegistrationInfoValid) {
+      this.onRegister();
+    }
     this.props.dispatch(RegistrationActions.closeRegistrationView());
   },
   render() {
@@ -57,6 +62,11 @@ const RegistrationView = React.createClass({
         swipeToClose={false}
         backdropPressToClose={false}>
         <View style={[styles.container, styles.modalBackgroundStyle]}>
+
+          <Toolbar icon={this.props.isRegistrationInfoValid ? 'android-done' : 'android-close'}
+            iconClick={this.onClose}
+            title="Fill your profile" />
+
           <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
           <View style={[styles.innerContainer]}>
             <View style={styles.inputGroup}>
@@ -65,15 +75,15 @@ const RegistrationView = React.createClass({
               </View>
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
 
-              <ScrollView style={{flex:1,height:240}}>
+              <ScrollView style={{flex:1,height:230}}>
               {this.props.teams.map((team,i) =>
                 <Team
-                  key={i}
+                  key={team.get('id')}
                   name={team.get('name')}
                   teamid={team.get('id')}
                   logo={team.get('imagePath')}
                   selected={this.props.selectedTeam}
-                  onPress={this.onSelectTeam.bind(null, team.get('id'))} />
+                  onPress={this.onSelectTeam.bind(this, team.get('id'))} />
               )}
               </ScrollView>
               </View>
@@ -92,7 +102,7 @@ const RegistrationView = React.createClass({
                   style={[styles.inputField, styles['inputField_' + Platform.OS]]}
                   onChangeText={this.onChangeName}
                   onFocus={() => {
-                    keyboard.onInputFocus(this.containerScrollViewRef, this.nameTextInputRef);
+                    keyboard.onInputFocus(this.containerScrollViewRef, this.nameTextInputRef,300);
                   }}
                   onBlur={() => {
                     keyboard.onInputBlur(this.containerScrollViewRef)
@@ -115,13 +125,9 @@ const RegistrationView = React.createClass({
               }
             </View>
 
+          </View>
+          </ScrollView>
             <View style={styles.bottomButtons}>
-              <Button
-                onPress={this.onCancel}
-                style={styles.cancelButton}>
-                Cancel
-              </Button>
-
               <Button
                 onPress={this.onRegister}
                 style={styles.modalButton}
@@ -129,8 +135,6 @@ const RegistrationView = React.createClass({
                 Save
               </Button>
             </View>
-          </View>
-          </ScrollView>
         </View>
       </Modal>
     );
@@ -141,25 +145,30 @@ const RegistrationView = React.createClass({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingBottom:50
   },
   innerContainer: {
     flex:1,
-    paddingTop:Platform.OS === 'ios' ? 20 : 0,
+    paddingTop:Platform.OS === 'ios' ? 15 : 15,
   },
   bottomButtons:{
     flex:1,
     flexDirection:'row',
-    margin:10,
+    margin:0,
+    marginBottom:0,
+    marginLeft:0,
+    marginRight:0,
+    height:50,
     alignItems:'stretch',
+    position:'absolute',
+    bottom:0,
+    left:0,
+    right:0,
   },
   modalButton: {
+    borderRadius:0,
     flex:1,
-    marginLeft:5,
-  },
-  cancelButton: {
-    flex:1,
-    marginRight:5,
-    backgroundColor:'#BBB',
+    marginLeft:0,
   },
   modalBackgroundStyle: {
     backgroundColor: '#eee'
@@ -168,7 +177,7 @@ const styles = StyleSheet.create({
     padding:0,
     backgroundColor:'#FFF',
     margin:10,
-    marginBottom:0,
+    marginTop:0,
     borderRadius:2,
     elevation:1,
   },
@@ -188,7 +197,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     height: 40,
-    fontSize:18,
+    fontSize:16,
   },
   inputField_android: {
 
@@ -202,7 +211,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: IOS ? 'center' : 'flex-start',
-    padding: IOS ? 10 : 5,
+    padding: IOS ? 5 : 5,
     paddingLeft:20,
     paddingRight:20,
     marginBottom:15,

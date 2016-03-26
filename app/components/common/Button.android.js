@@ -61,7 +61,7 @@ var Button = React.createClass({
 const styles = StyleSheet.create({
   button: {
     flex:1,
-    height: 40,
+    height: 50,
     justifyContent: 'center',
     backgroundColor: '#50E3C2',
     borderRadius: 2,
@@ -70,12 +70,12 @@ const styles = StyleSheet.create({
   },
   textButton: {
     alignSelf: 'center',
-    fontSize: 13,
+    fontSize: 15,
     fontWeight: 'bold',
     color: '#fff'
   },
   opacity: {
-    opacity: 0.5
+    opacity: 0.6
   }
 });
 
