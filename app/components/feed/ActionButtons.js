@@ -102,7 +102,7 @@ const ActionButtons = React.createClass({
 
       // Animate action buttons, iOS handles delay better
       if (Platform.OS === 'ios') {
-        Animated.sequence([
+        Animated.parallel([
           Animated.delay(nextState === OPEN ?
             BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) :
             0),
@@ -119,7 +119,7 @@ const ActionButtons = React.createClass({
       }
 
       // Animate action button labels, 200ms later than buttons
-      Animated.sequence([
+      Animated.parallel([
         Animated.delay(nextState === OPEN ?
           200 + BUTTON_POS.length * BUTTON_DELAY - (i * BUTTON_DELAY) :
           0),
