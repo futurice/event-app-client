@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   opacity: {
-    opacity: 0.5
+    opacity: 0.6
   }
 });
 

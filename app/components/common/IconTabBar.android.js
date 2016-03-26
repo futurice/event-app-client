@@ -41,6 +41,20 @@ var styles = StyleSheet.create({
     top: 5,
     width: 56,
     height: 56,
+  },
+  triangleBottom: {
+    position: 'absolute',
+    top: 56,
+    width: 56,
+    height: 12,
+    elevation: 2,
+    backgroundColor: 'transparent'
+  },
+  triangleBottomImage: {
+    top:-4,
+    width:56,
+    height:9,
+    left:0
   }
 });
 
@@ -151,9 +165,11 @@ var AndroidTabBar = React.createClass({
     var containerWidth = this.props.containerWidth;
     return (
       <View>
-        <Image
-            source={require('../../../assets/logo_triangle.png')}
-            style={[styles.triangle, {left:containerWidth / 2 - 28, elevation:2}]} />
+        <View style={[styles.triangleBottom,{left:containerWidth / 2 - 28}]}>
+          <Image
+            source={require('../../../assets/logo_triangle_bottom.png')}
+            style={styles.triangleBottomImage} />
+        </View>
         <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style]}>
           {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
         </View>

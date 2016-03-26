@@ -12,6 +12,7 @@
 import React, {
   StyleSheet,
   View,
+  Text,
   ActionSheetIOS,
   Platform,
   Image,
@@ -66,6 +67,13 @@ let NavigationBarRouteMapper = {
 
   Title: function(route, navigator, index, navState) {
 
+    if(route.showName) {
+      return (
+        <Text style={styles.navBarTitle}>
+        {route.name}
+        </Text>
+      );
+    }
     return (
       <View style={styles.navBarLogoWrap}>
         <Image
@@ -83,13 +91,13 @@ var styles = StyleSheet.create({
     alignItems:'center'
   },
   navBarButton:{
-    color:'#ffffff',
+    color:'#FFFFFF',
     padding:10,
     fontSize:16,
     textAlign:'center',
   },
   navBarIcon:{
-    color:'#ffffff',
+    color:'#FFFFFF',
     padding:6,
     paddingLeft:10,
     paddingRight:10,
@@ -104,7 +112,7 @@ var styles = StyleSheet.create({
   navBarTitle:{
     padding:10,
     fontSize:16,
-    color:'#ffff00',
+    color:'#FFFFFF',
     textAlign:'center',
     fontWeight:'bold',
   }
