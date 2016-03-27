@@ -42,3 +42,6 @@ local.properties
 #
 node_modules/
 npm-debug.log
+
+# Android keystore
+android/app/*.keystore

@@ -23,6 +23,12 @@ Short facts:
 * Run `Product > Clean` (for paranoia) and `Product > Archive`
 * Go to `Window > Organizer`, select latest build with correct version and press Upload to App Store
 
+### Android
+
+* Copy `whappu-release.keystore` under `android/app`
+* `cd android && ./gradlew assembleRelease --no-daemon`
+* Built .apk is saved to `android/app/build/outputs/apk`
+
 ## Local development
 
 **BEFORE JUMPING TO IOS OR ANDROID GUIDE, FOLLOW THESE GUIDES:**
