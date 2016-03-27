@@ -25,7 +25,7 @@ const fetchAnnouncements = () => {
         });
         dispatch({ type: GET_ANNOUNCEMENT_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: GET_ANNOUNCEMENT_LIST_FAILURE }));
+      .catch(error => dispatch({ type: GET_ANNOUNCEMENT_LIST_FAILURE, error: true, payload: error }));
   }
 };
 

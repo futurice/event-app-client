@@ -93,7 +93,7 @@ const fetchActionTypes = () => {
     dispatch({ type: GET_ACTION_TYPES_REQUEST });
     api.fetchModels('actionTypes')
       .then(actionTypes => dispatch({ type: GET_ACTION_TYPES_SUCCESS, payload: actionTypes }))
-      .catch(e => dispatch({ type: GET_ACTION_TYPES_FAILURE, error: e }));
+      .catch(e => dispatch({ type: GET_ACTION_TYPES_FAILURE, error: true, payload: e }));
   };
 };
 

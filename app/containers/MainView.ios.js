@@ -14,6 +14,7 @@ import SettingsView from './ProfileView';
 import Tabs from '../constants/Tabs';
 import * as NavigationActions from '../actions/navigation';
 import RegistrationView from '../components/registration/RegistrationView';
+import errorAlert from '../utils/error-alert';
 
 const theme = require('../style/theme');
 const Icon = require('react-native-vector-icons/Ionicons');
@@ -29,6 +30,10 @@ const MainView = React.createClass({
   },
 
   render() {
+    if (this.props.errorMessage) {
+      errorAlert(this.props.dispatch, this.props.errorMessage);
+    }
+
     return (
       <View style={{flex:1}}>
         <TabBarIOS tintColor={theme.secondary} translucent={true} >
@@ -86,7 +91,8 @@ const MainView = React.createClass({
 
 const select = store => {
   return {
-    currentTab: store.navigation.get('currentTab')
+    currentTab: store.navigation.get('currentTab'),
+    errorMessage: store.errors.get('errorMessage')
   }
 };
 

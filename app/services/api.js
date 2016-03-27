@@ -106,6 +106,7 @@ const checkResponseStatus = response => {
         console.log('Error catched', response.statusText);
         const error = new Error(response.statusText);
         error.response = response;
+        error.responseJson = res;
         throw error;
       });
   }

@@ -8,8 +8,10 @@ import competition from './competition';
 import announcement from './announcement';
 import profile from './profile';
 import marker from './marker';
+import errors from './errors';
 
 export {
+  errors,
   marker,
   navigation,
   event,
