@@ -42,8 +42,8 @@ Short facts:
 ### iOS
 
 - [Install Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
-- `pod install`
-- `open ios/wappuapp.xcworkspace`
+- `cd ios && pod install`
+- `open wappuapp.xcworkspace`
 
   **Note:** Use the .xworkspace instead of .xcodeproj!
 

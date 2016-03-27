@@ -27,6 +27,9 @@ const createStoreWithMiddleware = applyMiddleware.apply(this, middlewares)(creat
 const reducer = combineReducers(reducers);
 const store = createStoreWithMiddleware(reducer);
 
+// Use different HockeyApp ID for both platforms.
+const HOCKEYAPP_ID = Platform.OS === 'ios' ? ENV.HOCKEYAPP_ID : ENV.HOCKEYAPP_ID_ANDROID;
+
 // Fetch teams & actions, check user existance
 store.dispatch(CompetitionActions.fetchActionTypes());
 store.dispatch(TeamActions.fetchTeams());
@@ -34,7 +37,7 @@ store.dispatch(RegistrationActions.getUser());
 
 const RootView = React.createClass({
   componentWillMount() {
-    HockeyApp.configure(ENV.HOCKEYAPP_ID, true);
+    HockeyApp.configure(HOCKEYAPP_ID, true);
   },
 
   componentDidMount() {

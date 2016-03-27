@@ -100,10 +100,13 @@ android {
     }
     signingConfigs {
         release {
-          storeFile file(System.console().readLine("\n\$ Enter keystore filename: "))
-          storePassword new String(System.console().readPassword("\n\$ Enter keystore password: "))
-          keyAlias System.console().readLine("\n\$ Enter key alias: ")
-          keyPassword new String(System.console().readPassword("\n\$ Enter alias password: "))
+          def console = System.console()
+          if (console != null) {
+            storeFile file(System.console().readLine("\n\$ Enter keystore filename: "))
+            storePassword new String(System.console().readPassword("\n\$ Enter keystore password: "))
+            keyAlias System.console().readLine("\n\$ Enter key alias: ")
+            keyPassword new String(System.console().readPassword("\n\$ Enter alias password: "))
+          }
        }
    }
     buildTypes {
