@@ -3,9 +3,9 @@ import {
 } from 'react-native';
 import {RESET_ERROR_MESSAGE} from '../actions/errors';
 
-export default function errorAlert(dispatch, message) {
+export default function errorAlert(dispatch, header, message) {
   Alert.alert(
-    'Error',
+    header,
     message,
     [{
       text: 'OK',

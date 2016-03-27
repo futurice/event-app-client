@@ -5,6 +5,7 @@ import React, {
   PropTypes,
   View
 } from 'react-native';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
@@ -30,8 +31,10 @@ const MainView = React.createClass({
   },
 
   render() {
-    if (this.props.errorMessage) {
-      errorAlert(this.props.dispatch, this.props.errorMessage);
+    const immutableError = this.props.errors.get('error');
+    if (immutableError) {
+      const error = immutableError.toJS();
+      errorAlert(this.props.dispatch, _.get(error, 'header'), _.get(error, 'message'));
     }
 
     return (
@@ -92,7 +95,7 @@ const MainView = React.createClass({
 const select = store => {
   return {
     currentTab: store.navigation.get('currentTab'),
-    errorMessage: store.errors.get('errorMessage')
+    errors: store.errors
   }
 };
 
