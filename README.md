@@ -25,6 +25,7 @@ Short facts:
 
 ### Android
 
+* Setup Android environment: https://facebook.github.io/react-native/docs/android-setup.html#content
 * Copy `whappu-release.keystore` under `android/app`
 * `cd android && ./gradlew assembleRelease --no-daemon`
 * Built .apk is saved to `android/app/build/outputs/apk`
