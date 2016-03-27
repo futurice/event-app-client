@@ -18,7 +18,8 @@
     "Tomi Turtiainen <tomi.turtiainen@gmail.com> (http://github.com/tomi)",
     "Kimmo Brunfeldt <kimmobrunfeldt@gmail.com> (http://github.com/kimmobrunfeldt)",
     "Pasi Lampinen <palampinen@gmail.com> (http://github.com/palampinen)",
-    "Mike Arvela <mike@arvela.net> (http://github.com/mieky)"
+    "Mike Arvela <mike@arvela.net> (http://github.com/mieky)",
+    "Hannu-Pekka Heinäjärvi <hannupekka@gmail.com> (http://github.com/hannupekka)"
   ],
   "dependencies": {
     "@exponent/react-native-navigator": "^0.4.2",

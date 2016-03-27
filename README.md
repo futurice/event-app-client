@@ -23,6 +23,12 @@ Short facts:
 * Run `Product > Clean` (for paranoia) and `Product > Archive`
 * Go to `Window > Organizer`, select latest build with correct version and press Upload to App Store
 
+### Android
+
+* Copy `whappu-release.keystore` under `android/app`
+* `cd android && ./gradlew assembleRelease --no-daemon`
+* Built .apk is saved to `android/app/build/outputs/apk`
+
 ## Local development
 
 **BEFORE JUMPING TO IOS OR ANDROID GUIDE, FOLLOW THESE GUIDES:**
@@ -36,8 +42,8 @@ Short facts:
 ### iOS
 
 - [Install Cocoapods](https://guides.cocoapods.org/using/getting-started.html#installation)
-- `pod install`
-- `open ios/wappuapp.xcworkspace`
+- `cd ios && pod install`
+- `open wappuapp.xcworkspace`
 
   **Note:** Use the .xworkspace instead of .xcodeproj!
 

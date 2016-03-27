@@ -50,7 +50,7 @@ const RegistrationView = React.createClass({
     this.props.dispatch(TeamActions.showChooseTeam());
   },
   onClose() {
-    if(this.props.isRegistrationInfoValid) {
+    if (this.props.isRegistrationInfoValid) {
       this.onRegister();
     }
     this.props.dispatch(RegistrationActions.closeRegistrationView());
@@ -65,7 +65,7 @@ const RegistrationView = React.createClass({
 
           <Toolbar icon={this.props.isRegistrationInfoValid ? 'android-done' : 'android-close'}
             iconClick={this.onClose}
-            title="Fill your profile" />
+            title='Fill your profile' />
 
           <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
           <View style={[styles.innerContainer]}>
