@@ -15,7 +15,7 @@ const fetchTeams = () => {
     dispatch({ type: GET_TEAMS_REQUEST });
     api.fetchModels('teams')
       .then(teams => dispatch({ type: GET_TEAMS_SUCCESS, payload: teams }))
-      .catch(e => dispatch({ type: GET_TEAMS_FAILURE, error: e }));
+      .catch(e => dispatch({ type: GET_TEAMS_FAILURE, error: true, payload: e }));
   };
 };
 

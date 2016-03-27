@@ -23,7 +23,7 @@ const fetchEvents = () => {
         });
         dispatch({ type: GET_EVENT_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: GET_EVENT_LIST_FAILURE }));
+      .catch(error => dispatch({ type: GET_EVENT_LIST_FAILURE, error: true, payload: error }));
   }
 };
 

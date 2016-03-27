@@ -30,7 +30,7 @@ const fetchFeed = () => {
 
         dispatch({ type: GET_FEED_SUCCESS });
       })
-      .catch(error => dispatch({ type: GET_FEED_FAILURE }));
+      .catch(error => dispatch({ type: GET_FEED_FAILURE, error: true, payload: error }));
   };
 };
 
@@ -47,7 +47,7 @@ const refreshFeed = () => {
         dispatch({ type: REFRESH_FEED_SUCCESS });
         dispatch({ type: GET_FEED_SUCCESS });
       })
-      .catch(error => dispatch({ type: REFRESH_FEED_SUCCESS }));
+      .catch(error => dispatch({ type: REFRESH_FEED_SUCCESS, error: true, payload: error }));
   };
 };
 

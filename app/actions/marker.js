@@ -20,7 +20,7 @@ const fetchMarkers = () => {
         });
         dispatch({ type: GET_MARKER_LIST_SUCCESS });
       })
-      .catch(error => dispatch({ type: GET_MARKER_LIST_FAILURE }));
+      .catch(error => dispatch({ type: GET_MARKER_LIST_FAILURE, error: true, payload: error }));
   }
 };
 
