@@ -86,17 +86,17 @@ var AndroidTabBar = React.createClass({
     const iconScale = this.state.buttonIconScale[page];
     const textScale = this.state.buttonText[page];
 
-    if(isTabActive) {
+    if (isTabActive) {
       Animated.timing(iconScale, { toValue: 1.15, duration:250 }).start();
       Animated.timing(textScale, { toValue: 1,  duration:200 }).start();
-    } else if(name.logo) {
+    } else if (name.logo) {
       Animated.timing(iconScale, { toValue: 1, duration:100 }).start();
     } else {
       iconScale.setValue(1);
       textScale.setValue(0);
     }
 
-      if(name.logo) {
+    if (name.logo) {
       return (
       <TouchableNativeFeedback
         key={name.title}
