@@ -115,10 +115,13 @@ var TimelineList = React.createClass({
   },
 
   navigateToSingleEvent(model) {
+    const currentDistance = model.location.latitude !== 0 & model.location.longitude !== 0 ?
+      location.getDistance(this.props.userLocation, model.location) : null;
+
     this.props.navigator.push({
       component: EventDetail,
       name: model.name,
-      currentDistance: location.getDistance(this.props.userLocation, model.location),
+      currentDistance: currentDistance,
       model
     });
   },
@@ -192,10 +195,12 @@ var TimelineList = React.createClass({
         return <AnnouncementListItem item={item} />;
 
       default:
+        const currentDistance = item.location.latitude !== 0 && item.location.longitude !== 0 ?
+          location.getDistance(this.props.userLocation, item.location) : null;
         return <EventListItem
           item={item}
           rowId={+rowId}
-          currentDistance={location.getDistance(this.props.userLocation, item.location)}
+          currentDistance={currentDistance}
           handlePress={() => this.navigateToSingleEvent(item)}
         />;
     }
