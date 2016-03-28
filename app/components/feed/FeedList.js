@@ -106,7 +106,7 @@ const FeedList = React.createClass({
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const refreshControl = <RefreshControl
-      refreshing={this.props.isRefreshing}
+      refreshing={this.props.isRefreshing || this.props.isSending}
       onRefresh={this.onRefreshFeed}
       colors={[theme.primary]}
       tintColor={theme.primary}
@@ -174,6 +174,7 @@ const select = store => {
     actionTypes: store.competition.get('actionTypes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
+    isSending: store.competition.get('isSending'),
 
     user,
     isRegistrationInfoValid,
