@@ -121,9 +121,9 @@ export default React.createClass({
 
           </View>
 
-          <View style={styles.gridListItemIconsWrapper__left}>
+          {this.props.currentDistance !== null && <View style={styles.gridListItemIconsWrapper__left}>
             <Text style={styles.gridListItemDistance}>{this.props.currentDistance}</Text>
-          </View>
+          </View>}
 
           <View style={styles.gridListItemIconsWrapper}>
             {item.teemu && <Text style={styles.gridListItemIcon}>
