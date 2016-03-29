@@ -7,6 +7,8 @@ import ActionButton from './ActionButton';
 import ActionButtonLabel from './ActionButtonLabel';
 import * as RegistrationActions from '../../actions/registration';
 import theme from '../../style/theme';
+import TimerMixin from 'react-timer-mixin';
+import * as CompetitionActions from '../../actions/competition';
 
 // in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
@@ -82,6 +84,7 @@ const getBoundAction = (type, fn) => {
 };
 
 const ActionButtons = React.createClass({
+    mixins: [TimerMixin],
   getInitialState() {
     return {
       buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
@@ -131,6 +134,15 @@ const ActionButtons = React.createClass({
   },
 
   onToggleActionButtons() {
+      this.props.dispatch(CompetitionActions.updateCooldowns());
+      
+      if (this.state.actionButtonsOpen === false) {
+          this.updateCooldownInterval = this.setInterval(() => {
+              this.props.dispatch(CompetitionActions.updateCooldowns());
+          }, 1000);
+      }else {
+          this.clearInterval(this.updateCooldownInterval);
+      }
     if (this.props.isRegistrationInfoValid === false) {
       this.props.dispatch(RegistrationActions.openRegistrationView());
     } else {
@@ -229,6 +241,7 @@ const ActionButtons = React.createClass({
   },
 
   render() {
+      console.log("actionbutton: render for actionbutton");
     const { isLoading, actionTypes, style } = this.props;
 
     if (isLoading || !actionTypes || actionTypes.size === 0) {
