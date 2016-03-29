@@ -94,6 +94,7 @@ const FeedList = React.createClass({
   },
 
   onPressAction(type) {
+      
     switch (type) {
       case 'IMAGE':
         return this.chooseImage();
