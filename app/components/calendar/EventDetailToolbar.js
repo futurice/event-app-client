@@ -16,7 +16,12 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: theme.secondary,
+    backgroundColor: 'rgba(0,0,0,.1)',
+    position:'absolute',
+    left:0,
+    top:0,
+    right:0,
+    elevation:2,
     height: 56,
   }
 });
@@ -45,7 +50,7 @@ var EventDetailToolbar = React.createClass({
       titleColor={theme.light}
       iconColor={theme.light}
       style={styles.toolbar}
-      title={this.props.title}
+      title={''}
       />
     );
   }

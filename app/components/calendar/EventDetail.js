@@ -19,6 +19,7 @@ import Toolbar from './EventDetailToolbar';
 import analytics from '../../services/analytics';
 import time from '../../utils/time';
 import EventListItem from './EventListItem';
+import EventDetailHero from './EventDetailHero';
 
 const VIEW_NAME = 'EventDetail';
 
@@ -145,7 +146,10 @@ const EventDetail = React.createClass({
         <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
       <ScrollView style={{flex:1}}>
-        <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} />
+        {Platform.OS === 'ios' ?
+          <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} /> :
+          <EventDetailHero item={model} currentDistance={currentDistance} />
+        }
 
        {model.facebookId && this.getEventStatus(timepoint) &&
         <View style={styles.detailEventInfoContainer}>
