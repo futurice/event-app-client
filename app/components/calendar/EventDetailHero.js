@@ -20,34 +20,36 @@ const styles = StyleSheet.create({
   gridListItem: {
     width: Dimensions.get('window').width,
     flex: 1,
-    height: 200
+    paddingTop:260
   },
 
   gridListItemImgWrap: {
-    height: 200,
+    position: 'absolute',
+    top:0,
+    left:0,
+    right:0,
+    height: 260,
     width: Dimensions.get('window').width,
-    position: 'absolute'
   },
   gridListItemImg: {
     width: Dimensions.get('window').width,
-    height: 200
+    height: 260
   },
   gridListItemImgColorLayer: {
-    // backgroundColor is set programmatically on render() based on rowId
-    opacity: 0.75,
+    backgroundColor:'#333',
+    opacity: 0.7,
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
   },
 
-  gridListItemContent: {
-    elevation: 2,
-    flex: 1,
-    justifyContent: 'center',
-    padding: 20
+  gridListItemTitleWrap: {
+    position:'absolute',
+    bottom:20,
+    left:15,
   },
   gridListItemTitle: {
-    fontSize: 23,
-    lineHeight:26,
+    fontSize: 25,
+    lineHeight:27,
     fontWeight: 'bold',
     textAlign: 'left',
     color: theme.light,
@@ -55,20 +57,28 @@ const styles = StyleSheet.create({
   },
 
   gridListItemMeta: {
+    backgroundColor:'#eee',
+    flexDirection:'row',
+    justifyContent:'space-between',
+    padding:15,
     flex:1
   },
+  gridListItemMeta__block: {
+    flexDirection:'column',
+  },
   gridListItemPlace: {
-    fontSize: 15,
-    color: '#ddd'
+    color: '#888',
+    fontSize: 13
   },
   gridListItemDistance: {
-    color:'#ddd',
-    fontSize:14,
+    color: '#888',
+    textAlign:'right',
+    fontSize:13
   },
   gridListItemTime: {
-    fontSize: 15,
-    color: theme.accent,
-    fontWeight: 'bold',
+    paddingRight:15,
+    color: theme.secondary,
+    fontSize: 13
   },
   gridListItemIconsWrapper__left:{
     position: 'absolute',
@@ -91,39 +101,41 @@ const styles = StyleSheet.create({
 export default React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
-    handlePress: PropTypes.func.isRequired,
     rowId: PropTypes.number
   },
 
   render() {
     const item = this.props.item;
-    const timepoint = time.formatEventTime(item.startTime, item.endTime);
+    const timepoint = time.formatEventTime(item.startTime, item.endTime, {formatLong: true});
     const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
-    return <TouchableHighlight onPress={this.props.handlePress} underlayColor={'transparent'}>
-      <View style={styles.gridListItem}>
+    return <View style={styles.gridListItem}>
         <View style={styles.gridListItemImgWrap}>
           <Image
             source={{ uri: coverImage }}
             style={styles.gridListItemImg} />
           <View style={[
-            styles.gridListItemImgColorLayer,
-            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ?
-              '#444' : '#444' }
+            styles.gridListItemImgColorLayer
           ]} />
+          <View style={styles.gridListItemTitleWrap}>
+            <Text style={styles.gridListItemTitle}>{item.name}</Text>
+          </View>
         </View>
 
-        <View style={styles.gridListItemContent}>
-          <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <View style={styles.gridListItemMeta}>
-            <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}</Text>
-            <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
+            <View style={styles.gridListItemMeta__block}>
+              <Text style={styles.gridListItemTime}>{timepoint.date}</Text>
+              <Text style={styles.gridListItemTime}>{timepoint.time} - {timepoint.endTime}</Text>
+            </View>
 
+            <View style={styles.gridListItemMeta__block}>
+              <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
+              {this.props.currentDistance !== null && <View>
+                <Text style={styles.gridListItemDistance}>{this.props.currentDistance}</Text>
+              </View>}
+            </View>
           </View>
-
-          {this.props.currentDistance !== null && <View style={styles.gridListItemIconsWrapper__left}>
-            <Text style={styles.gridListItemDistance}>{this.props.currentDistance}</Text>
-          </View>}
+          {/*
 
           <View style={styles.gridListItemIconsWrapper}>
             {item.teemu && <Text style={styles.gridListItemIcon}>
@@ -131,8 +143,7 @@ export default React.createClass({
             {timepoint.onGoing && <Text style={styles.gridListItemIcon}>Käynnissä ny!</Text>}
             {timepoint.startsSoon && <Text style={styles.gridListItemIcon}>Alkaa kohta!</Text>}
           </View>
-        </View>
-      </View>
-    </TouchableHighlight>;
+          */}
+      </View>;
   }
 });

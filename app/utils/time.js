@@ -1,7 +1,8 @@
 import moment from 'moment';
 
 const FORMATS = {
-  default:  { day: 'D.M.',        time: 'HH:mm' },
+  default:  { day: 'D.M.',         time: 'HH:mm' },
+  short:    { day: 'ddd D.M.',     time: 'HH:mm' },
   long:     { day: 'dddd D.M.',    time: 'HH:mm' }
 }
 const TRESHOLD_FOR_STARTS_SOON = 120; // in minutes
@@ -47,8 +48,9 @@ function eventStartsSoon(startTime) {
 }
 
 function getEventDay(startTime) {
-  return moment(startTime).format(FORMATS.long.day)
+  return moment(startTime).format(FORMATS.short.day)
 }
+
 
 function isEventInFuture(endTime) {
   return moment(endTime).isAfter(moment().add(TRESHOLD_FOR_EVENT_ENDING, 'hours'));

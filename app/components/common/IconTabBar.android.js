@@ -12,6 +12,7 @@ var {
   Animated
 } = React;
 
+import _ from 'lodash';
 const Icon = require('react-native-vector-icons/MaterialIcons');
 
 var styles = StyleSheet.create({
@@ -20,41 +21,22 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingBottom:0,
+    elevation:2,
   },
   tabs: {
+    elevation:2,
     height: 56,
     flexDirection: 'row',
     justifyContent: 'space-around',
     borderWidth: 0,
-    elevation: 2,
   },
   textLabel: {
-    fontSize: 12,
-    top: 2,
-  },
-  navBarLogo: {
-    width: 48,
-    height: 48,
-  },
-  triangle:{
-    position: 'absolute',
-    top: 5,
-    width: 56,
-    height: 56,
-  },
-  triangleBottom: {
-    position: 'absolute',
-    top: 56,
-    width: 56,
-    height: 12,
-    elevation: 2,
-    backgroundColor: 'transparent'
-  },
-  triangleBottomImage: {
-    top:-4,
-    width:56,
-    height:9,
-    left:0
+    fontSize: 11,
+    textAlign:'center',
+    position:'absolute',
+    left:0,
+    right:0,
+    bottom: 7,
   }
 });
 
@@ -69,13 +51,6 @@ var AndroidTabBar = React.createClass({
     rippleColor : React.PropTypes.string,
   },
 
-  getInitialState() {
-    return {
-      buttonIconScale: this.props.tabs.map((i) => { return new Animated.Value(1); }),
-      buttonText: this.props.tabs.map((i) => { return new Animated.Value(1); }),
-    };
-  },
-
   renderTabOption(name, page) {
     const isTabActive = this.props.activeTab === page;
     const activeTextColor = this.props.activeTextColor || 'navy';
@@ -83,44 +58,15 @@ var AndroidTabBar = React.createClass({
     const rippleColor = this.props.rippleColor || 'black';
 
     const AnimatedIcon = Animated.createAnimatedComponent(Icon);
-    const iconScale = this.state.buttonIconScale[page];
-    const textScale = this.state.buttonText[page];
 
-    if(isTabActive) {
-      Animated.timing(iconScale, { toValue: 1.15, duration:250 }).start();
-      Animated.timing(textScale, { toValue: 1,  duration:200 }).start();
-    } else if(name.logo) {
-      Animated.timing(iconScale, { toValue: 1, duration:100 }).start();
-    } else {
-      iconScale.setValue(1);
-      textScale.setValue(0);
-    }
+    const containerWidth = this.props.containerWidth;
+    const numberOfTabs = this.props.tabs.length;
+    const tabWidth = containerWidth / numberOfTabs;
+    const outPutArray= _.times(numberOfTabs, () => 0);
+    outPutArray[page] = 1; // -> eg. [0,1,0,0,0]
 
-      if(name.logo) {
-      return (
-      <TouchableNativeFeedback
-        key={name.title}
-        onPress={() => this.props.goToPage(page)}
-        background={TouchableNativeFeedback.Ripple(rippleColor, true)}
-        delayPressIn={0}
-      >
-        <View style={[styles.tab, {paddingLeft:5, paddingRight:5}]} >
-        <Image
-          source={require('../../../assets/logo_triangle.png')}
-          style={[styles.triangle, {left:this.props.containerWidth / this.props.tabs.length / 2 - 24}]} />
-        <Animated.Image
-            source={require('../../../assets/whappu_text.png')}
-            style={[styles.navBarLogo,
-              {
-                top: iconScale.interpolate({inputRange: [1, 1.15], outputRange: [7,6]}),
-                transform: [{
-                scale: iconScale.interpolate({inputRange: [1, 1.15], outputRange: [1,1.2]})
-              }]},
-            ]} />
-        </View>
-      </TouchableNativeFeedback>
-      )
-    }
+    const textScale = this.props.scrollValue.interpolate({  inputRange: _.range(numberOfTabs), outputRange: outPutArray});
+    const iconTop = textScale.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
 
     return (
     <TouchableNativeFeedback
@@ -132,29 +78,25 @@ var AndroidTabBar = React.createClass({
       <View style={styles.tab} >
         <AnimatedIcon
         name={name.icon}
-        size={21}
-        style={
-          {transform: [{
-            scale: isTabActive ? iconScale : 1
-          }],
+        size={20}
+        style={{
+          top: isTabActive ? iconTop : 0,
           color: isTabActive ? activeTextColor : inactiveTextColor
-        }
-        } />
+        }}/>
 
-        {isTabActive ?
+        {isTabActive &&
           <Animated.Text style={[
             styles.textLabel,
             {
               color: activeTextColor,
-              opacity:  textScale,
+              opacity: isTabActive ? textScale : 0,
               transform: [{
-                scale:  textScale
+                scale: isTabActive ? textScale : 0
               }]
             }
           ]}>
           {name.title}
-          </Animated.Text> :
-          null
+          </Animated.Text>
         }
       </View>
     </TouchableNativeFeedback>
@@ -162,16 +104,38 @@ var AndroidTabBar = React.createClass({
   },
 
   render() {
+
     var containerWidth = this.props.containerWidth;
+    var numberOfTabs = this.props.tabs.length;
+    var tabUnderlineStyle = {
+      position: 'absolute',
+      width: containerWidth / numberOfTabs,
+      height: 2,
+      backgroundColor: this.props.underlineColor || "navy",
+      bottom: 0,
+    };
+
+    const left = this.props.scrollValue.interpolate({
+      inputRange: [0, 1], outputRange: [0,  containerWidth / numberOfTabs]
+    });
+
+    // Elastic width underline
+    // Between tabs underline width is wider
+    const BORDER_ELASTICITY = 1.35;
+    const widthValues = _.range((numberOfTabs * 2 - 1));
+    const width = this.props.scrollValue.interpolate({
+      inputRange:  _.map(widthValues, i => i * 0.5), // 0, 0.5, 1, 1.5, 2 ...
+      outputRange: _.map(widthValues, (item, i) => i % 2 === 0 ?
+        containerWidth / numberOfTabs :
+        containerWidth / numberOfTabs * BORDER_ELASTICITY
+      )
+    });
+
     return (
       <View>
-        <View style={[styles.triangleBottom,{left:containerWidth / 2 - 28}]}>
-          <Image
-            source={require('../../../assets/logo_triangle_bottom.png')}
-            style={styles.triangleBottomImage} />
-        </View>
         <View style={[styles.tabs, {backgroundColor : this.props.backgroundColor || null}, this.props.style]}>
           {this.props.tabs.map((tab, i) => this.renderTabOption(tab, i))}
+          <Animated.View style={[tabUnderlineStyle, {left: left, width: width} ]} />
         </View>
       </View>
       );

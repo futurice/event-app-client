@@ -103,7 +103,7 @@ export default React.createClass({
           {opacity:this.state.announcementAnimation,
           transform:[
             {scale:this.state.announcementAnimation.interpolate({
-              inputRange: [0, 1], outputRange: [1.05,1]
+              inputRange: [0, 1], outputRange: [0.8, 1]
             })
           }]
         }]}>

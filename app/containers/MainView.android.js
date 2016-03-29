@@ -30,6 +30,7 @@ const AndroidTabNavigation = React.createClass({
       <AndroidTabs
         initialPage={2}
         tabBarPosition={'top'}
+        tabBarUnderlineColor={theme.accent}
         tabBarBackgroundColor={theme.secondary}
         tabBarActiveTextColor={theme.light}
         tabBarInactiveTextColor={theme.light}
@@ -37,7 +38,7 @@ const AndroidTabNavigation = React.createClass({
       >
         <EventMapView navigator={this.props.navigator} tabLabel={{title:'Map', icon:'map'}} />
         <CalendarView navigator={this.props.navigator} tabLabel={{title:'Events', icon:'event-note'}} />
-        <FeedView navigator={this.props.navigator} tabLabel={{title:'Buzz', logo:true}} />
+        <FeedView navigator={this.props.navigator} tabLabel={{title:'Buzz', icon:'whatshot'}} />
         <CompetitionView tabLabel={{title:'Ranking', icon:'equalizer'}} />
         <ProfileView tabLabel={{title:'Profile', icon:'person'}} />
       </AndroidTabs>

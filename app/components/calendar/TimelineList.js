@@ -27,6 +27,7 @@ import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
 
+const IOS = Platform.OS === 'ios';
 const VIEW_NAME = 'TimelineList';
 const ANNOUNCEMENTS_SECTION = 'announcements';
 
@@ -36,34 +37,35 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.secondary,
+    backgroundColor: theme.light,
   },
   loaderText:{
-    color:theme.light,
+    color:'#aaa',
   },
   reloadButton:{
     marginTop:20,
   },
   reloadButtonText:{
     fontSize:30,
-    color:theme.white,
+    color:theme.secondary,
     fontWeight:'bold',
   },
   listView: {
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 0 : 20,
-    backgroundColor: theme.secondary,
+    backgroundColor: '#fff',
   },
   sectionHeader: {
-    backgroundColor: theme.secondary,//theme.dark,
-    opacity: 0.88,
-    padding: 20,
+    backgroundColor: IOS ? 'rgba(255,255,255,.88)' : 'transparent',
+    opacity: IOS ? 1 : 1,
+    padding: IOS ? 15 : 35,
+    paddingLeft:15,
     flex: 1
   },
   sectionHeaderAnnouncement: {
     backgroundColor: theme.secondary,
     marginTop: Platform.OS === 'ios' ? 30 : 0,
-    padding: 20,
+    padding: IOS ? 20 : 15,
     flex: 1
   },
   sectionHeaderAnnouncementText:{
@@ -71,9 +73,9 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     textAlign: 'left',
-    fontWeight: 'bold',
-    fontSize: 18,
-    color: '#FFF'
+    fontWeight: IOS ? 'bold' : 'bold',
+    fontSize: IOS ? 18 : 16,
+    color: IOS ? theme.secondary : theme.secondary
   }
 });
 
@@ -144,10 +146,10 @@ var TimelineList = React.createClass({
     // TODO: platform-specific if-else
     return <View style={styles.container}>
       {(Platform.OS === 'android') ?
-        <ProgressBar styleAttr='Inverse' color={theme.light}/> :
+        <ProgressBar styleAttr='Inverse' color={theme.primary}/> :
 
         <ActivityIndicatorIOS
-          color={theme.light}
+          color={theme.primary}
           animating={true}
           style={{ alignItems: 'center', justifyContent: 'center', height: 80 }}
           size='large' />
@@ -171,7 +173,7 @@ var TimelineList = React.createClass({
     } else if (sectionStartMoment.isSame(moment().add(1, 'day'), 'day')) {
       sectionCaption = 'Tomorrow';
     } else {
-      sectionCaption = moment.unix(sectionId).format('ddd D.M.YYYY');
+      sectionCaption = moment.unix(sectionId).format('ddd D.M.');
     }
     sectionCaption = sectionCaption.toUpperCase();
 
