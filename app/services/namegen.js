@@ -1,17 +1,17 @@
 // jscs:disable maximumLineLength
 const TEAMS = {
-  '_default': ['Hämmentävä', 'Ylväs', 'Kaikkivoipa', 'Humanistinen', 'Kelvollinen', 'Erehtymätön', 'Akateeminen'],
-  'autek': ['Automaattinen', 'Automatisoitu', 'Autonominen', 'Keltainen'],
-  'bioner': ['Biologinen', 'Luomu', 'Alkuvoimainen', 'Beige'],
-  'hiukkanen': ['Hiukkasteleva', 'Tekninen', 'Matemaattinen', 'Violetti'],
+  '_default': ['Hämmentävä', 'Ylväs', 'Kaikkivoipa', 'Humanistinen', 'Kelvollinen', 'Erehtymätön', 'Akateeminen', 'Hupeloiva', 'Lannistumaton', 'Romanttinen'],
+  'autek': ['Automaattinen', 'Automatisoitu', 'Autonominen', 'Itsetoimiva', 'Keltainen'],
+  'bioner': ['Biologinen', 'Luomu', 'Alkuvoimainen', 'Luonnollinen', 'Geneettinen', 'Beige'],
+  'hiukkanen': ['Hiukkasteleva', 'Tekninen', 'Matemaattinen', 'Logaritminen', 'Violetti'],
   'indecs': ['Indeksoitu', 'Taloudellinen', 'Optimaalinen', 'Valkotakkinen'],
-  'kork': ['Koneellinen', 'Koneistettu', 'Korkkaileva', 'Punalahkeinen'],
-  'man@ger': ['Johtava', 'Mikromanageroiva', 'Pörssinoteerattu', 'Graniitinharmaa'],
-  'mik': ['Materiaalinen', 'Pintanahkainen', 'Jalopuinen', 'Kuminen', 'Viininpunainen'],
-  'skilta': ['Sähköinen', 'Elektroninen', 'Korkeajännitteinen', 'Maadoitettu', 'Sähkönsininen'],
-  'tamark': ['Arkkitehtoninen', 'Suurpiirteinen', 'Pimeä', 'Tummanpuhuva'],
-  'taraki': ['Rakentava', 'Kestopuinen', 'Keltakypäräinen', 'Rakentava', 'Tummansininen'],
-  'tite': ['Binäärinen', 'Tietotekninen', 'Koodintuoksuinen', 'Tummasieluinen', 'Yönmusta'],
+  'kork': ['Koneellinen', 'Koneistettu', 'Korkkaileva', 'Sorvaava', 'Punalahkeinen'],
+  'man@ger': ['Johtava', 'Mikromanageroiva', 'Pörssinoteerattu', 'Pikkutakkeileva', 'Graniitinharmaa'],
+  'mik': ['Materiaalinen', 'Pintanahkainen', 'Jalopuinen', 'Kuminen', 'Timanttinen', 'Viininpunainen'],
+  'skilta': ['Sähköinen', 'Elektroninen', 'Korkeajännitteinen', 'Vaihtovirtainen', 'Maadoitettu', 'Sähkönsininen'],
+  'tamark': ['Arkkitehtoninen', 'Suurpiirteinen', 'Pimeä', 'Taiteellinen', 'Tarkka', 'Tummanpuhuva'],
+  'taraki': ['Rakentava', 'Kestopuinen', 'Keltakypäräinen', 'Rakentava', 'Poraava', 'Tummansininen'],
+  'tite': ['Binäärinen', 'Tietotekninen', 'Koodintuoksuinen', 'Tummasieluinen', 'Looginen', 'Yönmusta'],
   'yki': ['Ympäristöystävällinen', 'Ympäröivä', 'Metsämansikkainen', 'Skutsinvihreä']
 };
 

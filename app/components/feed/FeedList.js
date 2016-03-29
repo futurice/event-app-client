@@ -22,6 +22,7 @@ import LoadingStates from '../../constants/LoadingStates';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
+import TimerMixin from 'react-timer-mixin';
 
 const styles = StyleSheet.create({
   container: {
@@ -43,6 +44,7 @@ const styles = StyleSheet.create({
 });
 
 const FeedList = React.createClass({
+  mixins: [TimerMixin],
   getInitialState() {
     return {
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
@@ -51,14 +53,12 @@ const FeedList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
-    this.updateCooldownInterval = setInterval(() => {
-      this.props.dispatch(CompetitionActions.updateCooldowns());
-    }, 1000);
+    
     this.props.dispatch(CompetitionActions.updateCooldowns());
   },
 
   componentWillUnmount() {
-    clearInterval(this.updateCooldownInterval);
+    //this.clearInterval(this.updateCooldownInterval);
   },
 
   componentWillReceiveProps({ feed }) {
@@ -94,6 +94,7 @@ const FeedList = React.createClass({
   },
 
   onPressAction(type) {
+      
     switch (type) {
       case 'IMAGE':
         return this.chooseImage();
@@ -106,7 +107,7 @@ const FeedList = React.createClass({
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const refreshControl = <RefreshControl
-      refreshing={this.props.isRefreshing}
+      refreshing={this.props.isRefreshing || this.props.isSending}
       onRefresh={this.onRefreshFeed}
       colors={[theme.primary]}
       tintColor={theme.primary}
@@ -174,6 +175,7 @@ const select = store => {
     actionTypes: store.competition.get('actionTypes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
+    isSending: store.competition.get('isSending'),
 
     user,
     isRegistrationInfoValid,

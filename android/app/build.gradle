@@ -98,10 +98,22 @@ android {
             include "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+          def console = System.console()
+          if (console != null) {
+            storeFile file(System.console().readLine("\n\$ Enter keystore filename: "))
+            storePassword new String(System.console().readPassword("\n\$ Enter keystore password: "))
+            keyAlias System.console().readLine("\n\$ Enter key alias: ")
+            keyPassword new String(System.console().readPassword("\n\$ Enter alias password: "))
+          }
+       }
+   }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -115,6 +127,9 @@ android {
                 output.versionCodeOverride =
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
+            output.outputFile = new File(
+              output.outputFile.parent,
+              output.outputFile.name.replace("app-release.apk", "whappu-${variant.versionName}.apk"))
         }
     }
 }

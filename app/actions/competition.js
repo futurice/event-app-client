@@ -33,14 +33,18 @@ const closeTextActionView = () => {
 
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
-    dispatch({ type: POST_ACTION_REQUEST });
+     dispatch({ type: POST_ACTION_REQUEST });
+    
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
+         setTimeout(() => {
+             dispatch(refreshFeed());
         dispatch({ type: POST_ACTION_SUCCESS, payload: { type: payload.type } });
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
-        dispatch(refreshFeed());
 
+         }, 1000);
+        
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);

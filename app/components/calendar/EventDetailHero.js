@@ -8,7 +8,6 @@ var {
   StyleSheet,
   Dimensions,
   Text,
-  TouchableHighlight,
   View
 } = React;
 

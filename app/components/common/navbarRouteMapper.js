@@ -67,7 +67,7 @@ let NavigationBarRouteMapper = {
 
   Title: function(route, navigator, index, navState) {
 
-    if(route.showName) {
+    if (route.showName) {
       return (
         <Text style={styles.navBarTitle}>
         {route.name}

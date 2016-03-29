@@ -59,10 +59,8 @@ var AndroidTabBar = React.createClass({
 
     const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
-    const containerWidth = this.props.containerWidth;
     const numberOfTabs = this.props.tabs.length;
-    const tabWidth = containerWidth / numberOfTabs;
-    const outPutArray= _.times(numberOfTabs, () => 0);
+    const outPutArray = _.times(numberOfTabs, () => 0);
     outPutArray[page] = 1; // -> eg. [0,1,0,0,0]
 
     const textScale = this.props.scrollValue.interpolate({  inputRange: _.range(numberOfTabs), outputRange: outPutArray});
@@ -124,7 +122,7 @@ var AndroidTabBar = React.createClass({
     const BORDER_ELASTICITY = 1.35;
     const widthValues = _.range((numberOfTabs * 2 - 1));
     const width = this.props.scrollValue.interpolate({
-      inputRange:  _.map(widthValues, i => i * 0.5), // 0, 0.5, 1, 1.5, 2 ...
+      inputRange:  _.map(widthValues, i => i * 0.5), // [0, 0.5, 1, 1.5, 2...]
       outputRange: _.map(widthValues, (item, i) => i % 2 === 0 ?
         containerWidth / numberOfTabs :
         containerWidth / numberOfTabs * BORDER_ELASTICITY
