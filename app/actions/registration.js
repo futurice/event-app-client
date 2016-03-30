@@ -63,10 +63,14 @@ const updateName = name => {
 
 const generateName = () => {
   return (dispatch, getStore) => {
-    const currentTeam = getStore().registration.get('selectedTeam');
+    const currentTeamId = getStore().registration.get('selectedTeam');
 
-    if (currentTeam) {
-      dispatch({ type: UPDATE_NAME, payload: namegen.generateName(currentTeam.name) });
+    if (currentTeamId) {
+      const teams = getStore().team.get('teams').toJS();
+      const selectedTeam = _.find(teams, ['id', currentTeamId]);
+      if (selectedTeam) {
+        dispatch({ type: UPDATE_NAME, payload: namegen.generateName(selectedTeam.name) });
+      }
     }
   };
 };
