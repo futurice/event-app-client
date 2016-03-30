@@ -10,12 +10,14 @@ import React, {
 } from 'react-native'
 
 /* Containers */
+import { connect } from 'react-redux';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionNavigator';
 import FeedView from './FeedView';
 import ProfileView from './ProfileView';
 import RegistrationView from '../components/registration/RegistrationView';
+import errorAlert from '../utils/error-alert';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
 const theme = require('../style/theme');
@@ -26,6 +28,7 @@ const AndroidTabNavigation = React.createClass({
     navigator: PropTypes.object.isRequired
   },
   render() {
+
     return (
       <AndroidTabs
         initialPage={2}
@@ -55,7 +58,7 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   return false;
 });
 
-export default class App extends Component {
+class App extends Component {
 
   constructor(props) {
     super(props)
@@ -70,6 +73,11 @@ export default class App extends Component {
   }
 
   render() {
+    const immutableError = this.props.errors.get('error');
+    if (immutableError) {
+      const error = immutableError.toJS();
+      errorAlert(this.props.dispatch, _.get(error, 'header'), _.get(error, 'message'));
+    }
     return (
       <View style={{flex:1}}>
 
@@ -89,4 +97,12 @@ export default class App extends Component {
     </View>
     )
   }
+}
+
+const select = store => {
+  return {
+    currentTab: store.navigation.get('currentTab'),
+    errors: store.errors
+  }
 };
+export default connect(select)(App);

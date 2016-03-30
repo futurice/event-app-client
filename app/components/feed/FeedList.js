@@ -53,7 +53,7 @@ const FeedList = React.createClass({
 
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
-    
+
     this.props.dispatch(CompetitionActions.updateCooldowns());
   },
 
@@ -94,7 +94,7 @@ const FeedList = React.createClass({
   },
 
   onPressAction(type) {
-      
+
     switch (type) {
       case 'IMAGE':
         return this.chooseImage();
