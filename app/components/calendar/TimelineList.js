@@ -7,7 +7,6 @@ var {
   Text,
   Platform,
   PropTypes,
-  TouchableHighlight,
   ActivityIndicatorIOS,
   View,
 } = React;
@@ -26,6 +25,7 @@ import EventListItem from './EventListItem';
 import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import ProgressBar from 'ProgressBarAndroid';
+import Button from '../common/Button';
 
 const IOS = Platform.OS === 'ios';
 const VIEW_NAME = 'TimelineList';
@@ -44,6 +44,7 @@ const styles = StyleSheet.create({
   },
   reloadButton:{
     marginTop:20,
+    width: 100
   },
   reloadButtonText:{
     fontSize:30,
@@ -216,11 +217,12 @@ var TimelineList = React.createClass({
         return (
           <View style={styles.container}>
             <Text style={styles.loaderText}>Could not get events :(</Text>
-            <TouchableHighlight
+            <Button
               onPress={this.getViewContent}
-              style={styles.reloadButton}>
-              <Text style={styles.reloadButtonText}>RETRY</Text>
-            </TouchableHighlight>
+              style={styles.reloadButton}
+            >
+              Reload
+            </Button>
           </View>
         );
       default:
