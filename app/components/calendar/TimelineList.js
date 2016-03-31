@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderAnnouncement: {
     backgroundColor: theme.secondary,
-    marginTop: Platform.OS === 'ios' ? 30 : 0,
+    marginTop: 0,
     padding: IOS ? 20 : 15,
     flex: 1
   },

@@ -8,7 +8,8 @@ import React, {
   PropTypes,
   Dimensions,
   Animated,
-  StyleSheet
+  StyleSheet,
+  BackAndroid
 } from 'react-native';
 import { connect } from 'react-redux';
 import Button from '../../components/common/Button';
@@ -20,6 +21,8 @@ import * as CompetitionActions from '../../actions/competition';
 const IOS = Platform.OS === 'ios';
 
 const {width} = Dimensions.get('window');
+
+
 const TextActionView = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
@@ -31,6 +34,15 @@ const TextActionView = React.createClass({
       formAnimation: new Animated.Value(1),
       okAnimation: new Animated.Value(0)
     }
+  },
+  componentDidMount(){
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.props.isTextActionViewOpen) {
+        this.onCancel()
+        return true;
+      }
+      return false;
+    })
   },
   showOK() {
     Animated.spring(this.state.okAnimation, {toValue:1, duration:250}).start();
@@ -97,6 +109,7 @@ const TextActionView = React.createClass({
             <TextInput
               autoFocus={true}
               multiLine={true}
+              autoCapitalize={'sentences'}
               underlineColorAndroid={theme.accent}
               clearButtonMode={'while-editing'}
               returnKeyType={'send'}

@@ -9,6 +9,7 @@ import React, {
   PropTypes,
   TouchableOpacity,
   ScrollView,
+  BackAndroid
 } from 'react-native';
 import { connect } from 'react-redux';
 import Immutable from 'immutable';
@@ -33,7 +34,15 @@ const RegistrationView = React.createClass({
     isRegistrationInfoValid: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
   },
-
+  componentDidMount(){
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.props.isRegistrationViewOpen) {
+        this.onClose()
+        return true;
+      }
+      return false;
+    })
+  },
   onRegister() {
     this.props.dispatch(RegistrationActions.putUser());
   },
@@ -75,7 +84,7 @@ const RegistrationView = React.createClass({
               </View>
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
 
-              <ScrollView style={{flex:1,height:230}}>
+              <ScrollView style={{flex:1,height:215}}>
               {this.props.teams.map((team,i) =>
                 <Team
                   key={team.get('id')}
@@ -97,6 +106,7 @@ const RegistrationView = React.createClass({
                 <TextInput
                   ref={view => this.nameTextInputRef = view}
                   autoCorrect={false}
+                  autoCapitalize={'words'}
                   clearButtonMode={'while-editing'}
                   returnKeyType={'done'}
                   style={[styles.inputField, styles['inputField_' + Platform.OS]]}

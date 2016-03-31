@@ -6,8 +6,6 @@ import React, {
   StyleSheet,
   PropTypes,
   Text,
-  Animated,
-  Easing,
   View
 } from 'react-native';
 
@@ -83,30 +81,16 @@ export default React.createClass({
     item: PropTypes.object.isRequired
   },
 
-  getInitialState() {
-    return {
-      announcementAnimation: new Animated.Value(0)
-    };
-  },
-
   // TODO: parse away the Finnish-part of the message?
   // TODO: set some fallback-image?
   // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers
   render() {
-    Animated.timing(this.state.announcementAnimation, {duration:300, easing:Easing.ease, toValue: 1}).start();
     const item = this.props.item;
     const fallbackImage = 'https://storage.googleapis.com/wappuapp/assets/wappu-intro.jpg';
 
     return (
       <View style={styles.container}>
-        <Animated.View style={[styles.card,
-          {opacity:this.state.announcementAnimation,
-          transform:[
-            {scale:this.state.announcementAnimation.interpolate({
-              inputRange: [0, 1], outputRange: [0.8, 1]
-            })
-          }]
-        }]}>
+        <View style={styles.card}>
         <View style={styles.imgWrap}>
           <Image
           source={{ uri: item.picture || fallbackImage}}
@@ -124,7 +108,7 @@ export default React.createClass({
         <Text style={styles.timestampText}>
           {time.getTimeAgo(item.created_time)}
         </Text>
-        </Animated.View>
+        </View>
       </View>
     );
   }

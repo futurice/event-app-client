@@ -11,6 +11,7 @@ import React, {
 
 /* Containers */
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import CalendarView from './CalendarView';
 import EventMapView from './EventMapView';
 import CompetitionView from './CompetitionNavigator';

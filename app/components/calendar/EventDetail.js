@@ -18,6 +18,8 @@ import Toolbar from './EventDetailToolbar';
 
 import analytics from '../../services/analytics';
 import time from '../../utils/time';
+import locationService from '../../services/location';
+import Button from '../common/Button';
 import EventListItem from './EventListItem';
 import EventDetailHero from './EventDetailHero';
 
@@ -176,6 +178,12 @@ const EventDetail = React.createClass({
         <View style={styles.content}>
           <Text style={styles.detailEventDescription}>{model.description}</Text>
         </View>
+
+        <View style={styles.navigationButtonWrapper}>
+          <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
+        </View>
+
+
       </ScrollView>
     </View>;
   }

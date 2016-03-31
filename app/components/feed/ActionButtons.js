@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Animated, Easing, Platform, StyleSheet, Text, View } from 'react-native';
+import React, { Animated, Easing, Platform, StyleSheet, Text, View, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
@@ -135,12 +135,12 @@ const ActionButtons = React.createClass({
 
   onToggleActionButtons() {
       this.props.dispatch(CompetitionActions.updateCooldowns());
-      
+
       if (this.state.actionButtonsOpen === false) {
           this.updateCooldownInterval = this.setInterval(() => {
               this.props.dispatch(CompetitionActions.updateCooldowns());
           }, 1000);
-      }else {
+      } else {
           this.clearInterval(this.updateCooldownInterval);
       }
     if (this.props.isRegistrationInfoValid === false) {
@@ -161,6 +161,17 @@ const ActionButtons = React.createClass({
     this.onToggleActionButtons();
   },
 
+  componentDidMount(){
+    // Close Action buttons on back press
+    BackAndroid.addEventListener('hardwareBackPress', () => {
+      if (this.state.actionButtonsOpen) {
+        this.onToggleActionButtons()
+        return true;
+      }
+      return false;
+    })
+  },
+
   getIconForAction(type) {
     const mapping = {
       TEXT: 'textsms',
@@ -177,7 +188,7 @@ const ActionButtons = React.createClass({
     const mapping = {
       TEXT: 'Write a message',
       IMAGE: 'Take a photo',
-      SIMA: 'Had a sima',
+      SIMA: 'Have a sima',
       LECTURE: 'At a lecture',
       BUTTON_PUSH: 'Push the button',
       default: 'image'
@@ -197,6 +208,7 @@ const ActionButtons = React.createClass({
   renderActionButtons() {
     return this.props.actionTypes.map((actionType, i) => {
       const actionTypeCode = actionType.get('code');
+      const actionTypeValue = actionType.get('value');
       const iconName = this.getIconForAction(actionTypeCode);
       const labelName = this.getLabelForAction(actionTypeCode);
       const isCoolingDown = this.props.disabledActionTypes.find(dat => dat === actionTypeCode);
@@ -212,7 +224,7 @@ const ActionButtons = React.createClass({
 
       return (
         <Animated.View key={`button-${i}`} style={actionButtonStyles}>
-          <ActionButtonLabel extraStyle={{opacity:this.state.labels[i] }}>
+          <ActionButtonLabel additionalLabel={actionTypeValue} extraStyle={{opacity:this.state.labels[i] }}>
             {labelName}
           </ActionButtonLabel>
           <ActionButton

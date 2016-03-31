@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
   gridListItemTitleWrap: {
     position:'absolute',
     bottom:20,
-    left:15,
+    left:20,
   },
   gridListItemTitle: {
     fontSize: 25,
@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     padding:15,
+    paddingLeft:20,
+    paddingRight:20,
     flex:1
   },
   gridListItemMeta__block: {

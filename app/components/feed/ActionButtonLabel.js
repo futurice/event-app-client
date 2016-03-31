@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF',
     elevation:2,
     shadowColor: '#000000',
-    shadowOpacity: 0.1,
+    shadowOpacity: 0.2,
     shadowRadius: 1,
     shadowOffset: {
       height: 1,
@@ -27,13 +27,20 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: 'bold',
     color: theme.secondary
+  },
+  additionalLabelText:{
+    color: '#bbb',
+    marginLeft: 5,
+    fontWeight: 'bold',
+    fontSize: 11,
+    flex: 1
   }
 });
 
 const ActionButtonLabel = React.createClass({
   render() {
     const combinedStyle = [styles.label];
-    const { extraStyle, children } = this.props;
+    const { extraStyle, children, additionalLabel } = this.props;
 
     if (extraStyle) {
       combinedStyle.push(extraStyle);
@@ -42,6 +49,7 @@ const ActionButtonLabel = React.createClass({
     return (
       <Animated.View style={combinedStyle}>
         <Text style={styles.labelText}>{children}</Text>
+        <Text style={styles.additionalLabelText}>{additionalLabel}p</Text>
       </Animated.View>
 
     );
