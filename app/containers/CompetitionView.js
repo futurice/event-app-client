@@ -42,11 +42,11 @@ const CompetitionView = React.createClass({
             </View>
             <View style={styles.leaderboardIntroTextWrap}>
               <Text style={styles.leaderboardIntroText}>
-                Current Whappupoints between Guilds.
-                Be an active Whappu user and lead your Guild to the victory!
+                Current Whappu points for each guild.
+                Be active in the Buzz and lead your guild to the victory!
               </Text>
               <Text style={[styles.leaderboardIntroText, styles.leaderboardIntroText__grey]}>
-                Competition ends at 30th April 00:00
+                The competition ends at 12:00AM on 1st of May.
               </Text>
             </View>
           </View>
@@ -68,7 +68,6 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   leaderboardIntro:{
-    height:90,
     flexDirection:'row',
     margin:20,
     marginBottom:0,

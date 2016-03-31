@@ -122,7 +122,7 @@ const TextActionView = React.createClass({
 
             <View style={styles.bottomInfo}>
               <Text style={styles.bottomInfoText}>
-                Earn points for your Kilta by sharing your wappu message!
+                Earn points for your guild by sharing a wappu message!
               </Text>
             </View>
 
