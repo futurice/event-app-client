@@ -52,7 +52,8 @@ class EventMap extends Component {
     this.props.navigator.push({
       component: EventDetail,
       name: event.name,
-      model: event
+      model: event,
+      disableTopPadding: true
     });
   }
 

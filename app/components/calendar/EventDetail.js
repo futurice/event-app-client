@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
     backgroundColor: '#FFF',
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0,
-    paddingTop: Platform.OS === 'ios' ? 20 : 0,
+    paddingBottom: Platform.OS === 'ios' ? 20 : 0
   },
   detailEventImg: {
     width: Dimensions.get('window').width,
@@ -142,8 +141,11 @@ const EventDetail = React.createClass({
     const model = this.props.route.model;
     const currentDistance = this.props.route.currentDistance;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
+    const wrapperStyleAdd = {
+      paddingTop: Platform.OS !== 'ios' || this.props.route.disableTopPadding ? 0 : 20
+    };
 
-    return <View style={styles.wrapper}>
+    return <View style={[styles.wrapper, wrapperStyleAdd]}>
       {(Platform.OS === 'android') ?
         <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
