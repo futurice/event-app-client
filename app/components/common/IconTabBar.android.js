@@ -48,14 +48,12 @@ var AndroidTabBar = React.createClass({
     backgroundColor : React.PropTypes.string,
     activeTextColor : React.PropTypes.string,
     inactiveTextColor : React.PropTypes.string,
-    rippleColor : React.PropTypes.string,
   },
 
   renderTabOption(name, page) {
     const isTabActive = this.props.activeTab === page;
     const activeTextColor = this.props.activeTextColor || 'navy';
     const inactiveTextColor = this.props.inactiveTextColor || 'black';
-    const rippleColor = this.props.rippleColor || 'black';
 
     const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
@@ -70,7 +68,7 @@ var AndroidTabBar = React.createClass({
     <TouchableNativeFeedback
       key={name.title}
       onPress={() => this.props.goToPage(page)}
-      background={TouchableNativeFeedback.Ripple(rippleColor, true)}
+      background={TouchableNativeFeedback.SelectableBackground()}
       delayPressIn={0}
     >
       <View style={styles.tab} >
