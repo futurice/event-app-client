@@ -6,9 +6,11 @@ import React, {
   StyleSheet,
   PropTypes,
   Text,
-  View
+  View,
+  Linking
 } from 'react-native';
-
+import Loader from '../common/Loader';
+import ParsedText from 'react-native-parsed-text';
 import theme from '../../style/theme';
 import time from '../../utils/time';
 
@@ -73,6 +75,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
   },
+  url: {
+    color: theme.primary
+  }
 });
 
 export default React.createClass({
@@ -86,7 +91,11 @@ export default React.createClass({
   // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers
   render() {
     const item = this.props.item;
-    const fallbackImage = 'https://storage.googleapis.com/wappuapp/assets/wappu-intro.jpg';
+    const fallbackImage = 'https://storage.googleapis.com/wappuapp/assets/wappu-team-says.jpg';
+
+    if (!item) {
+      return <Loader />;
+    }
 
     return (
       <View style={styles.container}>
@@ -102,7 +111,16 @@ export default React.createClass({
 
         <View style={styles.textContainer}>
           <Text style={styles.text__title}>WAPPU TEAM SAYS: </Text>
-          <Text style={styles.text}>{item.message}</Text>
+          <ParsedText
+            style={styles.text}
+            parse={
+              [
+                {type: 'url', style: styles.url, onPress: this.handleUrlPress}
+              ]
+            }
+          >
+            {item.message}
+          </ParsedText>
 
         </View>
         <Text style={styles.timestampText}>
@@ -111,5 +129,9 @@ export default React.createClass({
         </View>
       </View>
     );
+  },
+
+  handleUrlPress(url) {
+    Linking.openURL(url);
   }
 });
