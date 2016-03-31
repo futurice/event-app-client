@@ -11,7 +11,7 @@ var {
   View
 } = React;
 
-import Icon from 'react-native-vector-icons/Ionicons';
+//import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 

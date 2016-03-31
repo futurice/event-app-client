@@ -34,7 +34,6 @@ const closeTextActionView = () => {
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
      dispatch({ type: POST_ACTION_REQUEST });
-    
 
     return api.postAction(payload, getStore().location.get('currentLocation'))
       .then(response => {
@@ -44,7 +43,7 @@ const _postAction = (payload) => {
         dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
 
          }, 1000);
-        
+
         setTimeout(() => {
           dispatch({ type: HIDE_NOTIFICATION });
         }, 3000);
