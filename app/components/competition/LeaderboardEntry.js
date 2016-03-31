@@ -45,12 +45,16 @@ const LeaderboardEntry = React.createClass({
     }
   },
   componentDidMount() {
+    // Increase min width if the team has some points, so that if winner has
+    // e.g. 40000, the team with 30 points does not have too short bar
+    const minWidth = this.props.team.get('score') > 10 ? 46 : 26;
+
     this.setTimeout(() => {
       LayoutAnimation.spring();
       const percentageToTopscore = (this.props.team.get('score') / this.props.topscore) || 0;
       const barWrapWidth = Dimensions.get('window').width - 110; // 110 other content width
       let barWidth = barWrapWidth * percentageToTopscore;
-      barWidth = Math.max(barWidth, 26); // minWidth for teams with zero points
+      barWidth = Math.max(barWidth, minWidth); // minWidth for teams with low points
       this.setState({ width: barWidth });
     }, 1000);
   },
