@@ -85,8 +85,8 @@ const styles = StyleSheet.create({
 
   navigationButtonWrapper: {
     margin: 20,
-    marginTop:10,
-    marginBottom: 50,
+    marginTop: 20,
+    marginBottom: 0,
   },
   navigationButton: {
     height: 50,
@@ -177,14 +177,13 @@ const EventDetail = React.createClass({
         </View>
         }
 
-        <View style={styles.content}>
-          <Text style={styles.detailEventDescription}>{model.description}</Text>
-        </View>
-
         <View style={styles.navigationButtonWrapper}>
           <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
         </View>
 
+        <View style={styles.content}>
+          <Text style={styles.detailEventDescription}>{model.description}</Text>
+        </View>
 
       </ScrollView>
     </View>;
