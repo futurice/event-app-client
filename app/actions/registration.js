@@ -20,6 +20,7 @@ const CLOSE_REGISTRATION_VIEW = 'CLOSE_REGISTRATION_VIEW';
 const UPDATE_NAME = 'UPDATE_NAME';
 const SELECT_TEAM = 'SELECT_TEAM';
 const CLOSE_TEAM_SELECTOR = 'CLOSE_TEAM_SELECTOR';
+const DISMISS_INTRODUCTION = 'DISMISS_INTRODUCTION';
 
 const openRegistrationView = () => {
   return { type: OPEN_REGISTRATION_VIEW };
@@ -27,6 +28,10 @@ const openRegistrationView = () => {
 
 const closeRegistrationView = () => {
   return { type: CLOSE_REGISTRATION_VIEW };
+};
+
+const dismissIntroduction = () => {
+  return { type: DISMISS_INTRODUCTION };
 };
 
 const putUser = () => {
@@ -100,11 +105,13 @@ export {
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
   SELECT_TEAM,
+  DISMISS_INTRODUCTION,
   putUser,
   openRegistrationView,
   closeRegistrationView,
   updateName,
   generateName,
   getUser,
-  selectTeam
+  selectTeam,
+  dismissIntroduction
 };

@@ -36,17 +36,27 @@ const styles = StyleSheet.create({
 var EventDetailToolbar = React.createClass({
   propTypes: {
     title: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    iconClick: PropTypes.func.isRequired
+    icon: PropTypes.string,
+    iconClick: PropTypes.func
   },
   _onActionSelected: function(position) {
   },
 
   render() {
+    const touchableProps = {};
+    if (this.props.iconClick) {
+      touchableProps.onPress = this.props.iconClick;
+    }
+
     return (
       <View style={styles.toolbar}>
-        <TouchableOpacity onPress={this.props.iconClick}>
-          <Icon style={styles.icon} name={this.props.icon} />
+        <TouchableOpacity {...touchableProps}>
+          {
+            this.props.icon
+            ? <Icon style={styles.icon} name={this.props.icon} />
+            : <View/>
+          }
+
         </TouchableOpacity>
         <Text style={styles.title}>{this.props.title}</Text>
         <View />

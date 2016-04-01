@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import Immutable from 'immutable';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
+import IntroView from './IntroView';
 import Modal from 'react-native-modalbox';
 import Team from './Team';
 import Toolbar from './RegistrationToolbar';
@@ -34,7 +35,7 @@ const RegistrationView = React.createClass({
     isRegistrationInfoValid: PropTypes.bool.isRequired,
     dispatch: PropTypes.func.isRequired
   },
-  componentDidMount(){
+  componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', () => {
       if (this.props.isRegistrationViewOpen) {
         this.onClose()
@@ -58,6 +59,12 @@ const RegistrationView = React.createClass({
   onShowChooseTeam() {
     this.props.dispatch(TeamActions.showChooseTeam());
   },
+  onDismissIntroduction() {
+    if (this.props.isRegistrationInfoValid) {
+      this.onRegister();
+    }
+    this.props.dispatch(RegistrationActions.dismissIntroduction());
+  },
   onClose() {
     if (this.props.isRegistrationInfoValid) {
       this.onRegister();
@@ -70,83 +77,95 @@ const RegistrationView = React.createClass({
         isOpen={this.props.isRegistrationViewOpen}
         swipeToClose={false}
         backdropPressToClose={false}>
-        <View style={[styles.container, styles.modalBackgroundStyle]}>
+        {
+          this.props.selectedTeam || this.props.isIntroductionDismissed
+            ? this._renderNameSelectContainer()
+            : <IntroView onDismiss={this.onDismissIntroduction} />
+        }
+      </Modal>
+    );
+  },
 
-          <Toolbar icon={this.props.isRegistrationInfoValid ? 'android-done' : 'android-close'}
-            iconClick={this.onClose}
-            title='Fill your profile' />
+  _renderNameSelectContainer() {
+    return (
+      <View style={[styles.container, styles.modalBackgroundStyle]}>
 
-          <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
+        <Toolbar icon={this.props.isRegistrationInfoValid ? 'android-done' : 'android-close'}
+          iconClick={this.onClose}
+          title='Fill your profile' />
+
+        <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
           <View style={[styles.innerContainer]}>
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
                 <Text style={styles.inputLabelText}>Choose your Guild</Text>
               </View>
+
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
-
-              <ScrollView style={{flex:1,height:215}}>
-              {this.props.teams.map((team,i) =>
-                <Team
-                  key={team.get('id')}
-                  name={team.get('name')}
-                  teamid={team.get('id')}
-                  logo={team.get('imagePath')}
-                  selected={this.props.selectedTeam}
-                  onPress={this.onSelectTeam.bind(this, team.get('id'))} />
-              )}
-              </ScrollView>
+                <ScrollView style={{flex:1, height: 215}}>
+                  {this.props.teams.map((team,i) =>
+                    <Team
+                      key={team.get('id')}
+                      name={team.get('name')}
+                      teamid={team.get('id')}
+                      logo={team.get('imagePath')}
+                      selected={this.props.selectedTeam}
+                      onPress={this.onSelectTeam.bind(this, team.get('id'))} />
+                  )}
+                </ScrollView>
               </View>
             </View>
 
-            <View style={styles.inputGroup}>
-              <View style={styles.inputLabel}>
-                <Text style={styles.inputLabelText}>{`Hi there! What's your wappu name?`}</Text>
-              </View>
-              <View style={styles.inputFieldWrap}>
-                <TextInput
-                  ref={view => this.nameTextInputRef = view}
-                  autoCorrect={false}
-                  autoCapitalize={'words'}
-                  clearButtonMode={'while-editing'}
-                  returnKeyType={'done'}
-                  style={[styles.inputField, styles['inputField_' + Platform.OS]]}
-                  onChangeText={this.onChangeName}
-                  onFocus={() => {
-                    keyboard.onInputFocus(this.containerScrollViewRef, this.nameTextInputRef,300);
-                  }}
-                  onBlur={() => {
-                    keyboard.onInputBlur(this.containerScrollViewRef)
-                  }}
-                  value={this.props.name}
-                  />
-              </View>
-              {
-              this.props.selectedTeam ?
-              <View>
-                <TouchableOpacity onPress={this.onGenerateName}>
-                  <View style={styles.textButton}>
-                    <Icon name='loop' style={styles.textButtonIcon} />
-                    <Text style={styles.textButtonText}>Generate wappu name</Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-              :
-              <View />
-              }
-            </View>
-
+            {this._renderNameSelect()}
           </View>
-          </ScrollView>
-            <View style={styles.bottomButtons}>
-              <Button
-                onPress={this.onRegister}
-                style={styles.modalButton}
-                isDisabled={!this.props.isRegistrationInfoValid}>
-                Save
-              </Button>
-            </View>
+        </ScrollView>
+
+        <View style={styles.bottomButtons}>
+          <Button
+            onPress={this.onRegister}
+            style={styles.modalButton}
+            isDisabled={!this.props.isRegistrationInfoValid}>
+            Save
+          </Button>
         </View>
-      </Modal>
+      </View>
+    );
+  },
+
+  _renderNameSelect() {
+    return (
+      <View style={styles.inputGroup}>
+        <View style={styles.inputLabel}>
+          <Text style={styles.inputLabelText}>{`Hi there! What's your wappu name?`}</Text>
+        </View>
+        <View style={styles.inputFieldWrap}>
+          <TextInput
+            ref={view => this.nameTextInputRef = view}
+            autoCorrect={false}
+            autoCapitalize={'words'}
+            clearButtonMode={'while-editing'}
+            returnKeyType={'done'}
+            style={[styles.inputField, styles['inputField_' + Platform.OS]]}
+            onChangeText={this.onChangeName}
+            onFocus={() => {
+              keyboard.onInputFocus(this.containerScrollViewRef, this.nameTextInputRef,300);
+            }}
+            onBlur={() => {
+              keyboard.onInputBlur(this.containerScrollViewRef)
+            }}
+            value={this.props.name}
+          />
+        </View>
+
+        <View>
+          <TouchableOpacity onPress={this.onGenerateName}>
+            <View style={styles.textButton}>
+              <Icon name='loop' style={styles.textButtonIcon} />
+              <Text style={styles.textButtonText}>Generate wappu name</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
     );
   }
 });
@@ -239,11 +258,20 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 20,
     marginBottom: 10
+  },
+  introductionContainer: {
+    margin: 10,
+    marginTop: 20
+  },
+  introductionSecondaryText: {
+    marginTop: 10,
+    color: '#555'
   }
 });
 
 const select = store => {
   return {
+    isIntroductionDismissed: store.registration.get('isIntroductionDismissed'),
     isRegistrationViewOpen: store.registration.get('isRegistrationViewOpen'),
     name: store.registration.get('name'),
     selectedTeam: store.registration.get('selectedTeam'),

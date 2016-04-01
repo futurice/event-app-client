@@ -8,6 +8,7 @@ import {
   OPEN_REGISTRATION_VIEW,
   CLOSE_REGISTRATION_VIEW,
   UPDATE_NAME,
+  DISMISS_INTRODUCTION,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
@@ -19,7 +20,8 @@ const initialState = Immutable.fromJS({
   name: '',
   selectedTeam: 0,
   isLoading: false,
-  isError: false
+  isError: false,
+  isIntroductionDismissed: false
 });
 
 export default function registration(state = initialState, action) {
@@ -27,7 +29,12 @@ export default function registration(state = initialState, action) {
     case OPEN_REGISTRATION_VIEW:
       return state.set('isRegistrationViewOpen', true);
     case CLOSE_REGISTRATION_VIEW:
-      return state.set('isRegistrationViewOpen', false);
+      return state.merge({
+        isIntroductionDismissed: false,
+        isRegistrationViewOpen: false
+      });
+    case DISMISS_INTRODUCTION:
+      return state.set('isIntroductionDismissed', true);
     case UPDATE_NAME:
       return state.set('name', action.payload);
     case SELECT_TEAM:
