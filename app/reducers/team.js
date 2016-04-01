@@ -14,7 +14,8 @@ const initialState = Immutable.fromJS({
   isLoading: false,
   isError: false,
   selectedTeam: null,
-  isChooseTeamViewOpen: false
+  isChooseTeamViewOpen: false,
+  isRefreshing: false
 });
 
 export default function team(state = initialState, action) {
@@ -22,18 +23,21 @@ export default function team(state = initialState, action) {
     case GET_TEAMS_REQUEST:
       return state.merge({
         isLoading: true,
-        isError: false
+        isError: false,
+        isRefreshing: true
       });
     case GET_TEAMS_SUCCESS:
       return state.merge({
         isLoading: false,
         isError: false,
-        teams: action.payload
+        teams: action.payload,
+        isRefreshing: false
       });
     case GET_TEAMS_FAILURE:
       return state.merge({
         isLoading: false,
-        isError: true
+        isError: true,
+        isRefreshing: false
       });
     case SHOW_TEAM_SELECTOR:
       return state.set('isChooseTeamViewOpen', true);

@@ -8,10 +8,13 @@ import React, {
   ScrollView,
   PropTypes,
   Text,
+  RefreshControl
 } from 'react-native';
 import Immutable from 'immutable';
 import { connect } from 'react-redux';
 
+import theme from '../style/theme';
+import * as TeamActions from '../actions/team';
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
 const Icon = require('react-native-vector-icons/Ionicons');
@@ -26,6 +29,9 @@ const CompetitionView = React.createClass({
   componentDidMount() {
     analytics.viewOpened(VIEW_NAME);
   },
+  onRefreshFeed(){
+    this.props.dispatch(TeamActions.fetchTeams());
+  },
 
   render() {
     let topscore = 0;
@@ -33,6 +39,13 @@ const CompetitionView = React.createClass({
       topscore = Math.max(
         parseInt(team.get('score'), 10), topscore);
     });
+
+    const refreshControl = <RefreshControl
+      refreshing={this.props.isRefreshing}
+      onRefresh={this.onRefreshFeed}
+      colors={[theme.primary]}
+      tintColor={theme.primary}
+      progressBackgroundColor={theme.light} />;
 
     return (
       <View style={styles.container}>
@@ -50,7 +63,9 @@ const CompetitionView = React.createClass({
               </Text>
             </View>
           </View>
-        <ScrollView style={styles.leaderboard}>
+        <ScrollView style={styles.leaderboard}
+          refreshControl={refreshControl}
+        >
           {this.props.teams.map((team, index) =>
             <LeaderboardEntry key={team.get('id')} topscore={+topscore}
               team={team} position={index + 1} logo={team.get('imagePath')} />
@@ -107,6 +122,7 @@ const styles = StyleSheet.create({
 
 const select = store => {
   return {
+    isRefreshing: store.team.get('isRefreshing'),
     teams: store.team.get('teams'),
     actionTypes: store.competition.get('actionTypes')
   };
