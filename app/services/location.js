@@ -11,7 +11,7 @@ function getGeoUrl(event) {
     // On iOS use Apple Maps
     geoUrl = 'http://maps.apple.com/';
     geoUrl += '?z=' + ZOOM_LEVEL;
-    geoUrl += '&q=' + event.locationName;
+    geoUrl += '&q=' + encodeURIComponent(event.locationName);
     geoUrl += '&ll=' + latitude + ',' + longitude;
   } else {
     //<lat>,<long>?q=<lat>,<long>(Label+Name)"
