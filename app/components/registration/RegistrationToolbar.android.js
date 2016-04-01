@@ -20,8 +20,8 @@ const styles = StyleSheet.create({
 var EventDetailToolbar = React.createClass({
   propTypes: {
     title: PropTypes.string.isRequired,
-    icon: PropTypes.string.isRequired,
-    iconClick: PropTypes.func.isRequired
+    icon: PropTypes.string,
+    iconClick: PropTypes.func
   },
   _onActionSelected: function(position) {
   },
