@@ -67,6 +67,10 @@ const FeedList = React.createClass({
         dataSource: this.state.dataSource.cloneWithRows(feed)
       });
     }
+    // Scroll to top when user does an action
+    if(this.props.isSending){
+      this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
+    }
   },
 
   onRefreshFeed() {
@@ -129,6 +133,7 @@ const FeedList = React.createClass({
           <View style={styles.container}>
 
             <ListView
+              ref='_scrollView'
               dataSource={this.state.dataSource}
               renderRow={item => <FeedListItem item={item} />}
               style={[styles.listView]}
