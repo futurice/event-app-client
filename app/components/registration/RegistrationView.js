@@ -5,6 +5,7 @@ import React, {
   Text,
   TextInput,
   StyleSheet,
+  Dimensions,
   Platform,
   PropTypes,
   TouchableOpacity,
@@ -25,6 +26,7 @@ import * as keyboard from '../../utils/keyboard';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const IOS = Platform.OS === 'ios';
+const {height} = Dimensions.get('window');
 
 const RegistrationView = React.createClass({
   propTypes: {
@@ -102,7 +104,7 @@ const RegistrationView = React.createClass({
               </View>
 
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
-                <ScrollView style={{flex:1, height: 215}}>
+                <ScrollView style={{flex:1, height: height > 595 ? 210 : null}}>
                   {this.props.teams.map((team,i) =>
                     <Team
                       key={team.get('id')}
@@ -134,7 +136,7 @@ const RegistrationView = React.createClass({
 
   _renderNameSelect() {
     return (
-      <View style={styles.inputGroup}>
+      <View style={[styles.inputGroup, {marginBottom:4}]}>
         <View style={styles.inputLabel}>
           <Text style={styles.inputLabelText}>{`Hi there! What's your wappu name?`}</Text>
         </View>
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex:1,
-    paddingTop:Platform.OS === 'ios' ? 15 : 15,
+    paddingTop:Platform.OS === 'ios' ? 15 : 10,
   },
   bottomButtons:{
     flex:1,
@@ -209,9 +211,12 @@ const styles = StyleSheet.create({
     marginTop:0,
     borderRadius:2,
     elevation:1,
+    flex:1,
   },
   inputLabel:{
     padding:15,
+    paddingTop:13,
+    paddingBottom:13,
     borderBottomWidth:1,
     borderColor:'#ddd',
   },

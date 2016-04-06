@@ -5,7 +5,6 @@ import React, {
   Text,
   StyleSheet,
   Platform,
-  Image,
   ScrollView
 } from 'react-native';
 import theme from '../../style/theme';
@@ -28,7 +27,7 @@ const IntroView = React.createClass({
 
               <View style={[styles.row, {paddingTop: 30}]}>
                 <View style={styles.rowIconContainer}>
-                  <Icon name='android-chat' style={[styles.rowIcon, {color: theme.light}]} />
+                  <Icon name='android-star' style={[styles.rowIcon, {color: theme.light}]} />
                 </View>
 
                 <View style={styles.rowTextContainer}>
@@ -103,21 +102,16 @@ const styles = StyleSheet.create({
   header: {
     fontWeight: 'bold',
     color: theme.secondary,
-    paddingTop: 30,
-    paddingLeft: 30,
+    marginTop: 30,
+    marginLeft: IOS ? 25 : 15,
     fontSize: 28
-  },
-  imageContainer: {
-    flex: 1,
-    height: null,
-    width: null,
-    resizeMode: 'cover',
   },
   row: {
     padding: 20,
+    paddingLeft:15,
     paddingBottom: 25,
     flex: 1,
-    flexDirection:'row'
+    flexDirection: 'row'
   },
   rowNumberContainer: {
     paddingLeft: 10,
@@ -150,28 +144,26 @@ const styles = StyleSheet.create({
     textAlign:'center',
     color: theme.white,
     backgroundColor: 'rgba(0,0,0,0)',
-    fontSize: 24,
-    top: 3
+    fontSize: 24
   },
   rowTextContainer: {
     flex: 1,
-    top: 2,
     marginLeft: 20,
+    marginRight: 20
   },
   rowTitle:{
-    color:theme.secondary,
+    color: theme.secondary,
     fontWeight:'bold',
     fontSize: 18,
-    marginBottom: 8,
+    marginBottom: 4,
   },
   rowText: {
-    color: '#555',
-    backgroundColor: 'rgba(0,0,0,0)',
-    fontSize: 16,
+    color: IOS ? '#555' : '#888',
+    fontSize: 14,
     fontWeight: 'normal'
   },
   rowSecondaryText: {
-    paddingTop: 8
+    marginTop: 8
   },
   bottomButtons:{
     flex:1,

@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
   },
   gridListItemTitle: {
     fontSize: 14,
-    lineHeight:18,
     fontWeight: 'normal',
     textAlign: 'left',
     color: '#000',
@@ -133,11 +132,12 @@ export default React.createClass({
 
   render() {
     const item = this.props.item;
+    const lastInSection = this.props.lastInSection;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
     const startDay = time.getEventDay(item.startTime);
     const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
-    return <TouchableNativeFeedback onPress={this.props.handlePress} background={TouchableNativeFeedback.SelectableBackground()}>
+    return <TouchableNativeFeedback onPress={this.props.handlePress}  delayPressIn={30} background={TouchableNativeFeedback.SelectableBackground()}>
       <View style={styles.gridListItem}>
 
         <View style={styles.gridListItemContent}>
@@ -162,6 +162,7 @@ export default React.createClass({
           <Text style={styles.gridListItemPlace}>{item.locationName} {this.props.currentDistance}</Text>
 
         </View>
+
         <View style={styles.timeline} />
         <View style={styles.timelineCircle}>
           <View style={styles.timelineCircleInner} />

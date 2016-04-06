@@ -7,7 +7,7 @@
         <!-- Status Bar color -->
         <item name="colorPrimaryDark">#dd4997</item>
         <!-- Details color -->
-        <item name="colorAccent">#00d7d2</item>
+        <item name="colorAccent">#ec449c</item>
     </style>
 
 </resources>

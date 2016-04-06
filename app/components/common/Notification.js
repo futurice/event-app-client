@@ -24,9 +24,7 @@ const styles = StyleSheet.create({
     paddingTop: 18,
     paddingLeft: 10,
     paddingRight: 10,
-    paddingBottom: 18,
-    borderBottomColor: theme.primaryDark,
-    borderBottomWidth: 0
+    paddingBottom: 18
   },
   message: {
     color: '#fff',
@@ -91,15 +89,15 @@ class Notification extends Component {
   fadeIn() {
     Animated.timing(this.state.translate, {
       duration: 300,
-      easing: Easing.linear,
+      easing: Easing.ease,
       toValue: { x: 0, y: 0 }
     }).start();
   }
 
   fadeOut() {
     Animated.timing(this.state.translate, {
-      duration: 300,
-      easing: Easing.linear,
+      duration: 200,
+      easing: Easing.ease,
       toValue: { x: 0, y: -this.state.height }
     }).start();
   }

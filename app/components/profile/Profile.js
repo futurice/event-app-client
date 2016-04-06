@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     flex:1,
   },
   listItemIcon: {
-    fontSize: Platform.OS === 'ios' ? 22 :  24,
+    fontSize: 22,
     color: theme.primary,
     alignItems: 'center',
     width: 50,
@@ -53,11 +53,11 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 0,
     color: '#aaa',
-    top: 28,
+    top: 27,
   },
   listItemText:{
     color:'#000',
-    fontSize:18,
+    fontSize:16,
   },
   listItemText__highlight: {
     color:theme.primary
