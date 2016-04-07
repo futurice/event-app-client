@@ -56,7 +56,7 @@ The xcode-project is expecting that you have nvm installed. It can be reconfigur
 
 ### Android
 
-Running Android? Call Pasi
+Running Android? Call [Pasi](http://futurice.com/people/pasi-lampinen)
 
 
 ### Common problems
