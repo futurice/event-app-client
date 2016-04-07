@@ -104,3 +104,8 @@ Setup your IP address for debugging https://facebook.github.io/react-native/docs
 
 Issue: https://github.com/facebook/react-native/issues/1598
 Do this: https://github.com/facebook/react-native/issues/1598#issuecomment-172890857
+
+## Contributing
+
+Found a bug? Can't live without a feature? Submit a pull request, or if you want to get paid, [apply for a job at Futurice](http://futurice.com/careers) in Tampere, Helsinki, Stockholm, London, Berlin, or Munich.
+
