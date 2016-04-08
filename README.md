@@ -1,5 +1,7 @@
 [![Build Status](https://travis-ci.com/futurice/wappuapp-client.svg?token=4Z4JTnNSis9VpuFymYo8&branch=master)](https://travis-ci.com/futurice/wappuapp-client)
 
+* Backend repository here: https://github.com/futurice/wappuapp-backend
+
 # Whappu app
 
 ![](docs/logo.png)
