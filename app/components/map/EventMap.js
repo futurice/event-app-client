@@ -58,10 +58,10 @@ class EventMap extends Component {
   }
 
   render() {
-    const allEvents = [].concat(this.props.events);
+    const allEvents = [].concat(this.props.events.toJS());
 
     const firstFutureEvent = _
-      .chain([].concat(this.props.events))
+      .chain(allEvents)
       .filter(item => time.isEventInFuture(item.endTime))
       .sortBy(item => time.getTimeStamp(item.endTime))
       .head()
@@ -75,7 +75,7 @@ class EventMap extends Component {
     let locations = _.map(events, event => {
       return _.merge({}, event, {type: 'EVENT'});
     });
-    locations = locations.concat(this.props.markers);
+    locations = locations.concat(this.props.markers.toJS());
 
     // Filter markers which do not have correct type
     locations = locations.filter(location => {
@@ -278,8 +278,8 @@ class EventMap extends Component {
 
 EventMap.propTypes = {
   navigator: PropTypes.object.isRequired,
-  events: PropTypes.array.isRequired,
-  markers: PropTypes.array.isRequired,
+  events: PropTypes.object.isRequired,
+  markers: PropTypes.object.isRequired,
 }
 
 const styles = StyleSheet.create({
@@ -404,8 +404,8 @@ const select = store => {
   return {
     locateMe: store.event.get('locateMe'),
     showFilter: store.event.get('showFilter'),
-    events: store.event.get('list').toJS(),
-    markers: store.marker.get('list').toJS(),
+    events: store.event.get('list'),
+    markers: store.marker.get('list'),
     loading: store.event.get('listState') === LoadingStates.LOADING ||
              store.marker.get('listState') === LoadingStates.LOADING
   };

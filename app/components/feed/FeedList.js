@@ -64,11 +64,11 @@ const FeedList = React.createClass({
   componentWillReceiveProps({ feed }) {
     if (feed !== this.props.feed) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(feed)
+        dataSource: this.state.dataSource.cloneWithRows(feed.toJS())
       });
     }
     // Scroll to top when user does an action
-    if(this.props.isSending){
+    if (this.props.isSending){
       this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
     }
   },
@@ -169,11 +169,11 @@ const FeedList = React.createClass({
 });
 
 const select = store => {
-  const user = store.registration.toJS();
-  const isRegistrationInfoValid = user.name !== '' && user.selectedTeam > 0;
+  const isRegistrationInfoValid = store.registration.get('name') !== '' &&
+    store.registration.get('selectedTeam') > 0;
 
   return {
-    feed: store.feed.get('list').toJS(),
+    feed: store.feed.get('list'),
     feedListState: store.feed.get('listState'),
     isRefreshing: store.feed.get('isRefreshing'),
     isLoadingActionTypes: store.competition.get('isLoadingActionTypes'),
@@ -182,7 +182,6 @@ const select = store => {
     notificationText: store.competition.get('notificationText'),
     isSending: store.competition.get('isSending'),
 
-    user,
     isRegistrationInfoValid,
     isLoadingUserData: store.registration.get('isLoading'),
   };

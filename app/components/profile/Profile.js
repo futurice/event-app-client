@@ -82,7 +82,7 @@ var Profile = React.createClass({
   propTypes: {
     dispatch: PropTypes.func.isRequired,
     name: PropTypes.string.isRequired,
-    links: PropTypes.array.isRequired
+    links: PropTypes.object.isRequired
   },
 
   getInitialState() {
@@ -113,7 +113,7 @@ var Profile = React.createClass({
   },
 
   renderModalItem(item) {
-    const currentTeam = _.find(this.props.teams, ['id', this.props.selectedTeam]) || {name:''};
+    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]) || {name:''};
 
     return (
       <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary}
@@ -150,7 +150,7 @@ var Profile = React.createClass({
 
   render() {
     const listData = [{title:this.props.name,
-      icon:'person-outline', link:'', rightIcon:'create'}].concat(this.props.links)
+      icon:'person-outline', link:'', rightIcon:'create'}].concat(this.props.links.toJS())
 
     return (
       <View style={styles.container}>
@@ -167,9 +167,9 @@ var Profile = React.createClass({
 const select = store => {
   return {
       selectedTeam: store.registration.get('selectedTeam'),
-      teams: store.team.get('teams').toJS(),
+      teams: store.team.get('teams'),
       name: store.registration.get('name'),
-      links: store.profile.get('links').toJS(),
+      links: store.profile.get('links'),
     }
 };
 

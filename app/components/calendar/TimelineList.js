@@ -82,8 +82,8 @@ const styles = StyleSheet.create({
 
 var TimelineList = React.createClass({
   propTypes: {
-    announcements: PropTypes.array.isRequired,
-    events: PropTypes.array.isRequired,
+    announcements: PropTypes.object.isRequired,
+    events: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired,
     navigator: PropTypes.object.isRequired,
     eventsFetchState: PropTypes.oneOf(_.values(LoadingStates)).isRequired
@@ -129,14 +129,27 @@ var TimelineList = React.createClass({
     });
   },
 
-  updateListItems(events, announcements) {
+  updateListItems(eventsData, announcementData) {
+
+    let announcements = announcementData.toJS()
+      .map(item => {
+        item.timelineType = 'announcement';
+        return item;
+      });
+
+    let events = eventsData.toJS()
+      .map(item => {
+        item.timelineType = 'event';
+        return item;
+      });
+
     // TODO: Filter the past events away in here?
-    let listSections = _.groupBy(this.props.events,
+    let listSections = _.groupBy(events,
       event => moment(event.startTime).startOf('day').unix());
     const eventSectionsOrder = _.orderBy(_.keys(listSections));
 
     // Add the announcements-section to the listSections
-    listSections[ANNOUNCEMENTS_SECTION] = this.props.announcements;
+    listSections[ANNOUNCEMENTS_SECTION] = announcements;
 
     // Make the order to be that the first section is the announcements, then comes event sections
     const listOrder = [ANNOUNCEMENTS_SECTION, ...eventSectionsOrder];
@@ -237,21 +250,9 @@ var TimelineList = React.createClass({
 });
 
 const select = store => {
-  let announcements = store.announcement.get('list').toJS()
-    .map(item => {
-      item.timelineType = 'announcement';
-      return item;
-    });
-
-  let events = store.event.get('list').toJS()
-    .map(item => {
-      item.timelineType = 'event';
-      return item;
-    });
-
   return {
-    announcements,
-    events,
+    announcements: store.announcement.get('list'),
+    events: store.event.get('list'),
     eventsFetchState: store.event.get('listState'),
     userLocation: store.location.get('currentLocation')
   }
