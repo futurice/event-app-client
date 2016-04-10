@@ -78,11 +78,11 @@ const FeedList = React.createClass({
   },
 
   onLoadMoreItems() {
-    if (this.props.isRefreshing || !this.props.feed.length || this.props.feed.length < 10) {
+    if (this.props.isRefreshing || !this.props.feed.size || this.props.feed.size < 10) {
       return;
     }
 
-    const lastItemID = this.props.feed[this.props.feed.length - 1].id || '';
+    const lastItemID = this.props.feed.get(this.props.feed.size - 1).get('id') || '';
     if (lastItemID) {
       this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
     }

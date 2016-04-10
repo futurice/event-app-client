@@ -25,7 +25,8 @@ export default function feed(state = initialState, action) {
       return state.set('list', Immutable.fromJS(action.feed));
     case APPEND_FEED:
       return (action.feed && action.feed.length) ?
-        state.set('list', state.get('list').concat(action.feed)) :
+        state.set('list', Immutable.fromJS(state.get('list')
+          .concat(Immutable.fromJS(action.feed)))) :
         state;
     case GET_FEED_REQUEST:
       return state.set('listState', LoadingStates.LOADING);
