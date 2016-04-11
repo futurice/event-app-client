@@ -43,12 +43,19 @@ const RootView = React.createClass({
   componentDidMount() {
     HockeyApp.start();
 
+    const locationOpts = {
+      enableHighAccuracy: false,
+      timeout: 20000,
+      maximumAge: 1000 * 60 * 5
+    };
+
     navigator.geolocation.getCurrentPosition(
       position => this.updateLocation,
       error => console.log(error.message),
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 * 60 * 5 }
+      locationOpts
     );
-    this.watchID = navigator.geolocation.watchPosition(this.updateLocation);
+    this.watchID = navigator.geolocation.watchPosition(this.updateLocation,
+      locationOpts);
 
     // Statusbar style
     if (Platform.OS === 'ios') {
