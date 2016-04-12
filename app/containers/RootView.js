@@ -54,8 +54,11 @@ const RootView = React.createClass({
       error => console.log(error.message),
       locationOpts
     );
-    this.watchID = navigator.geolocation.watchPosition(this.updateLocation,
-      locationOpts);
+    this.watchID = navigator.geolocation.watchPosition(
+      this.updateLocation,
+      error => console.log(error.message),
+      locationOpts
+    );
 
     // Statusbar style
     if (Platform.OS === 'ios') {
