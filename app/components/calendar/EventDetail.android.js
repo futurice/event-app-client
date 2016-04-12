@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
   },
   detailEventInfoAttending: {
     fontSize:14,
-    color:theme.secondary,
+    color:'#777',
     alignSelf: 'center'
   },
   detailEventInfoTime: {
@@ -148,8 +148,10 @@ const styles = StyleSheet.create({
     fontSize:15,
   },
   gridListItemMetaInfo: {
-    color: '#888',
-    fontSize: 15
+    color: '#777',
+  },
+  gridListItemPlace:{
+    color:'#777'
   },
   gridListItemDistance: {
     color: '#000',
@@ -283,24 +285,20 @@ const EventDetail = React.createClass({
             }
 
             { model.facebookId &&
-              <View style={styles.detailEventInfoContainer}>
-              <View style={styles.detailEventInfoWrapper}>
-              { model.facebookId &&
                 <TouchableHighlight
-                style={styles.detailEventInfoWrapper}
+                underlayColor={'#eee'}
                 onPress={() =>
                   Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
-                  >
-                  <View style={styles.detailEventInfoWrapper}>
-                  <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
-                  <Text style={styles.detailEventInfoAttending}>
-                  {model.attendingCount} {model.attendingCount ? 'attending' : ''}
-                  </Text>
+                >
+                  <View style={styles.detailEventInfoContainer}>
+                    <View style={styles.detailEventInfoWrapper}>
+                      <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
+                      <Text style={styles.detailEventInfoAttending}>
+                      {model.attendingCount} {model.attendingCount ? 'attending' : ''}
+                      </Text>
+                    </View>
                   </View>
-                  </TouchableHighlight>
-                }
-                </View>
-                </View>
+                </TouchableHighlight>
               }
               </View>
 

@@ -137,7 +137,7 @@ export default React.createClass({
     const startDay = time.getEventDay(item.startTime);
     const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
-    return <TouchableNativeFeedback onPress={this.props.handlePress}  delayPressIn={30} background={TouchableNativeFeedback.SelectableBackground()}>
+    return <TouchableNativeFeedback onPress={this.props.handlePress}  delayPressIn={100} background={TouchableNativeFeedback.SelectableBackground()}>
       <View style={styles.gridListItem}>
 
         <View style={styles.gridListItemContent}>
