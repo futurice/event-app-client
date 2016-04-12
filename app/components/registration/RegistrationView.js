@@ -104,7 +104,7 @@ const RegistrationView = React.createClass({
               </View>
 
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
-                <ScrollView style={{flex:1, height: height > 595 ? 210 : null}}>
+                <ScrollView style={{flex:1, height: (IOS || height > 605) ? 210 : null}}>
                   {this.props.teams.map((team,i) =>
                     <Team
                       key={team.get('id')}
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
   innerContainer: {
     flex:1,
-    paddingTop:Platform.OS === 'ios' ? 15 : 10,
+    paddingTop:IOS ? 15 : 10,
   },
   bottomButtons:{
     flex:1,
