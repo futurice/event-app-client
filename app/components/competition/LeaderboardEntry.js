@@ -164,11 +164,14 @@ const styles = StyleSheet.create({
   },
   entryTitleScoreOver:{
     position:'absolute',
-    left:8,
-    top:Platform.OS === 'ios' ? 6 : 2,
-    fontSize:15,
+    left:6,
+    top:Platform.OS === 'ios' ? 7 : 3,
+    fontSize:14,
     fontWeight:'bold',
-    color:'#fff'
+    color:'#fff',
+    textShadowColor:'#873a6d',
+    textShadowOffset: {width: 0, height: 1},
+    textShadowRadius: 1
   },
   barWrap:{
     backgroundColor:'transparent',

@@ -87,11 +87,11 @@ const styles = StyleSheet.create({
     margin:20,
     marginBottom:0,
     marginTop:5,
-    padding: Platform.OS === 'ios' ? 13 : 9,
+    padding: Platform.OS === 'ios' ? 13 : 13,
     paddingLeft:7,
     paddingRight:5,
     justifyContent:'space-between',
-    borderBottomWidth:1,
+    borderBottomWidth:2,
     borderBottomColor:'#eee',
   },
   leaderboardIconWrap:{
@@ -101,14 +101,14 @@ const styles = StyleSheet.create({
   leaderboardIcon: {
     color:'#FFCC03',
     fontSize:44,
-    top:5
+    top:4
   },
   leaderboardIntroTextWrap:{
     flex:1,
   },
   leaderboardIntroText:{
     color:'#212121',
-    fontSize:12
+    fontSize:11
   },
   leaderboardIntroText__grey:{
     color:'#aaa',
