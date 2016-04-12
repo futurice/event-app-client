@@ -24,7 +24,7 @@ import theme from '../../style/theme';
 const styles = StyleSheet.create({
   itemWrapper: {
     width: Dimensions.get('window').width,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#eee',
     paddingBottom: 15
   },
   itemContent:{
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   itemTextWrapper: {
-    paddingLeft: 41,
+    paddingLeft: 40,
     paddingRight: 30,
     paddingTop: 0,
     paddingBottom: 10,
@@ -106,8 +106,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   itemTimestamp: {
+    top:2,
     color: '#aaa',
-    fontSize: 13
+    fontSize: 11
   },
   itemContent__admin:{
     marginTop: 0,
@@ -116,23 +117,27 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     borderRadius: 2,
-    backgroundColor: '#fffff4'
+    backgroundColor: '#f8efe4'
   },
   itemTextWrapper__admin: {
     paddingLeft: 25,
+    paddingRight: 15
   },
   feedItemListItemInfo__admin: {
     paddingLeft: 0,
-    paddingBottom: 15,
+    paddingBottom: 18,
   },
   feedItemListItemAuthor__admin:  {
     paddingLeft: 25,
   },
+  itemTimestamp__admin:{
+    color: '#b5afa6'
+  },
   feedItemListText__admin: {
-    color: 'rgba(30,20,0,.6)',
-    fontWeight: 'normal',
-    fontSize: 15,
-    lineHeight: 23,
+    color: '#9d9384',
+    fontWeight: 'bold',
+    fontSize: 13,
+    lineHeight: 19,
   }
 });
 
@@ -210,7 +215,7 @@ const FeedListItem = React.createClass({
           <View style={[styles.feedItemListItemInfo, styles.feedItemListItemInfo__admin]}>
             <View style={[styles.feedItemListItemAuthor, styles.feedItemListItemAuthor__admin]}>
               <Text style={styles.itemAuthorName}>Whappu</Text>
-              <Text style={styles.itemTimestamp}>{ago}</Text>
+              <Text style={[styles.itemTimestamp, styles.itemTimestamp__admin]}>{ago}</Text>
             </View>
           </View>
 

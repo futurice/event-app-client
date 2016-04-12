@@ -47,6 +47,7 @@ const FeedList = React.createClass({
   mixins: [TimerMixin],
   getInitialState() {
     return {
+      showScrollTopButton: false,
       dataSource: new ListView.DataSource({ rowHasChanged: (row1, row2) => row1 !== row2 })
     };
   },
@@ -69,7 +70,25 @@ const FeedList = React.createClass({
     }
     // Scroll to top when user does an action
     if (this.props.isSending){
-      this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
+      this.scrollTop();
+    }
+  },
+  scrollTop() {
+    if (this.refs._scrollView){
+     this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
+    }
+  },
+
+  _onScroll(event){
+    const SHOW_SCROLLTOP_LIMIT = 600;
+    const scrollTop = event.nativeEvent.contentOffset.y;
+
+    const showScrollTopButton = scrollTop > SHOW_SCROLLTOP_LIMIT;
+
+    if (this.state.showScrollTopButton !== showScrollTopButton) {
+      this.setState({
+        showScrollTopButton: showScrollTopButton
+      })
     }
   },
 
@@ -137,6 +156,7 @@ const FeedList = React.createClass({
               dataSource={this.state.dataSource}
               renderRow={item => <FeedListItem item={item} />}
               style={[styles.listView]}
+              onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
 
@@ -144,7 +164,10 @@ const FeedList = React.createClass({
               isRegistrationInfoValid={this.props.isRegistrationInfoValid}
               style={styles.actionButtons}
               isLoading={isLoading}
-              onPressAction={this.onPressAction} />
+              onPressAction={this.onPressAction}
+              onScrollTop={this.scrollTop}
+              showScrollTopButton={this.state.showScrollTopButton}
+              />
           </View>
         );
     }

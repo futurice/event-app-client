@@ -239,6 +239,18 @@ const ActionButtons = React.createClass({
   },
 
   renderMenuButton() {
+    // Show scroll top button instead of add button when scrolled down
+    if (this.props.showScrollTopButton) {
+      return (
+      <ActionButton onPress={this.props.onScrollTop}
+        extraStyle={styles.mainButton}>
+        <View >
+          <Icon name={'keyboard-arrow-up'} size={26} style={styles.actionButtonContent}></Icon>
+        </View>
+      </ActionButton>
+      );
+    }
+
     const rotation = this.state.plusButton.interpolate({
       inputRange: [0, 1], outputRange: ['0deg', '225deg']
     });
@@ -253,7 +265,6 @@ const ActionButtons = React.createClass({
   },
 
   render() {
-      console.log("actionbutton: render for actionbutton");
     const { isLoading, actionTypes, style } = this.props;
 
     if (isLoading || !actionTypes || actionTypes.size === 0) {
