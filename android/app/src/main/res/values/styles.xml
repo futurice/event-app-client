@@ -6,8 +6,6 @@
         <item name="colorPrimary">#ec449c</item>
         <!-- Status Bar color -->
         <item name="colorPrimaryDark">#dd4997</item>
-        <!-- Details color -->
-        <item name="colorAccent">#ec449c</item>
     </style>
 
 </resources>
