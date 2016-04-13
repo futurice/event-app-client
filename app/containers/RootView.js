@@ -1,6 +1,6 @@
 'use strict';
 
-import React, { Platform, StatusBarIOS } from 'react-native';
+import React, { Platform, StatusBarIOS, AppStateIOS } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -13,6 +13,7 @@ import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
 import * as ENV from '../../env';
+import { checkForUpdates } from '../utils/updater';
 var HockeyApp = require('react-native-hockeyapp');
 
 const middlewares = [thunk];
@@ -62,8 +63,19 @@ const RootView = React.createClass({
 
     // Statusbar style
     if (Platform.OS === 'ios') {
+
       StatusBarIOS.setHidden(false)
       StatusBarIOS.setStyle('light-content')
+
+      // check for updates when app is resumed
+      AppStateIOS.addEventListener('change', state => {
+        if (state === 'active') {
+          checkForUpdates();
+        }
+      });
+
+      // and check once on startup
+      checkForUpdates();
     }
   },
 
