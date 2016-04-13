@@ -33,6 +33,56 @@ Short facts:
 * `cd android && ./gradlew assembleRelease --no-daemon`
 * Built .apk is saved to `android/app/build/outputs/apk`
 
+### Incremental updates with Code Push
+
+We support pushing live updates to the app through [Code Push](https://microsoft.github.io/code-push/). **Only iOS for now, Android coming soon.**
+
+Only JavaScript files and image assets can be updated through Code Push. If the update involves
+any native code changes, it must be submitted through Play Store/App Store.
+
+Install Code Push CLI:
+```
+npm i -g code-push-cli
+```
+
+Log into code push (credentials in Futurice password safe):
+```
+code-push login
+```
+
+Release an update:
+```
+code-push release-react Whappu ios \
+  --deploymentName Production \
+  --description "\n\nIn this version:\n * Such updates\n * Much wow\n * Very update"
+```
+
+(Check `code-push release-react` for interesting options such as `--mandatory` or staged `--rollout`)
+
+#### Testing Code Push updates before production release
+
+Code Push comes with a Staging environment. The deployment key that indicates which environment to use is configured in the `Info.plist` key `CodePushDeploymentKey`.
+
+You can get the staging deployment key by executing:
+```
+code-push deployment ls -k Whappu
+```
+
+#### Testing Code Push updates on a local device
+
+Code Push is only used in Release configuration builds. To launch an app from XCode to device and test updates, change the `Run` mode build configuration to `Release`.
+
+#### Testing Code Push updates on a simulator
+
+After the step above, in order to run a release build on a simulator you need to comment out the following lines in `node_modules/react-native/packager/react-native-xcode.sh`:
+
+```
+if [[ "$PLATFORM_NAME" = "iphonesimulator" ]]; then
+  echo "Skipping bundling for Simulator platform"
+  exit 0;
+fi
+```
+
 ## Local development
 
 **BEFORE JUMPING TO IOS OR ANDROID GUIDE, FOLLOW THESE GUIDES:**
@@ -110,4 +160,3 @@ Do this: https://github.com/facebook/react-native/issues/1598#issuecomment-17289
 ## Contributing
 
 Found a bug? Can't live without a feature? Submit a pull request, or if you want to get paid, [apply for a job at Futurice](http://futurice.com/careers) in Tampere, Helsinki, Stockholm, London, Berlin, or Munich.
-
