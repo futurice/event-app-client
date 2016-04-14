@@ -60,6 +60,9 @@ const styles = StyleSheet.create({
     height: 400,
     backgroundColor: '#ddd'
   },
+  feedItemListItemImg__admin: {
+    width: Dimensions.get('window').width - 30
+  },
   feedItemListItemInfo: {
     flex: 1,
     flexDirection: 'row',
@@ -223,7 +226,7 @@ const FeedListItem = React.createClass({
             <View style={styles.itemImageWrapper}>
               <Image
                 source={{ uri: item.url }}
-                style={styles.feedItemListItemImg} />
+                style={[styles.feedItemListItemImg, styles.feedItemListItemImg__admin]} />
             </View>
           :
             <View style={[styles.itemTextWrapper, styles.itemTextWrapper__admin]}>
