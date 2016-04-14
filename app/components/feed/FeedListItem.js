@@ -24,8 +24,9 @@ import theme from '../../style/theme';
 const styles = StyleSheet.create({
   itemWrapper: {
     width: Dimensions.get('window').width,
-    backgroundColor: '#eee',
-    paddingBottom: 15
+    backgroundColor: '#f2f2f2',
+    paddingBottom: 10,
+    paddingTop:5,
   },
   itemContent:{
     flex: 1,
@@ -106,18 +107,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   itemTimestamp: {
-    top:2,
+    top:  Platform.OS === 'ios' ? 1 : 2,
     color: '#aaa',
     fontSize: 11
   },
   itemContent__admin:{
-    marginTop: 0,
     marginLeft: 15,
     marginRight: 15,
     paddingTop: 0,
     paddingBottom: 0,
     borderRadius: 2,
-    backgroundColor: '#f8efe4'
+    backgroundColor: '#faf5ee'
   },
   itemTextWrapper__admin: {
     paddingLeft: 25,
@@ -134,9 +134,9 @@ const styles = StyleSheet.create({
     color: '#b5afa6'
   },
   feedItemListText__admin: {
-    color: '#9d9384',
+    color: '#7d776e',
     fontWeight: 'bold',
-    fontSize: 13,
+    fontSize: 12,
     lineHeight: 19,
   }
 });

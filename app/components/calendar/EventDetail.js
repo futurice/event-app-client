@@ -6,7 +6,7 @@ var {
   StyleSheet,
   Text,
   Dimensions,
-  TouchableHighlight,
+  TouchableOpacity,
   View,
   PropTypes,
   Platform,
@@ -155,11 +155,11 @@ const EventDetail = React.createClass({
           <EventDetailHero item={model} currentDistance={currentDistance} />
         }
 
-       {model.facebookId && this.getEventStatus(timepoint) &&
+       {(model.facebookId || this.getEventStatus(timepoint)) &&
         <View style={styles.detailEventInfoContainer}>
           <View style={styles.detailEventInfoWrapper}>
             {model.facebookId &&
-            <TouchableHighlight
+            <TouchableOpacity
               style={styles.detailEventInfoWrapper}
               onPress={() =>
                 Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
@@ -167,10 +167,10 @@ const EventDetail = React.createClass({
               <View style={styles.detailEventInfoWrapper}>
                 <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
                 <Text style={styles.detailEventInfoAttending}>
-                  {model.attendingCount}
+                  {model.attendingCount} {model.attendingCount ? 'attending' : null}
                 </Text>
               </View>
-            </TouchableHighlight>
+            </TouchableOpacity>
             }
           </View>
           <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
