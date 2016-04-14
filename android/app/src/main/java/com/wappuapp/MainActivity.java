@@ -1,6 +1,7 @@
 package com.wappuapp;
 
 import com.facebook.react.ReactActivity;
+import com.microsoft.codepush.react.CodePush;
 import com.imagepicker.ImagePickerPackage;
 import com.AirMaps.AirPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -42,6 +43,7 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
           new RNHockeyAppPackage(this),
           new MainReactPackage(),
+            new CodePush("8NxIp9cI4yfPOOUkk6AR1BOr5gjgNy6by4LyW", this, BuildConfig.DEBUG),
           new ImagePickerPackage(),
           new RNDeviceInfo(),
           new AirPackage(),
