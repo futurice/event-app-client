@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
   imgWrap:{
     flex:1,
     backgroundColor: '#DDD',
-    height:140,
+    height:200,
     marginBottom:15,
     margin:-20,
   },

@@ -16,6 +16,7 @@ import { connect } from 'react-redux';
 
 import _ from 'lodash';
 const Icon = require('react-native-vector-icons/Ionicons');
+const MDIcon = require('react-native-vector-icons/MaterialIcons');
 import analytics from '../../services/analytics';
 import * as MarkerActions from '../../actions/marker';
 import * as EventActions from '../../actions/event';
@@ -24,6 +25,13 @@ import Loader from '../common/Loader';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 import LoadingStates from '../../constants/LoadingStates';
+
+// Disable map on some devices
+const DeviceInfo = require('react-native-device-info');
+const Manufacturer = DeviceInfo.getManufacturer();
+const OSVersion = DeviceInfo.getSystemVersion();
+const disableMap = Platform.OS === 'android' && parseInt(OSVersion) >= 6 &&
+  (Manufacturer.indexOf('Sony') >= 0 || Manufacturer === 'OnePlus');
 
 const MARKER_IMAGES = {
   EVENT: require('../../../assets/marker.png'),
@@ -96,6 +104,10 @@ class EventMap extends Component {
       </MapView.Marker>;
     });
 
+    if (disableMap){
+      return ( this._renderDisabledMapAnnouncement(firstFutureEvent) );
+    }
+
     return (
       <View style={{flex:1}}>
         <MapView style={styles.map}
@@ -122,6 +134,19 @@ class EventMap extends Component {
 
       </View>
     );
+  }
+
+
+  _renderDisabledMapAnnouncement(event) {
+    return (<View style={styles.emptyWrap}>
+      <View style={styles.emptyIconWrap}>
+        <MDIcon name="nature-people" style={styles.emptyIcon} />
+      </View>
+      <View style={styles.emptyContent}>
+        <Text style={styles.emptyTitle}>Oh noes!</Text>
+        <Text style={styles.emptyText}>Event Map is not currently supported on your device. Be safe out there.</Text>
+      </View>
+    </View>);
   }
 
   _renderEventMarker(event) {
@@ -396,6 +421,35 @@ const styles = StyleSheet.create({
     elevation: 1,
     backgroundColor: 'transparent',
     opacity: 0
+  },
+  emptyWrap: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#DDD'
+  },
+  emptyIconWrap: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  emptyIcon: {
+    color: '#bbb',
+    fontSize: 100
+  },
+  emptyContent: {
+    paddingTop: 10,
+    paddingBottom: 15,
+    padding: 50,
+    alignItems: 'center',
+  },
+  emptyTitle: {
+    fontSize: 30,
+    textAlign: 'center',
+    color:'#666'
+  },
+  emptyText: {
+    textAlign: 'center',
+    color:'#999'
   }
 });
 
