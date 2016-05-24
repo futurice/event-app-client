@@ -5,7 +5,7 @@ const Terms = [
   {title: 'Privacy', link: `${ROOT_URL}/privacy`, icon: 'lock-outline'},
   {title: 'Licenses', link: `${ROOT_URL}/licenses`, icon: 'help-outline'},
   {title: 'Wanna work at Futurice?',
-    link: 'http://futurice.com/careers?utm_source=wappuapp&utm_medium=app&utm_campaign=wappu2016',
+    link: 'http://futurice.com/careers?utm_source=futurice-event-app&utm_medium=app&utm_campaign=wappu2016',
     icon: 'send'}
 ];
 

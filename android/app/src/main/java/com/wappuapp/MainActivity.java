@@ -1,4 +1,4 @@
-package com.wappuapp;
+package com.futurice-event-app;
 
 import com.facebook.react.ReactActivity;
 import com.microsoft.codepush.react.CodePush;
@@ -22,7 +22,7 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "wappuapp";
+        return "futurice-event-app";
     }
 
     /**

@@ -16,8 +16,8 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "Whappu.app"
-               BlueprintName = "wappuapp"
-               ReferencedContainer = "container:wappuapp.xcodeproj">
+               BlueprintName = "futurice-event-app"
+               ReferencedContainer = "container:futurice-event-app.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -29,9 +29,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "wappuappTests.xctest"
-               BlueprintName = "wappuappTests"
-               ReferencedContainer = "container:wappuapp.xcodeproj">
+               BuildableName = "futurice-event-appTests.xctest"
+               BlueprintName = "futurice-event-appTests"
+               ReferencedContainer = "container:futurice-event-app.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -47,9 +47,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "wappuappTests.xctest"
-               BlueprintName = "wappuappTests"
-               ReferencedContainer = "container:wappuapp.xcodeproj">
+               BuildableName = "futurice-event-appTests.xctest"
+               BlueprintName = "futurice-event-appTests"
+               ReferencedContainer = "container:futurice-event-app.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -58,8 +58,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "Whappu.app"
-            BlueprintName = "wappuapp"
-            ReferencedContainer = "container:wappuapp.xcodeproj">
+            BlueprintName = "futurice-event-app"
+            ReferencedContainer = "container:futurice-event-app.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -81,8 +81,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "Whappu.app"
-            BlueprintName = "wappuapp"
-            ReferencedContainer = "container:wappuapp.xcodeproj">
+            BlueprintName = "futurice-event-app"
+            ReferencedContainer = "container:futurice-event-app.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -100,8 +100,8 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "Whappu.app"
-            BlueprintName = "wappuapp"
-            ReferencedContainer = "container:wappuapp.xcodeproj">
+            BlueprintName = "futurice-event-app"
+            ReferencedContainer = "container:futurice-event-app.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

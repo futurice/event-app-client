@@ -1,13 +1,12 @@
-The Wappuapp Client is copyright 2016, The Wappuapp Client Developers and Futurice Oy. 
-See GitHub contributors (https://github.com/futurice/wappuapp-client/graphs/contributors) for a list.
+The Futurice Event App Client is copyright 2016, The Futurice Event App Client Developers and Futurice Oy. 
+See GitHub contributors (https://github.com/futurice/futurice-event-app-client/graphs/contributors) for a list.
 
 Licensed under the MIT license (LICENSE or http://opensource.org/licenses/MIT).
 
-Wappuapp Client also includes packages written by third parties. The following 3rd party 
+Futurice Event App Client also includes packages written by third parties. The following 3rd party
 packages are included. They carry their own copyright notices and license terms:
 
 EXAMPLE:
 
-  - ProgressBar.js (https://github.com/kimmobrunfeldt/progressbar.js/) copyright Kimmo Brunfeldt 
+  - ProgressBar.js (https://github.com/kimmobrunfeldt/progressbar.js/) copyright Kimmo Brunfeldt
     is licensed under MIT (http://opensource.org/licenses/MIT).
-    

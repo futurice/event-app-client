@@ -38,7 +38,7 @@
 		88387F9C428F4ECCBBFCA085 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BA08A9EE9B3F47B6B10BBE98 /* EvilIcons.ttf */; };
 		AFBA8E17CF944F7A9B438961 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 38A9FE7BCF8447DF9D7DAEC6 /* libRNVectorIcons.a */; };
 		CC4BBCA4F72742B3BB297AD8 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1C1E69C1B10F4F37B64501B0 /* libAirMaps.a */; };
-		E11AAC97C27321DD1FE670BB /* libPods-wappuapp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */; };
+		E11AAC97C27321DD1FE670BB /* libPods-futurice-event-app.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B7D8AEF0F5253458D631B323 /* libPods-futurice-event-app.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,7 +82,7 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = wappuapp;
+			remoteInfo = futurice-event-app;
 		};
 		082B19D41C91CB440096720C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -170,7 +170,7 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
-		00E356EE1AD99517003FC87E /* wappuappTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wappuappTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		00E356EE1AD99517003FC87E /* futurice-event-appTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = futurice-event-appTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		082B19D01C91CB440096720C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		08AED6A71C93270800CDE30F /* RNLocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNLocation.xcodeproj; path = "../node_modules/react-native-location/RNLocation.xcodeproj"; sourceTree = "<group>"; };
 		08AED6AE1C93284900CDE30F /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -180,12 +180,12 @@
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Whappu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Whappu.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = wappuapp/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = wappuapp/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = futurice-event-app/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = futurice-event-app/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = wappuapp/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = wappuapp/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = wappuapp/main.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = futurice-event-app/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = futurice-event-app/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = futurice-event-app/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1C1E69C1B10F4F37B64501B0 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		1DB0566430504D6B905BAFF2 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
@@ -202,11 +202,11 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8AD312F23BD64C4E9577C26E /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		9059A6A55AB242BC9651BC1E /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wappuapp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp.debug.xcconfig"; sourceTree = "<group>"; };
-		B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wappuapp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A59AC5233F3392624F24C29C /* Pods-futurice-event-app.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-futurice-event-app.debug.xcconfig"; path = "Pods/Target Support Files/Pods-futurice-event-app/Pods-futurice-event-app.debug.xcconfig"; sourceTree = "<group>"; };
+		B7D8AEF0F5253458D631B323 /* libPods-futurice-event-app.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-futurice-event-app.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BA08A9EE9B3F47B6B10BBE98 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
 		BF3431218EFB4E3CB655F80B /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
-		FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wappuapp.release.xcconfig"; path = "Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp.release.xcconfig"; sourceTree = "<group>"; };
+		FD0C1B83E250083AD78D1F5F /* Pods-futurice-event-app.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-futurice-event-app.release.xcconfig"; path = "Pods/Target Support Files/Pods-futurice-event-app/Pods-futurice-event-app.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,7 +238,7 @@
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				AFBA8E17CF944F7A9B438961 /* libRNVectorIcons.a in Frameworks */,
 				CC4BBCA4F72742B3BB297AD8 /* libAirMaps.a in Frameworks */,
-				E11AAC97C27321DD1FE670BB /* libPods-wappuapp.a in Frameworks */,
+				E11AAC97C27321DD1FE670BB /* libPods-futurice-event-app.a in Frameworks */,
 				530A4F4FA0814A2F92AF8B28 /* libCodePush.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -314,7 +314,7 @@
 			isa = PBXGroup;
 			children = (
 				4B4F41211CBD796F005A860E /* libz.tbd */,
-				B7D8AEF0F5253458D631B323 /* libPods-wappuapp.a */,
+				B7D8AEF0F5253458D631B323 /* libPods-futurice-event-app.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -335,7 +335,7 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		13B07FAE1A68108700A75B9A /* wappuapp */ = {
+		13B07FAE1A68108700A75B9A /* futurice-event-app */ = {
 			isa = PBXGroup;
 			children = (
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
@@ -346,7 +346,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
-			name = wappuapp;
+			name = futurice-event-app;
 			sourceTree = "<group>";
 		};
 		146834001AC3E56700842450 /* Products */ = {
@@ -375,8 +375,8 @@
 		2D8B8EA9199FFF6DD6898517 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */,
-				FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */,
+				A59AC5233F3392624F24C29C /* Pods-futurice-event-app.debug.xcconfig */,
+				FD0C1B83E250083AD78D1F5F /* Pods-futurice-event-app.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -442,7 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				08AED6AE1C93284900CDE30F /* CoreLocation.framework */,
-				13B07FAE1A68108700A75B9A /* wappuapp */,
+				13B07FAE1A68108700A75B9A /* futurice-event-app */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				280C357C3F9A47288CC331C2 /* Resources */,
@@ -457,7 +457,7 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* Whappu.app */,
-				00E356EE1AD99517003FC87E /* wappuappTests.xctest */,
+				00E356EE1AD99517003FC87E /* futurice-event-appTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -473,9 +473,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		00E356ED1AD99517003FC87E /* wappuappTests */ = {
+		00E356ED1AD99517003FC87E /* futurice-event-appTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "wappuappTests" */;
+			buildConfigurationList = 00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "futurice-event-appTests" */;
 			buildPhases = (
 				00E356EA1AD99517003FC87E /* Sources */,
 				00E356EB1AD99517003FC87E /* Frameworks */,
@@ -486,14 +486,14 @@
 			dependencies = (
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
-			name = wappuappTests;
-			productName = wappuappTests;
-			productReference = 00E356EE1AD99517003FC87E /* wappuappTests.xctest */;
+			name = futurice-event-appTests;
+			productName = futurice-event-appTests;
+			productReference = 00E356EE1AD99517003FC87E /* futurice-event-appTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		13B07F861A680F5B00A75B9A /* wappuapp */ = {
+		13B07F861A680F5B00A75B9A /* futurice-event-app */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wappuapp" */;
+			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "futurice-event-app" */;
 			buildPhases = (
 				17093B83782473347CF5E232 /* Check Pods Manifest.lock */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
@@ -507,7 +507,7 @@
 			);
 			dependencies = (
 			);
-			name = wappuapp;
+			name = futurice-event-app;
 			productName = "Hello World";
 			productReference = 13B07F961A680F5B00A75B9A /* Whappu.app */;
 			productType = "com.apple.product-type.application";
@@ -530,7 +530,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "wappuapp" */;
+			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "futurice-event-app" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -609,8 +609,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				13B07F861A680F5B00A75B9A /* wappuapp */,
-				00E356ED1AD99517003FC87E /* wappuappTests */,
+				13B07F861A680F5B00A75B9A /* futurice-event-app */,
+				00E356ED1AD99517003FC87E /* futurice-event-appTests */,
 			);
 		};
 /* End PBXProject section */
@@ -799,7 +799,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp-resources.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-futurice-event-app/Pods-futurice-event-app-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		E1E9AF2799E74F6CEA8C9104 /* Embed Pods Frameworks */ = {
@@ -814,7 +814,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-wappuapp/Pods-wappuapp-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-futurice-event-app/Pods-futurice-event-app-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -842,7 +842,7 @@
 /* Begin PBXTargetDependency section */
 		00E356F51AD99517003FC87E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 13B07F861A680F5B00A75B9A /* wappuapp */;
+			target = 13B07F861A680F5B00A75B9A /* futurice-event-app */;
 			targetProxy = 00E356F41AD99517003FC87E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -854,7 +854,7 @@
 				13B07FB21A68108700A75B9A /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = wappuapp;
+			path = futurice-event-app;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -872,7 +872,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = wappuappTests/Info.plist;
+				INFOPLIST_FILE = futurice-event-appTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -883,7 +883,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wappuapp.app/wappuapp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/futurice-event-app.app/futurice-event-app";
 			};
 			name = Debug;
 		};
@@ -896,7 +896,7 @@
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = wappuappTests/Info.plist;
+				INFOPLIST_FILE = futurice-event-appTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
@@ -907,13 +907,13 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/wappuapp.app/wappuapp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/futurice-event-app.app/futurice-event-app";
 			};
 			name = Release;
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A59AC5233F3392624F24C29C /* Pods-wappuapp.debug.xcconfig */;
+			baseConfigurationReference = A59AC5233F3392624F24C29C /* Pods-futurice-event-app.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -926,7 +926,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 				);
-				INFOPLIST_FILE = wappuapp/Info.plist;
+				INFOPLIST_FILE = futurice-event-app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -941,7 +941,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FD0C1B83E250083AD78D1F5F /* Pods-wappuapp.release.xcconfig */;
+			baseConfigurationReference = FD0C1B83E250083AD78D1F5F /* Pods-futurice-event-app.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -953,7 +953,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native-code-push/ios/CodePush/**",
 				);
-				INFOPLIST_FILE = wappuapp/Info.plist;
+				INFOPLIST_FILE = futurice-event-app/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
@@ -1064,7 +1064,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "wappuappTests" */ = {
+		00E357021AD99517003FC87E /* Build configuration list for PBXNativeTarget "futurice-event-appTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				00E356F61AD99517003FC87E /* Debug */,
@@ -1073,7 +1073,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "wappuapp" */ = {
+		13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "futurice-event-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				13B07F941A680F5B00A75B9A /* Debug */,
@@ -1082,7 +1082,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "wappuapp" */ = {
+		83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "futurice-event-app" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,

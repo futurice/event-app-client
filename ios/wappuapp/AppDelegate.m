@@ -32,7 +32,7 @@
   #endif
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
-                                                      moduleName:@"wappuapp"
+                                                      moduleName:@"futurice-event-app"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
 

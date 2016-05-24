@@ -1,4 +1,4 @@
-rootProject.name = 'wappuapp'
+rootProject.name = 'futurice-event-app'
 
 include ':app'
 include ':react-native-vector-icons'

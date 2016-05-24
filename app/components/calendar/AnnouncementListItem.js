@@ -91,7 +91,7 @@ export default React.createClass({
   // jscs:disable maximumLineLength,requireCamelCaseOrUpperCaseIdentifiers
   render() {
     const item = this.props.item;
-    const fallbackImage = 'https://storage.googleapis.com/wappuapp/assets/wappu-team-says.jpg';
+    const fallbackImage = 'https://storage.googleapis.com/futurice-event-app/assets/wappu-team-says.jpg';
 
     if (!item) {
       return <Loader />;
