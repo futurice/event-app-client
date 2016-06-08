@@ -1,0 +1,9 @@
+export default {
+  RADIO: 'RADIO',
+  CALENDAR: 'CALENDAR',
+  PHOTO: 'PHOTO',
+  MAP: 'MAP',
+  ACTION: 'ACTION',
+  FEED: 'FEED',
+  SETTINGS: 'SETTINGS'
+};

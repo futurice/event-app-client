@@ -1,0 +1,56 @@
+{
+  "name": "wappuapp",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "release:ios": "node node_modules/react-native/local-cli/cli.js bundle --platform=ios --entry-file=index.ios.js --bundle-output=iOS/wappuapp/main.jsbundle --dev=false",
+    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
+    "test:watch": "npm run test -- --watch",
+    "eslint": "eslint --ext .js ./app",
+    "jscs": "jscs ./app",
+    "ci": "bash ./tools/ci.sh"
+  },
+  "author": "Futurice Tammerforce <tammerforce@futurice.com> (http://tammerforce.com/)",
+  "contributors": [
+    "Miro Nieminen <miro.nieminen@gmail.com> (http://github.com/miro)",
+    "Antti Mattila <me@rarelyneeded.com> (http://github.com/anttti)",
+    "Tomi Turtiainen <tomi.turtiainen@gmail.com> (http://github.com/tomi)",
+    "Kimmo Brunfeldt <kimmobrunfeldt@gmail.com> (http://github.com/kimmobrunfeldt)",
+    "Pasi Lampinen <palampinen@gmail.com> (http://github.com/palampinen)",
+    "Mike Arvela <mike@arvela.net> (http://github.com/mieky)",
+    "Hannu-Pekka Heinäjärvi <hannupekka@gmail.com> (http://github.com/hannupekka)"
+  ],
+  "dependencies": {
+    "geolib": "^2.0.20",
+    "immutable": "^3.7.6",
+    "lodash": "^4.6.1",
+    "moment": "^2.12.0",
+    "react-native": "^0.21.0",
+    "react-native-code-push": "^1.10.1-beta",
+    "react-native-device-info": "^0.8.4",
+    "react-native-google-analytics": "^1.0.1",
+    "react-native-hockeyapp": "^0.3.0",
+    "react-native-image-picker": "^0.18.3",
+    "react-native-location": "^0.14.3",
+    "react-native-lock": "futurice/react-native-lock#feature/customizedTheme",
+    "react-native-maps": "0.3.1",
+    "react-native-modalbox": "^1.3.1",
+    "react-native-parallax-view": "^2.0.3",
+    "react-native-parsed-text": "0.0.11",
+    "react-native-scrollable-tab-view": "^0.4.0",
+    "react-native-vector-icons": "^1.3.2",
+    "react-redux": "^4.4.0",
+    "react-timer-mixin": "^0.13.3",
+    "redux": "^3.3.1",
+    "redux-logger": "^2.6.1",
+    "redux-thunk": "^1.0.3"
+  },
+  "devDependencies": {
+    "babel-eslint": "^6.0.0-beta.5",
+    "david": "^7.0.1",
+    "eslint": "^2.4.0",
+    "eslint-plugin-react": "^4.2.3",
+    "jscs": "^2.11.0"
+  }
+}

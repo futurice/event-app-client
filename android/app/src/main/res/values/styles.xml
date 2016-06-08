@@ -1,0 +1,22 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#003340</item>
+        <!-- Status Bar color -->
+        <item name="colorPrimaryDark">#003340</item>
+    </style>
+
+	    <!-- Auth0 customized theme -->
+	  <style name="AppTheme.Lock.Theme" parent="Lock.Theme">
+	    <item name="Auth0.Title.Icon">@style/AppTheme.Lock.Theme.Title.Icon</item>
+	  </style>
+
+	  <style name="AppTheme.Lock.Theme.Title.Icon" parent="Lock.Theme.Title.Icon">
+	    <item name="android:src">@mipmap/ic_login</item>
+	  </style>
+
+
+
+</resources>

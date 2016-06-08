@@ -1,0 +1,10 @@
+platform :ios, '8.0'
+
+target 'wappuapp' do
+  pod "HockeySDK"
+  pod 'Lock', '~> 1.24'
+	pod 'Lock/TouchID'
+	pod 'Lock/SMS'
+	pod 'Lock/Email'
+end
+
