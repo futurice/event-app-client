@@ -118,7 +118,7 @@ const RegistrationView = React.createClass({
               </View>
             </View>
 
-            { this._renderNameSelect() }
+            { /* this._renderNameSelect() */ }
           </View>
         </ScrollView>
 

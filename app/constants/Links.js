@@ -4,9 +4,9 @@ const Terms = [
   {title: 'Need a ride?',
     link: 'https://taxify.eu/',
     icon: 'directions-car'},
-  {title: 'Terms of Service', link: `${ROOT_URL}/terms`, icon: 'info'},
-  {title: 'Privacy', link: `${ROOT_URL}/privacy`, icon: 'lock'},
-  {title: 'Licenses', link: `${ROOT_URL}/licenses`, icon: 'help'},
+  {title: 'Terms of Service', link: `${ROOT_URL}/futustoniaterms`, icon: 'info'},
+  {title: 'Privacy', link: `${ROOT_URL}/futustoniaprivacy`, icon: 'lock'},
+  {title: 'Licenses', link: `${ROOT_URL}/futustonialicenses`, icon: 'help'},
 ];
 
 export default {
