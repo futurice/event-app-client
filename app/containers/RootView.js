@@ -12,20 +12,15 @@ import * as CompetitionActions from '../actions/competition';
 import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
-import * as ENV from '../../env';
 import { checkForUpdates } from '../utils/updater';
-import theme from '../style/theme';
-
-const Auth0Lock = require('react-native-lock');
-const lock = new Auth0Lock({clientId: ENV.AUTH_CLIENTID, domain: ENV.AUTH_DOMAIN});
-const USER_KEY = 'FUTUR_USER';
 
 const middlewares = [thunk];
 if (__DEV__) {
   // Disabling logging might help performance as XCode prints the whole objects
   // without respecing the collapsed parameter
-  const logger = createLoggerMiddleware(loggerConfig)
-  middlewares.push(logger);
+  // const logger = createLoggerMiddleware(loggerConfig)
+  // middlewares.push(logger);
+  console.disableYellowBox = true; // TODO check this
 }
 
 const createStoreWithMiddleware = applyMiddleware.apply(this, middlewares)(createStore);
@@ -74,42 +69,6 @@ const RootView = React.createClass({
       // and check once on startup
       checkForUpdates();
     }
-
-
-    AsyncStorage.getItem(USER_KEY, (err, user) => {
-      if (!user) {
-        if (Platform.OS === 'ios') {
-          lock.customizeTheme({
-            A0ThemeIconImageName: 'ic_login',
-            A0ThemeCredentialBoxBorderColor: '' //transparent
-          });
-        }
-
-        lock.show({
-          connections: ['google-oauth2']
-        }, (err, profile, token) => {
-          // const profile = {
-          //   createdAt:"2016-05-11T12:40:39.632Z",
-          //   email:"palampinen@gmail.com",
-          //   name:"Pasi Lampinen",
-          //   nickname:"palampinen",
-          //   picture:"https://lh6.googleusercontent.com/-7wsIj22-QV0/AAAAAAAAAAI/AAAAAAAAADg/mV5k6mK_ADs/photo.jpg",
-          //   userId:"google-oauth2|12345677654321" // this could be used instead of uuid
-          // };
-
-          // Update state
-          store.dispatch(RegistrationActions.updateProfile(profile));
-
-          // Save profile to Storage
-          AsyncStorage.setItem(USER_KEY, JSON.stringify(profile), () => {
-            console.log(profile);
-            // Send profile info to server
-            store.dispatch(RegistrationActions.putUser());
-          })
-
-        });
-      }
-    });
 
   },
 
