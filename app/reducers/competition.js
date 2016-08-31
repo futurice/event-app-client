@@ -25,7 +25,8 @@ const initialState = Immutable.fromJS({
   cooldownTimes: {},
   isTextActionViewOpen: false,
   isNotificationVisible: false,
-  notificationText: ''
+  notificationText: '',
+  notificationSuccessStyle: false
 });
 
 const getDisabledActions = (state) => {
@@ -93,12 +94,14 @@ export default function competition(state = initialState, action) {
     case SHOW_NOTIFICATION:
       return state.merge({
         isNotificationVisible: true,
-        notificationText: action.payload
+        notificationText: action.payload,
+        notificationSuccessStyle: !!action.status
       });
     case HIDE_NOTIFICATION:
       return state.merge({
         isNotificationVisible: false,
-        notificationText: ''
+        notificationText: '',
+        notificationSuccessStyle: false
       });
     case UPDATE_COOLDOWNS:
       return state.set('disabledActionTypes', getDisabledActions(state));

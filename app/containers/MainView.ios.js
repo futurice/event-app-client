@@ -42,27 +42,27 @@ const MainView = React.createClass({
         <TabBarIOS tintColor={theme.secondary} translucent={true} >
 
           <Icon.TabBarItem
-            iconName='ios-clock-outline'
-            selectedIconName='ios-clock'
-            title='Calendar'
-            selected={this.props.currentTab === Tabs.CALENDAR}
-            onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
-            <CalendarView />
-          </Icon.TabBarItem>
-
-          <Icon.TabBarItem
             iconName='ios-location-outline'
             selectedIconName='ios-location'
-            title='Map'
+            title=''
             selected={this.props.currentTab === Tabs.MAP}
             onPress={() => { this._onChangeTab(Tabs.MAP); }}>
             <EventMapView />
           </Icon.TabBarItem>
 
           <Icon.TabBarItem
-            iconName='ios-flame-outline'
+            iconName='ios-clock-outline'
+            selectedIconName='ios-clock'
+            title=''
+            selected={this.props.currentTab === Tabs.CALENDAR}
+            onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
+            <CalendarView />
+          </Icon.TabBarItem>
+
+          <Icon.TabBarItem
+            iconName='flame'
             selectedIconName='ios-flame'
-            title='Buzz'
+            title=''
             selected={this.props.currentTab === Tabs.FEED}
             onPress={() => { this._onChangeTab(Tabs.FEED); }}>
             <FeedView />
@@ -71,7 +71,7 @@ const MainView = React.createClass({
           <Icon.TabBarItem
             iconName='stats-bars'
             selectedIconName='stats-bars'
-            title='Ranking'
+            title=''
             selected={this.props.currentTab === Tabs.ACTION}
             onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
             <CompetitionView />
@@ -80,7 +80,7 @@ const MainView = React.createClass({
           <Icon.TabBarItem
             iconName='ios-person-outline'
             selectedIconName='ios-person'
-            title='Profile'
+            title=''
             selected={this.props.currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
             <SettingsView />

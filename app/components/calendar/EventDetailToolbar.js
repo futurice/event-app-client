@@ -16,7 +16,7 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: 'rgba(206,62,138,.25)',
+    backgroundColor: 'rgba(0,51,64,.25)',
     position:'absolute',
     left:0,
     top:0,

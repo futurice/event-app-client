@@ -98,6 +98,9 @@ const RegistrationView = React.createClass({
 
         <ScrollView ref={view => this.containerScrollViewRef = view} style={{flex:1}}>
           <View style={[styles.innerContainer]}>
+
+            { this._renderNameSelect() }
+
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
                 <Text style={styles.inputLabelText}>Choose your Tribe</Text>
@@ -117,8 +120,6 @@ const RegistrationView = React.createClass({
                 </ScrollView>
               </View>
             </View>
-
-            { this._renderNameSelect() }
           </View>
         </ScrollView>
 

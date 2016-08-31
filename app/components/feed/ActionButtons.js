@@ -190,7 +190,7 @@ const ActionButtons = React.createClass({
       TEXT: 'textsms',
       IMAGE: 'photo-camera',
       SIMA: 'local-bar',
-      LECTURE: 'school',
+      LECTURE: 'music-note',
       BUTTON_PUSH: 'touch-app',
       default: 'image'
     };
@@ -202,7 +202,7 @@ const ActionButtons = React.createClass({
       TEXT: 'Write a message',
       IMAGE: 'Take a photo',
       SIMA: 'Have a refreshment',
-      LECTURE: 'At a workshop',
+      LECTURE: 'Listen BAD Finance',
       BUTTON_PUSH: 'Push the button',
       default: 'image'
     };
@@ -255,25 +255,27 @@ const ActionButtons = React.createClass({
   },
 
   renderMenuButton() {
-    // Show scroll top button instead of add button when scrolled down
-    if (this.props.showScrollTopButton) {
 
+    const { showScrollTopButton } = this.props;
+
+    // Show scroll top button instead of add button when scrolled down
+    if (showScrollTopButton) {
       return (
-      <ActionButton onPress={this.props.onScrollTop}
-        extraStyle={styles.mainButton}>
-        <Animated.View>
-          <Icon name={'keyboard-arrow-up'} size={26} style={styles.actionButtonContent}></Icon>
-        </Animated.View>
-      </ActionButton>
+        <ActionButton onPress={this.props.onScrollTop}
+          extraStyle={styles.mainButton}>
+          <Animated.View>
+            <Icon name={'keyboard-arrow-up'} size={26} style={styles.actionButtonContent}></Icon>
+          </Animated.View>
+        </ActionButton>
       );
     }
-
-    const rotation = this.state.plusButton.interpolate({
+    const rotate = this.state.plusButton.interpolate({
       inputRange: [0, 1], outputRange: ['0deg', '225deg']
     });
+
     return (
       <ActionButton onPress={this.onToggleActionButtons} extraStyle={styles.mainButton}>
-        <Animated.View style={{ transform: [{ rotate: rotation }] }}>
+        <Animated.View style={{ transform: [{ rotate }] }}>
 
           <Icon name={'add'} size={24} style={styles.actionButtonContent}></Icon>
         </Animated.View>
@@ -282,19 +284,20 @@ const ActionButtons = React.createClass({
   },
 
   render() {
-    const { isLoading, actionTypes, style } = this.props;
+    const { isLoading, actionTypes, style, showActionButtons } = this.props;
 
     if (isLoading || !actionTypes || actionTypes.size === 0) {
       return null;
     }
 
+
     return (
       <View style={style}>
         <Animated.View style={[styles.overlay, {
-          transform:[{scale:this.state.overlayOpacity.interpolate({
+          transform:[{ scale: this.state.overlayOpacity.interpolate({
             inputRange: [0, 1],
-            outputRange: [1,200]
-          })}]
+            outputRange: [1, 200]
+          }) }]
         }]} />
         {this.renderActionButtons()}
         {this.renderMenuButton()}

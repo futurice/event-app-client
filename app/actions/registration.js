@@ -43,7 +43,7 @@ const putUser = () => {
     const team = getStore().registration.get('selectedTeam', '');
     const picture = getStore().registration.get('picture', '');
     console.log({uuid, name, team, picture});
-    return api.putUser({ uuid, name, team, picture }) // picture
+    return api.putUser({ uuid, name, team, picture })
       .then(response => {
         dispatch({ type: CREATE_USER_SUCCESS, payload: response });
         dispatch({ type: CLOSE_REGISTRATION_VIEW });

@@ -6,10 +6,10 @@ const getMessage = (payload) => {
       return 'Great shot!';
     }
     case ActionTypes.SIMA: {
-      return 'One sima down!';
+      return 'One refreshment down!';
     }
     case ActionTypes.LECTURE: {
-      return 'Absorb that knowledge!';
+      return 'Sounds awesome right!?';
     }
     case ActionTypes.BUTTON_PUSH: {
       return 'Way to push that button!';

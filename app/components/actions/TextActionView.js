@@ -103,7 +103,7 @@ const TextActionView = React.createClass({
             <View>
               <View style={styles.title}>
                 <Icon name='textsms' style={styles.titleIcon} />
-                <Text style={styles.titleText}> Share your Futustonia feelings</Text>
+                <Text style={styles.titleText}> Share your Futubileet feelings</Text>
               </View>
             </View>
             <TextInput
@@ -122,7 +122,7 @@ const TextActionView = React.createClass({
 
             <View style={styles.bottomInfo}>
               <Text style={styles.bottomInfoText}>
-                Earn points for your tribe!
+                How is it going?
               </Text>
             </View>
 

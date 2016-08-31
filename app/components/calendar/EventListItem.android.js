@@ -123,6 +123,8 @@ const styles = StyleSheet.create({
   }
 });
 
+const DEFAULT_IMG = 'http://images.unsplash.com/17/unsplash_5252bb51404f8_1.JPG?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=200&q=80&cs=tinysrgb';
+
 export default React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
@@ -135,7 +137,7 @@ export default React.createClass({
     const lastInSection = this.props.lastInSection;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
     const startDay = time.getEventDay(item.startTime);
-    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
+    const coverImage = DEFAULT_IMG; //item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
     return <TouchableNativeFeedback onPress={this.props.handlePress}  delayPressIn={100} background={TouchableNativeFeedback.SelectableBackground()}>
       <View style={styles.gridListItem}>

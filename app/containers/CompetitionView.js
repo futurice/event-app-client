@@ -55,8 +55,8 @@ const CompetitionView = React.createClass({
             </View>
             <View style={styles.leaderboardIntroTextWrap}>
               <Text style={styles.leaderboardIntroText}>
-                Current Fututrip points for each tribe.
-                Be active in the Buzz and lead your tribe to the victory!
+                Current Futubileet2016 points for each team.
+                Be active App user and lead your team to the victory!
               </Text>
             </View>
           </View>

@@ -6,7 +6,9 @@ import React, {
   StyleSheet,
   Platform,
   Dimensions,
-  ScrollView
+  ScrollView,
+  Animated,
+  Easing
 } from 'react-native';
 import theme from '../../style/theme';
 import Toolbar from './RegistrationToolbar';
@@ -17,37 +19,52 @@ const {height, width} = Dimensions.get('window');
 const IOS = Platform.OS === 'ios';
 
 const IntroView = React.createClass({
+
+  getInitialState() {
+    return {
+      heroPosition: new Animated.Value(-300)
+    }
+  },
+
+  animateHero() {
+    Animated.spring(
+      this.state.heroPosition,
+      { toValue: 0, friction: 5 }
+      ).start();
+  },
+
   render() {
+    setTimeout(() => {
+      this.animateHero();
+    }, 900);
+
     return (
       <View style={[styles.container, styles.modalBackgroundStyle]}>
           {/* <Toolbar icon='' iconClick={() => null} title='Introduction' /> */ }
           <ScrollView style={{flex:1, width: null, height: null}}>
             <View style={[styles.container, styles.contentContainer]}>
-              {/*
-              <Text style={styles.header}>
-                Start Futustonia
-              </Text>
-               */ }
 
-
-              <View style={{flex: 1, alignItems: 'center', marginTop: IOS ? 50 : 30 }}>
+              <Animated.View style={[
+                {flex: 1, alignItems: 'center', marginTop: IOS ? 50 : 30 },
+                { transform: [{ translateY: this.state.heroPosition }] }
+              ]}>
 
                 <View style={{backgroundColor: 'rgba(255,255,255,.3)', width: 200, height: 200, borderRadius: 100}} />
                 <MDIcon name="sms" style={{backgroundColor: 'transparent', color:theme.accentLight, fontSize: 50, position:'absolute', top:10, left: width / 2 - 70}}/>
                 <MDIcon name="sms" style={{transform: [{scaleX: -1}], backgroundColor: 'transparent', color:theme.accentLight, fontSize: 70, position:'absolute', top:55, left: width / 2 + 10}}/>
                 <MDIcon name="photo-camera" style={{backgroundColor: 'transparent', color:theme.accentLight, fontSize: 90, position:'absolute', top:105, left: width / 2 - 80}}/>
-              </View>
+              </Animated.View>
 
               <View style={styles.rowTextContainer}>
-                <Text style={styles.rowTitle}>
-                   Futustonia
+                  <Text style={styles.rowTitle}>
+                   FUTUPARTY 2016
                   </Text>
                   <Text style={styles.rowText}>
-                    It's the time for the Fututrip!
+                    Event Timing: October 7th 2016, 18:00-01:30
                   </Text>
 
                   <Text style={styles.rowText}>
-                    Use Futustonia App actively and lead your Tribe to Victory!
+                    Venue: Heureka, Kuninkaalantie 7, Vantaa!
                   </Text>
               </View>
 
@@ -56,7 +73,7 @@ const IntroView = React.createClass({
                 onPress={this.props.onDismiss}
                 style={styles.modalButton}
               >
-                Start by choosing your Tribe...
+                Start by creating a profile
               </Button>
             </View>
 
@@ -138,7 +155,8 @@ const styles = StyleSheet.create({
   },
   rowTitle:{
     color: theme.light,
-    fontWeight: 'normal',
+    fontWeight: '900',
+    fontStyle: 'italic',
     textAlign: 'center',
     fontSize: 25,
     marginBottom: 10,
@@ -161,7 +179,7 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     flex:1,
-    marginLeft:0,
+    marginLeft:0
   }
 });
 
