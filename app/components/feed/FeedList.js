@@ -1,6 +1,7 @@
 'use strict';
 
 import React, {
+  Animated,
   StyleSheet,
   ListView,
   Text,
@@ -24,12 +25,15 @@ import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import TimerMixin from 'react-timer-mixin';
 
+
+const AUTOREFRESH_INTERVAL = 20 * 1000;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     backgroundColor: theme.stable
   },
   listView: {
@@ -52,15 +56,23 @@ const FeedList = React.createClass({
     };
   },
 
+  autoRefresher: null,
   componentDidMount() {
     this.props.dispatch(FeedActions.fetchFeed());
 
     this.props.dispatch(CompetitionActions.updateCooldowns());
+
+    this.autoRefresher = setInterval(() => {
+      this.props.dispatch(FeedActions.updateFeed());
+    }, AUTOREFRESH_INTERVAL);
   },
 
+
   componentWillUnmount() {
-    //this.clearInterval(this.updateCooldownInterval);
+    clearInterval(this.autoRefresher);
+     //this.clearInterval(this.updateCooldownInterval);
   },
+
 
   componentWillReceiveProps({ feed }) {
     if (feed !== this.props.feed) {
@@ -84,11 +96,8 @@ const FeedList = React.createClass({
     const scrollTop = event.nativeEvent.contentOffset.y;
 
     const showScrollTopButton = scrollTop > SHOW_SCROLLTOP_LIMIT;
-
     if (this.state.showScrollTopButton !== showScrollTopButton) {
-      this.setState({
-        showScrollTopButton: showScrollTopButton
-      })
+      this.setState({showScrollTopButton})
     }
   },
 
@@ -150,7 +159,6 @@ const FeedList = React.createClass({
       default:
         return (
           <View style={styles.container}>
-
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
@@ -159,7 +167,6 @@ const FeedList = React.createClass({
               onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
-
             <ActionButtons
               isRegistrationInfoValid={this.props.isRegistrationInfoValid}
               style={styles.actionButtons}
@@ -182,7 +189,7 @@ const FeedList = React.createClass({
           this.props.isLoadingActionTypes,
           this.props.isLoadingUserData
         )}
-        <Notification visible={this.props.isNotificationVisible}>
+        <Notification visible={this.props.isNotificationVisible} success={this.props.notificationSuccessStyle}>
           {this.props.notificationText}
         </Notification>
         <TextActionView />
@@ -203,6 +210,7 @@ const select = store => {
     actionTypes: store.competition.get('actionTypes'),
     isNotificationVisible: store.competition.get('isNotificationVisible'),
     notificationText: store.competition.get('notificationText'),
+    notificationSuccessStyle: store.competition.get('notificationSuccessStyle'),
     isSending: store.competition.get('isSending'),
 
     isRegistrationInfoValid,
