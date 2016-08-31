@@ -40,7 +40,7 @@ const _postAction = (payload) => {
          setTimeout(() => {
              dispatch(refreshFeed());
         dispatch({ type: POST_ACTION_SUCCESS, payload: { type: payload.type } });
-        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload) });
+        dispatch({ type: SHOW_NOTIFICATION, payload: NotificationMessages.getMessage(payload), status: 1 });
 
          }, 1000);
 

@@ -69,6 +69,7 @@ class Notification extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
     if (nextProps.visible && !this.props.visible) {
       this.fadeIn();
     } else {
@@ -117,6 +118,7 @@ class Notification extends Component {
     const message = this.props.children;
     const animatedViewStyles = [
       styles.container,
+      { /* backgroundColor: this.props.success ? theme.green : theme.red */},
       { top: this.state.height === 0 ? -100 : 0 },
       { transform: this.state.translate.getTranslateTransform() }
     ];
@@ -126,7 +128,8 @@ class Notification extends Component {
         <Animated.View
           onLayout={this.getViewSize.bind(this)}
           style={animatedViewStyles}>
-          <Icon name="wb-sunny" style={{fontSize:20, color:theme.accent, position:'absolute', left: 15, top: 17 }} />
+          {this.props.success &&
+            <Icon name="done" style={{fontSize:20, color:theme.accent, position:'absolute', left: 15, top: 17 }} />}
           <Text style={styles.message}>{message}</Text>
         </Animated.View>
       </View>
