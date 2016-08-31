@@ -21,28 +21,93 @@ import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 
+const IOS = Platform.OS === 'ios';
+
 const styles = StyleSheet.create({
   itemWrapper: {
     width: Dimensions.get('window').width,
-    backgroundColor: theme.stable,
+    backgroundColor: theme.lightblue, // theme.stable,
     paddingBottom: 10,
     paddingTop:5,
   },
-  itemContent:{
-    flex: 1,
-    elevation: 2,
+  bubbleTip: {
+    position: 'absolute',
+    top: IOS ? 25 : 14,
+    left: IOS ? 6 : 15,
+    width: 0,
+    height: 0,
+    backgroundColor: 'transparent',
+    borderStyle: 'solid',
+    borderTopWidth: IOS ? 10 : 15,
+    borderRightWidth: IOS ? 10 : 15,
+    borderBottomWidth: IOS ? 10 : 15,
+    borderLeftWidth: 0,
+    borderTopColor: 'transparent',
+    borderRightColor: IOS ? '#FFF' : 'transparent',
+    borderLeftColor: 'transparent',
+    borderBottomColor: IOS ? 'transparent' : '#FFF',
+    transform: [{ rotate: IOS ? '0deg' : '45deg' }],
+    elevation: 1,
+
+  /*
+    width: 15,
+    height: 15,
+    backgroundColor: '#FFF',
+    left: 8,
+    top: 10,
+    elevation: 3,
+  */
     shadowColor: '#000000',
-    shadowOpacity: 0.15,
+    shadowOpacity: 0.075,
     shadowRadius: 1,
     shadowOffset: {
-      height: 2,
+      height: 1,
+      width: -1
+    }
+  },
+  bubbleTip__own: {
+    left: null,
+    top: IOS ? 25 : 28,
+    right: IOS ? 6 : 10,
+
+    borderRightWidth: 0,
+    borderTopWidth: IOS ? 10 : 0,
+    borderBottomWidth: IOS ? 10 : 15,
+    borderLeftWidth: IOS ? 10 : 15,
+    borderTopColor: 'transparent',
+    borderRightColor: 'transparent',
+    borderLeftColor: IOS ? theme.greenLight : 'transparent',
+    borderBottomColor: IOS ? 'transparent' : theme.greenLight,
+    transform: [{ rotate: IOS ? '0deg' : '135deg' }],
+    shadowOffset: {
+      height: 1,
+      width: 2
+    }
+  },
+  itemContent:{
+    marginLeft: 15,
+    marginRight: 15,
+    flex: 1,
+    elevation: 1,
+    borderRadius: 4,
+    shadowColor: '#000000',
+    shadowOpacity: 0.1,
+    shadowRadius: 1,
+    shadowOffset: {
+      height: 1,
       width: 0
     },
     backgroundColor: '#fff'
   },
+  itemContent__own: {
+    backgroundColor: theme.greenLight
+  },
   itemImageWrapper: {
-    height: 400,
-    width: Dimensions.get('window').width,
+    height: Dimensions.get('window').width - 36,
+    width: Dimensions.get('window').width - 36,
+    left: 3,
+    bottom: 3,
+    borderRadius: 4
   },
   itemTextWrapper: {
     paddingLeft: 47,
@@ -56,8 +121,9 @@ const styles = StyleSheet.create({
     color: theme.dark
   },
   feedItemListItemImg: {
-    width: Dimensions.get('window').width,
-    height: 400,
+    width: Dimensions.get('window').width - 36,
+    height: Dimensions.get('window').width - 36,
+    borderRadius: 4,
     backgroundColor: '#ddd'
   },
   feedItemListItemImg__admin: {
@@ -125,7 +191,7 @@ const styles = StyleSheet.create({
     marginRight: 15,
     paddingTop: 0,
     paddingBottom: 0,
-    borderRadius: 2,
+    borderRadius: 4,
     backgroundColor: '#f7f4ef'
   },
   itemTextWrapper__admin: {
@@ -152,6 +218,8 @@ const styles = StyleSheet.create({
     lineHeight: 19,
   }
 });
+
+const TEST_IMG = 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=251&q=80&cs=tinysrgb';
 
 const FeedListItem = React.createClass({
   propTypes: {
@@ -257,10 +325,17 @@ const FeedListItem = React.createClass({
       return this.renderAdminItem();
     }
 
+    const itemStyles = [styles.itemContent];
+    const bubbleTipStyles = [styles.bubbleTip];
+    if (this.itemIsCreatedByMe(item)) {
+      itemStyles.push(styles.itemContent__own)
+      bubbleTipStyles.push(styles.bubbleTip__own)
+    }
+
     return (
       <View style={styles.itemWrapper}>
-        <View style={styles.itemContent}>
 
+        <View style={itemStyles}>
           <View style={styles.feedItemListItemInfo}>
           { item.author.picture ?
             <Image
@@ -276,10 +351,12 @@ const FeedListItem = React.createClass({
             <Text style={styles.itemTimestamp}>{ago}</Text>
           </View>
 
-          {item.type === 'IMAGE' ?
+          {item.type === 'IMAGE' ||
+            (item.text && item.text.indexOf('TESTIMAGE') >= 0)
+            ?
             <View style={styles.itemImageWrapper}>
               <Image
-                source={{ uri: item.url }}
+                source={{ uri: TEST_IMG || item.url }}
                 style={styles.feedItemListItemImg} />
             </View>
           :
@@ -291,6 +368,7 @@ const FeedListItem = React.createClass({
           {this.renderRemoveButton(item)}
 
         </View>
+        <View style={bubbleTipStyles} />
       </View>
     );
   }
