@@ -1,9 +1,11 @@
 'use strict';
 import Immutable from 'immutable';
+import _ from 'lodash';
 
 import {
   SET_FEED,
   APPEND_FEED,
+  UPDATE_FEED,
   GET_FEED_REQUEST,
   GET_FEED_SUCCESS,
   GET_FEED_FAILURE,
@@ -13,11 +15,32 @@ import {
 } from '../actions/feed';
 import LoadingStates from '../constants/LoadingStates';
 
+const initialFeedItem = {
+  type: 'TEXT',
+  text: 'You have reached the bottom, now party on!',
+  author: {
+    name: 'test'
+  }
+}
+
 const initialState = Immutable.fromJS({
-  list: [],
+  list: [initialFeedItem],
   listState: LoadingStates.NONE,
   isRefreshing: false,
 });
+
+function addNewItemToFeed(fetchedItems, oldDataImmutable) {
+
+  const oldDataIds = oldDataImmutable.map(item => item.get('id'));
+
+  const newData = fetchedItems.filter(item => {
+    return (oldDataIds).indexOf(item.id) < 0
+  });
+
+  console.log(newData);
+  return newData;
+
+}
 
 export default function feed(state = initialState, action) {
   switch (action.type) {
@@ -28,6 +51,12 @@ export default function feed(state = initialState, action) {
         state.set('list', Immutable.fromJS(state.get('list')
           .concat(Immutable.fromJS(action.feed)))) :
         state;
+    case UPDATE_FEED:
+      return (action.feed && action.feed.length) ?
+        state.set('list', Immutable.fromJS(addNewItemToFeed(action.feed, state.get('list')))
+          .concat(state.get('list'))) :
+        state;
+
     case GET_FEED_REQUEST:
       return state.set('listState', LoadingStates.LOADING);
     case GET_FEED_SUCCESS:

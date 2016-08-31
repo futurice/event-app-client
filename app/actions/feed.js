@@ -3,6 +3,7 @@ import {createRequestActionTypes} from '.';
 
 const SET_FEED = 'SET_FEED';
 const APPEND_FEED = 'APPEND_FEED';
+const UPDATE_FEED = 'UPDATE_FEED';
 
 const {
   GET_FEED_REQUEST,
@@ -33,6 +34,25 @@ const fetchFeed = () => {
       .catch(error => dispatch({ type: GET_FEED_FAILURE, error: true, payload: error }));
   };
 };
+
+
+const updateFeed = () => {
+  return (dispatch) => {
+    // dispatch({ type: GET_FEED_REQUEST });
+
+    api.fetchModels('feed')
+      .then(items => {
+        dispatch({
+          type: UPDATE_FEED,
+          feed: items
+        });
+
+        // dispatch({ type: GET_FEED_SUCCESS });
+      })
+      .catch(error => dispatch({ type: GET_FEED_FAILURE, error: true, payload: error }));
+  };
+};
+
 
 const refreshFeed = () => {
   return (dispatch) => {
@@ -82,6 +102,7 @@ const removeFeedItem = (item) => {
 export {
   SET_FEED,
   APPEND_FEED,
+  UPDATE_FEED,
   GET_FEED_REQUEST,
   GET_FEED_SUCCESS,
   GET_FEED_FAILURE,
@@ -89,6 +110,7 @@ export {
   REFRESH_FEED_SUCCESS,
   DELETE_FEED_ITEM,
 
+  updateFeed,
   fetchFeed,
   refreshFeed,
   loadMoreItems,
