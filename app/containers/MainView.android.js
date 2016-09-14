@@ -6,6 +6,7 @@ import React, {
   Navigator,
   StatusBar,
   PropTypes,
+  Animated,
   BackAndroid
 } from 'react-native'
 
@@ -18,33 +19,36 @@ import CompetitionView from './CompetitionNavigator';
 import FeedView from './FeedView';
 import ProfileView from './ProfileView';
 import RegistrationView from '../components/registration/RegistrationView';
+import IntroView from '../components/registration/IntroView';
+import LightBox from '../components/lightbox/LightBox';
 import errorAlert from '../utils/error-alert';
 
 const AndroidTabs = require('react-native-scrollable-tab-view');
 const theme = require('../style/theme');
 const IconTabBar = require('../components/common/IconTabBar');
 
+
 const AndroidTabNavigation = React.createClass({
   propTypes: {
     navigator: PropTypes.object.isRequired
   },
-  render() {
 
+  render() {
     return (
       <AndroidTabs
-        initialPage={2}
+        initialPage={0}
         tabBarPosition={'top'}
-        tabBarUnderlineColor={theme.primary}
+        tabBarUnderlineColor={theme.stable}
         tabBarBackgroundColor={theme.secondary}
-        tabBarActiveTextColor={theme.light}
-        tabBarInactiveTextColor={theme.light}
+        tabBarActiveTextColor={theme.white}
+        tabBarInactiveTextColor={theme.secondaryDark}
         renderTabBar={() => <IconTabBar rippleColor={theme.secondaryDark} />}
       >
-        <EventMapView navigator={this.props.navigator} tabLabel={{icon:'map'}} />
-        <CalendarView navigator={this.props.navigator} tabLabel={{icon:'access-time'}} />
-        <FeedView navigator={this.props.navigator} tabLabel={{icon:'flash-on'}} />
-        <CompetitionView tabLabel={{icon:'equalizer'}} />
-        <ProfileView tabLabel={{icon:'person'}} />
+        <FeedView navigator={this.props.navigator} tabLabel={{image: 'CHATS' }} scrollUp={this.scrollUp} scrollDown={this.scrollDown} />
+        <CalendarView navigator={this.props.navigator} tabLabel={{icon: 'access-time' }} />
+        <EventMapView navigator={this.props.navigator} tabLabel={{image: 'MAP' }} />
+        <CompetitionView tabLabel={{icon: 'equalizer' }} />
+        <ProfileView tabLabel={{icon: 'person-outline' }} />
       </AndroidTabs>
     )
   }
@@ -74,11 +78,28 @@ class App extends Component {
   }
 
   render() {
-    const immutableError = this.props.errors.get('error');
+    const {
+      dispatch,
+      errors,
+      isIntroViewOpen,
+      isWelcomeScreenOpen
+    } = this.props;
+
+    const immutableError = errors.get('error');
     if (immutableError) {
       const error = immutableError.toJS();
-      errorAlert(this.props.dispatch, _.get(error, 'header'), _.get(error, 'message'));
+      errorAlert(dispatch, _.get(error, 'header'), _.get(error, 'message'));
     }
+
+    if (isIntroViewOpen || isWelcomeScreenOpen) {
+      return (
+        <View style={{flex:1}}>
+          <StatusBar backgroundColor={theme.secondaryBlur} />
+          <IntroView />
+        </View>
+        );
+    };
+
     return (
       <View style={{flex:1}}>
 
@@ -94,6 +115,7 @@ class App extends Component {
           ...Navigator.SceneConfigs.FloatFromBottomAndroid
         })}
       />
+      <LightBox />
       <RegistrationView />
     </View>
     )
@@ -103,7 +125,9 @@ class App extends Component {
 const select = store => {
   return {
     currentTab: store.navigation.get('currentTab'),
-    errors: store.errors
+    errors: store.errors,
+    isIntroViewOpen: store.registration.get('isIntroViewOpen'),
+    isWelcomeScreenOpen: store.registration.get('isWelcomeScreenOpen')
   }
 };
 export default connect(select)(App);

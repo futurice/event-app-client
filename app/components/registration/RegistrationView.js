@@ -78,11 +78,12 @@ const RegistrationView = React.createClass({
       <Modal
         isOpen={this.props.isRegistrationViewOpen}
         swipeToClose={false}
+        animationDuration={0}
         backdropPressToClose={false}>
         {
           this.props.selectedTeam || this.props.isIntroductionDismissed
             ? this._renderNameSelectContainer()
-            : <IntroView onDismiss={this.onDismissIntroduction} />
+            : this._renderNameSelectContainer() /* <IntroView onDismiss={this.onDismissIntroduction} /> */
         }
       </Modal>
     );

@@ -15,10 +15,15 @@ import SettingsView from './ProfileView';
 import Tabs from '../constants/Tabs';
 import * as NavigationActions from '../actions/navigation';
 import RegistrationView from '../components/registration/RegistrationView';
+import IntroView from '../components/registration/IntroView';
+import LightBox from '../components/lightbox/LightBox';
 import errorAlert from '../utils/error-alert';
 
 const theme = require('../style/theme');
-const Icon = require('react-native-vector-icons/Ionicons');
+// const Icon = require('react-native-vector-icons/Ionicons');
+const Icon = require('react-native-vector-icons/MaterialIcons');
+
+import ICONS from '../constants/Icons';
 
 const MainView = React.createClass({
   propTypes: {
@@ -31,63 +36,82 @@ const MainView = React.createClass({
   },
 
   render() {
-    const immutableError = this.props.errors.get('error');
+
+    const {
+      dispatch,
+      errors,
+      currentTab,
+      isIntroViewOpen,
+      isWelcomeScreenOpen
+    } = this.props;
+
+
+    const immutableError = errors.get('error');
     if (immutableError) {
       const error = immutableError.toJS();
-      errorAlert(this.props.dispatch, _.get(error, 'header'), _.get(error, 'message'));
+      errorAlert(dispatch, _.get(error, 'header'), _.get(error, 'message'));
     }
+
+    if (isIntroViewOpen || isWelcomeScreenOpen) {
+      return <IntroView />
+    };
 
     return (
       <View style={{flex:1}}>
-        <TabBarIOS tintColor={theme.secondary} translucent={true} >
+        <TabBarIOS tintColor={theme.secondary} translucent={false} barTintColor={theme.primary} >
+
+
+          <TabBarIOS.Item
+            icon={ICONS.CHATS}
+            /* TODO badge={'!'} */
+            iconName='flame'
+            selectedIconName='ios-flame'
+            title=''
+            selected={currentTab === Tabs.FEED}
+            onPress={() => { this._onChangeTab(Tabs.FEED); }}>
+            <FeedView />
+          </TabBarIOS.Item>
 
           <Icon.TabBarItem
-            iconName='ios-location-outline'
-            selectedIconName='ios-location'
+            iconName='access-time'
+            selectedIconName='access-time'
             title=''
-            selected={this.props.currentTab === Tabs.MAP}
-            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
-            <EventMapView />
-          </Icon.TabBarItem>
-
-          <Icon.TabBarItem
-            iconName='ios-clock-outline'
-            selectedIconName='ios-clock'
-            title=''
-            selected={this.props.currentTab === Tabs.CALENDAR}
+            selected={currentTab === Tabs.CALENDAR}
             onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
             <CalendarView />
           </Icon.TabBarItem>
 
-          <Icon.TabBarItem
-            iconName='flame'
-            selectedIconName='ios-flame'
+          <TabBarIOS.Item
+            icon={ICONS.MAP}
+            iconName='place'
+            selectedIconName='place'
             title=''
-            selected={this.props.currentTab === Tabs.FEED}
-            onPress={() => { this._onChangeTab(Tabs.FEED); }}>
-            <FeedView />
-          </Icon.TabBarItem>
+            selected={currentTab === Tabs.MAP}
+            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
+            <EventMapView />
+          </TabBarIOS.Item>
 
           <Icon.TabBarItem
-            iconName='stats-bars'
-            selectedIconName='stats-bars'
+            iconName='equalizer'
+            selectedIconName='equalizer'
             title=''
-            selected={this.props.currentTab === Tabs.ACTION}
+            selected={currentTab === Tabs.ACTION}
             onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
             <CompetitionView />
           </Icon.TabBarItem>
 
           <Icon.TabBarItem
-            iconName='ios-person-outline'
-            selectedIconName='ios-person'
+            iconName='person-outline'
+            selectedIconName='person-outline'
             title=''
-            selected={this.props.currentTab === Tabs.SETTINGS}
+            selected={currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
             <SettingsView />
           </Icon.TabBarItem>
         </TabBarIOS>
 
         <RegistrationView />
+        <LightBox />
       </View>
     );
   }
@@ -96,7 +120,9 @@ const MainView = React.createClass({
 const select = store => {
   return {
     currentTab: store.navigation.get('currentTab'),
-    errors: store.errors
+    errors: store.errors,
+    isIntroViewOpen: store.registration.get('isIntroViewOpen'),
+    isWelcomeScreenOpen: store.registration.get('isWelcomeScreenOpen')
   }
 };
 
