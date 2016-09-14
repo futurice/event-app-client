@@ -59,10 +59,10 @@ const styles = StyleSheet.create({
   gridListItemPlace: {
     marginTop:10,
     fontSize: 13,
-    color: '#888'
+    color: theme.darkgrey
   },
   gridListItemDistance: {
-    color:'#888',
+    color:theme.darkgrey,
     fontSize:14,
   },
   gridListItemTime: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     fontWeight:'normal'
   },
   gridListItemTimeEnd: {
-    color:'#888',
+    color:theme.darkgrey,
   },
   gridListItemDay: {
     fontWeight:'bold'
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   gridListItemIcon: {
-    color: '#888',
+    color: theme.darkgrey,
     fontWeight:'normal',
     fontSize: 12
   },
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   }
 });
 
-const DEFAULT_IMG = 'http://images.unsplash.com/17/unsplash_5252bb51404f8_1.JPG?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=200&q=80&cs=tinysrgb';
+const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
 
 export default React.createClass({
   propTypes: {
@@ -148,10 +148,8 @@ export default React.createClass({
           <View style={[styles.gridListItemIconsWrapper,
             {marginBottom: item.teemu || timepoint.onGoing || timepoint.startsSoon ? 5 : 0}
           ]}>
-            {item.teemu && <Text style={styles.gridListItemIcon}>
-            <Icon name='university' style={{color:theme.secondary}} size={13} /> Emäteemu!</Text>}
-            {timepoint.onGoing && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Käynnissä ny!</Text>}
-            {timepoint.startsSoon && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Alkaa kohta!</Text>}
+            {timepoint.onGoing && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Ongoing!</Text>}
+            {timepoint.startsSoon && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Starts soon!</Text>}
           </View>
 
           <View style={styles.gridListItemImgWrap}>

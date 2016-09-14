@@ -59,13 +59,13 @@ const styles = StyleSheet.create({
     height: 46
   },
   actionButtonContent: {
-    color: theme.light
+    color: theme.primary
   },
   overlay:{
     right:43,
     bottom:Platform.OS === 'ios' ? 60 : 43,
     position:'absolute',
-    backgroundColor:theme.light,
+    backgroundColor:theme.primary,
     opacity:0.9,
     width:10,
     height:10,
@@ -84,7 +84,7 @@ const getBoundAction = (type, fn) => {
 };
 
 const ActionButtons = React.createClass({
-    mixins: [TimerMixin],
+  mixins: [TimerMixin],
   getInitialState() {
     return {
       buttons: BUTTON_POS.map(() => new Animated.ValueXY()),
@@ -190,7 +190,7 @@ const ActionButtons = React.createClass({
       TEXT: 'textsms',
       IMAGE: 'photo-camera',
       SIMA: 'local-bar',
-      LECTURE: 'music-note',
+      LECTURE: 'gif',
       BUTTON_PUSH: 'touch-app',
       default: 'image'
     };
@@ -202,7 +202,7 @@ const ActionButtons = React.createClass({
       TEXT: 'Write a message',
       IMAGE: 'Take a photo',
       SIMA: 'Have a refreshment',
-      LECTURE: 'Listen BAD Finance',
+      LECTURE: 'Dance in GIF Disco',
       BUTTON_PUSH: 'Push the button',
       default: 'image'
     };

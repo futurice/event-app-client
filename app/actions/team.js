@@ -23,14 +23,20 @@ const showChooseTeam = () => {
   return { type: SHOW_TEAM_SELECTOR };
 };
 
+
+const SET_LEADERBOARD_FILTER = 'SET_LEADERBOARD_FILTER';
+const changeListType = listType => ({ type: SET_LEADERBOARD_FILTER, payload: listType });
+
 export {
   GET_TEAMS_REQUEST,
   GET_TEAMS_SUCCESS,
   GET_TEAMS_FAILURE,
 
   SHOW_TEAM_SELECTOR,
+  SET_LEADERBOARD_FILTER,
 
   fetchTeams,
 
+  changeListType,
   showChooseTeam
 };

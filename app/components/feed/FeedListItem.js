@@ -10,13 +10,17 @@ import React, {
   Platform,
   PropTypes,
   TouchableOpacity,
-  View
+  TouchableWithoutFeedback,
+  View,
+  Animated,
+  Easing
 } from 'react-native';
 
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import md5 from 'blueimp-md5';
 
-import { removeFeedItem } from '../../actions/feed';
+import { removeFeedItem, openLightBox } from '../../actions/feed';
 import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import theme from '../../style/theme';
@@ -26,9 +30,13 @@ const IOS = Platform.OS === 'ios';
 const styles = StyleSheet.create({
   itemWrapper: {
     width: Dimensions.get('window').width,
-    backgroundColor: theme.lightblue, // theme.stable,
-    paddingBottom: 10,
-    paddingTop:5,
+    backgroundColor: 'transparent',//theme.lightblue, // theme.stable,
+    paddingBottom: 8,
+    paddingTop:8,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'center'
   },
   bubbleTip: {
     position: 'absolute',
@@ -84,10 +92,15 @@ const styles = StyleSheet.create({
       width: 2
     }
   },
+  itemPusher: {
+    // position: 'absolute',
+    flex: 1,
+    width: 20
+  },
   itemContent:{
     marginLeft: 15,
-    marginRight: 15,
-    flex: 1,
+    // marginRight: 55,
+    flex: 4,
     elevation: 1,
     borderRadius: 4,
     shadowColor: '#000000',
@@ -100,7 +113,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff'
   },
   itemContent__own: {
+
+    marginLeft: 55,
+    marginRight: 15,
     backgroundColor: theme.greenLight
+  },
+  itemContent__image: {
+    marginLeft: 15,
+    marginRight: 15
   },
   itemImageWrapper: {
     height: Dimensions.get('window').width - 36,
@@ -110,6 +130,7 @@ const styles = StyleSheet.create({
     borderRadius: 4
   },
   itemTextWrapper: {
+    flex: 1,
     paddingLeft: 47,
     paddingRight: 30,
     paddingTop: 0,
@@ -124,7 +145,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - 36,
     height: Dimensions.get('window').width - 36,
     borderRadius: 4,
-    backgroundColor: '#ddd'
+    backgroundColor: 'transparent' // theme.accent
   },
   feedItemListItemImg__admin: {
     width: Dimensions.get('window').width - 30
@@ -192,7 +213,7 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     paddingBottom: 0,
     borderRadius: 4,
-    backgroundColor: '#f7f4ef'
+    backgroundColor: '#f9f4db'
   },
   itemTextWrapper__admin: {
     paddingLeft: 25,
@@ -219,13 +240,41 @@ const styles = StyleSheet.create({
   }
 });
 
-const TEST_IMG = 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=251&q=80&cs=tinysrgb';
+// const TEST_IMG = 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=251&q=80&cs=tinysrgb';
+// const TEST_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+// const TEST_IMG = 'https://raw.githubusercontent.com/futurice/gif-disco/master/gif_disco.gif';
+// const TEST_IMG = Math.random() >= 0.5 ?
+//   'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif' :
+//   'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+
+const TEST_IMG =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+ // 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-11-22-29-08.gif'
+
+import BGS from '../../constants/Backgrounds';
 
 const FeedListItem = React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
     dispatch: PropTypes.func.isRequired
   },
+
+  getInitialState() {
+    return {
+      itemAnimation: new Animated.Value(0),
+      selected: false
+    };
+  },
+
+  animateItem() {
+    const { index } = this.props;
+    const ITEMS_FETCH_LENGTH = 20;
+    Animated.timing(
+      this.state.itemAnimation,
+      { toValue: 1, delay: 50 * (index % ITEMS_FETCH_LENGTH), duration: 200, easing: Easing.easeInOutBack }
+      ).start();
+  },
+
+
 
   itemIsCreatedByMe(item) {
     return item.author.type === 'ME';
@@ -238,9 +287,9 @@ const FeedListItem = React.createClass({
         'Do you want to remove this item?',
         [
           { text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+            onPress: () => { this.deSelectItem(); console.log('Cancel Pressed'); }, style: 'cancel' },
           { text: 'Yes, remove item',
-            onPress: () => this.removeThisItem(), style: 'destructive' }
+            onPress: () => { this.deSelectItem(); this.removeThisItem(); }, style: 'destructive' }
         ]
       );
     } else {
@@ -249,16 +298,34 @@ const FeedListItem = React.createClass({
         'Do you want to report this item?',
         [
           { text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+            onPress: () =>  { this.deSelectItem(); console.log('Cancel Pressed'); }, style: 'cancel' },
           { text: 'Yes, report item',
-            onPress: () => abuse.reportFeedItem(item), style: 'destructive' }
+            onPress: () =>  { this.deSelectItem(); abuse.reportFeedItem(item); }, style: 'destructive' }
         ]
       );
     }
   },
 
+  selectItem() {
+    this.setState({ selected: true });
+    this.showRemoveDialog(this.props.item);
+  },
+
+  deSelectItem() {
+    this.setState({ selected: false });
+  },
+
   removeThisItem() {
     this.props.dispatch(removeFeedItem(this.props.item));
+  },
+
+  getItemGravatar(email) {
+    const defaultAvatarUrl = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/avatar6.png';
+    if (!email) {
+      return defaultAvatarUrl;
+    }
+    const hashedEmail = md5(email);
+    return `http://www.gravatar.com/avatar/${hashedEmail}?d=${defaultAvatarUrl}`;
   },
 
   // Render "remove" button, which is remove OR flag button,
@@ -290,11 +357,12 @@ const FeedListItem = React.createClass({
 
     return (
       <View style={styles.itemWrapper}>
-        <View style={[styles.itemContent, styles.itemContent__admin]}>
-
+        <Animated.View style={[styles.itemContent, styles.itemContent__admin,
+          {opacity: this.state.itemAnimation}]}
+        >
           <View style={[styles.feedItemListItemInfo, styles.feedItemListItemInfo__admin]}>
             <View style={[styles.feedItemListItemAuthor, styles.feedItemListItemAuthor__admin]}>
-              <Text style={[styles.itemAuthorName, styles.itemAuthorName__admin]}>FutuBot</Text>
+              <Text style={[styles.itemAuthorName, styles.itemAuthorName__admin]}>FutubileBot</Text>
               <Text style={[styles.itemTimestamp, styles.itemTimestamp__admin]}>{ago}</Text>
             </View>
           </View>
@@ -312,14 +380,20 @@ const FeedListItem = React.createClass({
               </Text>
             </View>
           }
-        </View>
+        </Animated.View>
       </View>
     );
   },
 
   render() {
-    const item = this.props.item;
+    const { item } = this.props;
     const ago = time.getTimeAgo(item.createdAt);
+    const isMyItem = this.itemIsCreatedByMe(item);
+    const isItemImage = item.type === 'IMAGE' || (item.text && item.text.indexOf('TESTIMAGE') >= 0);
+
+    setTimeout(() => {
+      this.animateItem();
+    });
 
     if (item.author.type === 'SYSTEM') {
       return this.renderAdminItem();
@@ -327,22 +401,46 @@ const FeedListItem = React.createClass({
 
     const itemStyles = [styles.itemContent];
     const bubbleTipStyles = [styles.bubbleTip];
-    if (this.itemIsCreatedByMe(item)) {
+
+
+    if (isMyItem) {
       itemStyles.push(styles.itemContent__own)
       bubbleTipStyles.push(styles.bubbleTip__own)
     }
 
-    return (
-      <View style={styles.itemWrapper}>
+    if (isItemImage) {
+      itemStyles.push(styles.itemContent__image)
+    }
 
-        <View style={itemStyles}>
+    return (
+      <Animated.View style={[
+        styles.itemWrapper,
+        {
+          backgroundColor: this.state.selected ? 'rgba(255,82,64,.1)' : 'transparent'
+          /*
+          opacity: this.state.itemAnimation,
+          transform:
+            [{ translateX: this.state.itemAnimation.interpolate({ inputRange: [0, 1], outputRange: isMyItem ? [400, 0] : [-400, 0] })}]
+          */
+        }
+      ]}>
+
+        {!isItemImage && isMyItem && <View style={styles.itemPusher} /> }
+        <TouchableOpacity
+          activeOpacity={1}
+          style={itemStyles}
+          onLongPress={() => this.selectItem() }
+
+        >
           <View style={styles.feedItemListItemInfo}>
-          { item.author.picture ?
+
             <Image
-              source={{ uri: item.author.picture }}
-              style={styles.feedItemListItemAuthorImage} /> :
+              source={{ uri: item.author.picture || this.getItemGravatar(item.author.email) }}
+              style={styles.feedItemListItemAuthorImage} />
+          { /*
             <Icon name='face' style={styles.feedItemListItemAuthorIcon} />
-          }
+
+          */}
 
             <View style={styles.feedItemListItemAuthor}>
               <Text style={styles.itemAuthorName}>{item.author.name}</Text>
@@ -351,13 +449,36 @@ const FeedListItem = React.createClass({
             <Text style={styles.itemTimestamp}>{ago}</Text>
           </View>
 
-          {item.type === 'IMAGE' ||
-            (item.text && item.text.indexOf('TESTIMAGE') >= 0)
+          {isItemImage
             ?
             <View style={styles.itemImageWrapper}>
+              <TouchableOpacity
+                activeOpacity={1}
+                onPress={() => this.props.dispatch(openLightBox(TEST_IMG || item.url))}
+              >
+
+                <Image
+                resizeMode={'cover'}
+                source={ BGS['BG' + (this.props.index % 8 + 1) ]}
+                style={{
+                  position: 'absolute',
+                  height: Dimensions.get('window').width - 36,
+                  width: Dimensions.get('window').width - 36,
+                  left: 0,
+                  top: 0,
+                  right: 0,
+                  opacity: 0.6,
+                  borderRadius: 3
+                }}
+                />
+
               <Image
                 source={{ uri: TEST_IMG || item.url }}
                 style={styles.feedItemListItemImg} />
+
+
+
+              </TouchableOpacity>
             </View>
           :
             <View style={styles.itemTextWrapper}>
@@ -365,11 +486,12 @@ const FeedListItem = React.createClass({
             </View>
           }
 
-          {this.renderRemoveButton(item)}
+          {/* this.renderRemoveButton(item) */}
 
-        </View>
-        <View style={bubbleTipStyles} />
-      </View>
+        </TouchableOpacity>
+        {!isItemImage && !isMyItem && <View style={ styles.itemPusher } /> }
+        {!isItemImage && <View style={bubbleTipStyles} />}
+      </Animated.View>
     );
   }
 });

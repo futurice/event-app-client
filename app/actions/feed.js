@@ -99,6 +99,17 @@ const removeFeedItem = (item) => {
   };
 };
 
+
+const OPEN_LIGHTBOX = 'OPEN_LIGHTBOX';
+const CLOSE_LIGHTBOX = 'CLOSE_LIGHTBOX';
+const openLightBox = (image) => {
+  return { type: OPEN_LIGHTBOX, payload: image };
+};
+
+const closeLightBox = () => {
+  return { type: CLOSE_LIGHTBOX };
+};
+
 export {
   SET_FEED,
   APPEND_FEED,
@@ -109,10 +120,14 @@ export {
   REFRESH_FEED_REQUEST,
   REFRESH_FEED_SUCCESS,
   DELETE_FEED_ITEM,
+  OPEN_LIGHTBOX,
+  CLOSE_LIGHTBOX,
 
   updateFeed,
   fetchFeed,
   refreshFeed,
   loadMoreItems,
-  removeFeedItem
+  removeFeedItem,
+  openLightBox,
+  closeLightBox
 };

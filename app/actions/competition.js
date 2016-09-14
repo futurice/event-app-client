@@ -31,6 +31,7 @@ const closeTextActionView = () => {
   return { type: CLOSE_TEXTACTION_VIEW };
 };
 
+
 const _postAction = (payload) => {
   return (dispatch, getStore) => {
      dispatch({ type: POST_ACTION_REQUEST });

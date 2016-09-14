@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   },
   gridListItemImgColorLayer: {
     // backgroundColor is set programmatically on render() based on rowId
-    opacity: 0.75,
+    opacity: 0.5,
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
   },
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     flex:1
   },
   gridListItemPlace: {
-
+    fontWeight: 'bold',
     fontSize: 15,
     color: '#ddd'
   },
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   },
   gridListItemTime: {
     fontSize: 15,
-    color: theme.accent,
+    color: theme.secondary,
     fontWeight: 'bold',
   },
   gridListItemIconsWrapper__left:{
@@ -89,6 +89,9 @@ const styles = StyleSheet.create({
   }
 });
 
+const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+
+
 export default React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
@@ -99,7 +102,7 @@ export default React.createClass({
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
-    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
+    const coverImage = DEFAULT_IMG; //item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
 
     return <TouchableHighlight onPress={this.props.handlePress} underlayColor={'transparent'}>
       <View style={styles.gridListItem}>
@@ -109,8 +112,7 @@ export default React.createClass({
             style={styles.gridListItemImg} />
           <View style={[
             styles.gridListItemImgColorLayer,
-            { backgroundColor: this.props.rowId && this.props.rowId % 2 === 0 ?
-              '#444' : '#444' }
+            { backgroundColor:theme.primary }
           ]} />
         </View>
 

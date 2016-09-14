@@ -52,7 +52,7 @@ const LeaderboardEntry = React.createClass({
     this.setTimeout(() => {
       LayoutAnimation.spring();
       const percentageToTopscore = (this.props.team.get('score') / this.props.topscore) || 0;
-      const barWrapWidth = Dimensions.get('window').width - 110; // 110 other content width
+      const barWrapWidth = Dimensions.get('window').width - 40; // 110 other content width
       let barWidth = barWrapWidth * percentageToTopscore;
       barWidth = Math.max(barWidth, minWidth); // minWidth for teams with low points
       this.setState({ width: barWidth });

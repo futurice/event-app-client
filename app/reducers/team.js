@@ -6,7 +6,8 @@ import {
   GET_TEAMS_SUCCESS,
   GET_TEAMS_FAILURE,
   SHOW_TEAM_SELECTOR,
-  CLOSE_TEAM_SELECTOR
+  CLOSE_TEAM_SELECTOR,
+  SET_LEADERBOARD_FILTER
 } from '../actions/team';
 
 const initialState = Immutable.fromJS({
@@ -15,7 +16,8 @@ const initialState = Immutable.fromJS({
   isError: false,
   selectedTeam: null,
   isChooseTeamViewOpen: false,
-  isRefreshing: false
+  isRefreshing: false,
+  leaderBoardFilter: null
 });
 
 export default function team(state = initialState, action) {
@@ -39,6 +41,8 @@ export default function team(state = initialState, action) {
         isError: true,
         isRefreshing: false
       });
+    case SET_LEADERBOARD_FILTER:
+      return state.set('leaderBoardFilter', action.payload);
     case SHOW_TEAM_SELECTOR:
       return state.set('isChooseTeamViewOpen', true);
     case CLOSE_TEAM_SELECTOR:

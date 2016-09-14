@@ -1,6 +1,8 @@
 package com.wappuapp;
 
 import com.facebook.react.ReactActivity;
+import com.BV.LinearGradient.LinearGradientPackage;
+import cl.json.RNSharePackage;
 import com.auth0.lock.react.LockReactPackage;
 import com.microsoft.codepush.react.CodePush;
 import com.imagepicker.ImagePickerPackage;
@@ -43,6 +45,8 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new LinearGradientPackage(),
+            new RNSharePackage(),
             new LockReactPackage(),
           new RNHockeyAppPackage(this),
           new CodePush("8NxIp9cI4yfPOOUkk6AR1BOr5gjgNy6by4LyW", this, BuildConfig.DEBUG),

@@ -165,7 +165,7 @@ var Profile = React.createClass({
   },
 
   renderModalItem(item) {
-    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]) || {name:''};
+    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]) || { name: '' };
 
     return (
       <TouchableHighlight style={styles.listItemButton} underlayColor={theme.primary} onPress={this.openRegistration}>

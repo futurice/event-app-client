@@ -2,6 +2,8 @@ import _ from 'lodash';
 import * as ENV from '../../env';
 const ROOT_URL = ENV.API_URL;
 
+const DEV_ROOT_URL = 'http://private-6e310-register49.apiary-mock.com';
+
 const EndpointUrls = {
   markers: `${ROOT_URL}/markers`,
   events: `${ROOT_URL}/events`,
@@ -13,7 +15,8 @@ const EndpointUrls = {
   user: (uuid) => `${ROOT_URL}/users/${uuid}`,
   teams: `${ROOT_URL}/teams`,
   actionTypes: `${ROOT_URL}/action_types`,
-  announcements: `${ROOT_URL}/announcements`
+  announcements: `${ROOT_URL}/announcements`,
+  login: `${DEV_ROOT_URL}/login`
 };
 
 const EndpointTypes = _.map(EndpointUrls, (item, key) => key);

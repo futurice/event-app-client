@@ -20,6 +20,7 @@ import React, {
 } from 'react-native';
 
 const Icon = require('react-native-vector-icons/Ionicons');
+import theme from '../../style/theme';
 
 let showShareActionSheet = function(url) {
   if (Platform.OS === 'ios') {
@@ -76,6 +77,9 @@ let NavigationBarRouteMapper = {
     }
     return (
       <View style={styles.navBarLogoWrap}>
+        {/*
+        <Text style={styles.navBarText}>FUTUBILEET16</Text>
+        */}
         <Image
           source={require('../../../assets/futurice.png')}
           style={styles.navBarLogo} />
@@ -108,6 +112,14 @@ var styles = StyleSheet.create({
     top:13,
     width:90,
     height:19,
+  },
+  navBarText: {
+    fontSize: 17,
+    top: 15,
+    fontWeight: '400',
+    letterSpacing: 2,
+    color: theme.white,
+    fontFamily: 'Avenir'
   },
   navBarTitle:{
     padding:10,

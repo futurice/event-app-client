@@ -20,11 +20,11 @@ const styles = StyleSheet.create({
 
 const Loader = props => {
   if (Platform.OS === 'android') {
-    return <ProgressBar styleAttr='Large' color={theme.accent}/>
+    return <ProgressBar styleAttr='Large' color={props.color || theme.accent}/>
   }
 
   return <ActivityIndicatorIOS
-    color={theme.accent}
+    color={props.color || theme.accent}
     animating={true}
     style={styles.activityIndicator}
     size='large' />;

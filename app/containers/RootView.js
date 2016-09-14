@@ -13,6 +13,8 @@ import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
 import { checkForUpdates } from '../utils/updater';
+import { APP_STORAGE_KEY } from '../../env';
+const appUserKey = `${APP_STORAGE_KEY}:user`;
 
 const middlewares = [thunk];
 if (__DEV__) {
@@ -32,6 +34,17 @@ store.dispatch(CompetitionActions.fetchActionTypes());
 store.dispatch(TeamActions.fetchTeams());
 store.dispatch(RegistrationActions.getUser());
 
+// # Check if user logged
+AsyncStorage.clear();
+
+AsyncStorage.getItem(appUserKey)
+.then(user => {
+  if (!user) {
+    store.dispatch(RegistrationActions.showLogin());
+  }
+})
+.catch(error => { store.dispatch(RegistrationActions.showLogin()); });
+
 const RootView = React.createClass({
 
   componentDidMount() {
@@ -39,7 +52,7 @@ const RootView = React.createClass({
     const locationOpts = {
       enableHighAccuracy: false,
       timeout: 20000,
-      maximumAge: 1000 * 60 * 15
+      maximumAge: 1000 * 60 * 60
     };
 
     navigator.geolocation.getCurrentPosition(

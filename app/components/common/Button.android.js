@@ -25,7 +25,7 @@ var Button = React.createClass({
   _renderInnerText: function() {
     return (
       <Text style={[styles.textButton, this.props.textStyle]}>
-        {this.props.children.toUpperCase()}
+        {this.props.children}
       </Text>
     );
   },

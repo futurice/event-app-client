@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 37 : 20,
     right: 20,
-    backgroundColor: theme.primary,
+    backgroundColor: theme.white,
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -39,7 +39,7 @@ const ActionButton = React.createClass({
 
     return (
       <Fab onPress={onPress} styles={combinedStyle}
-        disabled={disabled} underlayColor={theme.primaryDark}>
+        disabled={disabled} underlayColor={theme.stable}>
         {children}
       </Fab>
     );

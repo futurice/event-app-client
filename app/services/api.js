@@ -45,6 +45,12 @@ const getUser = uuid => {
     .then(response => response.json());
 };
 
+const loginUser = inviteCode => {
+  return wapuFetch(`${Endpoints.urls.login}?code=${inviteCode}`)
+    .then(checkResponseStatus)
+    .then(response => response.json());
+};
+
 const deleteFeedItem = item => {
   return _delete(Endpoints.urls.feedItem(item.id));
 };
@@ -156,5 +162,6 @@ export default {
   fetchMoreFeed,
   postAction,
   putUser,
-  getUser
+  getUser,
+  loginUser
 };

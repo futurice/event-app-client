@@ -11,7 +11,9 @@ import {
   GET_FEED_FAILURE,
   REFRESH_FEED_REQUEST,
   REFRESH_FEED_SUCCESS,
-  DELETE_FEED_ITEM
+  DELETE_FEED_ITEM,
+  OPEN_LIGHTBOX,
+  CLOSE_LIGHTBOX
 } from '../actions/feed';
 import LoadingStates from '../constants/LoadingStates';
 
@@ -27,6 +29,8 @@ const initialState = Immutable.fromJS({
   list: [initialFeedItem],
   listState: LoadingStates.NONE,
   isRefreshing: false,
+  lightBoxImage: 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=251&q=80&cs=tinysrgb',
+  isLightBoxOpen: false
 });
 
 function addNewItemToFeed(fetchedItems, oldDataImmutable) {
@@ -77,6 +81,16 @@ export default function feed(state = initialState, action) {
       } else {
         return state.set('list', originalList.delete(itemIndex));
       }
+    case OPEN_LIGHTBOX:
+      return state.merge({
+        isLightBoxOpen: true,
+        lightBoxImage: action.payload
+      });
+    case CLOSE_LIGHTBOX:
+      return state.merge({
+        isLightBoxOpen: false,
+        lightBoxImage: null
+      })
 
     default:
       return state;

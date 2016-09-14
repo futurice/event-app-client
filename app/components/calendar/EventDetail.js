@@ -2,17 +2,19 @@
 
 import React from 'react-native';
 var {
-  ScrollView,
   StyleSheet,
   Text,
   Dimensions,
-  TouchableOpacity,
   View,
   PropTypes,
   Platform,
   Linking
 } = React;
+
+import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import ParallaxView from 'react-native-parallax-view';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
 
@@ -20,15 +22,16 @@ import analytics from '../../services/analytics';
 import time from '../../utils/time';
 import locationService from '../../services/location';
 import Button from '../common/Button';
-import EventListItem from './EventListItem';
-import EventDetailHero from './EventDetailHero';
+
+import PlatformTouchable from '../common/PlatformTouchable';
+const IOS = Platform.OS === 'ios';
 
 const VIEW_NAME = 'EventDetail';
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#FFF',
+    backgroundColor: '#ddd',
     paddingBottom: Platform.OS === 'ios' ? 20 : 0
   },
   detailEventImg: {
@@ -36,9 +39,8 @@ const styles = StyleSheet.create({
     height: 200,
   },
   content: {
-    paddingTop:10,
     padding: 20,
-    paddingBottom:40,
+    backgroundColor:theme.light,
     flex: 1,
   },
   detailEventInfoContainer: {
@@ -46,7 +48,9 @@ const styles = StyleSheet.create({
     alignItems:'flex-start',
     justifyContent:'center',
     padding:20,
-    backgroundColor:'#eee'
+    paddingTop:15,
+    paddingBottom:15,
+    backgroundColor:'#fff'
   },
   detailEventInfoWrapper: {
     flex:1,
@@ -55,18 +59,20 @@ const styles = StyleSheet.create({
   },
   detailEventInfoIcon: {
     fontSize:25,
-    color:'#888',
+    color:theme.secondary,
     marginTop:1,
-    paddingRight:10,
+    paddingRight:23,
+    marginLeft:7,
+    alignSelf:'center'
   },
   detailEventInfoAttending: {
     fontSize:14,
-    color:'#aaa',
+    color:theme.darkgrey,
     alignSelf: 'center'
   },
   detailEventInfoTime: {
-    color: '#aaa',
-    fontSize: 14,
+    color: '#000',
+    fontSize: 15,
     alignSelf: 'center'
   },
   detailEventName: {
@@ -77,16 +83,18 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   detailEventDescription: {
-    color: '#888',
+    color: '#666',
     fontWeight: 'normal',
-    fontSize: 15,
-    marginTop: 10,
+    fontSize: 16,
+    lineHeight:24,
+    marginTop: 0,
   },
 
   navigationButtonWrapper: {
-    margin: 20,
-    marginTop: 20,
-    marginBottom: 0,
+    margin: -20,
+    marginTop: 0,
+    marginBottom:0,
+    backgroundColor: theme.light
   },
   navigationButton: {
     height: 50,
@@ -108,6 +116,72 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 15,
     top: 10,
+  },
+  gridListItemMetaWrap:{
+    flex:1,
+    paddingBottom:10,
+    borderBottomWidth:1,
+    borderBottomColor:'#eee',
+  },
+  gridListItemMeta: {
+    backgroundColor:'#fff',
+    borderBottomWidth:0,
+    borderBottomColor:'#eee',
+    flexDirection:'row',
+    justifyContent:'flex-start',
+    alignItems:'center',
+    padding:15,
+    paddingLeft:20,
+    paddingRight:20,
+    flex:1
+  },
+  gridListItemIcon:{
+    color: theme.secondary,
+    fontSize: 24,
+    top:2
+  },
+  gridListItemMeta__block: {
+    flexDirection:'column',
+    alignItems:'center',
+  },
+  gridListItemMetaInfo__title:{
+    color:'#000',
+    fontSize:15,
+  },
+  gridListItemMetaInfo: {
+    color: theme.darkgrey,
+  },
+  gridListItemPlace:{
+    color:theme.darkgrey
+  },
+  gridListItemDistance: {
+    color: '#000',
+    textAlign:'right',
+    fontSize:15
+  },
+  gridListItemLeftIcon: {
+    width:40,
+    paddingRight:15,
+    color: theme.secondary,
+    fontSize: 15,
+  },
+  header:{
+    position:'absolute',
+    bottom:20,
+    left:20,
+    right:20,
+    fontSize: 25,
+    lineHeight:29,
+    fontWeight: 'bold',
+    textAlign: 'left',
+    color: theme.light,
+    elevation:2,
+    paddingBottom:10
+  },
+  gridListItemImgColorLayer: {
+    //position: 'absolute',
+    //left: 0, top: 0, bottom: 0, right: 0,
+    flex: 1
   }
 });
 
@@ -125,16 +199,6 @@ const EventDetail = React.createClass({
     this.props.navigator.pop();
   },
 
-  getEventStatus(timepoint) {
-    if (timepoint.onGoing) {
-      return 'Ongoing';
-    } else if (timepoint.startsSoon) {
-      return 'Starting soon';
-    } else {
-      return null;
-    }
-  },
-
   render: function() {
     // TODO: stylize the "meta-elements"
 
@@ -142,51 +206,106 @@ const EventDetail = React.createClass({
     const currentDistance = this.props.route.currentDistance;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
     const wrapperStyleAdd = {
-      paddingTop: Platform.OS !== 'ios' || this.props.route.disableTopPadding ? 0 : 20
+      paddingTop: 0
     };
 
+    const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+    const coverImage = DEFAULT_IMG;// model.coverImage ? model.coverImage.replace('https://', 'http://') : '';
+
     return <View style={[styles.wrapper, wrapperStyleAdd]}>
-      {(Platform.OS === 'android') ?
-        <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
+      {!IOS ?
+      <Toolbar title={`${timepoint.time} - ${timepoint.endTime}`} navigator={this.props.navigator} /> : null}
 
-      <ScrollView style={{flex:1}}>
-        {Platform.OS === 'ios' ?
-          <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} /> :
-          <EventDetailHero item={model} currentDistance={currentDistance} />
-        }
 
-       {(model.facebookId || this.getEventStatus(timepoint)) &&
-        <View style={styles.detailEventInfoContainer}>
-          <View style={styles.detailEventInfoWrapper}>
-            {model.facebookId &&
-            <TouchableOpacity
-              style={styles.detailEventInfoWrapper}
-              onPress={() =>
-                Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
-            >
-              <View style={styles.detailEventInfoWrapper}>
-                <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
-                <Text style={styles.detailEventInfoAttending}>
-                  {model.attendingCount} {model.attendingCount ? 'attending' : null}
-                </Text>
+      <ParallaxView
+          backgroundSource={{uri: coverImage}}
+          windowHeight={300}
+          style={{backgroundColor:'#eee'}}
+          header={(
+            <View style={{flex:1}}>
+              <LinearGradient
+                locations={[0,0.6,0.7]}
+                colors={['transparent', 'rgba(0,0,0,.3)', 'rgba(0,0,0,.6)']}
+                style={styles.gridListItemImgColorLayer}>
+              <Text style={styles.header}>
+                  {model.name}
+              </Text>
+              </LinearGradient>
+            </View>
+          )}
+      >
+        <View style={{marginTop:10 }}>
+
+            <View style={styles.gridListItemMetaWrap}>
+
+            <View style={styles.gridListItemMeta}>
+              <View style={styles.gridListItemMeta__block}>
+                <Text style={styles.gridListItemLeftIcon}><MaterialIcon style={styles.gridListItemIcon} name='access-time'/> </Text>
               </View>
-            </TouchableOpacity>
+
+              <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
+                <Text style={styles.gridListItemMetaInfo__title}>Time</Text>
+                <Text style={styles.gridListItemPlace}>{timepoint.time} - {timepoint.endTime}</Text>
+              </View>
+            </View>
+
+
+            <PlatformTouchable underlayColor={'#eee'} activeOpacity={0.6} delayPressIn={1}
+              onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>
+            <View style={styles.gridListItemMeta}>
+              <View style={styles.gridListItemMeta__block}>
+                <Text style={styles.gridListItemLeftIcon}><MaterialIcon style={styles.gridListItemIcon} name='location-on'/> </Text>
+              </View>
+
+              <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
+              <Text style={styles.gridListItemMetaInfo__title}>Location</Text>
+                <Text style={styles.gridListItemPlace}>{model.locationName}</Text>
+              </View>
+            </View>
+            </PlatformTouchable>
+
+            { currentDistance !== '' && currentDistance &&
+            <View style={styles.gridListItemMeta}>
+              <View style={styles.gridListItemMeta__block}>
+                <Text style={styles.gridListItemLeftIcon}><MaterialIcon style={styles.gridListItemIcon} name='redo'/> </Text>
+              </View>
+
+              <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
+                <Text style={styles.gridListItemMetaInfo__title}>Distance from you</Text>
+                <Text style={styles.gridListItemMetaInfo}>{currentDistance}</Text>
+              </View>
+            </View>
             }
+
+            { model.facebookId &&
+                <PlatformTouchable
+                activeOpacity={0.6} delayPressIn={1}
+                underlayColor={'#eee'}
+                onPress={() =>
+                  Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+                >
+                  <View style={styles.detailEventInfoContainer}>
+                    <View style={styles.detailEventInfoWrapper}>
+                      <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
+                      <Text style={styles.detailEventInfoAttending}>
+                      {model.attendingCount} {model.attendingCount ? 'attending' : ''}
+                      </Text>
+                    </View>
+                  </View>
+                </PlatformTouchable>
+              }
+              </View>
+
+              <View style={styles.content}>
+                <Text style={styles.detailEventDescription}>{model.description}</Text>
+              </View>
+
+              <View style={styles.navigationButtonWrapper}>
+                <Button style={{borderRadius:0}} onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
+              </View>
           </View>
-          <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
-        </View>
-        }
-
-        <View style={styles.navigationButtonWrapper}>
-          <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
-        </View>
-
-        <View style={styles.content}>
-          <Text style={styles.detailEventDescription}>{model.description}</Text>
-        </View>
-
-      </ScrollView>
-    </View>;
+      </ParallaxView>
+    </View>
   }
 
 });

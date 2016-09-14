@@ -1,0 +1,194 @@
+'use strict';
+
+import React from 'react-native';
+var {
+  ScrollView,
+  StyleSheet,
+  Text,
+  Dimensions,
+  TouchableOpacity,
+  View,
+  PropTypes,
+  Platform,
+  Linking
+} = React;
+import Icon from 'react-native-vector-icons/Ionicons';
+import theme from '../../style/theme';
+import Toolbar from './EventDetailToolbar';
+
+import analytics from '../../services/analytics';
+import time from '../../utils/time';
+import locationService from '../../services/location';
+import Button from '../common/Button';
+import EventListItem from './EventListItem';
+import EventDetailHero from './EventDetailHero';
+
+const VIEW_NAME = 'EventDetail';
+
+const styles = StyleSheet.create({
+  wrapper: {
+    flex: 1,
+    backgroundColor: '#FFF',
+    paddingBottom: Platform.OS === 'ios' ? 20 : 0
+  },
+  detailEventImg: {
+    width: Dimensions.get('window').width,
+    height: 200,
+  },
+  content: {
+    paddingTop:10,
+    padding: 20,
+    paddingBottom:40,
+    flex: 1,
+  },
+  detailEventInfoContainer: {
+    flexDirection:'row',
+    alignItems:'flex-start',
+    justifyContent:'center',
+    padding:20,
+    backgroundColor:'#eee'
+  },
+  detailEventInfoWrapper: {
+    flex:1,
+    flexDirection:'row',
+    alignItems:'flex-end',
+  },
+  detailEventInfoIcon: {
+    fontSize:25,
+    color:'#888',
+    marginTop:1,
+    paddingRight:10,
+  },
+  detailEventInfoAttending: {
+    fontSize:14,
+    color:'#aaa',
+    alignSelf: 'center'
+  },
+  detailEventInfoTime: {
+    color: '#aaa',
+    fontSize: 14,
+    alignSelf: 'center'
+  },
+  detailEventName: {
+    backgroundColor: theme.light,
+    textAlign: 'left',
+    color: theme.primary,
+    fontWeight: 'bold',
+    fontSize: 25,
+  },
+  detailEventDescription: {
+    color: '#888',
+    fontWeight: 'normal',
+    fontSize: 15,
+    marginTop: 10,
+  },
+
+  navigationButtonWrapper: {
+    margin: 20,
+    marginTop: 20,
+    marginBottom: 0,
+  },
+  navigationButton: {
+    height: 50,
+    backgroundColor: '#E9E9E9',
+    borderColor: '#C7C7C7',
+    borderWidth: 2
+  },
+  navigationButtonText: {
+    fontSize: 20,
+    textAlign: 'center',
+    lineHeight: 35,
+    fontWeight: 'bold',
+    color: '#8A8A8A',
+    margin: 0,
+    padding: 0
+  },
+  navigationButtonIcon: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    left: 15,
+    top: 10,
+  }
+});
+
+const EventDetail = React.createClass({
+  propTypes: {
+    navigator: PropTypes.object.isRequired,
+    route: PropTypes.object.isRequired
+  },
+
+  componentDidMount() {
+    analytics.viewOpened(VIEW_NAME);
+  },
+
+  onPressBack() {
+    this.props.navigator.pop();
+  },
+
+  getEventStatus(timepoint) {
+    if (timepoint.onGoing) {
+      return 'Ongoing';
+    } else if (timepoint.startsSoon) {
+      return 'Starting soon';
+    } else {
+      return null;
+    }
+  },
+
+  render: function() {
+    // TODO: stylize the "meta-elements"
+
+    const model = this.props.route.model;
+    const currentDistance = this.props.route.currentDistance;
+    const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
+    const wrapperStyleAdd = {
+      paddingTop: Platform.OS !== 'ios' || this.props.route.disableTopPadding ? 0 : 20
+    };
+
+    return <View style={[styles.wrapper, wrapperStyleAdd]}>
+      {(Platform.OS === 'android') ?
+        <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
+
+      <ScrollView style={{flex:1}}>
+        {Platform.OS === 'ios' ?
+          <EventListItem item={model} currentDistance={currentDistance} handlePress={() => true} /> :
+          <EventDetailHero item={model} currentDistance={currentDistance} />
+        }
+
+       {(model.facebookId || this.getEventStatus(timepoint)) &&
+        <View style={styles.detailEventInfoContainer}>
+          <View style={styles.detailEventInfoWrapper}>
+            {model.facebookId &&
+            <TouchableOpacity
+              style={styles.detailEventInfoWrapper}
+              onPress={() =>
+                Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+            >
+              <View style={styles.detailEventInfoWrapper}>
+                <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
+                <Text style={styles.detailEventInfoAttending}>
+                  {model.attendingCount} {model.attendingCount ? 'attending' : null}
+                </Text>
+              </View>
+            </TouchableOpacity>
+            }
+          </View>
+          <Text style={styles.detailEventInfoTime}>{this.getEventStatus(timepoint)}</Text>
+        </View>
+        }
+
+        <View style={styles.navigationButtonWrapper}>
+          <Button onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
+        </View>
+
+        <View style={styles.content}>
+          <Text style={styles.detailEventDescription}>{model.description}</Text>
+        </View>
+
+      </ScrollView>
+    </View>;
+  }
+
+});
+
+export default EventDetail;

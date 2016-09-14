@@ -4,6 +4,8 @@ import React, {
   Animated,
   StyleSheet,
   ListView,
+  Dimensions,
+  Image,
   Text,
   RefreshControl,
   View,
@@ -25,7 +27,7 @@ import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import TimerMixin from 'react-timer-mixin';
 
-
+const {height, width} = Dimensions.get('window');
 const AUTOREFRESH_INTERVAL = 20 * 1000;
 
 const styles = StyleSheet.create({
@@ -91,14 +93,33 @@ const FeedList = React.createClass({
     }
   },
 
+
+  offset: 0,
+  currentDirection: null,
   _onScroll(event){
     const SHOW_SCROLLTOP_LIMIT = 600;
     const scrollTop = event.nativeEvent.contentOffset.y;
+
+
+    const direction = scrollTop > this.offset ? 'DOWN' : 'UP';
+    this.offset = scrollTop;
 
     const showScrollTopButton = scrollTop > SHOW_SCROLLTOP_LIMIT;
     if (this.state.showScrollTopButton !== showScrollTopButton) {
       this.setState({showScrollTopButton})
     }
+
+/*
+    if (direction !== this.currentDirection){
+
+      this.currentDirection = direction;
+      if (direction === 'DOWN') {
+        this.props.scrollDown();
+      } else {
+        this.props.scrollUp()
+      }
+    }
+*/
   },
 
   onRefreshFeed() {
@@ -137,6 +158,20 @@ const FeedList = React.createClass({
     }
   },
 
+  renderBgImage() {
+    return (<Image
+      resizeMode={'cover'}
+      source={require('../../../assets/backgrounds/bg-pattern.png')}
+      style={{
+        position: 'absolute',
+        height,
+        left: 0,
+        top: 0,
+        opacity: 0.1
+      }}
+      />);
+  },
+
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing || this.props.isSending}
@@ -159,10 +194,11 @@ const FeedList = React.createClass({
       default:
         return (
           <View style={styles.container}>
+            {/*this.renderBgImage()*/}
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
-              renderRow={item => <FeedListItem item={item} />}
+              renderRow={(item, sec, index) => <FeedListItem item={item} index={index} />}
               style={[styles.listView]}
               onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}

@@ -32,10 +32,10 @@ const Loading = props => {
   return (
     <View style={styles.container}>
       {(Platform.OS === 'android') ?
-        <ProgressBar styleAttr='Inverse' color={theme.primary}/>
+        <ProgressBar styleAttr='Inverse' color={theme.secondary}/>
       :
         <ActivityIndicatorIOS
-          color={theme.primary}
+          color={theme.secondary}
           animating={true}
           style={styles.activityIndicator}
           size='large' />

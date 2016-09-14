@@ -42,8 +42,9 @@ const putUser = () => {
     const name = getStore().registration.get('name');
     const team = getStore().registration.get('selectedTeam', '');
     const picture = getStore().registration.get('picture', '');
+    const email = getStore().registration.get('email', '');
     console.log({uuid, name, team, picture});
-    return api.putUser({ uuid, name, team, picture })
+    return api.putUser({ uuid, name, team, picture, email })
       .then(response => {
         dispatch({ type: CREATE_USER_SUCCESS, payload: response });
         dispatch({ type: CLOSE_REGISTRATION_VIEW });
@@ -101,6 +102,43 @@ const getUser = () => {
   };
 };
 
+
+
+const {
+  LOGIN_USER_REQUEST,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILURE
+} = createRequestActionTypes('LOGIN_USER');
+
+const loginUser = (inviteCode) => {
+
+  return dispatch => {
+    dispatch({ type: LOGIN_USER_REQUEST });
+    return api.loginUser(inviteCode)
+      .then(user => {
+        if (user.status === 'OK'){
+          dispatch({ type: LOGIN_USER_SUCCESS, payload: user.user });
+        } else {
+          dispatch({ type: LOGIN_USER_FAILURE });
+        }
+      })
+      .catch(error => {
+        dispatch({ type: LOGIN_USER_FAILURE, error: error });
+      });
+  }
+};
+
+const OPEN_LOGIN_VIEW = 'OPEN_LOGIN_VIEW';
+const showLogin = () => {
+  return { type: OPEN_LOGIN_VIEW };
+};
+
+const CLOSE_WELCOME_VIEW = 'CLOSE_WELCOME_VIEW';
+const closeWelcome = () => {
+  return { type: CLOSE_WELCOME_VIEW };
+}
+
+
 export {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
@@ -114,6 +152,11 @@ export {
   GET_USER_FAILURE,
   SELECT_TEAM,
   DISMISS_INTRODUCTION,
+  OPEN_LOGIN_VIEW,
+  LOGIN_USER_REQUEST,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILURE,
+  CLOSE_WELCOME_VIEW,
   putUser,
   openRegistrationView,
   closeRegistrationView,
@@ -122,5 +165,8 @@ export {
   generateName,
   getUser,
   selectTeam,
-  dismissIntroduction
+  dismissIntroduction,
+  loginUser,
+  showLogin,
+  closeWelcome
 };

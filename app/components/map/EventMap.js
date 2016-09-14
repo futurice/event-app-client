@@ -12,7 +12,6 @@ import React, {
   TouchableOpacity,
   WebView
 } from 'react-native';
-import RNMapView from 'react-native-maps';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
@@ -40,7 +39,7 @@ const imageHtml = `
       body {
         min-height:100%;
         position:relative;
-        background: tomato;
+        background: #FFF;
       }
       * { margin:0; padding:0; }
       img {
@@ -67,9 +66,6 @@ const imageHtml = `
   <body>
     <div id="container">
       <div id="scroller">
-        <img src="https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/venue.png" />
-        <img src="https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/venue.png" />
-        <img src="https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/venue.png" />
         <img src="https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/venue.png" />
       </div>
     </div>

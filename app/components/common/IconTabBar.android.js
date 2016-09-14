@@ -8,11 +8,14 @@ var {
   Text,
   TouchableNativeFeedback,
   View,
-  Animated
+  Animated,
+  Image
 } = React;
 
 import _ from 'lodash';
+import ICONS from '../../constants/Icons';
 const Icon = require('react-native-vector-icons/MaterialIcons');
+const HEART_ICON = require('../../../assets/icons/heart.png')
 
 var styles = StyleSheet.create({
   tab: {
@@ -38,6 +41,7 @@ var styles = StyleSheet.create({
   }
 });
 
+
 var AndroidTabBar = React.createClass({
   propTypes: {
     goToPage: React.PropTypes.func,
@@ -48,37 +52,107 @@ var AndroidTabBar = React.createClass({
     inactiveTextColor : React.PropTypes.string,
   },
 
-  renderTabOption(name, page) {
+
+
+  renderImage(iconId, isTabActive, activeTextColor, inactiveTextColor) {
+    const icon = ICONS[iconId] ? ICONS[iconId] : HEART_ICON;
+
+    return (
+      <Image
+        style={{
+          width: 24,
+          height: 24,
+          tintColor: isTabActive ? activeTextColor : inactiveTextColor
+        }}
+        source={icon}
+      />
+    );
+
+  },
+
+  renderIcon(numberOfTabs, isTabActive, activeTextColor, inactiveTextColor, outPutArray, item) {
+    const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+    const textScale = this.props.scrollValue.interpolate({  inputRange: _.range(numberOfTabs), outputRange: outPutArray});
+    const iconTop = textScale.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
+
+    return (
+      <View>
+      <AnimatedIcon
+        name={item.icon}
+        size={23}
+        style={{
+          // top: isTabActive ? iconTop : 0,
+          color: isTabActive ? activeTextColor : inactiveTextColor
+        }}
+      />
+
+      {this.renderText(item.title, isTabActive, textScale, activeTextColor) }
+      </View>
+    )
+  },
+
+  renderText(title, isTabActive, textScale, activeTextColor) {
+    if (title && isTabActive) {
+      return (
+        <Animated.Text style={[
+          styles.textLabel,
+          {
+            color: activeTextColor,
+            opacity: isTabActive ? textScale : 0,
+            transform: [{
+              scale: isTabActive ? textScale : 0
+            }]
+          }
+          ]}>
+          {item.title}
+          </Animated.Text>
+        )
+    }
+
+
+  },
+
+
+  renderTabOption(item, page) {
     const isTabActive = this.props.activeTab === page;
     const activeTextColor = this.props.activeTextColor || 'navy';
     const inactiveTextColor = this.props.inactiveTextColor || 'black';
 
-    const AnimatedIcon = Animated.createAnimatedComponent(Icon);
+    // const AnimatedIcon = Animated.createAnimatedComponent(Icon);
 
     const numberOfTabs = this.props.tabs.length;
     const outPutArray = _.times(numberOfTabs, () => 0);
     outPutArray[page] = 1; // -> eg. [0,1,0,0,0]
 
-    const textScale = this.props.scrollValue.interpolate({  inputRange: _.range(numberOfTabs), outputRange: outPutArray});
-    const iconTop = textScale.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
+    // const textScale = this.props.scrollValue.interpolate({  inputRange: _.range(numberOfTabs), outputRange: outPutArray});
+    // const iconTop = textScale.interpolate({ inputRange: [0, 1], outputRange: [0, -6] });
+
 
     return (
     <TouchableNativeFeedback
-      key={name.title}
+      key={item.title}
       onPress={() => this.props.goToPage(page)}
       background={TouchableNativeFeedback.SelectableBackground()}
       delayPressIn={0}
     >
       <View style={styles.tab} >
+        {
+          item.image ?
+          this.renderImage(item.image, isTabActive, activeTextColor, inactiveTextColor) :
+          this.renderIcon(numberOfTabs, isTabActive, activeTextColor, inactiveTextColor, outPutArray, item)
+        }
+
+
+        {/*
         <AnimatedIcon
-        name={name.icon}
+        name={item.icon}
         size={22}
         style={{
-          /* top: isTabActive ? iconTop : 0, */
+          // top: isTabActive ? iconTop : 0,
           color: isTabActive ? activeTextColor : inactiveTextColor
         }}/>
 
-        {name.title && isTabActive &&
+        {item.title && isTabActive &&
           <Animated.Text style={[
             styles.textLabel,
             {
@@ -89,9 +163,10 @@ var AndroidTabBar = React.createClass({
               }]
             }
           ]}>
-          {name.title}
+          {item.title}
           </Animated.Text>
         }
+        */}
       </View>
     </TouchableNativeFeedback>
     );

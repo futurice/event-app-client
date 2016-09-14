@@ -1,5 +1,8 @@
 'use strict';
 
+
+import { APP_STORAGE_KEY } from '../../env';
+import { AsyncStorage } from 'react-native';
 import Immutable from 'immutable';
 import {
   CREATE_USER_REQUEST,
@@ -13,8 +16,18 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
-  SELECT_TEAM
+  SELECT_TEAM,
+  OPEN_LOGIN_VIEW,
+  LOGIN_USER_REQUEST,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILURE,
+  CLOSE_WELCOME_VIEW
 } from '../actions/registration';
+
+
+const appUserKey = `${APP_STORAGE_KEY}:user`;
+const userLogged = AsyncStorage.getItem(appUserKey);
+console.log(userLogged);
 
 const initialState = Immutable.fromJS({
   isRegistrationViewOpen: false,
@@ -24,8 +37,20 @@ const initialState = Immutable.fromJS({
   selectedTeam: 0,
   isLoading: false,
   isError: false,
-  isIntroductionDismissed: false
+  isIntroductionDismissed: false,
+  isIntroViewOpen: false,
+  loginFailed: false,
+  isWelcomeScreenOpen: false,
+  loggedUserName: ''
 });
+
+function saveUserToDevice(user) {
+  try {
+    AsyncStorage.setItem(appUserKey, JSON.stringify(user));
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 export default function registration(state = initialState, action) {
   switch (action.type) {
@@ -55,6 +80,7 @@ export default function registration(state = initialState, action) {
         'isError': false
       });
     case GET_USER_REQUEST:
+    case LOGIN_USER_REQUEST:
       return state.set('isLoading', true);
     case CREATE_USER_SUCCESS:
       return state.merge({
@@ -76,6 +102,29 @@ export default function registration(state = initialState, action) {
         'uuid': action.payload.uuid,
         'isLoading': false
       });
+    case OPEN_LOGIN_VIEW:
+      console.log('LOGIN');
+      return state.set('isIntroViewOpen', true);
+    case LOGIN_USER_SUCCESS:
+      saveUserToDevice(action.payload);
+      return state.merge({
+        loginFailed: false,
+        isIntroViewOpen: false,
+        isLoading: false,
+        isWelcomeScreenOpen: true,
+        loggedUserName: action.payload.name
+      });
+    case LOGIN_USER_FAILURE:
+      return state.merge({
+        loginFailed: true,
+        isIntroViewOpen: true,
+        isLoading: false
+      })
+    case CLOSE_WELCOME_VIEW:
+      return state.merge({
+        isIntroViewOpen: false,
+        isWelcomeScreenOpen: false
+      })
     default:
       return state;
   }
