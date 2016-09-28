@@ -1,6 +1,6 @@
 'use strict';
-
-import React, { Animated, Easing, Platform, StyleSheet, Text, View, BackAndroid } from 'react-native';
+import React from 'react';
+import { Animated, Easing, Platform, StyleSheet, Text, View, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
@@ -56,10 +56,10 @@ const styles = StyleSheet.create({
     bottom: 4,
     right: 5,
     width: 46,
-    height: 46
+    height: 46,
   },
   actionButtonContent: {
-    color: theme.primary
+    color: theme.white
   },
   overlay:{
     right:43,

@@ -1,12 +1,11 @@
 'use strict';
 
-import React from 'react-native';
-var {
+import React, { PropTypes } from 'react';
+import {
   ToolbarAndroid,
-  StyleSheet,
-  PropTypes
-} = React;
-import Icon from 'react-native-vector-icons/Ionicons';
+  StyleSheet
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
 const styles = StyleSheet.create({

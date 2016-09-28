@@ -1,7 +1,7 @@
 'use strict';
 
 import api from '../services/api';
-import {createRequestActionTypes} from '.'
+import {createRequestActionTypes} from './index'
 
 const {
   GET_TEAMS_REQUEST,

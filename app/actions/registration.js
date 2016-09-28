@@ -2,7 +2,7 @@ import DeviceInfo from 'react-native-device-info';
 import api from '../services/api';
 import namegen from '../services/namegen';
 import _ from 'lodash';
-import {createRequestActionTypes} from '.';
+import {createRequestActionTypes} from './index';
 
 const {
   CREATE_USER_REQUEST,
@@ -41,9 +41,9 @@ const putUser = () => {
     const uuid = DeviceInfo.getUniqueID();
     const name = getStore().registration.get('name');
     const team = getStore().registration.get('selectedTeam', '');
-    const picture = getStore().registration.get('picture', '');
     const email = getStore().registration.get('email', '');
-    console.log({uuid, name, team, picture});
+    const picture = getStore().registration.get('picture', '');
+
     return api.putUser({ uuid, name, team, picture, email })
       .then(response => {
         dispatch({ type: CREATE_USER_SUCCESS, payload: response });
@@ -53,6 +53,7 @@ const putUser = () => {
   };
 };
 const selectTeam = team => {
+  console.log('selecting team', team);
   return (dispatch, getStore) => {
     const teams = getStore().team.get('teams').toJS();
     const currentName = getStore().registration.get('name');
@@ -113,11 +114,27 @@ const {
 const loginUser = (inviteCode) => {
 
   return dispatch => {
+    const uuid = DeviceInfo.getUniqueID();
     dispatch({ type: LOGIN_USER_REQUEST });
-    return api.loginUser(inviteCode)
+
+    return api.loginUser({ code: inviteCode ? inviteCode.toLowerCase() : '', uuid })
       .then(user => {
         if (user.status === 'OK'){
-          dispatch({ type: LOGIN_USER_SUCCESS, payload: user.user });
+          const userResponse = user.user;
+          const { name, email, team } = userResponse;
+
+          selectTeam(team);
+          updateProfile({ name, email });
+
+          dispatch({ type: LOGIN_USER_SUCCESS, payload: userResponse })
+
+          // return api.putUser({ uuid, name, team, email })
+          //   .then(response => {
+          //     dispatch({ type: LOGIN_USER_SUCCESS, payload: userResponse });
+          //   })
+          //   .catch(error => dispatch({ type: LOGIN_USER_FAILURE, error: error }));
+
+
         } else {
           dispatch({ type: LOGIN_USER_FAILURE });
         }

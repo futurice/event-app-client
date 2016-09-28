@@ -2,15 +2,15 @@
 // https://www.google.com/design/spec/components/bottom-navigation.html
 'use strict';
 
-var React = require('react-native');
-var {
+import React from 'react';
+import {
   StyleSheet,
   Text,
   TouchableNativeFeedback,
   View,
   Animated,
   Image
-} = React;
+} from 'react-native';
 
 import _ from 'lodash';
 import ICONS from '../../constants/Icons';

@@ -1,15 +1,13 @@
 'use strict';
 
-var React = require('react-native');
-var {
+import React, { PropTypes } from 'react';
+import {
   StyleSheet,
   ListView,
   Text,
   Platform,
-  PropTypes,
-  ActivityIndicatorIOS,
   View,
-} = React;
+} from 'react-native';
 import { connect } from 'react-redux';
 
 import _ from 'lodash';
@@ -25,7 +23,6 @@ import Loading from '../feed/Loading';
 import EventListItem from './EventListItem';
 import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
-import ProgressBar from 'ProgressBarAndroid';
 import Button from '../common/Button';
 
 const IOS = Platform.OS === 'ios';
@@ -61,8 +58,7 @@ const styles = StyleSheet.create({
     backgroundColor: IOS ? 'rgba(255,255,255,.88)' : 'transparent',
     opacity: IOS ? 1 : 1,
     padding: IOS ? 15 : 35,
-    paddingLeft:15,
-    flex: 1
+    paddingLeft:15
   },
   sectionHeaderAnnouncement: {
     backgroundColor: theme.secondary,
@@ -126,7 +122,8 @@ var TimelineList = React.createClass({
       component: EventDetail,
       name: model.name,
       currentDistance: currentDistance,
-      model
+      model,
+      showName: true
     });
   },
 
@@ -145,8 +142,16 @@ var TimelineList = React.createClass({
       });
 
     // TODO: Filter the past events away in here?
-    let listSections = _.groupBy(events,
-      event => moment(event.startTime).startOf('day').unix());
+    let listSections = _.chain(events)
+      .sortBy(item => moment(item.startTime).valueOf())
+      .groupBy(event => moment(event.startTime).startOf('day').unix())
+      .value();
+
+
+    // listSections = _.mape(listSections, section => {
+    //     return _.sortBy(section, item => moment(item.startTime).valueOf());
+    // })
+
     const eventSectionsOrder = _.orderBy(_.keys(listSections));
 
     // Add the announcements-section to the listSections
@@ -170,6 +175,12 @@ var TimelineList = React.createClass({
     let sectionCaption = '';
     const sectionStartMoment = moment.unix(sectionId);
 
+    // Futubileet Specific logic
+    // Don't show any other date than the first one...
+    if ( 2 > sectionData.length) {
+      return (<View />);
+    }
+
     // # Caption
     // Announcement-section
     if (sectionId === ANNOUNCEMENTS_SECTION) {
@@ -178,10 +189,8 @@ var TimelineList = React.createClass({
     // Day-sections
     else if (sectionStartMoment.isSame(moment(), 'day')) {
       sectionCaption = 'Today';
-    } else if (sectionStartMoment.isSame(moment().add(1, 'day'), 'day')) {
-      sectionCaption = 'Tomorrow';
     } else {
-      sectionCaption = moment.unix(sectionId).format('ddd D.M.');
+      sectionCaption = moment.unix(sectionId).format('dddd D.M.');
     }
     sectionCaption = sectionCaption.toUpperCase();
 

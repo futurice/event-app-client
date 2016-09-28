@@ -1,12 +1,11 @@
 'use strict'
 
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+
+import {
   View,
   Navigator,
   StatusBar,
-  PropTypes,
-  Animated,
   BackAndroid
 } from 'react-native'
 
@@ -36,7 +35,7 @@ const AndroidTabNavigation = React.createClass({
   render() {
     return (
       <AndroidTabs
-        initialPage={0}
+        initialPage={2}
         tabBarPosition={'top'}
         tabBarUnderlineColor={theme.stable}
         tabBarBackgroundColor={theme.secondary}
@@ -44,11 +43,11 @@ const AndroidTabNavigation = React.createClass({
         tabBarInactiveTextColor={theme.secondaryDark}
         renderTabBar={() => <IconTabBar rippleColor={theme.secondaryDark} />}
       >
-        <FeedView navigator={this.props.navigator} tabLabel={{image: 'CHATS' }} scrollUp={this.scrollUp} scrollDown={this.scrollDown} />
+        <EventMapView tabLabel={{image: 'MAP' }} />
         <CalendarView navigator={this.props.navigator} tabLabel={{icon: 'access-time' }} />
-        <EventMapView navigator={this.props.navigator} tabLabel={{image: 'MAP' }} />
+        <FeedView navigator={this.props.navigator} tabLabel={{image: 'CHATS' }} scrollUp={this.scrollUp} scrollDown={this.scrollDown} />
         <CompetitionView tabLabel={{icon: 'equalizer' }} />
-        <ProfileView tabLabel={{icon: 'person-outline' }} />
+        <ProfileView navigator={this.props.navigator}  tabLabel={{icon: 'person-outline' }} />
       </AndroidTabs>
     )
   }
@@ -103,7 +102,7 @@ class App extends Component {
     return (
       <View style={{flex:1}}>
 
-      <StatusBar backgroundColor={theme.secondaryDark} />
+      <StatusBar backgroundColor={theme.secondaryStatus} />
 
       <Navigator
         initialRoute={{

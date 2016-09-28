@@ -1,17 +1,20 @@
-const ROOT_URL = 'http://wappu.futurice.com';
+const ROOT_URL = 'https://futurice.github.io/futubileet-site';
 
-const Terms = [
-  {title: 'Competence academy', link: `https://docs.google.com/spreadsheets/d/1g4tuZ-FnlSWMFrd5VMH-Tp8_hngQRPmueXS-11_81_U/edit?usp=sharing`, icon: 'star'},
-  {title: 'Useful info', link: `https://docs.google.com/document/d/1Y4NqEqv7Kdu5sUdu5mRBQAlKlRg8QRc8Wzs4kyuzCZI/edit`, icon: 'question-answer'},
-  {title: 'Official timetable', link: `https://docs.google.com/spreadsheets/d/1J0dGKug2J2GVOnEPRBCqylopREHU6Jz_YVSUZvQbvls/edit#gid=0`, icon: 'event'},
-  {title: 'Need a ride?',
-    link: 'https://taxify.eu/',
-    icon: 'directions-car'},
-  {title: 'Terms of Service', link: `${ROOT_URL}/terms`, icon: 'info'},
-  {title: 'Privacy', link: `${ROOT_URL}/privacy`, icon: 'lock'},
-  {title: 'Licenses', link: `${ROOT_URL}/licenses`, icon: 'help'},
+
+import locationService from '../services/location';
+const EVENT_LOCATION = { latitude: 60.2875359, longitude: 25.0384261 };
+
+const Links = [
+  {title: 'Heureka Website', link: 'http://www.heureka.fi', icon: 'lightbulb-outline'},
+  {title: 'Directions to Heureka', link: locationService.getGeoUrl({ location: EVENT_LOCATION, locationName: 'Futubileet in Heureka' }), icon: 'directions' },
+  {title: 'Call Taxi Vantaa', link: 'tel://01007300', icon: 'directions-car', separatorAfter: true},
+  {title: 'Terms of Service', link: `${ROOT_URL}/terms.html`, icon: 'info', showInWebview: true},
+  {title: 'Privacy', link: `${ROOT_URL}/privacy.html`, icon: 'lock', showInWebview: true},
+  {title: 'Licenses', link: `${ROOT_URL}/licenses.html`, icon: 'help', showInWebview: true, last: true},
+
 ];
 
+
 export default {
-  terms: Terms,
+  links: Links
 };

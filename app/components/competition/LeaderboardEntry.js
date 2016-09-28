@@ -1,11 +1,11 @@
 'use strict';
 
-import React, {
+import React, { PropTypes } from 'react';
+import {
   View,
   Text,
   Image,
   Platform,
-  PropTypes,
   Dimensions,
   StyleSheet,
   LayoutAnimation
@@ -47,12 +47,12 @@ const LeaderboardEntry = React.createClass({
   componentDidMount() {
     // Increase min width if the team has some points, so that if winner has
     // e.g. 40000, the team with 30 points does not have too short bar
-    const minWidth = this.props.team.get('score') > 10 ? 46 : 26;
+    const minWidth = this.props.team.get('score') > 10 ? 46 : 30;
 
     this.setTimeout(() => {
       LayoutAnimation.spring();
       const percentageToTopscore = (this.props.team.get('score') / this.props.topscore) || 0;
-      const barWrapWidth = Dimensions.get('window').width - 40; // 110 other content width
+      const barWrapWidth = Dimensions.get('window').width -  120;// other content width
       let barWidth = barWrapWidth * percentageToTopscore;
       barWidth = Math.max(barWidth, minWidth); // minWidth for teams with low points
       this.setState({ width: barWidth });
@@ -60,19 +60,17 @@ const LeaderboardEntry = React.createClass({
   },
 
   render() {
-
+    console.log(this.props.logo, this.props.team.get('id'));
     const orderSuffix = this.getOrderSuffix(this.props.position);
 
     return (
       <View style={styles.entry}>
 
-      {/*
         <View style={styles.entryLogo}>
           <Image
           source={{ uri: this.props.logo }}
           style={styles.entryLogoImg} />
         </View>
-      */}
 
         <View style={styles.entryContent}>
           <View style={styles.entryTitle}>
@@ -109,8 +107,8 @@ const LeaderboardEntry = React.createClass({
 
 const styles = StyleSheet.create({
   entry: {
-    paddingTop:Platform.OS === 'ios' ? 30 : 32,
-    paddingBottom:Platform.OS === 'ios' ? 30 : 32,
+    paddingTop:Platform.OS === 'ios' ? 34 : 32,
+    paddingBottom:Platform.OS === 'ios' ? 34 : 32,
     backgroundColor:'#FFF',
     flexDirection:'row',
     alignItems:'center'
@@ -125,12 +123,14 @@ const styles = StyleSheet.create({
   },
   entryLogo:{
     paddingLeft:20,
-    paddingRight:20,
+    paddingRight:0,
   },
   entryLogoImg:{
-    width:50,
-    height:50,
-    borderRadius:25,
+    width:60,
+    height:60,
+    borderRadius:30,
+    borderWidth: 0,
+    borderColor: '#f3f3f3'
   },
   entryContent: {
     flex:1,
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     paddingLeft: 20,
   },
   entryTitle: {
-    flex:1,
     justifyContent:'space-between',
     flexDirection:'row',
     alignItems:'center',
@@ -150,7 +149,7 @@ const styles = StyleSheet.create({
   },
   entryTitlePositionText: {
     fontWeight:'normal',
-    color:'#bbb',
+    color: theme.darkgrey,
     fontSize:16,
     flex:1,
     textAlign:'right'
@@ -167,14 +166,14 @@ const styles = StyleSheet.create({
   },
   entryTitleScoreOver:{
     position:'absolute',
-    left:6,
+    left: 10,
     top:Platform.OS === 'ios' ? 7 : 3,
     fontSize:14,
     fontWeight:'bold',
-    color:'#fff',
-    textShadowColor:theme.secondaryDark,
-    textShadowOffset: {width: 0, height: 1},
-    textShadowRadius: 1
+    color: '#fff',
+    //textShadowColor:theme.secondaryDark,
+    //textShadowOffset: {width: 0, height: 1},
+    //textShadowRadius: 1
   },
   barWrap:{
     backgroundColor:'transparent',
@@ -188,7 +187,7 @@ const styles = StyleSheet.create({
     height:Platform.OS === 'ios' ? 30 : 26,
     backgroundColor:theme.secondary,
     position:'absolute',
-    borderRadius:3,
+    borderRadius:30,
     left:0,
     top:0,
     bottom:0,

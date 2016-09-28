@@ -4,7 +4,7 @@ import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';
 import { refreshFeed } from './feed';
-import {createRequestActionTypes} from '.';
+import {createRequestActionTypes} from './index';
 
 const {
   POST_ACTION_REQUEST,

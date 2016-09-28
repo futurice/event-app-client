@@ -1,5 +1,5 @@
 import api from '../services/api';
-import {createRequestActionTypes} from '.';
+import {createRequestActionTypes} from './index';
 
 const SET_FEED = 'SET_FEED';
 const APPEND_FEED = 'APPEND_FEED';
@@ -102,8 +102,8 @@ const removeFeedItem = (item) => {
 
 const OPEN_LIGHTBOX = 'OPEN_LIGHTBOX';
 const CLOSE_LIGHTBOX = 'CLOSE_LIGHTBOX';
-const openLightBox = (image) => {
-  return { type: OPEN_LIGHTBOX, payload: image };
+const openLightBox = (item) => {
+  return { type: OPEN_LIGHTBOX, payload: { item } };
 };
 
 const closeLightBox = () => {

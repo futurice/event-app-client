@@ -1,6 +1,6 @@
 'use strict';
-
-import React, { Platform, StatusBarIOS, AppStateIOS, AsyncStorage } from 'react-native';
+import React from 'react';
+import { Platform, StatusBar, AppStateIOS, AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -12,7 +12,7 @@ import * as CompetitionActions from '../actions/competition';
 import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
-import { checkForUpdates } from '../utils/updater';
+// import { checkForUpdates } from '../utils/updater';
 import { APP_STORAGE_KEY } from '../../env';
 const appUserKey = `${APP_STORAGE_KEY}:user`;
 
@@ -35,7 +35,7 @@ store.dispatch(TeamActions.fetchTeams());
 store.dispatch(RegistrationActions.getUser());
 
 // # Check if user logged
-AsyncStorage.clear();
+// AsyncStorage.clear();
 
 AsyncStorage.getItem(appUserKey)
 .then(user => {
@@ -49,52 +49,52 @@ const RootView = React.createClass({
 
   componentDidMount() {
 
-    const locationOpts = {
-      enableHighAccuracy: false,
-      timeout: 20000,
-      maximumAge: 1000 * 60 * 60
-    };
+    // const locationOpts = {
+    //   enableHighAccuracy: false,
+    //   timeout: 20000,
+    //   maximumAge: 1000 * 60 * 60
+    // };
 
-    navigator.geolocation.getCurrentPosition(
-      position => this.updateLocation,
-      error => console.log(error.message),
-      locationOpts
-    );
-    this.watchID = navigator.geolocation.watchPosition(
-      this.updateLocation,
-      error => console.log(error.message),
-      locationOpts
-    );
+    // navigator.geolocation.getCurrentPosition(
+    //   position => this.updateLocation,
+    //   error => console.log(error.message),
+    //   locationOpts
+    // );
+    // this.watchID = navigator.geolocation.watchPosition(
+    //   this.updateLocation,
+    //   error => console.log(error.message),
+    //   locationOpts
+    // );
 
     // Statusbar style
     if (Platform.OS === 'ios') {
 
-      StatusBarIOS.setHidden(false)
-      StatusBarIOS.setStyle('light-content')
+      StatusBar.setHidden(false)
+      StatusBar.setBarStyle('light-content')
 
-      // check for updates when app is resumed
-      AppStateIOS.addEventListener('change', state => {
-        if (state === 'active') {
-          checkForUpdates();
-        }
-      });
+      // // check for updates when app is resumed
+      // AppStateIOS.addEventListener('change', state => {
+      //   if (state === 'active') {
+      //     checkForUpdates();
+      //   }
+      // });
 
-      // and check once on startup
-      checkForUpdates();
+      // // and check once on startup
+      // checkForUpdates();
     }
 
   },
 
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-  },
+  // componentWillUnmount() {
+  //   // navigator.geolocation.clearWatch(this.watchID);
+  // },
 
-  updateLocation(position) {
-    store.dispatch(LocationActions.updateLocation({
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude
-    }));
-  },
+  // updateLocation(position) {
+  //   store.dispatch(LocationActions.updateLocation({
+  //     latitude: position.coords.latitude,
+  //     longitude: position.coords.longitude
+  //   }));
+  // },
 
   render() {
     return (

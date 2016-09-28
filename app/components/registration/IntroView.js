@@ -1,6 +1,8 @@
 'use strict';
 
-import React, {
+import React from 'react';
+
+import  {
   View,
   Text,
   Image,
@@ -19,15 +21,16 @@ import * as RegistrationActions from '../../actions/registration';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Loading from '../../components/common/RadioLoader';
+import WelcomeView from './WelcomeView';
 
 const Icon = require('react-native-vector-icons/Ionicons');
 const MDIcon = require('react-native-vector-icons/MaterialIcons');
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 const IOS = Platform.OS === 'ios';
 import ICONS from '../../constants/Icons';
 
 
-const INVITE_CODE_LENGTH = 4
+const INVITE_CODE_LENGTH = 4;
 const headerImg = require('../../../assets/planssi/pullo.png');
 
 const IntroView = React.createClass({
@@ -37,7 +40,6 @@ const IntroView = React.createClass({
       heroPosition: new Animated.Value(0),
       buttonPosition: new Animated.Value(0),
       bubblePosition: new Animated.Value(0),
-      welcome: new Animated.Value(0),
       inviteCodeText: ''
     }
   },
@@ -102,32 +104,6 @@ const IntroView = React.createClass({
   },
 
 
-  renderWelcomeScreen(userName) {
-
-    Animated.timing(this.state.welcome,
-      { toValue: 1, duration: 600, delay: 400, easing: Easing.inOut(Easing.ease) }
-    ).start();
-
-    return (
-      <View style={[styles.container, styles.viewBackgroundStyle]}>
-        <View style={[styles.container, styles.contentContainer, styles.welcomeContainer]}>
-          <Animated.Image source={ICONS.HEART} style={[
-            styles.welcomeIcon,
-            { zIndex: 9, transform: [{ scale: this.state.welcome.interpolate({ inputRange: [0, 1], outputRange: [100, 1] })}]}
-          ]} />
-          <Animated.View style={{ alignItems: 'center', opacity: this.state.welcome }}>
-            <Text style={styles.welcomeTitle}>Hello {userName || 'Friend'}!</Text>
-            <Text style={styles.welcomeText}>Let's have great Futubileet in October 7th!</Text>
-            <View style={styles.welcomeButtonWrap}>
-              <Button onPress={this.onWelcomeDismiss} style={styles.welcomeButton} >Get started</Button>
-            </View>
-          </Animated.View>
-        </View>
-      </View>
-      );
-
-  },
-
   render() {
     const {
       bubblePosition,
@@ -142,9 +118,11 @@ const IntroView = React.createClass({
       loggedUserName
     } = this.props;
 
+
     if (isWelcomeScreenOpen) {
-      return this.renderWelcomeScreen(loggedUserName);
+      return <WelcomeView userName={loggedUserName} dispatch={this.props.dispatch} />;
     }
+
 
 
     const bubbleVerticalPositions = [
@@ -164,26 +142,16 @@ const IntroView = React.createClass({
       bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [0, 0.5, 1, 0.6, 0] }),
       bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [0, 0, 1, 0.8, 0] })
     ];
-    const bottlePosition = buttonPosition.interpolate({ inputRange: [0,1], outputRange: [230, 0] });
+    const bottlePosition = buttonPosition.interpolate({ inputRange: [0,1], outputRange: [250, 0] });
 
     return (
       <View style={[styles.container, styles.viewBackgroundStyle]}>
-          <ScrollView style={{flex:1, width: null, height: null}}>
+          <ScrollView style={{ width: null, height}}>
             <View style={[styles.container, styles.contentContainer]}>
 
-              <Animated.View style={[
-                {
-                  justifyContent: 'center',
-                  flex: 1, alignItems: 'center', marginTop: IOS ? 50 : 30,
-                  width: width / 1.5, height: width / 1.5, borderRadius: width / 1.5,
-                  backgroundColor: theme.secondaryBlur,
-                  flexDirection: 'row',
-                  overflow: 'hidden'
-                 },
-                { transform: [{ scale: heroPosition }] }
-              ]}>
-                <Animated.View style={{ overflow: 'hidden', width: width / 1.5, height: width / 1.5, flex: 1, justifyContent: 'center', flexDirection: 'row', transform: [{ translateY: bottlePosition }]}} >
-                  <Animated.View style={{ elevation: 2, flex: 1, top: -20, left: width / 3 - 25, position:'absolute', height:60, width: 50, opacity: buttonPosition}} >
+              <Animated.View style={[styles.introHero, { transform: [{ scale: heroPosition }] }]}>
+                <Animated.View style={{ overflow: 'hidden', width: width / 1.5, height: width / 1.5, justifyContent: 'center', flexDirection: 'row', transform: IOS ? [{ translateY: bottlePosition }] : [] }} >
+                  <Animated.View style={{ elevation: 2, top: -20, left: width / 3 - 25, position:'absolute', height:60, width: 50, opacity: buttonPosition}} >
                     <Animated.View style={{ width: 10, height: 10, borderRadius: 5, position:'absolute',  transform: [{ translateX: bubbleHorizontalPositions[0] }, { translateY: bubbleVerticalPositions[0] }], opacity: bubbleOpacity[0], borderWidth: 1, borderTopWidth:2, borderRightWidth:3, borderColor:'rgba(255,255,255,1)'}} />
                     <Animated.View style={{ width: 12, height: 12, borderRadius: 6, position:'absolute', transform: [{ translateX: bubbleHorizontalPositions[1] }, { translateY: bubbleVerticalPositions[1] }], opacity: bubbleOpacity[1], borderWidth: 2, borderTopWidth:3, borderRightWidth:4, borderColor:'rgba(255,255,255,1)'}} />
                     <Animated.View style={{ width: 14, height: 14, borderRadius: 7, position:'absolute', transform: [{ translateX: bubbleHorizontalPositions[2] }, { translateY: bubbleVerticalPositions[2] }], opacity: bubbleOpacity[2], borderWidth: 3, borderTopWidth:4, borderRightWidth:5, borderColor:'rgba(255,255,255,1)'}} />
@@ -204,7 +172,7 @@ const IntroView = React.createClass({
 
             {inviteCodeSending ?
               <View style={styles.loading}><Loading color={theme.white} /></View> :
-              <Animated.View style={[styles.bottomButtons, { transform: [{ scale: this.state.buttonPosition }] }]}>
+              <View style={styles.bottomButtons}>
                 <TextInput
                   autoCorrect={false}
                   autoCapitalize={'characters'}
@@ -216,7 +184,7 @@ const IntroView = React.createClass({
                   placeholder="Your invite code"
                   onChangeText={this.updateTextInput}
                  />
-              </Animated.View>
+              </View>
             }
 
 
@@ -251,52 +219,9 @@ const IntroView = React.createClass({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
   },
   contentContainer: {
-    flex: 1,
     alignItems: 'center'
-  },
-  welcomeContainer: {
-    justifyContent: 'center',
-    backgroundColor: theme.white,
-    padding: 30
-  },
-  welcomeIcon: {
-    width: 100,
-    height: 100,
-    marginBottom: 20,
-    tintColor: theme.secondaryLight,
-    elevation: 3,
-    shadowColor: '#000000',
-    shadowOpacity: 0.075,
-    shadowRadius: 0,
-    shadowOffset: {
-      height: 3,
-      width: 5
-    }
-  },
-  welcomeTitle: {
-    fontSize: 27,
-    color: theme.secondaryLight,
-    marginBottom: 15,
-    textAlign: 'center',
-    backgroundColor: 'transparent'
-  },
-  welcomeText: {
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    backgroundColor: 'transparent'
-  },
-  welcomeButtonWrap: {
-    marginTop: 40,
-    height: 50
-  },
-  welcomeButton: {
-    paddingLeft: 40,
-    paddingRight: 40,
   },
   loading: {
     marginTop: 25
@@ -305,7 +230,6 @@ const styles = StyleSheet.create({
     backgroundColor: theme.secondaryLight
   },
   innerContainer: {
-    flex: 1,
     paddingTop: IOS ? 15 : 15,
   },
   header: {
@@ -315,6 +239,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: IOS ? 25 : 15,
     fontSize: 28
+  },
+  introHero: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: IOS ? 50 : 30,
+    width: width / 1.5,
+    height: width / 1.5,
+    borderRadius: width / 1.5,
+    backgroundColor: theme.secondaryBlur,
+    flexDirection: 'row',
+    overflow: 'hidden'
   },
   rowNumberContainer: {
     paddingLeft: 10,
@@ -350,9 +285,8 @@ const styles = StyleSheet.create({
     fontSize: 24
   },
   rowTextContainer: {
-    flex: 1,
     alignItems: 'center',
-    marginTop: 20
+    marginTop: 40
   },
   rowTitle:{
     color: 'rgba(0,0,0,0.4)',
@@ -375,13 +309,11 @@ const styles = StyleSheet.create({
   bottomButtons:{
     marginTop: 30,
     position:'relative',
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'center'
   },
   modalButton: {
-    flex:1,
     width: 50,
     height: 50,
     marginLeft:IOS ? -5 : 8,

@@ -1,6 +1,6 @@
 'use strict';
-
-import React, { Animated, View, Text, Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { Animated, View, Text, Platform, StyleSheet } from 'react-native';
 import theme from '../../style/theme';
 
 const styles = StyleSheet.create({

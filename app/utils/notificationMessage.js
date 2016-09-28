@@ -9,7 +9,7 @@ const getMessage = (payload) => {
       return 'One refreshment down!';
     }
     case ActionTypes.LECTURE: {
-      return 'Sounds awesome right!?';
+      return 'Awesome moves!';
     }
     case ActionTypes.BUTTON_PUSH: {
       return 'Way to push that button!';
@@ -21,7 +21,6 @@ const getMessage = (payload) => {
 };
 
 const getErrorMessage = (payload) => {
-  console.log(payload);
   return 'Oh no, an error occurred! :-(';
 };
 

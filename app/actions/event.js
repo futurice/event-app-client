@@ -1,5 +1,5 @@
 import api from '../services/api';
-import {createRequestActionTypes} from '.';
+import {createRequestActionTypes} from './index';
 
 const SET_EVENT_LIST = 'SET_EVENT_LIST';
 const {

@@ -1,8 +1,9 @@
 'use strict';
 
-import React, {
+import React, { PropTypes } from 'react';
+
+import {
   TabBarIOS,
-  PropTypes,
   View
 } from 'react-native';
 import _ from 'lodash';
@@ -58,18 +59,15 @@ const MainView = React.createClass({
 
     return (
       <View style={{flex:1}}>
-        <TabBarIOS tintColor={theme.secondary} translucent={false} barTintColor={theme.primary} >
+        <TabBarIOS tintColor={theme.secondaryLight} translucent={false} barTintColor={theme.primary} >
 
 
           <TabBarIOS.Item
-            icon={ICONS.CHATS}
-            /* TODO badge={'!'} */
-            iconName='flame'
-            selectedIconName='ios-flame'
+            icon={ICONS.MAP}
             title=''
-            selected={currentTab === Tabs.FEED}
-            onPress={() => { this._onChangeTab(Tabs.FEED); }}>
-            <FeedView />
+            selected={currentTab === Tabs.MAP}
+            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
+            <EventMapView />
           </TabBarIOS.Item>
 
           <Icon.TabBarItem
@@ -82,13 +80,12 @@ const MainView = React.createClass({
           </Icon.TabBarItem>
 
           <TabBarIOS.Item
-            icon={ICONS.MAP}
-            iconName='place'
-            selectedIconName='place'
+            icon={ICONS.CHATS}
+            /* TODO badge={'•'} */
             title=''
-            selected={currentTab === Tabs.MAP}
-            onPress={() => { this._onChangeTab(Tabs.MAP); }}>
-            <EventMapView />
+            selected={currentTab === Tabs.FEED}
+            onPress={() => { this._onChangeTab(Tabs.FEED); }}>
+            <FeedView />
           </TabBarIOS.Item>
 
           <Icon.TabBarItem
@@ -102,7 +99,7 @@ const MainView = React.createClass({
 
           <Icon.TabBarItem
             iconName='person-outline'
-            selectedIconName='person-outline'
+            selectedIconName='person'
             title=''
             selected={currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>

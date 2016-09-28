@@ -1,8 +1,8 @@
 'use strict';
+import React, { PropTypes } from 'react';
 
-import React, {
+import {
   View,
-  PropTypes,
   StyleSheet
 } from 'react-native';
 import Team from './Team';

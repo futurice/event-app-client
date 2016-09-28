@@ -2,7 +2,7 @@
 
 import _ from 'lodash';
 import api from '../services/api';
-import {createRequestActionTypes} from '.';
+import {createRequestActionTypes} from './index';
 
 const SET_ANNOUNCEMENT_LIST = 'SET_ANNOUNCEMENT_LIST';
 const {

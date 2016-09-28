@@ -26,14 +26,13 @@ import {
 
 
 const appUserKey = `${APP_STORAGE_KEY}:user`;
-const userLogged = AsyncStorage.getItem(appUserKey);
-console.log(userLogged);
 
 const initialState = Immutable.fromJS({
   isRegistrationViewOpen: false,
   name: '',
   email: '',
   picture: '',
+  heurekaCode: '',
   selectedTeam: 0,
   isLoading: false,
   isError: false,
@@ -66,9 +65,11 @@ export default function registration(state = initialState, action) {
     case UPDATE_NAME:
       return state.set('name', action.payload);
     case UPDATE_PROFILE:
+
       return state.merge(Immutable.fromJS({
         name: action.payload.name,
         email: action.payload.email,
+        heurekaCode: action.payload.heurekaCode,
         picture: action.payload.picture
       }));
 
@@ -98,12 +99,12 @@ export default function registration(state = initialState, action) {
         'name': action.payload.name,
         'email': action.payload.email,
         'picture': action.payload.picture,
+        'heurekaCode': action.payload.heurekaCode,
         'selectedTeam': action.payload.team,
         'uuid': action.payload.uuid,
         'isLoading': false
       });
     case OPEN_LOGIN_VIEW:
-      console.log('LOGIN');
       return state.set('isIntroViewOpen', true);
     case LOGIN_USER_SUCCESS:
       saveUserToDevice(action.payload);

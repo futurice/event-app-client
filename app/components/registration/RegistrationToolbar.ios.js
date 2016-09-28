@@ -1,14 +1,14 @@
 'use strict';
 
-import React from 'react-native';
-var {
+import React, { PropTypes } from 'react';
+
+import {
   StyleSheet,
   View,
   Text,
-  TouchableOpacity,
-  PropTypes
-} = React;
-import Icon from 'react-native-vector-icons/Ionicons';
+  TouchableOpacity
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
@@ -44,6 +44,8 @@ var EventDetailToolbar = React.createClass({
 
   render() {
     const touchableProps = {};
+    const { icon, title } = this.props;
+
     if (this.props.iconClick) {
       touchableProps.onPress = this.props.iconClick;
     }
@@ -52,13 +54,13 @@ var EventDetailToolbar = React.createClass({
       <View style={styles.toolbar}>
         <TouchableOpacity {...touchableProps}>
           {
-            this.props.icon
-            ? <Icon style={styles.icon} name={this.props.icon} />
+            !!icon
+            ? <Icon style={styles.icon} name={icon} />
             : <View/>
           }
 
         </TouchableOpacity>
-        <Text style={styles.title}>{this.props.title}</Text>
+        <Text style={styles.title}>{title}</Text>
         <View />
       </View>
 

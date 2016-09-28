@@ -1,16 +1,15 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-var React = require('react-native');
-var {
+import React, { PropTypes } from 'react';
+import {
   Image,
-  PropTypes,
   StyleSheet,
   Dimensions,
   Text,
   TouchableHighlight,
   View
-} = React;
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
 
 
 export default React.createClass({
@@ -102,7 +100,7 @@ export default React.createClass({
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
-    const coverImage = DEFAULT_IMG; //item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
+    const coverImage = item.coverImage;
 
     return <TouchableHighlight onPress={this.props.handlePress} underlayColor={'transparent'}>
       <View style={styles.gridListItem}>

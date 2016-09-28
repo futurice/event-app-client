@@ -45,9 +45,8 @@ const getUser = uuid => {
     .then(response => response.json());
 };
 
-const loginUser = inviteCode => {
-  return wapuFetch(`${Endpoints.urls.login}?code=${inviteCode}`)
-    .then(checkResponseStatus)
+const loginUser = payload => {
+  return _put(Endpoints.urls.login, payload)
     .then(response => response.json());
 };
 
@@ -110,7 +109,7 @@ const checkResponseStatus = response => {
   } else {
     return response.json()
       .then(res => {
-        console.log('Error catched', response.statusText);
+        console.log('Error catched', response);
         const error = new Error(response.statusText);
         error.response = response;
         error.responseJson = res;

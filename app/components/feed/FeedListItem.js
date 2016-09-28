@@ -1,14 +1,14 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-import React, {
+import React, { PropTypes } from 'react';
+import {
   Alert,
   Image,
   StyleSheet,
   Dimensions,
   Text,
   Platform,
-  PropTypes,
   TouchableOpacity,
   TouchableWithoutFeedback,
   View,
@@ -16,45 +16,49 @@ import React, {
   Easing
 } from 'react-native';
 
+import ParsedText from 'react-native-parsed-text';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import md5 from 'blueimp-md5';
 
 import { removeFeedItem, openLightBox } from '../../actions/feed';
 import abuse from '../../services/abuse';
 import time from '../../utils/time';
+import { getGravatarForEmail } from '../../utils/gravatar';
 import theme from '../../style/theme';
 
+const { width, height } = Dimensions.get('window');
 const IOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
   itemWrapper: {
-    width: Dimensions.get('window').width,
+    width,
     backgroundColor: 'transparent',//theme.lightblue, // theme.stable,
     paddingBottom: 8,
     paddingTop:8,
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'center'
   },
+  itemWrapper__adjacent: {
+    paddingTop: 0
+  },
   bubbleTip: {
     position: 'absolute',
-    top: IOS ? 25 : 14,
+    top: IOS ? 54 : 11,
     left: IOS ? 6 : 15,
     width: 0,
     height: 0,
     backgroundColor: 'transparent',
     borderStyle: 'solid',
-    borderTopWidth: IOS ? 10 : 15,
-    borderRightWidth: IOS ? 10 : 15,
-    borderBottomWidth: IOS ? 10 : 15,
+    borderTopWidth: IOS ? 8 : 15,
+    borderRightWidth: IOS ? 15 : 15,
+    borderBottomWidth: IOS ? 8 : 15,
     borderLeftWidth: 0,
     borderTopColor: 'transparent',
-    borderRightColor: IOS ? '#FFF' : 'transparent',
+    borderRightColor: IOS ? theme.lightblue : 'transparent',
     borderLeftColor: 'transparent',
     borderBottomColor: IOS ? 'transparent' : '#FFF',
-    transform: [{ rotate: IOS ? '0deg' : '45deg' }],
+    transform: [{ rotate: IOS ? '30deg' : '45deg' }],
     elevation: 1,
 
   /*
@@ -65,32 +69,36 @@ const styles = StyleSheet.create({
     top: 10,
     elevation: 3,
   */
-    shadowColor: '#000000',
-    shadowOpacity: 0.075,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 1,
-      width: -1
-    }
+    // shadowColor: '#000000',
+    // shadowOpacity: 0.15,
+    // shadowRadius: 1,
+    // shadowOffset: {
+    //   height: 1,
+    //   width: -1
+    // }
   },
   bubbleTip__own: {
     left: null,
-    top: IOS ? 25 : 28,
+    top: IOS ? 54 : 23,
     right: IOS ? 6 : 10,
 
     borderRightWidth: 0,
-    borderTopWidth: IOS ? 10 : 0,
-    borderBottomWidth: IOS ? 10 : 15,
-    borderLeftWidth: IOS ? 10 : 15,
+    borderTopWidth: IOS ? 8 : 0,
+    borderBottomWidth: IOS ? 8 : 15,
+    borderLeftWidth: IOS ? 15 : 15,
     borderTopColor: 'transparent',
     borderRightColor: 'transparent',
-    borderLeftColor: IOS ? theme.greenLight : 'transparent',
-    borderBottomColor: IOS ? 'transparent' : theme.greenLight,
-    transform: [{ rotate: IOS ? '0deg' : '135deg' }],
-    shadowOffset: {
-      height: 1,
-      width: 2
-    }
+    borderLeftColor: IOS ? theme.secondaryLight : 'transparent',
+    borderBottomColor: IOS ? 'transparent' : theme.secondaryLight,
+    backgroundColor: IOS ? 'transparent' : theme.secondaryLight,
+    transform: [{ rotate: IOS ? '-30deg' : '135deg' }],
+    // shadowOffset: {
+    //   height: 1,
+    //   width: 2
+    // }
+  },
+  bubbleTip__adjacent: {
+    opacity: 0
   },
   itemPusher: {
     // position: 'absolute',
@@ -102,61 +110,85 @@ const styles = StyleSheet.create({
     // marginRight: 55,
     flex: 4,
     elevation: 1,
-    borderRadius: 4,
-    shadowColor: '#000000',
-    shadowOpacity: 0.1,
-    shadowRadius: 1,
-    shadowOffset: {
-      height: 1,
-      width: 0
-    },
-    backgroundColor: '#fff'
+    borderRadius: IOS ? 10 : 4,
+    // shadowColor: '#000000',
+    // shadowOpacity: 0.15,
+    // shadowRadius: 1,
+    // shadowOffset: {
+    //   height: 1,
+    //   width: 0
+    // },
+    backgroundColor: IOS ? theme.lightblue : '#fff'
   },
   itemContent__own: {
-
-    marginLeft: 55,
+    flex: 6,
+    marginLeft: 50,
     marginRight: 15,
-    backgroundColor: theme.greenLight
+    backgroundColor: theme.secondaryLight
+  },
+  itemContent__adjacent: {
+   // marginLeft: 47,
+    flex: null,
+    maxWidth: width * 0.75
   },
   itemContent__image: {
     marginLeft: 15,
     marginRight: 15
   },
   itemImageWrapper: {
-    height: Dimensions.get('window').width - 36,
-    width: Dimensions.get('window').width - 36,
-    left: 3,
-    bottom: 3,
-    borderRadius: 4
+    height:  IOS ? width - 30 : width - 36,
+    width: IOS ? width - 30 : width - 36,
+    left: IOS ? 0 : 3,
+    bottom: IOS ? 0 : 3,
+    borderRadius: IOS ? 10 : 4,
+    marginTop: 15,
+  },
+  itemImageWrapper__adjacent: {
+    marginTop: IOS ? 0 : 6,
   },
   itemTextWrapper: {
-    flex: 1,
-    paddingLeft: 47,
+    paddingLeft: 15,
     paddingRight: 30,
-    paddingTop: 0,
+    paddingTop: 10,
     paddingBottom: 10,
-    top: -10
+    top: 0,
+  },
+  itemTextWrapper__adjacent: {
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 15,
+    paddingRight: 15,
   },
   feedItemListText: {
+    backgroundColor: 'transparent',
     fontSize: 13,
-    color: theme.dark
+    lineHeight: 18,
+    color: theme.dark,
+  },
+  url: {
+    fontWeight: 'bold',
+    // textDecorationLine: 'underline'
+  },
+  hashTag: {
+    opacity: 0.6
   },
   feedItemListItemImg: {
-    width: Dimensions.get('window').width - 36,
-    height: Dimensions.get('window').width - 36,
-    borderRadius: 4,
+    width: IOS ? width - 30 : width - 36,
+    height: IOS ? width - 30 : width - 36,
+    borderRadius: IOS ? 10 : 4,
     backgroundColor: 'transparent' // theme.accent
   },
   feedItemListItemImg__admin: {
-    width: Dimensions.get('window').width - 30
+    width: width - 30
   },
   feedItemListItemInfo: {
     flex: 1,
     flexDirection: 'row',
-    padding: 20,
+    padding: 12,
     paddingLeft: 15,
     paddingRight: 15,
-    alignItems: 'flex-start',
+    paddingBottom: 0,
+    alignItems: 'center',
     justifyContent: 'space-between'
   },
   feedItemListItemAuthor:{
@@ -170,9 +202,12 @@ const styles = StyleSheet.create({
     color: theme.secondary,
     paddingRight: 10
   },
+  itemAuthorName__own: {
+    color: theme.white
+  },
   itemAuthorTeam:{
     fontSize:11,
-    color: '#aaa'
+    color: 'rgba(0,0,0,.4)'
   },
   feedItemListItemAuthorIcon:{
     color: '#bbb',
@@ -203,31 +238,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   itemTimestamp: {
-    top:  Platform.OS === 'ios' ? 1 : 2,
-    color: '#aaa',
+    color: 'rgba(0,0,0,.4)',
     fontSize: 11
   },
   itemContent__admin:{
     marginLeft: 15,
     marginRight: 15,
-    paddingTop: 0,
-    paddingBottom: 0,
-    borderRadius: 4,
+    paddingTop: 5,
+    paddingBottom: 5,
+    borderRadius: IOS ? 10 : 4,
     backgroundColor: '#f9f4db'
   },
   itemTextWrapper__admin: {
-    paddingLeft: 25,
-    paddingRight: 15
+    paddingLeft: 15,
+    paddingRight: 15,
+    paddingTop: 0,
   },
   itemAuthorName__admin: {
     color: theme.primary
   },
   feedItemListItemInfo__admin: {
     paddingLeft: 0,
-    paddingBottom: 18,
+    paddingBottom: 7,
   },
   feedItemListItemAuthor__admin:  {
-    paddingLeft: 25,
+    paddingLeft: 15,
   },
   itemTimestamp__admin:{
     color: '#b5afa6'
@@ -244,13 +279,12 @@ const styles = StyleSheet.create({
 // const TEST_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
 // const TEST_IMG = 'https://raw.githubusercontent.com/futurice/gif-disco/master/gif_disco.gif';
 // const TEST_IMG = Math.random() >= 0.5 ?
-//   'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif' :
-//   'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-
+// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif' :
+// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-11-22-29-08.gif'
+// import BGS from '../../constants/Backgrounds';
 const TEST_IMG =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
- // 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-11-22-29-08.gif'
 
-import BGS from '../../constants/Backgrounds';
 
 const FeedListItem = React.createClass({
   propTypes: {
@@ -316,16 +350,12 @@ const FeedListItem = React.createClass({
   },
 
   removeThisItem() {
-    this.props.dispatch(removeFeedItem(this.props.item));
+    this.props.removeFeedItem(this.props.item);
   },
 
-  getItemGravatar(email) {
-    const defaultAvatarUrl = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/avatar6.png';
-    if (!email) {
-      return defaultAvatarUrl;
-    }
-    const hashedEmail = md5(email);
-    return `http://www.gravatar.com/avatar/${hashedEmail}?d=${defaultAvatarUrl}`;
+  getItemGravatar(email, name, teamName) {
+    const teamId = this.props.teams.findIndex(team => team.get('name', '').toLowerCase() === (teamName || '').toLowerCase() );
+    return getGravatarForEmail(email, name, teamId);
   },
 
   // Render "remove" button, which is remove OR flag button,
@@ -353,6 +383,7 @@ const FeedListItem = React.createClass({
 
   renderAdminItem() {
     const item = this.props.item;
+   // const item = {id: "28", type: "IMAGE", author: { name: 'SYSTEM' }, url:'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif', createdAt: "2016-09-25T21:53:13.810Z", text: "Pasi gets first bite!"}
     const ago = time.getTimeAgo(item.createdAt);
 
     return (
@@ -367,11 +398,19 @@ const FeedListItem = React.createClass({
             </View>
           </View>
 
+        {/* https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif */}
+        {/* https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg */}
           {item.type === 'IMAGE' ?
             <View style={styles.itemImageWrapper}>
-              <Image
-                source={{ uri: item.url }}
-                style={[styles.feedItemListItemImg, styles.feedItemListItemImg__admin]} />
+              <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => this.props.openLightBox(item)}
+              >
+                <Image
+                  resizeMode={'cover'}
+                  source={{ uri: item.url }}
+                  style={[styles.feedItemListItemImg, styles.feedItemListItemImg__admin]} />
+              </TouchableOpacity>
             </View>
           :
             <View style={[styles.itemTextWrapper, styles.itemTextWrapper__admin]}>
@@ -386,7 +425,7 @@ const FeedListItem = React.createClass({
   },
 
   render() {
-    const { item } = this.props;
+    const { item, showUser } = this.props;
     const ago = time.getTimeAgo(item.createdAt);
     const isMyItem = this.itemIsCreatedByMe(item);
     const isItemImage = item.type === 'IMAGE' || (item.text && item.text.indexOf('TESTIMAGE') >= 0);
@@ -399,13 +438,31 @@ const FeedListItem = React.createClass({
       return this.renderAdminItem();
     }
 
+
+    const itemWrapperStyles = [styles.itemWrapper];
     const itemStyles = [styles.itemContent];
     const bubbleTipStyles = [styles.bubbleTip];
+    const itemAuthorNameStyles = [styles.itemAuthorName];
+    const feedItemListTextStyles = [styles.feedItemListText];
+    const itemTextWrapperStyles = [styles.itemTextWrapper];
+    const itemImageWrapperStyles = [styles.itemImageWrapper];
 
 
     if (isMyItem) {
-      itemStyles.push(styles.itemContent__own)
-      bubbleTipStyles.push(styles.bubbleTip__own)
+      itemStyles.push(styles.itemContent__own);
+      bubbleTipStyles.push(styles.bubbleTip__own);
+      itemAuthorNameStyles.push(styles.itemAuthorName__own);
+      feedItemListTextStyles.push(styles.itemAuthorName__own);
+    }
+
+    if (!showUser) {
+      itemWrapperStyles.push(styles.itemWrapper__adjacent)
+      bubbleTipStyles.push(styles.bubbleTip__adjacent);
+      itemTextWrapperStyles.push(styles.itemTextWrapper__adjacent);
+      itemImageWrapperStyles.push(styles.itemImageWrapper__adjacent);
+    }
+    if (!showUser && !isItemImage) {
+      itemStyles.push(styles.itemContent__adjacent);
     }
 
     if (isItemImage) {
@@ -413,10 +470,10 @@ const FeedListItem = React.createClass({
     }
 
     return (
-      <Animated.View style={[
-        styles.itemWrapper,
+      <View style={[
+        itemWrapperStyles,
         {
-          backgroundColor: this.state.selected ? 'rgba(255,82,64,.1)' : 'transparent'
+          backgroundColor: this.state.selected ? 'rgba(0,0,0,.01)' : 'transparent'
           /*
           opacity: this.state.itemAnimation,
           transform:
@@ -432,31 +489,29 @@ const FeedListItem = React.createClass({
           onLongPress={() => this.selectItem() }
 
         >
-          <View style={styles.feedItemListItemInfo}>
+          { showUser &&
+            <View style={styles.feedItemListItemInfo}>
+              <Image
+                source={{ uri: item.author.picture || this.getItemGravatar(item.author.email, item.author.name, item.author.team) }}
+                style={styles.feedItemListItemAuthorImage} />
 
-            <Image
-              source={{ uri: item.author.picture || this.getItemGravatar(item.author.email) }}
-              style={styles.feedItemListItemAuthorImage} />
-          { /*
-            <Icon name='face' style={styles.feedItemListItemAuthorIcon} />
-
-          */}
-
-            <View style={styles.feedItemListItemAuthor}>
-              <Text style={styles.itemAuthorName}>{item.author.name}</Text>
-              <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
+              <View style={styles.feedItemListItemAuthor}>
+                <Text style={itemAuthorNameStyles}>{isMyItem ? 'You' : item.author.name }</Text>
+                <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
+              </View>
+              <Text style={styles.itemTimestamp}>{ago}</Text>
             </View>
-            <Text style={styles.itemTimestamp}>{ago}</Text>
-          </View>
+          }
 
           {isItemImage
             ?
-            <View style={styles.itemImageWrapper}>
+            <View style={itemImageWrapperStyles}>
               <TouchableOpacity
                 activeOpacity={1}
-                onPress={() => this.props.dispatch(openLightBox(TEST_IMG || item.url))}
+                onPress={() => this.props.openLightBox(item)}
               >
 
+              {/*
                 <Image
                 resizeMode={'cover'}
                 source={ BGS['BG' + (this.props.index % 8 + 1) ]}
@@ -470,10 +525,9 @@ const FeedListItem = React.createClass({
                   opacity: 0.6,
                   borderRadius: 3
                 }}
-                />
-
+                />*/}
               <Image
-                source={{ uri: TEST_IMG || item.url }}
+                source={{ uri: item.url }}
                 style={styles.feedItemListItemImg} />
 
 
@@ -481,8 +535,19 @@ const FeedListItem = React.createClass({
               </TouchableOpacity>
             </View>
           :
-            <View style={styles.itemTextWrapper}>
-              <Text style={styles.feedItemListText}>{item.text}</Text>
+            <View style={itemTextWrapperStyles}>
+             {/* <Text style={feedItemListTextStyles}>{item.text}</Text> */}
+
+              <ParsedText
+                style={feedItemListTextStyles}
+                parse={ [
+                  {type: 'url', style: styles.url, onPress: this.props.handleUrlPress},
+                  {pattern: /#(\w+)/, style: styles.hashTag},
+                 ] }
+              >
+                {item.text}
+              </ParsedText>
+
             </View>
           }
 
@@ -491,15 +556,18 @@ const FeedListItem = React.createClass({
         </TouchableOpacity>
         {!isItemImage && !isMyItem && <View style={ styles.itemPusher } /> }
         {!isItemImage && <View style={bubbleTipStyles} />}
-      </Animated.View>
+      </View>
     );
   }
 });
 
+const mapDispatch = { removeFeedItem, openLightBox }
+
 const select = store => {
   return {
+    teams: store.team.get('teams'),
     user: store.registration.toJS()
   }
 };
 
-export default connect(select)(FeedListItem);
+export default connect(select, mapDispatch)(FeedListItem);

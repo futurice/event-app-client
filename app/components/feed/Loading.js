@@ -1,5 +1,6 @@
-import React, {
-  ActivityIndicatorIOS,
+import React from 'react';
+import {
+  ActivityIndicator,
   Platform,
   StyleSheet,
   Text,
@@ -31,15 +32,11 @@ const styles = StyleSheet.create({
 const Loading = props => {
   return (
     <View style={styles.container}>
-      {(Platform.OS === 'android') ?
-        <ProgressBar styleAttr='Inverse' color={theme.secondary}/>
-      :
-        <ActivityIndicatorIOS
-          color={theme.secondary}
-          animating={true}
-          style={styles.activityIndicator}
-          size='large' />
-      }
+      <ActivityIndicator
+        color={theme.secondary}
+        animating={true}
+        style={styles.activityIndicator}
+        size='large' />
       <Text style={ styles.loadMessage}>Loading...</Text>
     </View>
   );

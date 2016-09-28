@@ -2,7 +2,7 @@ import _ from 'lodash';
 import * as ENV from '../../env';
 const ROOT_URL = ENV.API_URL;
 
-const DEV_ROOT_URL = 'http://private-6e310-register49.apiary-mock.com';
+const DEV_ROOT_URL = 'https://private-6e310-register49.apiary-mock.com';
 
 const EndpointUrls = {
   markers: `${ROOT_URL}/markers`,
@@ -16,7 +16,8 @@ const EndpointUrls = {
   teams: `${ROOT_URL}/teams`,
   actionTypes: `${ROOT_URL}/action_types`,
   announcements: `${ROOT_URL}/announcements`,
-  login: `${DEV_ROOT_URL}/login`
+  login: `${ROOT_URL}/register`
+  //login: `${DEV_ROOT_URL}/login`
 };
 
 const EndpointTypes = _.map(EndpointUrls, (item, key) => key);

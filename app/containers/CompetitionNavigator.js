@@ -1,6 +1,8 @@
 'use strict';
 
-import React, {
+import React, { PropTypes } from 'react';
+
+import {
   Navigator,
   StyleSheet,
   Platform

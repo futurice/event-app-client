@@ -1,6 +1,6 @@
 'use strict';
-
-import React, { StyleSheet, Platform } from 'react-native';
+import React from 'react';
+import { StyleSheet, Platform } from 'react-native';
 import Fab from '../common/Fab';
 import theme from '../../style/theme';
 
@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 37 : 20,
     right: 20,
-    backgroundColor: theme.white,
+    backgroundColor: theme.secondary,
     width: 56,
     height: 56,
     borderRadius: 28,
@@ -39,7 +39,7 @@ const ActionButton = React.createClass({
 
     return (
       <Fab onPress={onPress} styles={combinedStyle}
-        disabled={disabled} underlayColor={theme.stable}>
+        disabled={disabled} underlayColor={theme.secondary}>
         {children}
       </Fab>
     );

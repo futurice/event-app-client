@@ -1,15 +1,17 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-import React, {
+import React, { PropTypes } from 'react';
+
+import {
   StyleSheet,
   View,
   Platform,
   ScrollView,
-  PropTypes,
   Text,
   TouchableOpacity,
   TouchableNativeFeedback,
+  Image,
   RefreshControl
 } from 'react-native';
 import Immutable from 'immutable';
@@ -20,6 +22,8 @@ import * as TeamActions from '../actions/team';
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
 const Icon = require('react-native-vector-icons/Ionicons');
+import ICONS from '../constants/Icons';
+
 
 const IOS = Platform.OS === 'ios';
 const VIEW_NAME = 'CompetitionView';
@@ -77,8 +81,8 @@ const CompetitionView = React.createClass({
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing}
       onRefresh={this.onRefreshFeed}
-      colors={[theme.primary]}
-      tintColor={theme.primary}
+      colors={[theme.secondaryLight]}
+      tintColor={theme.secondaryLight}
       progressBackgroundColor={theme.light} />;
 
     return (
@@ -86,10 +90,11 @@ const CompetitionView = React.createClass({
 
 
 
-        {/*
+
         <View style={styles.leaderboardIntro}>
           <View style={styles.leaderboardIconWrap}>
-            <Icon name='trophy' style={styles.leaderboardIcon} />
+            {/*<Icon name='trophy' style={styles.leaderboardIcon} /> */}
+            <Image source={ICONS.CROWN} style={styles.leaderboardIcon} />
           </View>
           <View style={styles.leaderboardIntroTextWrap}>
             <Text style={styles.leaderboardIntroText}>
@@ -98,9 +103,9 @@ const CompetitionView = React.createClass({
             </Text>
           </View>
         </View>
-        */ }
 
-        {this.renderTabs()}
+
+        {/*this.renderTabs()}
 
         {(!this.props.leaderBoardFilter || this.props.leaderBoardFilter === 'Team') ?
         <ScrollView style={styles.leaderboard}
@@ -112,8 +117,16 @@ const CompetitionView = React.createClass({
           )}
         </ScrollView> :
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}><Text>Personal Leaderboard is coming later</Text></View>
-        }
+        */}
 
+        <ScrollView style={styles.leaderboard}
+        refreshControl={refreshControl}
+        >
+        {this.props.teams.map((team, index) =>
+          <LeaderboardEntry key={team.get('id')} topscore={+topscore}
+          team={team} position={index + 1} logo={team.get('imagePath')} />
+          )}
+        </ScrollView>
 
 
       </View>
@@ -131,22 +144,26 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     margin:20,
     marginBottom:0,
-    marginTop:5,
-    padding: IOS ? 13 : 13,
+    marginTop:0,
+    padding: IOS ? 10 : 13,
     paddingLeft:7,
     paddingRight:5,
     justifyContent:'space-between',
+    alignItems: 'center',
     borderBottomWidth:2,
     borderBottomColor:'#eee',
   },
   leaderboardIconWrap:{
-    width:62,
-    paddingRight:10,
+    width: 72,
+    paddingRight: 15,
   },
   leaderboardIcon: {
-    color:'#FFCC03',
-    fontSize:44,
-    top:4
+    // color:'#FFCC03',
+    // fontSize:44,
+    top:0,
+    height: 55,
+    width: 55,
+    tintColor: '#FFDF46'
   },
   leaderboardIntroTextWrap:{
     flex:1,

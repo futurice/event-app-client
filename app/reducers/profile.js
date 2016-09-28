@@ -6,7 +6,7 @@ import {
 } from '../actions/profile';
 
 const initialState = Immutable.fromJS({
-  links: [],
+  links: []
 });
 
 export default function profile(state = initialState, action) {

@@ -1,15 +1,14 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-var React = require('react-native');
-var {
+import React, { PropTypes } from 'react';
+import {
   Image,
-  PropTypes,
   StyleSheet,
   Dimensions,
   Text,
   View
-} = React;
+} from 'react-native';
 
 //import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
@@ -108,7 +107,7 @@ export default React.createClass({
   render() {
     const item = this.props.item;
     const timepoint = time.formatEventTime(item.startTime, item.endTime, {formatLong: true});
-    const coverImage = item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
+    const coverImage = item.coverImage;
 
     return <View style={styles.gridListItem}>
         <View style={styles.gridListItemImgWrap}>

@@ -1,6 +1,6 @@
 'use strict';
-
-import React, {
+import React from 'react';
+import {
   Animated,
   StyleSheet,
   ListView,
@@ -9,10 +9,13 @@ import React, {
   Text,
   RefreshControl,
   View,
-  ScrollView
+  ScrollView,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
-import { ImagePickerManager } from 'NativeModules';
+// import { ImagePickerManager } from 'NativeModules';
+import ImagePickerManager from 'react-native-image-picker';
+import _ from 'lodash';
 
 import theme from '../../style/theme';
 import * as FeedActions from '../../actions/feed';
@@ -22,11 +25,13 @@ import Loading from './Loading';
 import ActionButtons from './ActionButtons';
 import TextActionView from '../../components/actions/TextActionView';
 import LoadingStates from '../../constants/LoadingStates';
+import WebViewer from '../webview/WebViewer';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 import * as CompetitionActions from '../../actions/competition';
 import TimerMixin from 'react-timer-mixin';
 
+const IOS = Platform.OS === 'ios';
 const {height, width} = Dimensions.get('window');
 const AUTOREFRESH_INTERVAL = 20 * 1000;
 
@@ -36,7 +41,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: theme.stable
+    backgroundColor: IOS ? '#fff' : theme.stable
   },
   listView: {
     flex: 1
@@ -158,16 +163,45 @@ const FeedList = React.createClass({
     }
   },
 
+  handleUrlPress(url) {
+
+    if (!url) {
+      return;
+    }
+
+    this.props.navigator.push({
+      component: WebViewer,
+      url
+    });
+
+  },
+
+  renderRow(item, sec, index) {
+    const { feed } = this.props;
+    // TODO Change this check to email
+    const isPreviousItemFromSameUser = index !== '0' && _.has(item, 'author.name') &&
+      feed.getIn([index - 1, 'author', 'name'], null) === item.author.name;
+
+
+    return (<FeedListItem
+      handleUrlPress={this.handleUrlPress}
+      item={item}
+      index={index}
+      showUser={!isPreviousItemFromSameUser}
+    />)
+  },
+
   renderBgImage() {
     return (<Image
-      resizeMode={'cover'}
-      source={require('../../../assets/backgrounds/bg-pattern.png')}
+      resizeMode={'repeat'}
+      source={require('../../../assets/backgrounds/bgpattern.png')}
       style={{
         position: 'absolute',
         height,
+        right: 0,
         left: 0,
         top: 0,
-        opacity: 0.1
+        opacity: 1
       }}
       />);
   },
@@ -176,29 +210,31 @@ const FeedList = React.createClass({
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing || this.props.isSending}
       onRefresh={this.onRefreshFeed}
-      colors={[theme.primary]}
-      tintColor={theme.primary}
+      colors={[theme.secondaryLight]}
+      tintColor={theme.secondaryLight}
       progressBackgroundColor={theme.light} />;
 
     const isLoading = isLoadingActionTypes || isLoadingUserData;
 
     switch (feedListState) {
       case LoadingStates.LOADING:
-        return <Loading />;
+        return (<Loading />);
       case LoadingStates.FAILED:
         return (
           <ScrollView style={{ flex: 1 }} refreshControl={refreshControl}>
-            <Text style={{ marginTop: 20 }}>Could not get feed :(</Text>
+            <View style={{alignItems: 'center', height: height - 120, justifyContent: 'center', flex: 1}}>
+              <Text style={{ marginTop: 0, color: theme.darkgrey }}>Could not get feed</Text>
+            </View>
           </ScrollView>
         );
       default:
         return (
           <View style={styles.container}>
-            {/*this.renderBgImage()*/}
+            {/*this.renderBgImage() */}
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
-              renderRow={(item, sec, index) => <FeedListItem item={item} index={index} />}
+              renderRow={this.renderRow}
               style={[styles.listView]}
               onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}
@@ -236,7 +272,7 @@ const FeedList = React.createClass({
 
 const select = store => {
   const isRegistrationInfoValid = store.registration.get('name') !== '' &&
-    store.registration.get('selectedTeam') > 0;
+    store.registration.get('selectedTeam') >= 0;
 
   return {
     feed: store.feed.get('list'),

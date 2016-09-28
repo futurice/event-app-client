@@ -1,13 +1,12 @@
 'use strict';
-
-import React, {
+import React, { PropTypes } from 'react';
+import {
   View,
   Text,
   TextInput,
   StyleSheet,
   Dimensions,
   Platform,
-  PropTypes,
   TouchableOpacity,
   ScrollView,
   BackAndroid
@@ -93,7 +92,7 @@ const RegistrationView = React.createClass({
     return (
       <View style={[styles.container, styles.modalBackgroundStyle]}>
 
-        <Toolbar icon={this.props.isRegistrationInfoValid ? 'android-done' : 'android-close'}
+        <Toolbar icon={this.props.isRegistrationInfoValid ? 'done' : 'close'}
           iconClick={this.onClose}
           title='Fill your profile' />
 
@@ -104,7 +103,7 @@ const RegistrationView = React.createClass({
 
             <View style={styles.inputGroup}>
               <View style={styles.inputLabel}>
-                <Text style={styles.inputLabelText}>Choose your Tribe</Text>
+                <Text style={styles.inputLabelText}>Choose your Team</Text>
               </View>
 
               <View style={[styles.inputFieldWrap, {paddingTop:0,paddingBottom:0}]}>
@@ -215,7 +214,6 @@ const styles = StyleSheet.create({
     marginTop:0,
     borderRadius:2,
     elevation:1,
-    flex:1,
   },
   inputLabel:{
     padding:15,

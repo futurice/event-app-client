@@ -9,32 +9,22 @@
 
 #import "AppDelegate.h"
 
+#import "RCTBundleURLProvider.h"
 #import "RCTRootView.h"
-
-#import "CodePush.h"
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
   NSURL *jsCodeLocation;
-  
-  #ifdef DEBUG
-    // To run on device, change `localhost` to the IP address of your computer
-    // (you can get this by typing `ifconfig` into the terminal and selecting the
-    //`inet` value under `en0:`) and make sure your computer and iOS device are
-    // on the same Wi-Fi network.
-    jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=true"];
-  #else
-  
-    // Load from code push server
-    jsCodeLocation = [CodePush bundleURL];
-  #endif
+
+  jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
   RCTRootView *rootView = [[RCTRootView alloc] initWithBundleURL:jsCodeLocation
                                                       moduleName:@"wappuapp"
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
+  rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];

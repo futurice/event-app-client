@@ -9,7 +9,8 @@
 
 'use strict';
 
-import React, {
+import React from 'react';
+import {
   StyleSheet,
   View,
   Text,
@@ -77,9 +78,6 @@ let NavigationBarRouteMapper = {
     }
     return (
       <View style={styles.navBarLogoWrap}>
-        {/*
-        <Text style={styles.navBarText}>FUTUBILEET16</Text>
-        */}
         <Image
           source={require('../../../assets/futurice.png')}
           style={styles.navBarLogo} />
@@ -109,17 +107,9 @@ var styles = StyleSheet.create({
     textAlign:'center',
   },
   navBarLogo:{
-    top:13,
+    top:11,
     width:90,
     height:19,
-  },
-  navBarText: {
-    fontSize: 17,
-    top: 15,
-    fontWeight: '400',
-    letterSpacing: 2,
-    color: theme.white,
-    fontFamily: 'Avenir'
   },
   navBarTitle:{
     padding:10,

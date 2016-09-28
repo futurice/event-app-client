@@ -1,15 +1,15 @@
 'use strict';
 
-import React from 'react-native';
-var {
+import React, { PropTypes } from 'react';
+import {
   StyleSheet,
   Text,
   Dimensions,
   View,
-  PropTypes,
   Platform,
-  Linking
-} = React;
+  Linking,
+  Image
+} from 'react-native';
 
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -18,6 +18,7 @@ import ParallaxView from 'react-native-parallax-view';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
 
+import ICONS from '../../constants/Icons';
 import analytics from '../../services/analytics';
 import time from '../../utils/time';
 import locationService from '../../services/location';
@@ -109,7 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#8A8A8A',
     margin: 0,
-    padding: 0
+    padding: 0,
   },
   navigationButtonIcon: {
     backgroundColor: 'transparent',
@@ -118,7 +119,6 @@ const styles = StyleSheet.create({
     top: 10,
   },
   gridListItemMetaWrap:{
-    flex:1,
     paddingBottom:10,
     borderBottomWidth:1,
     borderBottomColor:'#eee',
@@ -133,11 +133,16 @@ const styles = StyleSheet.create({
     padding:15,
     paddingLeft:20,
     paddingRight:20,
-    flex:1
   },
   gridListItemIcon:{
     color: theme.secondary,
     fontSize: 24,
+    top:2
+  },
+  gridListItemIconImage:{
+    tintColor: theme.secondary,
+    width: 26,
+    height: 26,
     top:2
   },
   gridListItemMeta__block: {
@@ -164,6 +169,10 @@ const styles = StyleSheet.create({
     paddingRight:15,
     color: theme.secondary,
     fontSize: 15,
+  },
+  gridListItemLeftImage: {
+    width: 40,
+    paddingRight:15
   },
   header:{
     position:'absolute',
@@ -209,8 +218,7 @@ const EventDetail = React.createClass({
       paddingTop: 0
     };
 
-    const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-    const coverImage = DEFAULT_IMG;// model.coverImage ? model.coverImage.replace('https://', 'http://') : '';
+    const coverImage =  model.coverImage;
 
     return <View style={[styles.wrapper, wrapperStyleAdd]}>
       {!IOS ?
@@ -224,8 +232,8 @@ const EventDetail = React.createClass({
           header={(
             <View style={{flex:1}}>
               <LinearGradient
-                locations={[0,0.6,0.7]}
-                colors={['transparent', 'rgba(0,0,0,.3)', 'rgba(0,0,0,.6)']}
+                locations={[0,0.6,0.9]}
+                colors={['transparent', 'rgba(0,0,0,.1)', 'rgba(40,10,5,.5)']}
                 style={styles.gridListItemImgColorLayer}>
               <Text style={styles.header}>
                   {model.name}
@@ -249,12 +257,9 @@ const EventDetail = React.createClass({
               </View>
             </View>
 
-
-            <PlatformTouchable underlayColor={'#eee'} activeOpacity={0.6} delayPressIn={1}
-              onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>
             <View style={styles.gridListItemMeta}>
               <View style={styles.gridListItemMeta__block}>
-                <Text style={styles.gridListItemLeftIcon}><MaterialIcon style={styles.gridListItemIcon} name='location-on'/> </Text>
+                <View style={styles.gridListItemLeftImage}><Image style={styles.gridListItemIconImage} source={ICONS.MAP} /></View>
               </View>
 
               <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
@@ -262,7 +267,6 @@ const EventDetail = React.createClass({
                 <Text style={styles.gridListItemPlace}>{model.locationName}</Text>
               </View>
             </View>
-            </PlatformTouchable>
 
             { currentDistance !== '' && currentDistance &&
             <View style={styles.gridListItemMeta}>
@@ -282,13 +286,13 @@ const EventDetail = React.createClass({
                 activeOpacity={0.6} delayPressIn={1}
                 underlayColor={'#eee'}
                 onPress={() =>
-                  Linking.openURL(`https://www.facebook.com/events/${ model.facebookId }`)}
+                  Linking.openURL(`https://www.facebook.com/${ model.facebookId }`)}
                 >
                   <View style={styles.detailEventInfoContainer}>
                     <View style={styles.detailEventInfoWrapper}>
                       <Icon style={styles.detailEventInfoIcon} name='social-facebook' size={18}/>
                       <Text style={styles.detailEventInfoAttending}>
-                      {model.attendingCount} {model.attendingCount ? 'attending' : ''}
+                        Facebook page
                       </Text>
                     </View>
                   </View>
@@ -299,10 +303,11 @@ const EventDetail = React.createClass({
               <View style={styles.content}>
                 <Text style={styles.detailEventDescription}>{model.description}</Text>
               </View>
-
+            {/*
               <View style={styles.navigationButtonWrapper}>
                 <Button style={{borderRadius:0}} onPress={() => Linking.openURL(locationService.getGeoUrl(model))}>Get me there!</Button>
               </View>
+            */}
           </View>
       </ParallaxView>
     </View>

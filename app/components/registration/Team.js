@@ -1,11 +1,12 @@
 'use strict';
 
-import React, {
+import React, { PropTypes } from 'react';
+
+import {
   View,
   Text,
   StyleSheet,
   Image,
-  PropTypes,
   TouchableOpacity
 } from 'react-native';
 
@@ -26,11 +27,11 @@ const Team = React.createClass({
         <TouchableOpacity
           style={styles.button}
           onPress={this.props.onPress}>
-          {!this.props.logo ?
+          {!!this.props.logo ?
           <Image
             source={{ uri: this.props.logo }}
             style={[styles.teamLogo, {borderColor: selected ? theme.primary : theme.lightblue}]} /> :
-          <View style={[styles.teamLogo, styles.teamLogoText, {borderColor: selected ? theme.primary : theme.lightblue}]} >
+          <View style={[styles.teamLogo, styles.teamLogoText, {borderColor: selected ? theme.primary : theme.stable}]} >
             <Text style={styles.teamLogoLetter}>{this.props.name.charAt(0).toUpperCase()}</Text>
           </View>
           }
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     width: 40,
     height: 40,
-    backgroundColor: theme.lightblue,
+    backgroundColor: theme.secondaryLight,
     alignItems: 'center',
     justifyContent: 'center'
   },

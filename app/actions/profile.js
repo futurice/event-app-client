@@ -6,7 +6,7 @@ const SET_LINK = 'SET_LINK';
 
 const fetchLinks = () => {
   return (dispatch) => {
-    dispatch({ type: SET_LINK, links: Links.terms });
+    dispatch({ type: SET_LINK, links: Links.links });
   }
 };
 

@@ -1,12 +1,11 @@
 'use strict';
 
-import React from 'react-native';
-var {
+import React, { PropTypes } from 'react';
+import {
   ToolbarAndroid,
-  StyleSheet,
-  PropTypes
-} = React;
-import Icon from 'react-native-vector-icons/Ionicons';
+  StyleSheet
+} from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
 // TODO re-enable
@@ -41,16 +40,22 @@ var EventDetailToolbar = React.createClass({
   },
 
   render() {
+    const toolbarStyles = [styles.toolbar];
+
+    if (this.props.backgroundColor) {
+      toolbarStyles.push({backgroundColor: this.props.backgroundColor})
+    }
+
     return (
       <Icon.ToolbarAndroid
       //actions={toolbarActions} TODO - SHARE
       //onActionSelected={this._onActionSelected}
-      onIconClicked={this._goBack}
-      navIconName={'android-arrow-back'}
-      titleColor={theme.light}
-      iconColor={theme.light}
-      style={styles.toolbar}
-      title={this.props.title}
+        onIconClicked={this._goBack}
+        navIconName={'arrow-back'}
+        titleColor={theme.light}
+        iconColor={theme.light}
+        style={toolbarStyles}
+        title={this.props.title}
       />
     );
   }

@@ -1,9 +1,10 @@
 'use strict';
 
-import React, {
+import React, { PropTypes } from 'react';
+
+import {
   Navigator,
-  BackAndroid,
-  PropTypes
+  BackAndroid
 } from 'react-native';
 import { connect } from 'react-redux';
 import TimelineList from '../components/calendar/TimelineList';

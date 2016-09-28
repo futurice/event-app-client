@@ -1,10 +1,10 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-import React, {
+import React, { PropTypes } from 'react';
+import {
   Image,
   StyleSheet,
-  PropTypes,
   Text,
   View,
   Linking
@@ -115,7 +115,7 @@ export default React.createClass({
             style={styles.text}
             parse={
               [
-                {type: 'url', style: styles.url, onPress: this.handleUrlPress}
+                {type: 'url', style: styles.url, onPress: this.props.handleUrlPress}
               ]
             }
           >

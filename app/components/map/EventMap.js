@@ -1,122 +1,42 @@
 'use strict';
-
-import React, {
-  Component,
+import React, { Component } from 'react';
+import {
   StyleSheet,
   View,
-  Platform,
-  PropTypes,
-  Linking,
-  Text,
-  TouchableHighlight,
-  TouchableOpacity,
-  WebView
+  Dimensions,
 } from 'react-native';
-import { connect } from 'react-redux';
 
-import _ from 'lodash';
-const Icon = require('react-native-vector-icons/Ionicons');
-const MDIcon = require('react-native-vector-icons/MaterialIcons');
-import analytics from '../../services/analytics';
-import * as MarkerActions from '../../actions/marker';
-import * as EventActions from '../../actions/event';
-import EventDetail from '../calendar/EventDetail';
-import Loader from '../common/Loader';
-import time from '../../utils/time';
 import theme from '../../style/theme';
-import LoadingStates from '../../constants/LoadingStates';
+import PhotoView from 'react-native-photo-view';
+const { width } = Dimensions.get('window');
 
 
-//  user-scalable=yes, width=device-width, height=device-height, target-densitydpi=device-dpi, initial-scale=1.0, maximum-scale=2.0, minimum-scale=1.5
-// user-scalable=yes, width=device-width, height=device-height
-
-
-const imageHtml = `
-<html>
-  <head>
-    <meta name="viewport" content="user-scalable=yes, width=device-width, target-densitydpi=device-dpi, initial-scale=1.5,  minimum-scale=1.0, maximum-scale=3.0" />
-    <style>
-      body {
-        min-height:100%;
-        position:relative;
-        background: #FFF;
-      }
-      * { margin:0; padding:0; }
-      img {
-        width: 100%;
-        display: inline-block;
-        margin:0 auto;
-      }
-      #container {
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        bottom: 0;
-        right: 0;
-      }
-      #scroller {
-        width:100%;
-        height: 100%;
-        position:relative;
-        white-space: nowrap;
-      }
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <div id="scroller">
-        <img src="https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/venue.png" />
-      </div>
-    </div>
-  </body>
-</html>
-`;
-
+const venueImg = 'https://futurice.github.io/futubileet-site/venue/venue.png';
 class EventMap extends Component {
 
-  constructor() {
-    super();
-  }
-
-  componentDidMount() {
-    this.props.dispatch(EventActions.fetchEvents());
-    this.props.dispatch(MarkerActions.fetchMarkers());
-  }
 
   render() {
-
-
     return (
-      <View style={{flex:1}}>
-        <WebView
-         html={imageHtml}
-         scalesPageToFit={false}
-         style={{flex: 1}}
-        >
-
-        </WebView>
+      <View style={styles.container}>
+        <PhotoView
+          source={{uri: venueImg}}
+          minimumZoomScale={1.5}
+          maximumZoomScale={4}
+          resizeMode={'contain'}
+          style={{ width, height: width, marginBottom: 50}}
+        />
       </View>
     );
   }
 
 }
 
-EventMap.propTypes = {
-  navigator: PropTypes.object.isRequired,
-  events: PropTypes.object.isRequired,
-  markers: PropTypes.object.isRequired,
-}
-
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'flex-end',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: theme.white
 }});
 
 

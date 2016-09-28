@@ -1,17 +1,16 @@
 'use strict';
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
-var React = require('react-native');
-var {
+import React, { PropTypes } from 'react';
+import {
   Image,
-  PropTypes,
   Platform,
   StyleSheet,
   Dimensions,
   Text,
   TouchableNativeFeedback,
   View
-} = React;
+} from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
@@ -19,7 +18,6 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   gridListItem: {
-    flex: 1,
     paddingLeft:97,
     backgroundColor:'#fff',
   },
@@ -37,17 +35,20 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: 15,
-    paddingBottom:25,
-    paddingTop:0,
+    paddingBottom:15,
+    paddingTop: 0,
+    marginRight: 10,
+    marginBottom: 15,
 
   },
   gridListItemTitle: {
     fontSize: 14,
     fontWeight: 'normal',
     textAlign: 'left',
-    color: '#000',
+    color: theme.primary,
     paddingBottom:10,
     marginTop:3,
+    elevation: 2,
   },
 
   gridListItemMeta: {
@@ -98,9 +99,9 @@ const styles = StyleSheet.create({
     position:'absolute',
     top:0,
     bottom:0,
-    left:78,
-    width:2,
-    backgroundColor:'#eee'
+    left:77,
+    width:3,
+    backgroundColor: '#eee'
   },
   timelineCircle: {
     backgroundColor: theme.secondary,
@@ -123,8 +124,6 @@ const styles = StyleSheet.create({
   }
 });
 
-const DEFAULT_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-
 export default React.createClass({
   propTypes: {
     item: PropTypes.object.isRequired,
@@ -137,20 +136,13 @@ export default React.createClass({
     const lastInSection = this.props.lastInSection;
     const timepoint = time.formatEventTime(item.startTime, item.endTime);
     const startDay = time.getEventDay(item.startTime);
-    const coverImage = DEFAULT_IMG; //item.coverImage ? item.coverImage.replace('https://', 'http://') : '';
+    const coverImage = item.coverImage;
 
     return <TouchableNativeFeedback onPress={this.props.handlePress}  delayPressIn={100} background={TouchableNativeFeedback.SelectableBackground()}>
       <View style={styles.gridListItem}>
 
         <View style={styles.gridListItemContent}>
           <Text style={styles.gridListItemTitle}>{item.name}</Text>
-
-          <View style={[styles.gridListItemIconsWrapper,
-            {marginBottom: item.teemu || timepoint.onGoing || timepoint.startsSoon ? 5 : 0}
-          ]}>
-            {timepoint.onGoing && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Ongoing!</Text>}
-            {timepoint.startsSoon && <Text style={[styles.gridListItemIcon, styles.gridListItemIcon__alert]}>Starts soon!</Text>}
-          </View>
 
           <View style={styles.gridListItemImgWrap}>
             <Image
