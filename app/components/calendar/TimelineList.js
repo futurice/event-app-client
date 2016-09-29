@@ -177,7 +177,7 @@ var TimelineList = React.createClass({
 
     // Futubileet Specific logic
     // Don't show any other date than the first one...
-    if ( 2 > sectionData.length) {
+    if ( sectionStartMoment.isSame(new Date(2016, 9, 8), 'day') ) {
       return (<View />);
     }
 
