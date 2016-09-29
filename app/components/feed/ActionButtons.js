@@ -190,7 +190,7 @@ const ActionButtons = React.createClass({
       TEXT: 'textsms',
       IMAGE: 'photo-camera',
       SIMA: 'local-bar',
-      LECTURE: 'gif',
+      LECTURE: 'transfer-within-a-station',
       BUTTON_PUSH: 'touch-app',
       default: 'image'
     };
@@ -202,7 +202,7 @@ const ActionButtons = React.createClass({
       TEXT: 'Write a message',
       IMAGE: 'Take a photo',
       SIMA: 'Have a refreshment',
-      LECTURE: 'Dance in GIF Disco',
+      LECTURE: 'Dance in the GIF Disco',
       BUTTON_PUSH: 'Push the button',
       default: 'image'
     };

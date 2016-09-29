@@ -11,15 +11,15 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
-const Screen = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: -100,
-    width: Screen.width,
+    width: width,
     left: 0,
     right: 0,
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
     alignItems: 'center',
     paddingTop: 18,
     paddingLeft: 10,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     backgroundColor: 'rgba(0,0,0,0)',
-    width: Screen.width,
+    width: width,
     height: 400
   }
 });
@@ -128,7 +128,7 @@ class Notification extends Component {
           onLayout={this.getViewSize.bind(this)}
           style={animatedViewStyles}>
           {this.props.success &&
-            <Icon name="done" style={{fontSize:20, color:theme.accent, position:'absolute', left: 15, top: 17 }} />}
+            <Icon name="done" style={{fontSize:20, color:theme.white, position:'absolute', left: 15, top: 17 }} />}
           <Text style={styles.message}>{message}</Text>
         </Animated.View>
       </View>

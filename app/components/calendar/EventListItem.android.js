@@ -165,7 +165,7 @@ export default React.createClass({
             <Text style={[styles.gridListItemTime, styles.gridListItemDay]}>{startDay}</Text>
             }
             <Text style={styles.gridListItemTime}>{timepoint.time}</Text>
-            <Text style={[styles.gridListItemTime, styles.gridListItemTimeEnd]}>{timepoint.endTime}</Text>
+            {!!item.endTime && <Text style={[styles.gridListItemTime, styles.gridListItemTimeEnd]}>{timepoint.endTime}</Text>}
         </View>
 
       </View>

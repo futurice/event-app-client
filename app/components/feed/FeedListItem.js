@@ -354,7 +354,8 @@ const FeedListItem = React.createClass({
   },
 
   getItemGravatar(email, name, teamName) {
-    const teamId = this.props.teams.findIndex(team => team.get('name', '').toLowerCase() === (teamName || '').toLowerCase() );
+    const team = this.props.teams.find(t => t.get('name', '').toLowerCase() === (teamName || '').toLowerCase() );
+    const teamId = team ? team.get('id') : 0;
     return getGravatarForEmail(email, name, teamId);
   },
 

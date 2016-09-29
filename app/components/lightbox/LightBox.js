@@ -96,7 +96,7 @@ const LightBox = React.createClass({
           { text: 'Cancel',
             onPress: () =>  {  console.log('Cancel Pressed'); }, style: 'cancel' },
           { text: 'Yes, report item',
-            onPress: () =>  {  abuse.reportFeedItem(item); }, style: 'destructive' }
+            onPress: () =>  {  abuse.reportFeedItem(item.toJS()); }, style: 'destructive' }
         ]
       );
     }
@@ -116,6 +116,7 @@ const LightBox = React.createClass({
 
     const itemImage = lightBoxItem.get('url');
     const itemAuthor = lightBoxItem.getIn(['author', 'name']);
+    const isSystemUser = lightBoxItem.getIn(['author', 'type'], '') === 'SYSTEM';
 
     return (
       <Modal
@@ -155,17 +156,20 @@ const LightBox = React.createClass({
                 <PlatformTouchable delayPressIn={0} onPress={this.onClose}>
                   <View><Icon style={{ color: theme.white, fontSize: 26 }} name="close" /></View>
                 </PlatformTouchable>
-                {itemAuthor && <Text style={styles.header__title}>Image from {itemAuthor}</Text>}
+                {itemAuthor && !isSystemUser &&
+                  <Text style={styles.header__title}>Image from {itemAuthor}</Text>}
               </View>
           </View>
 
           <View style={styles.toolbar}>
+            {!isSystemUser &&
             <PlatformTouchable onPress={() => this.showRemoveDialog(lightBoxItem)}>
               <View style={styles.toolbar__button}>
                 <Icon style={styles.toolbar__icon} name={this.itemIsCreatedByMe(lightBoxItem) ? 'delete' : 'flag'} />
                 <Text style={styles.toolbar__button__text}>{this.itemIsCreatedByMe(lightBoxItem) ? 'Remove' : 'Report'}</Text>
               </View>
             </PlatformTouchable>
+            }
             <PlatformTouchable onPress={() => this.onShare(itemImage)}>
               <View style={styles.toolbar__button}>
                 <Icon style={styles.toolbar__icon} name="share" />
@@ -226,7 +230,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    height: 62,
+    height: 60,
     zIndex: 3,
     backgroundColor: IOS ? 'transparent' : 'rgba(0,0,0,.3)',
   },

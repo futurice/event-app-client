@@ -1,7 +1,7 @@
 import { Linking } from 'react-native';
 
-const ABUSE_EMAIL_ADDRESS = '88c477b70c5d1a7d8d1a68bd2ec2402d@mail.flowdock.com';
-const ABUSE_EMAIL_SUBJECT = 'Whappu Flagged Content';
+const ABUSE_EMAIL_ADDRESS = 'futubileet@futurice.com';
+const ABUSE_EMAIL_SUBJECT = 'Futubileet16 Flagged Content';
 
 // Reports feed item via email
 function reportFeedItem(item) {

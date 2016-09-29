@@ -2,15 +2,17 @@
 import React from 'react';
 import { Animated, View, Text, Platform, StyleSheet } from 'react-native';
 import theme from '../../style/theme';
+const IOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
   label:{
-    flex: 1,
     flexDirection: 'row',
     position: 'absolute',
     padding: 6,
+    paddingLeft: IOS ? 11 : 6,
+    paddingRight: IOS ? 11 : 6,
     top: 16,
-    height: Platform.OS === 'ios' ? 26 : 27,
+    height: IOS ? 26 : 27,
     backgroundColor: '#FFF',
     elevation:2,
     shadowColor: '#000000',
@@ -20,20 +22,21 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0
     },
-    borderRadius: 3,
+    borderRadius: IOS ? 30 : 3,
     right: 60
   },
   labelText:{
     fontSize: 11,
     fontWeight: 'bold',
-    color: theme.primary
+    color: theme.primary,
+    backgroundColor: 'transparent'
   },
   additionalLabelText:{
-    color: '#bbb',
+    color: 'rgba(0, 0, 0, 0.4)',
     marginLeft: 5,
     fontWeight: 'bold',
     fontSize: 11,
-    flex: 1
+    backgroundColor: 'transparent'
   }
 });
 

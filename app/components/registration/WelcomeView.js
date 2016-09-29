@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     padding: 30
   },
   welcomeIcon: {
-    width: 100,
-    height: 100,
+    width: 120,
+    height: 120,
     marginBottom: 20,
     tintColor: theme.secondaryLight,
     shadowColor: '#000000',

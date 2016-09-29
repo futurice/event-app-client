@@ -146,7 +146,7 @@ const TextActionView = React.createClass({
                 onPress={this.onSendText}
                 style={styles.modalButton}
                 isDisabled={!this.state.text}>
-                Send!
+                Send
               </Button>
             </View>
           </Animated.View>

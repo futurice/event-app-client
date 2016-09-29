@@ -4,14 +4,14 @@ import md5 from 'blueimp-md5';
 
 // const DEFAULT_AVATAR_URL = 'monsterid'
 
+const DEFAULT_AVATAR_SIZE = 40;
 const DEFAULT_AVATAR_URLS = [
   'https://storage.googleapis.com/futuroots/assets/teams/customer.png',
   'https://storage.googleapis.com/futuroots/assets/teams/futuricean.png',
   'https://storage.googleapis.com/futuroots/assets/teams/friends.png',
-  'https://storage.googleapis.com/futuroots/assets/teams/alumni.png'
+  'https://storage.googleapis.com/futuroots/assets/teams/alumni.png',
+  'https://storage.googleapis.com/futuroots/assets/teams/customer.png'
 ];
-
-const DEFAULT_AVATAR_SIZE = 40;
 
 /**
  * Call this with a email for Gravatar
