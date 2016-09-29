@@ -178,6 +178,7 @@ const styles = StyleSheet.create({
   },
   leaderboard: {
     flex: 1,
+    marginBottom: IOS ? 25 : 0,
 
   },
   tabsWrap: { margin: IOS ? 20 : 0, marginTop: IOS ? 10 : 0, marginBottom: IOS ? 10 : 0, elevation: 3 },
