@@ -1,7 +1,6 @@
 'use strict';
 import React from 'react';
 import {
-  Animated,
   StyleSheet,
   ListView,
   Dimensions,
@@ -179,9 +178,8 @@ const FeedList = React.createClass({
   renderRow(item, sec, index) {
     const { feed } = this.props;
     // TODO Change this check to email
-    const isPreviousItemFromSameUser = index !== '0' && _.has(item, 'author.name') &&
-      feed.getIn([index - 1, 'author', 'name'], null) === item.author.name;
-
+    const isPreviousItemFromSameUser = index !== '0' && _.has(item, 'author.email') &&
+      feed.getIn([parseInt(index, 10) - 1, 'author', 'email'], null) === item.author.email;
 
     return (<FeedListItem
       handleUrlPress={this.handleUrlPress}
@@ -207,14 +205,16 @@ const FeedList = React.createClass({
   },
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
-    const refreshControl = <RefreshControl
+    const isLoading = isLoadingActionTypes || isLoadingUserData;
+    const refreshControl = (
+      <RefreshControl
       refreshing={this.props.isRefreshing || this.props.isSending}
       onRefresh={this.onRefreshFeed}
       colors={[theme.secondaryLight]}
       tintColor={theme.secondaryLight}
-      progressBackgroundColor={theme.light} />;
+      progressBackgroundColor={theme.light} />
+      );
 
-    const isLoading = isLoadingActionTypes || isLoadingUserData;
 
     switch (feedListState) {
       case LoadingStates.LOADING:
@@ -230,12 +230,11 @@ const FeedList = React.createClass({
       default:
         return (
           <View style={styles.container}>
-            {/*this.renderBgImage() */}
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
               renderRow={this.renderRow}
-              style={[styles.listView]}
+              style={styles.listView}
               onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}
               refreshControl={refreshControl} />
