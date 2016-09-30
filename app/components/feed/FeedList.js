@@ -69,7 +69,8 @@ const FeedList = React.createClass({
     this.props.dispatch(CompetitionActions.updateCooldowns());
 
     this.autoRefresher = setInterval(() => {
-      this.props.dispatch(FeedActions.updateFeed());
+      const firstItemID = this.props.feed ? this.props.feed.first().get('id') : '';
+      this.props.dispatch(FeedActions.updateFeed(firstItemID));
     }, AUTOREFRESH_INTERVAL);
   },
 

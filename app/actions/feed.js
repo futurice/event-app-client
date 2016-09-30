@@ -36,11 +36,10 @@ const fetchFeed = () => {
 };
 
 
-const updateFeed = () => {
+const updateFeed = (afterId) => {
   return (dispatch) => {
-    // dispatch({ type: GET_FEED_REQUEST });
 
-    api.fetchModels('feed')
+    api.fetchUpdateFeed(afterId)
       .then(items => {
         dispatch({
           type: UPDATE_FEED,

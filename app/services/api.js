@@ -14,6 +14,16 @@ const fetchModels = modelType => {
   return cachedFetch(url);
 };
 
+const fetchUpdateFeed = afterId => {
+  const params = { afterId };
+  let url = Endpoints.urls.feed;
+  url += '?' + Object.keys(params).map(k => {
+    return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+  }).join('&');
+
+  return cachedFetch(url);
+};
+
 const fetchMoreFeed = lastID => {
   const params = { beforeId: lastID, limit: 20 };
   let url = Endpoints.urls.feed;
@@ -158,6 +168,7 @@ const _delete = (url, body) => {
 export default {
   deleteFeedItem,
   fetchModels,
+  fetchUpdateFeed,
   fetchMoreFeed,
   postAction,
   putUser,
