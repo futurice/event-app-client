@@ -2,7 +2,7 @@
 
 The most official React Native client for the Futubileet 2016!
 
-Forked from Whappu: https://github.com/futurice/futurice-event-app-client. See documentation
+Forked from Whappu: https://github.com/futurice/wappuapp-client. See documentation
 in that repository.
 
 * Backend for this client will be open-sourced after the event.
