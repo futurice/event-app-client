@@ -284,6 +284,7 @@ const styles = StyleSheet.create({
 // 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-11-22-29-08.gif'
 // import BGS from '../../constants/Backgrounds';
 const TEST_IMG =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
+const TEST_GIF =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-12-00-57-42.gif';
 
 
 const FeedListItem = React.createClass({
@@ -384,7 +385,6 @@ const FeedListItem = React.createClass({
 
   renderAdminItem() {
     const item = this.props.item;
-   // const item = {id: "28", type: "IMAGE", author: { name: 'SYSTEM' }, url:'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif', createdAt: "2016-09-25T21:53:13.810Z", text: "Pasi gets first bite!"}
     const ago = time.getTimeAgo(item.createdAt);
 
     return (
@@ -497,7 +497,7 @@ const FeedListItem = React.createClass({
                 style={styles.feedItemListItemAuthorImage} />
 
               <View style={styles.feedItemListItemAuthor}>
-                <Text style={itemAuthorNameStyles}>{isMyItem ? 'You' : item.author.name }</Text>
+                <Text style={itemAuthorNameStyles}>{isMyItem ? 'You' : item.author.name}</Text>
                 <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
               </View>
               <Text style={styles.itemTimestamp}>{ago}</Text>

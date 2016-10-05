@@ -222,7 +222,7 @@ const EventDetail = React.createClass({
 
     return <View style={[styles.wrapper, wrapperStyleAdd]}>
       {!IOS ?
-      <Toolbar title={`${timepoint.time} - ${timepoint.endTime}`} navigator={this.props.navigator} /> : null}
+      <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
 
 
       <ParallaxView

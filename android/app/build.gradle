@@ -103,6 +103,17 @@ android {
             universalApk false  // If true, also generate a universal APK
             include "armeabi-v7a", "x86"
         }
+      }
+    signingConfigs {
+        release {
+          def console = System.console()
+          if (console != null) {
+            storeFile file(System.console().readLine("\n\$ Enter keystore filename: "))
+            storePassword new String(System.console().readPassword("\n\$ Enter keystore password: "))
+            keyAlias System.console().readLine("\n\$ Enter key alias: ")
+            keyPassword new String(System.console().readPassword("\n\$ Enter alias password: "))
+          }
+        }
     }
     buildTypes {
         release {
@@ -139,6 +150,7 @@ dependencies {
     compile project(':react-native-device-info')
     compile project(':react-native-blur')
     compile fileTree(dir: "libs", include: ["*.jar"])
+    compile 'com.facebook.fresco:animated-gif:0.12.0'
     compile "com.android.support:appcompat-v7:23.0.1"
     compile "com.facebook.react:react-native:+"  // From node_modules
 }

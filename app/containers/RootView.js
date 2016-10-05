@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { Platform, StatusBar, AppStateIOS, AsyncStorage } from 'react-native';
+import { Platform, StatusBar, AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
@@ -9,7 +9,6 @@ import loggerConfig from '../utils/loggerConfig';
 import * as reducers from '../reducers';
 import MainView from './MainView';
 import * as CompetitionActions from '../actions/competition';
-import * as LocationActions from '../actions/location';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
 // import { checkForUpdates } from '../utils/updater';

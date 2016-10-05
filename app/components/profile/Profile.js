@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
   },
   futuLogoHeart: {
     marginRight: 10,
-    marginLeft: IOS ? 8 : 3,
+    marginLeft: 8,
     height: 16,
     width: 16,
     tintColor: theme.secondaryLight,
@@ -311,7 +311,7 @@ var Profile = React.createClass({
     const avatar = item.picture || getGravatarForEmail(item.email, item.title, this.props.selectedTeam, 300);
 
     return (
-      <TouchableHighlight style={[styles.listItemButton, styles.listItemSeparator]} underlayColor={'transparent'} onPress={this.openRegistration}>
+      <View style={[styles.listItemButton, styles.listItemSeparator]}>
         <View style={[styles.listItem, styles.listItem__hero]}>
           {avatar !== '' &&
             <Image style={styles.profilePicBg} resizeMode={'cover'} source={require('../../../assets/backgrounds/bgpattern.png')} />
@@ -338,7 +338,7 @@ var Profile = React.createClass({
             </Text>
           </View>
         </View>
-      </TouchableHighlight>
+      </View>
     );
   },
 
@@ -433,7 +433,8 @@ const select = store => {
       name: store.registration.get('name'),
       heurekaCode: store.registration.get('heurekaCode'),
       picture: store.registration.get('picture'),
-      links: store.profile.get('links')
+      email: store.registration.get('email'),
+      links: store.profile.get('links'),
     }
 };
 

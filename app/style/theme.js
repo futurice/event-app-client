@@ -11,6 +11,7 @@ const theme = {
   secondaryDark:  '#6b2019',
   secondaryBlur:  '#F1523F',
   secondaryStatus:'#de4b3c',
+  statusbar:      '#e54838',
   accent:         '#FFEE47',
   accentLight:    '#FFF5AF',
   danger:         '#FF5240',

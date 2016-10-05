@@ -55,6 +55,7 @@ export default function feed(state = initialState, action) {
           .concat(Immutable.fromJS(action.feed)))) :
         state;
     case UPDATE_FEED:
+      console.log(action.feed);
       return (action.feed && action.feed.length) ?
         state.set('list', Immutable.fromJS(addNewItemToFeed(action.feed, state.get('list')))
           .concat(state.get('list'))) :

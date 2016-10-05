@@ -101,22 +101,21 @@ class App extends Component {
 
     return (
       <View style={{flex:1}}>
+        <StatusBar backgroundColor={theme.statusbar} />
 
-      <StatusBar backgroundColor={theme.secondaryStatus} />
-
-      <Navigator
-        initialRoute={{
-          component: AndroidTabNavigation,
-          name: 'Futustonia'
-        }}
-        renderScene={this.renderScene}
-        configureScene={() => ({
-          ...Navigator.SceneConfigs.FloatFromBottomAndroid
-        })}
-      />
-      <LightBox />
-      <RegistrationView />
-    </View>
+        <Navigator
+          initialRoute={{
+            component: AndroidTabNavigation,
+            name: 'Futustonia'
+          }}
+          renderScene={this.renderScene}
+          configureScene={() => ({
+            ...Navigator.SceneConfigs.FloatFromBottomAndroid
+          })}
+        />
+        <LightBox />
+        <RegistrationView />
+      </View>
     )
   }
 }

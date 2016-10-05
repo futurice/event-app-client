@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import _ from 'lodash';
 import {
   View,
   ToastAndroid,
@@ -16,13 +17,14 @@ class Notification extends Component {
 
   componentDidMount() {
     if (this.props.visible) {
-      this._show()
+      this._show(this.props)
     }
   }
 
   componentWillReceiveProps(nextProps) {
+
     if (nextProps.visible && !this.props.visible && nextProps.children !== '') {
-      this._show();
+      this._show(nextProps);
     } else {
       if (!nextProps.visible && this.props.visible) {
         this._hide();
@@ -37,11 +39,10 @@ class Notification extends Component {
     return false;
   }
 
-  _show() {
+  _show(props) {
+    const { children } = props;
     setTimeout(() => {
-     // TODO If RN updated
-     // ToastAndroid.showWithGravity(this.props.children, ToastAndroid.LONG, ToastAndroid.TOP)
-      ToastAndroid.show(this.props.children, ToastAndroid.LONG)
+      ToastAndroid.showWithGravity(children || '✔', ToastAndroid.LONG, ToastAndroid.CENTER);
     }, 300)
   }
 

@@ -149,7 +149,7 @@ const IntroView = React.createClass({
           <ScrollView style={{ width: null, height}}>
             <View style={[styles.container, styles.contentContainer]}>
 
-              <Animated.View style={[styles.introHero, { transform: [{ scale: heroPosition }] }]}>
+              <Animated.View style={[styles.introHero, { transform: IOS ? [{ scale: heroPosition }] : []  }]}>
                 <Animated.View style={{ overflow: 'hidden', width: width / 1.5, height: width / 1.5, justifyContent: 'center', flexDirection: 'row', transform: IOS ? [{ translateY: bottlePosition }] : [] }} >
                   <Animated.View style={{ elevation: 2, top: -20, left: width / 3 - 25, position:'absolute', height:60, width: 50, opacity: buttonPosition}} >
                     <Animated.View style={{ width: 10, height: 10, borderRadius: 5, position:'absolute',  transform: [{ translateX: bubbleHorizontalPositions[0] }, { translateY: bubbleVerticalPositions[0] }], opacity: bubbleOpacity[0], borderWidth: 1, borderTopWidth:2, borderRightWidth:3, borderColor:'rgba(255,255,255,1)'}} />

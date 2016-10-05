@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
   },
   okView: {
     position: 'absolute',
-    top: height / 2 - 140,
+    top: IOS ? height / 2 - 140 : 50,
     left: 0,
     right: 0,
     alignItems: 'center',

@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
   },
   reloadButton:{
     marginTop:20,
+    height: 50,
     width: 100
   },
   reloadButtonText:{
@@ -229,13 +230,15 @@ var TimelineList = React.createClass({
       case 'failed':
         return (
           <View style={styles.container}>
-            <Text style={styles.loaderText}>Could not get events :(</Text>
-            <Button
-              onPress={this.getViewContent}
-              style={styles.reloadButton}
-            >
-              Reload
-            </Button>
+            <Text style={styles.loaderText}>Could not get events</Text>
+            <View>
+              <Button
+                onPress={this.getViewContent}
+                style={styles.reloadButton}
+              >
+                Try again
+              </Button>
+            </View>
           </View>
         );
       default:

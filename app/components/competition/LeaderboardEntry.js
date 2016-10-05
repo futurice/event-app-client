@@ -15,6 +15,7 @@ import theme from '../../style/theme';
 
 import TimerMixin from 'react-timer-mixin';
 
+const IOS = Platform.OS === 'ios';
 const LeaderboardEntry = React.createClass({
   mixins: [TimerMixin],
   propTypes: {
@@ -47,7 +48,7 @@ const LeaderboardEntry = React.createClass({
   componentDidMount() {
     // Increase min width if the team has some points, so that if winner has
     // e.g. 40000, the team with 30 points does not have too short bar
-    const minWidth = this.props.team.get('score') > 10 ? 46 : 30;
+    const minWidth = this.props.team.get('score') > 10 ? 46 : (IOS ? 30 : 27);
 
     this.setTimeout(() => {
       LayoutAnimation.spring();
@@ -60,7 +61,6 @@ const LeaderboardEntry = React.createClass({
   },
 
   render() {
-    console.log(this.props.logo, this.props.team.get('id'));
     const orderSuffix = this.getOrderSuffix(this.props.position);
 
     return (
@@ -107,8 +107,8 @@ const LeaderboardEntry = React.createClass({
 
 const styles = StyleSheet.create({
   entry: {
-    paddingTop:Platform.OS === 'ios' ? 34 : 32,
-    paddingBottom:Platform.OS === 'ios' ? 34 : 32,
+    paddingTop:IOS ? 34 : 32,
+    paddingBottom:IOS ? 34 : 32,
     backgroundColor:'#FFF',
     flexDirection:'row',
     alignItems:'center'
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
   entryTitleScoreOver:{
     position:'absolute',
     left: 10,
-    top:Platform.OS === 'ios' ? 7 : 3,
+    top:IOS ? 7 : 3,
     fontSize:14,
     fontWeight:'bold',
     color: '#fff',
@@ -180,11 +180,11 @@ const styles = StyleSheet.create({
     marginTop:3,
     marginBottom:5,
     overflow:'hidden',
-    height:Platform.OS === 'ios' ? 30 : 26,
+    height:IOS ? 30 : 26,
     flex:1,
   },
   bar:{
-    height:Platform.OS === 'ios' ? 30 : 26,
+    height:IOS ? 30 : 26,
     backgroundColor:theme.secondary,
     position:'absolute',
     borderRadius:30,

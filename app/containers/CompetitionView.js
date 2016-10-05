@@ -151,16 +151,15 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     alignItems: 'center',
     borderBottomWidth:2,
-    borderBottomColor:'#eee',
+    borderBottomColor:'#f2f2f2'
   },
   leaderboardIconWrap:{
     width: 72,
     paddingRight: 15,
   },
   leaderboardIcon: {
-    // color:'#FFCC03',
-    // fontSize:44,
     top:0,
+    left: -3,
     height: 55,
     width: 55,
     tintColor: '#FFDF46'
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
 
   },
   tabsWrap: { margin: IOS ? 20 : 0, marginTop: IOS ? 10 : 0, marginBottom: IOS ? 10 : 0, elevation: 3 },
-  tabs: { borderRadius: IOS ? 5 : 0, borderWidth: IOS ? 1 : 0, borderTopWidth: 1, borderColor: IOS ? theme.secondary : '#eee', flex: 1, flexDirection: 'row' },
+  tabs: { borderRadius: IOS ? 5 : 0, borderWidth: IOS ? 1 : 0, borderTopWidth: 1, borderColor: IOS ? theme.secondary : '#f2f2f2', flex: 1, flexDirection: 'row' },
   tabLink: { height: IOS ? 32 : 45, flex: 1 },
   tab: { height: IOS ? 32 : 45, flex: 1, alignItems: 'center', justifyContent: 'center'},
   tabText: { color: theme.secondary }

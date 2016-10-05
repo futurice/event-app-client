@@ -19,9 +19,9 @@ class EventMap extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.loader && <Loader />}
+        {this.state.loader && <View style={styles.loader}><Loader /></View>}
         <ImageZoom
-          onLoad={ ()=> {
+          onLoad={() => {
             this.setState({loader: false});
           }}
           source={{
@@ -46,7 +46,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff'
-}});
+  },
+  loader: {
+    position: 'absolute',
+    left: width / 2 - 25,
+    top: height / 2 - 75,
+    width: 50,
+    height: 50,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+
+});
 
 
 export default EventMap;

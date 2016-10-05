@@ -1,6 +1,6 @@
 'use strict';
 import React from 'react';
-import { Animated, Easing, Platform, StyleSheet, Text, View, BackAndroid } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, Text, View, Image, BackAndroid } from 'react-native';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
@@ -62,14 +62,14 @@ const styles = StyleSheet.create({
     color: theme.white
   },
   overlay:{
-    right:43,
-    bottom:Platform.OS === 'ios' ? 60 : 43,
-    position:'absolute',
-    backgroundColor:theme.primary,
-    opacity:0.9,
-    width:10,
-    height:10,
-    borderRadius:5
+    right: 43,
+    bottom: Platform.OS === 'ios' ? 60 : 43,
+    position: 'absolute',
+    backgroundColor: theme.primary,
+    opacity: 0.9,
+    width: 10,
+    height: 10,
+    borderRadius: 5
   }
 });
 
@@ -141,7 +141,7 @@ const ActionButtons = React.createClass({
     // buttonset width
     Animated.timing(
       this.state.actionButtonsWidth,
-      { duration:0, toValue: nextState === OPEN ? 200 : 56 }
+      { duration:0, toValue: nextState === OPEN ? 220 : 56 }
     ).start();
 
   },

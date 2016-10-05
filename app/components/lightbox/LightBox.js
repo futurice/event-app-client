@@ -1,5 +1,5 @@
 'use strict';
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Alert,
   View,
@@ -20,6 +20,7 @@ import PlatformTouchable from '../common/PlatformTouchable';
 import ModalBackgroundView from '../common/ModalBackgroundView';
 import Loader from '../common/Loader';
 import Share from 'react-native-share';
+import moment from 'moment';
 import PhotoView from 'react-native-photo-view';
 import ImageZoom from 'react-native-image-zoom';
 
@@ -27,7 +28,15 @@ import ImageZoom from 'react-native-image-zoom';
 const IOS = Platform.OS === 'ios';
 const { width, height } = Dimensions.get('window');
 
-const LightBox = React.createClass({
+class LightBox extends Component {
+
+
+  state = { loading: false };
+  constructor(props) {
+    super(props);
+
+    this.onClose = this.onClose.bind(this);
+  }
 
   componentDidMount() {
     BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -37,27 +46,18 @@ const LightBox = React.createClass({
       }
       return false;
     });
-  },
+  }
 
-  // getInitialState() {
-  //   return {
-  //     loading: true
-  //   }
-  // },
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLightBoxOpen) {
+      this.setState({loading: true});
+    }
+  }
 
-  // componentWillReceiveProps(nextProps) {
-  //   if (!nextProps.isLightBoxOpen) {
-  //     this.setState({loading: true});
-  //   }
-  // },
-
-  // onReady() {
-  //   this.setState({loading: false});
-  // },
 
   onClose() {
     this.props.closeLightBox();
-  },
+  }
 
   onShare(imgUrl) {
     const shareOptions = {
@@ -66,15 +66,15 @@ const LightBox = React.createClass({
     };
 
     Share.open(shareOptions);
-  },
+  }
   onReport() {
     console.log('test');
-  },
+  }
 
 
   itemIsCreatedByMe(item) {
     return item.getIn(['author','type'],'') === 'ME';
-  },
+  }
 
   showRemoveDialog(item) {
     if (this.itemIsCreatedByMe(item)) {
@@ -100,12 +100,12 @@ const LightBox = React.createClass({
         ]
       );
     }
-  },
+  }
 
   removeThisItem(item) {
     this.props.removeFeedItem(item.toJS());
     this.onClose();
-  },
+  }
 
   render() {
 
@@ -117,6 +117,7 @@ const LightBox = React.createClass({
     const itemImage = lightBoxItem.get('url');
     const itemAuthor = lightBoxItem.getIn(['author', 'name']);
     const isSystemUser = lightBoxItem.getIn(['author', 'type'], '') === 'SYSTEM';
+    const created = moment(lightBoxItem.get('createdAt', ''));
 
     return (
       <Modal
@@ -140,15 +141,18 @@ const LightBox = React.createClass({
           :
           <View style={{ justifyContent: 'center', width, height }}>
             <ImageZoom
-              source={{
-                uri: itemImage,
-                headers: {
-                  "Referer" : 'http://...'
-                }
+              onLoad={() => {
+                this.setState({ loading: false });
               }}
+              source={{ uri: itemImage }}
               resizeMode={'contain'}
               style={{ width, height: width, flex: 1 }}
             />
+            {this.state.loading &&
+            <View style={{position: 'absolute', left: width / 2 - 25, top: height / 2 - 25, alignItems: 'center', justifyContent: 'center', width: 50, height: 50}}>
+              <Loader color={theme.stable} />
+            </View>
+            }
           </View>
           }
           <View style={styles.header}>
@@ -162,27 +166,34 @@ const LightBox = React.createClass({
           </View>
 
           <View style={styles.toolbar}>
-            {!isSystemUser &&
-            <PlatformTouchable onPress={() => this.showRemoveDialog(lightBoxItem)}>
-              <View style={styles.toolbar__button}>
-                <Icon style={styles.toolbar__icon} name={this.itemIsCreatedByMe(lightBoxItem) ? 'delete' : 'flag'} />
-                <Text style={styles.toolbar__button__text}>{this.itemIsCreatedByMe(lightBoxItem) ? 'Remove' : 'Report'}</Text>
-              </View>
-            </PlatformTouchable>
-            }
-            <PlatformTouchable onPress={() => this.onShare(itemImage)}>
-              <View style={styles.toolbar__button}>
-                <Icon style={styles.toolbar__icon} name="share" />
-                <Text style={styles.toolbar__button__text}>Share</Text>
-              </View>
-            </PlatformTouchable>
+            <View>
+              <Text style={{color: theme.stable, fontSize: 12}}>
+                {created.format('DD.MM.YYYY')} at {created.format('HH:mm')}
+              </Text>
+            </View>
+            <View style={{ justifyContent:'flex-end', flexDirection: 'row' }}>
+              {!isSystemUser &&
+              <PlatformTouchable onPress={() => this.showRemoveDialog(lightBoxItem)}>
+                <View style={styles.toolbar__button}>
+                  <Icon style={styles.toolbar__icon} name={this.itemIsCreatedByMe(lightBoxItem) ? 'delete' : 'flag'} />
+                  <Text style={styles.toolbar__button__text}>{this.itemIsCreatedByMe(lightBoxItem) ? 'Remove' : 'Report'}</Text>
+                </View>
+              </PlatformTouchable>
+              }
+              <PlatformTouchable onPress={this.onShare.bind(this, itemImage)}>
+                <View style={styles.toolbar__button}>
+                  <Icon style={styles.toolbar__icon} name="share" />
+                  <Text style={styles.toolbar__button__text}>Share</Text>
+                </View>
+              </PlatformTouchable>
+            </View>
 
           </View>
         </ModalBackgroundView>
       </Modal>
     );
   }
-});
+}
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 const styles = StyleSheet.create({
@@ -217,20 +228,21 @@ const styles = StyleSheet.create({
   header__title: {
     color: theme.white,
     marginLeft: 20,
-    fontSize: 16
+    fontSize: 15
   },
   toolbar: {
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 0,
-    paddingRight: 20,
-    paddingBottom: IOS ? 35 : 5,
+    paddingRight: IOS ? 20 : 10,
+    paddingLeft: IOS ? 20 : 15,
+    paddingBottom: IOS ? 35 : 0,
     position: 'absolute',
     bottom: 0,
     left: 0,
     right: 0,
-    height: 60,
+    height: 58,
     zIndex: 3,
     backgroundColor: IOS ? 'transparent' : 'rgba(0,0,0,.3)',
   },
@@ -238,7 +250,8 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     width: 50,
     height: 50,
-    marginLeft: 20,
+    marginTop: 5,
+    marginLeft: 15,
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'transparent'
