@@ -2,6 +2,8 @@
 
 The most official React Native client for the Futubileet 2016!
 
+![Mad Scientist Glasses](https://raw.githubusercontent.com/futurice/futubileet-site/master/assets/hero.gif)
+
 Forked from Whappu: https://github.com/futurice/wappuapp-client. See documentation
 in that repository.
 
