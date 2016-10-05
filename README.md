@@ -4,7 +4,7 @@ This was the client for Futurice Summer Party of 2016, but sadly it never got fi
 
 ![FutuStonia logo](https://storage.googleapis.com/futuroots/user_content/00037-1475667004819)
 
-Forked from Whappu: https://github.com/futurice/futurice-event-app-client. See documentation
+Forked from Whappu: https://github.com/futurice/wappuapp-client. See documentation
 in that repository.
 
 * Backend for this client will be open-sourced later
