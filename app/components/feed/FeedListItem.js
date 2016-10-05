@@ -275,17 +275,6 @@ const styles = StyleSheet.create({
   }
 });
 
-// const TEST_IMG = 'https://images.unsplash.com/photo-1461823385004-d7660947a7c0?dpr=2&auto=compress,format&crop=entropy&fit=crop&w=376&h=251&q=80&cs=tinysrgb';
-// const TEST_IMG = 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-// const TEST_IMG = 'https://raw.githubusercontent.com/futurice/gif-disco/master/gif_disco.gif';
-// const TEST_IMG = Math.random() >= 0.5 ?
-// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif' :
-// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-// 'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-11-22-29-08.gif'
-// import BGS from '../../constants/Backgrounds';
-const TEST_IMG =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg';
-const TEST_GIF =  'https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/2013-10-12-00-57-42.gif';
-
 
 const FeedListItem = React.createClass({
   propTypes: {
@@ -512,21 +501,6 @@ const FeedListItem = React.createClass({
                 onPress={() => this.props.openLightBox(item)}
               >
 
-              {/*
-                <Image
-                resizeMode={'cover'}
-                source={ BGS['BG' + (this.props.index % 8 + 1) ]}
-                style={{
-                  position: 'absolute',
-                  height: Dimensions.get('window').width - 36,
-                  width: Dimensions.get('window').width - 36,
-                  left: 0,
-                  top: 0,
-                  right: 0,
-                  opacity: 0.6,
-                  borderRadius: 3
-                }}
-                />*/}
               <Image
                 source={{ uri: item.url }}
                 style={styles.feedItemListItemImg} />
@@ -537,7 +511,6 @@ const FeedListItem = React.createClass({
             </View>
           :
             <View style={itemTextWrapperStyles}>
-             {/* <Text style={feedItemListTextStyles}>{item.text}</Text> */}
 
               <ParsedText
                 style={feedItemListTextStyles}
@@ -551,8 +524,6 @@ const FeedListItem = React.createClass({
 
             </View>
           }
-
-          {/* this.renderRemoveButton(item) */}
 
         </TouchableOpacity>
         {!isItemImage && !isMyItem && <View style={ styles.itemPusher } /> }
