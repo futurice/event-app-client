@@ -59,52 +59,53 @@ const MainView = React.createClass({
 
     return (
       <View style={{flex:1}}>
-        <TabBarIOS tintColor={theme.secondaryLight} translucent={false} barTintColor={theme.primary} >
+        <TabBarIOS tintColor={theme.accent} translucent={false} barTintColor={theme.secondary}>
 
 
           <TabBarIOS.Item
-            icon={ICONS.MAP}
+            icon={ICONS.MENU_MAP_OFF}
+            selectedIcon={ICONS.MENU_MAP_ON}
             title=''
             selected={currentTab === Tabs.MAP}
             onPress={() => { this._onChangeTab(Tabs.MAP); }}>
             <EventMapView />
           </TabBarIOS.Item>
 
-          <Icon.TabBarItem
-            iconName='access-time'
-            selectedIconName='access-time'
+          <TabBarIOS.Item
+            icon={ICONS.MENU_TIME_OFF}
+            selectedIcon={ICONS.MENU_TIME_ON}
             title=''
             selected={currentTab === Tabs.CALENDAR}
             onPress={() => { this._onChangeTab(Tabs.CALENDAR); }}>
             <CalendarView />
-          </Icon.TabBarItem>
+          </TabBarIOS.Item>
 
           <TabBarIOS.Item
-            icon={ICONS.CHATS}
-            /* TODO badge={'•'} */
+            icon={ICONS.MENU_CHAT_OFF}
+            selectedIcon={ICONS.MENU_CHAT_ON}
             title=''
             selected={currentTab === Tabs.FEED}
             onPress={() => { this._onChangeTab(Tabs.FEED); }}>
             <FeedView />
           </TabBarIOS.Item>
 
-          <Icon.TabBarItem
-            iconName='equalizer'
-            selectedIconName='equalizer'
+          <TabBarIOS.Item
+            icon={ICONS.MENU_STATS_OFF}
+            selectedIcon={ICONS.STATS_STATS_ON}
             title=''
             selected={currentTab === Tabs.ACTION}
             onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
             <CompetitionView />
-          </Icon.TabBarItem>
+          </TabBarIOS.Item>
 
-          <Icon.TabBarItem
-            iconName='person-outline'
-            selectedIconName='person'
+          <TabBarIOS.Item
+            icon={ICONS.MENU_PROFILE_OFF}
+            selectedIcon={ICONS.PROFILE_PROFILE_ON}
             title=''
             selected={currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>
             <SettingsView />
-          </Icon.TabBarItem>
+          </TabBarIOS.Item>
         </TabBarIOS>
 
         <RegistrationView />
