@@ -2,7 +2,6 @@
 import React from 'react';
 import {
   View,
-  Text,
   Image,
   StyleSheet,
   Platform,
@@ -14,8 +13,9 @@ import {
 import * as RegistrationActions from '../../actions/registration';
 
 import theme from '../../style/theme';
-import Button from '../../components/common/Button';
-import Loading from '../../components/common/RadioLoader';
+import Button from '../common/Button';
+import Loading from '../common/RadioLoader';
+import Text from '../Text';
 const Icon = require('react-native-vector-icons/Ionicons');
 const MDIcon = require('react-native-vector-icons/MaterialIcons');
 const { height, width } = Dimensions.get('window');
@@ -62,7 +62,7 @@ const WelcomeView = React.createClass({
           ]} />
           <Animated.View style={{ alignItems: 'center', opacity: this.state.welcome }}>
             <Text style={styles.welcomeTitle}>Hello {userName || 'Friend'}!</Text>
-            <Text style={styles.welcomeText}>Let's have a mad Futubileet on October 7th!</Text>
+            <Text style={styles.welcomeText}>Let's have a great Futubileet on September 22th!</Text>
             <View style={styles.welcomeButtonWrap}>
               <Button onPress={this.onWelcomeDismiss} style={styles.welcomeButton} >Get started</Button>
             </View>
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   welcomeText: {
     color: 'rgba(0,0,0,0.4)',
     fontSize: 15,
-    fontWeight: 'bold',
+    lineHeight: 20,
     textAlign: 'center',
     backgroundColor: 'transparent'
   },

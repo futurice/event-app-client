@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
-import { Animated, Easing, Platform, StyleSheet, Text, View, Image, BackAndroid } from 'react-native';
+import { Animated, Easing, Platform, StyleSheet, View, Image, BackAndroid } from 'react-native';
+import Text from '../Text';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ActionButton from './ActionButton';
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
     right: 43,
     bottom: Platform.OS === 'ios' ? 60 : 43,
     position: 'absolute',
-    backgroundColor: theme.primary,
+    backgroundColor: theme.accent,
     opacity: 0.9,
     width: 10,
     height: 10,

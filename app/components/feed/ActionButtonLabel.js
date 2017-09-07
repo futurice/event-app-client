@@ -1,6 +1,7 @@
 'use strict';
 import React from 'react';
-import { Animated, View, Text, Platform, StyleSheet } from 'react-native';
+import { Animated, View, Platform, StyleSheet } from 'react-native';
+import Text from '../Text';
 import theme from '../../style/theme';
 const IOS = Platform.OS === 'ios';
 
@@ -27,15 +28,15 @@ const styles = StyleSheet.create({
   },
   labelText:{
     fontSize: 11,
-    fontWeight: 'bold',
-    color: theme.primary,
+    lineHeight: 15,
+    color: theme.secondary,
     backgroundColor: 'transparent'
   },
   additionalLabelText:{
-    color: 'rgba(0, 0, 0, 0.4)',
+    color: theme.pink,
     marginLeft: 5,
-    fontWeight: 'bold',
     fontSize: 11,
+    lineHeight: 15,
     backgroundColor: 'transparent'
   }
 });

@@ -2,7 +2,6 @@
 import React, { PropTypes } from 'react';
 import {
   View,
-  Text,
   TextInput,
   StyleSheet,
   Dimensions,
@@ -16,6 +15,7 @@ import Immutable from 'immutable';
 import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import IntroView from './IntroView';
+import Text from '../Text';
 import Modal from 'react-native-modalbox';
 import Team from './Team';
 import Toolbar from './RegistrationToolbar';

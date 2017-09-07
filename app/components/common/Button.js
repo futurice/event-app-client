@@ -1,30 +1,20 @@
 'use strict';
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import {
   View,
   TouchableOpacity,
-  Text,
   StyleSheet,
 } from 'react-native';
+
+import Text from '../Text';
 import theme from '../../style/theme';
 
 var Button = React.createClass({
-  propTypes: Object.assign({},
-    {
-      textStyle: Text.propTypes.style,
-      disabledStyle: Text.propTypes.style,
-      children: PropTypes.string.isRequired,
-      isDisabled: PropTypes.bool,
-      onPress: PropTypes.func,
-      onPressIn: PropTypes.func,
-      onPressOut: PropTypes.func
-    },
-  ),
 
   _renderInnerText: function() {
     return (
-      <Text style={[styles.textButton, this.props.textStyle]}>
+      <Text style={styles.textButton}>
         {this.props.children}
       </Text>
     );
@@ -61,12 +51,12 @@ const styles = StyleSheet.create({
     backgroundColor: theme.primary,
     borderRadius: 100,
     paddingLeft: 10,
-    paddingRight: 10
+    paddingRight: 10,
+    paddingTop: 5,
   },
   textButton: {
     textAlign: 'center',
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 16,
     color: '#fff'
   },
   opacity: {
