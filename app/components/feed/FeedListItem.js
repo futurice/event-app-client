@@ -7,24 +7,25 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  Text,
   Platform,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View,
   Animated,
   Easing
 } from 'react-native';
+import Text from '../Text';
 
 import ParsedText from 'react-native-parsed-text';
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import moment from 'moment';
 
 import { removeFeedItem, openLightBox } from '../../actions/feed';
 import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import { getGravatarForEmail } from '../../utils/gravatar';
 import theme from '../../style/theme';
+import CommentsLink from './CommentsLink';
 
 const { width, height } = Dimensions.get('window');
 const IOS = Platform.OS === 'ios';
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
     width,
     backgroundColor: 'transparent',//theme.lightblue, // theme.stable,
     paddingBottom: 8,
-    paddingTop:8,
+    paddingTop: 8,
     flexDirection: 'row',
     alignItems: 'stretch',
     justifyContent: 'center'
@@ -42,72 +43,12 @@ const styles = StyleSheet.create({
   itemWrapper__adjacent: {
     paddingTop: 0
   },
-  bubbleTip: {
-    position: 'absolute',
-    top: IOS ? 54 : 11,
-    left: IOS ? 6 : 15,
-    width: 0,
-    height: 0,
-    backgroundColor: 'transparent',
-    borderStyle: 'solid',
-    borderTopWidth: IOS ? 8 : 15,
-    borderRightWidth: IOS ? 15 : 15,
-    borderBottomWidth: IOS ? 8 : 15,
-    borderLeftWidth: 0,
-    borderTopColor: 'transparent',
-    borderRightColor: IOS ? theme.lightblue : 'transparent',
-    borderLeftColor: 'transparent',
-    borderBottomColor: IOS ? 'transparent' : '#FFF',
-    transform: [{ rotate: IOS ? '30deg' : '45deg' }],
-    elevation: 1,
-
-  /*
-    width: 15,
-    height: 15,
-    backgroundColor: '#FFF',
-    left: 8,
-    top: 10,
-    elevation: 3,
-  */
-    // shadowColor: '#000000',
-    // shadowOpacity: 0.15,
-    // shadowRadius: 1,
-    // shadowOffset: {
-    //   height: 1,
-    //   width: -1
-    // }
-  },
-  bubbleTip__own: {
-    left: null,
-    top: IOS ? 54 : 23,
-    right: IOS ? 6 : 10,
-
-    borderRightWidth: 0,
-    borderTopWidth: IOS ? 8 : 0,
-    borderBottomWidth: IOS ? 8 : 15,
-    borderLeftWidth: IOS ? 15 : 15,
-    borderTopColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderLeftColor: IOS ? theme.secondaryLight : 'transparent',
-    borderBottomColor: IOS ? 'transparent' : theme.secondaryLight,
-    backgroundColor: IOS ? 'transparent' : theme.secondaryLight,
-    transform: [{ rotate: IOS ? '-30deg' : '135deg' }],
-    // shadowOffset: {
-    //   height: 1,
-    //   width: 2
-    // }
-  },
-  bubbleTip__adjacent: {
-    opacity: 0
-  },
-  itemPusher: {
-    // position: 'absolute',
-    flex: 1,
-    width: 20
-  },
   itemContent:{
     marginLeft: 15,
-    // marginRight: 55,
+    marginRight: 15,
+    borderWidth: 2,
+    borderColor: theme.secondary,
+
     flex: 4,
     elevation: 1,
     borderRadius: IOS ? 10 : 4,
@@ -118,52 +59,66 @@ const styles = StyleSheet.create({
     //   height: 1,
     //   width: 0
     // },
-    backgroundColor: IOS ? theme.lightblue : '#fff'
+    backgroundColor: theme.white
   },
   itemContent__own: {
-    flex: 6,
-    marginLeft: 50,
-    marginRight: 15,
-    backgroundColor: theme.secondaryLight
+    // flex: 6,
+    // marginLeft: 50,
+    // marginRight: 15,
+    // backgroundColor: theme.secondaryLight
   },
   itemContent__adjacent: {
-   // marginLeft: 47,
-    flex: null,
-    maxWidth: width * 0.75
+    // marginLeft: 47,
+    // flex: null,
+    // maxWidth: width * 0.75
   },
   itemContent__image: {
     marginLeft: 15,
     marginRight: 15
   },
   itemImageWrapper: {
-    height:  IOS ? width - 30 : width - 36,
-    width: IOS ? width - 30 : width - 36,
+    height:  width - 44,
+    width: width - 44,
     left: IOS ? 0 : 3,
     bottom: IOS ? 0 : 3,
     borderRadius: IOS ? 10 : 4,
-    marginTop: 15,
+    margin: 5,
   },
   itemImageWrapper__adjacent: {
-    marginTop: IOS ? 0 : 6,
+    // marginTop: IOS ? 0 : 6,
   },
   itemTextWrapper: {
-    paddingLeft: 15,
-    paddingRight: 30,
-    paddingTop: 10,
-    paddingBottom: 10,
+    paddingLeft: 5,
+    paddingRight: 5,
+    paddingTop: 20,
+    paddingBottom: 15,
     top: 0,
+    margin: 5,
+    backgroundColor: theme.secondary,
   },
-  itemTextWrapper__adjacent: {
-    paddingTop: 10,
+  itemTextWrapper__short: {
+    backgroundColor: theme.accent,
     paddingBottom: 10,
-    paddingLeft: 15,
-    paddingRight: 15,
   },
+  itemTextWrapper__short__odd: {
+    backgroundColor: theme.pink
+  },
+  itemTextWrapper__adjacent: {},
   feedItemListText: {
-    backgroundColor: 'transparent',
-    fontSize: 13,
-    lineHeight: 18,
-    color: theme.dark,
+    backgroundColor: theme.transparent,
+    color: theme.white,
+    fontFamily: 'Futurice',
+    fontSize: 16,
+    lineHeight: 16,
+  },
+  feedItemListText__short: {
+    color: theme.secondary,
+    fontSize: 36,
+    lineHeight: 50,
+    textAlign: 'center',
+  },
+  feedItemListText__short__odd: {
+    color: theme.white,
   },
   url: {
     fontWeight: 'bold',
@@ -173,9 +128,9 @@ const styles = StyleSheet.create({
     opacity: 0.6
   },
   feedItemListItemImg: {
-    width: IOS ? width - 30 : width - 36,
-    height: IOS ? width - 30 : width - 36,
-    borderRadius: IOS ? 10 : 4,
+    width: width - 44,
+    height: width - 44,
+    borderRadius: 0,
     backgroundColor: 'transparent' // theme.accent
   },
   feedItemListItemImg__admin: {
@@ -184,42 +139,47 @@ const styles = StyleSheet.create({
   feedItemListItemInfo: {
     flex: 1,
     flexDirection: 'row',
-    padding: 12,
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingBottom: 0,
+    padding: 4,
+    paddingLeft: 8,
+    paddingRight: 8,
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    borderBottomWidth: 2,
+    borderBottomColor: theme.secondary,
   },
   feedItemListItemAuthor:{
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
+    flexDirection: 'column',
+    top: 5,
+    backgroundColor: theme.transparent,
   },
   itemAuthorName: {
-    fontSize: 13,
-    fontWeight: 'bold',
+    fontSize: 16,
     color: theme.secondary,
-    paddingRight: 10
+    backgroundColor: theme.transparent,
   },
   itemAuthorName__own: {
-    color: theme.white
+    color: theme.secondary
   },
   itemAuthorTeam:{
-    fontSize:11,
-    color: 'rgba(0,0,0,.4)'
+    fontSize: 16,
+    color: theme.pink,
+    backgroundColor: theme.transparent,
+    top: -2,
   },
-  feedItemListItemAuthorIcon:{
+  feedItemListItemAuthorIcon: {
     color: '#bbb',
     fontSize: 18,
     width: 22,
     marginRight: 10
   },
   feedItemListItemAuthorImage: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    marginRight: 10
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 8,
+    borderWidth: 2,
+    borderColor: theme.secondary
   },
   listItemRemoveButton:{
     backgroundColor: 'transparent',
@@ -238,8 +198,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   itemTimestamp: {
-    color: 'rgba(0,0,0,.4)',
-    fontSize: 11
+    color: theme.secondary,
+    opacity: 0.8,
+    fontSize: 15,
+    paddingTop: 4,
   },
   itemContent__admin:{
     marginLeft: 15,
@@ -272,7 +234,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 12,
     lineHeight: 19,
-  }
+  },
+  footer: {
+    paddingVertical: 10,
+    borderTopWidth: 2,
+    borderTopColor: theme.secondary,
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    justifyContent: 'space-between',
+    overflow: 'hidden',
+  },
 });
 
 
@@ -388,8 +359,6 @@ const FeedListItem = React.createClass({
             </View>
           </View>
 
-        {/* https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/1412341377.gif */}
-        {/* https://dl.dropboxusercontent.com/u/11383584/cdn/futubileet16/events/bad-finance.jpg */}
           {item.type === 'IMAGE' ?
             <View style={styles.itemImageWrapper}>
               <TouchableOpacity
@@ -415,10 +384,10 @@ const FeedListItem = React.createClass({
   },
 
   render() {
-    const { item, showUser } = this.props;
+    const { item, showUser, openComments } = this.props;
     const ago = time.getTimeAgo(item.createdAt);
     const isMyItem = this.itemIsCreatedByMe(item);
-    const isItemImage = item.type === 'IMAGE' || (item.text && item.text.indexOf('TESTIMAGE') >= 0);
+    const isItemImage = item.type === 'IMAGE';
 
     setTimeout(() => {
       this.animateItem();
@@ -431,7 +400,6 @@ const FeedListItem = React.createClass({
 
     const itemWrapperStyles = [styles.itemWrapper];
     const itemStyles = [styles.itemContent];
-    const bubbleTipStyles = [styles.bubbleTip];
     const itemAuthorNameStyles = [styles.itemAuthorName];
     const feedItemListTextStyles = [styles.feedItemListText];
     const itemTextWrapperStyles = [styles.itemTextWrapper];
@@ -440,14 +408,23 @@ const FeedListItem = React.createClass({
 
     if (isMyItem) {
       itemStyles.push(styles.itemContent__own);
-      bubbleTipStyles.push(styles.bubbleTip__own);
       itemAuthorNameStyles.push(styles.itemAuthorName__own);
-      feedItemListTextStyles.push(styles.itemAuthorName__own);
+    }
+
+    if (item.text && item.text.length < 20) {
+      itemTextWrapperStyles.push(styles.itemTextWrapper__short)
+      feedItemListTextStyles.push(styles.feedItemListText__short)
+
+      // vary short item styling
+      const itemHash = moment(item.createdAt).valueOf();
+      if (itemHash % 2) {
+        itemTextWrapperStyles.push(styles.itemTextWrapper__short__odd);
+        feedItemListTextStyles.push(styles.feedItemListText__short__odd);
+      }
     }
 
     if (!showUser) {
       itemWrapperStyles.push(styles.itemWrapper__adjacent)
-      bubbleTipStyles.push(styles.bubbleTip__adjacent);
       itemTextWrapperStyles.push(styles.itemTextWrapper__adjacent);
       itemImageWrapperStyles.push(styles.itemImageWrapper__adjacent);
     }
@@ -472,14 +449,13 @@ const FeedListItem = React.createClass({
         }
       ]}>
 
-        {!isItemImage && isMyItem && <View style={styles.itemPusher} /> }
         <TouchableOpacity
           activeOpacity={1}
           style={itemStyles}
           onLongPress={() => this.selectItem() }
 
         >
-          { showUser &&
+          { true /* showUser */ &&
             <View style={styles.feedItemListItemInfo}>
               <Image
                 source={{ uri: item.author.picture || this.getItemGravatar(item.author.email, item.author.name, item.author.team) }}
@@ -514,10 +490,10 @@ const FeedListItem = React.createClass({
 
               <ParsedText
                 style={feedItemListTextStyles}
-                parse={ [
-                  {type: 'url', style: styles.url, onPress: this.props.handleUrlPress},
-                  {pattern: /#(\w+)/, style: styles.hashTag},
-                 ] }
+                parse={[
+                  { type: 'url', style: styles.url, onPress: this.props.handleUrlPress },
+                  { pattern: /#(\w+)/, style: styles.hashTag },
+                ]}
               >
                 {item.text}
               </ParsedText>
@@ -525,9 +501,22 @@ const FeedListItem = React.createClass({
             </View>
           }
 
+          <View style={styles.footer}>
+            {/*<VotePanel
+              item={item}
+              voteFeedItem={this.props.voteFeedItem}
+              openRegistrationView={this.props.openRegistrationView}
+            />*/}
+
+            <CommentsLink
+              parentId={item.id}
+              commentCount={item.commentCount}
+              openComments={() => openComments(item.id)}
+            />
+
+          </View>
+
         </TouchableOpacity>
-        {!isItemImage && !isMyItem && <View style={ styles.itemPusher } /> }
-        {!isItemImage && <View style={bubbleTipStyles} />}
       </View>
     );
   }

@@ -10,6 +10,9 @@ import profile from './profile';
 import marker from './marker';
 import errors from './errors';
 
+import comments from '../concepts/comments';
+
+
 export {
   errors,
   marker,
@@ -21,5 +24,6 @@ export {
   location,
   competition,
   announcement,
-  profile
+  profile,
+  comments
 };

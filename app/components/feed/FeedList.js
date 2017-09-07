@@ -5,19 +5,37 @@ import {
   ListView,
   Dimensions,
   Image,
-  Text,
   RefreshControl,
   View,
   ScrollView,
   Platform
 } from 'react-native';
+import Text from '../Text';
 import { connect } from 'react-redux';
 // import { ImagePickerManager } from 'NativeModules';
 import ImagePickerManager from 'react-native-image-picker';
 import _ from 'lodash';
 
+import {
+  openComments,
+  closeComments
+} from '../../concepts/comments';
+
 import theme from '../../style/theme';
-import * as FeedActions from '../../actions/feed';
+import {
+  loadMoreItems,
+  fetchFeed,
+  refreshFeed,
+  updateFeed
+} from '../../actions/feed';
+
+import {
+  postImage,
+  postAction,
+  openTextActionView,
+  updateCooldowns
+} from '../../actions/competition';
+
 import FeedListItem from './FeedListItem';
 import Notification from '../common/Notification';
 import Loading from './Loading';
@@ -25,9 +43,11 @@ import ActionButtons from './ActionButtons';
 import TextActionView from '../../components/actions/TextActionView';
 import LoadingStates from '../../constants/LoadingStates';
 import WebViewer from '../webview/WebViewer';
+import Background from '../background';
+import CommentsView from '../comment/CommentsView';
 
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
-import * as CompetitionActions from '../../actions/competition';
+
 import TimerMixin from 'react-timer-mixin';
 
 const IOS = Platform.OS === 'ios';
@@ -43,12 +63,15 @@ const styles = StyleSheet.create({
     backgroundColor: IOS ? '#fff' : theme.stable
   },
   listView: {
-    flex: 1
+    flex: 1,
+    backgroundColor: 'transparent',
+    zIndex: 10,
   },
   actionButtons: {
     position: 'absolute',
     bottom: 0,
-    right: 0
+    right: 0,
+    zIndex: 20,
   },
 
 });
@@ -64,13 +87,13 @@ const FeedList = React.createClass({
 
   autoRefresher: null,
   componentDidMount() {
-    this.props.dispatch(FeedActions.fetchFeed());
+    this.props.fetchFeed();
 
-    this.props.dispatch(CompetitionActions.updateCooldowns());
+    this.props.updateCooldowns();
 
     this.autoRefresher = setInterval(() => {
       const firstItemID = this.props.feed ? this.props.feed.first().get('id') : '';
-      this.props.dispatch(FeedActions.updateFeed(firstItemID));
+      this.props.updateFeed(firstItemID);
     }, AUTOREFRESH_INTERVAL);
   },
 
@@ -128,7 +151,7 @@ const FeedList = React.createClass({
   },
 
   onRefreshFeed() {
-    this.props.dispatch(FeedActions.refreshFeed());
+    this.props.refreshFeed();
   },
 
   onLoadMoreItems() {
@@ -138,7 +161,7 @@ const FeedList = React.createClass({
 
     const lastItemID = this.props.feed.get(this.props.feed.size - 1).get('id') || '';
     if (lastItemID) {
-      this.props.dispatch(FeedActions.loadMoreItems(lastItemID));
+      this.props.loadMoreItems(lastItemID);
     }
   },
 
@@ -146,7 +169,7 @@ const FeedList = React.createClass({
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
       if (!response.didCancel && !response.error) {
         const image = 'data:image/jpeg;base64,' + response.data;
-        this.props.dispatch(CompetitionActions.postImage(image));
+        this.props.postImage(image);
       }
     });
   },
@@ -157,9 +180,9 @@ const FeedList = React.createClass({
       case 'IMAGE':
         return this.chooseImage();
       case 'TEXT':
-        return this.props.dispatch(CompetitionActions.openTextActionView());
+        return this.props.openTextActionView();
       default:
-        return this.props.dispatch(CompetitionActions.postAction(type));
+        return this.props.postAction(type);
     }
   },
 
@@ -178,44 +201,32 @@ const FeedList = React.createClass({
 
   renderRow(item, sec, index) {
     const { feed } = this.props;
-    // TODO Change this check to email
     const isPreviousItemFromSameUser = index !== '0' && _.has(item, 'author.email') &&
       feed.getIn([parseInt(index, 10) - 1, 'author', 'email'], null) === item.author.email;
 
     return (<FeedListItem
       handleUrlPress={this.handleUrlPress}
+      key={item.id}
       item={item}
       index={index}
       showUser={!isPreviousItemFromSameUser}
+      openComments={this.props.openComments}
+      closeComments={this.props.closeComments}
     />)
-  },
-
-  renderBgImage() {
-    return (<Image
-      resizeMode={'repeat'}
-      source={require('../../../assets/backgrounds/bgpattern.png')}
-      style={{
-        position: 'absolute',
-        height,
-        right: 0,
-        left: 0,
-        top: 0,
-        opacity: 1
-      }}
-      />);
   },
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const isLoading = isLoadingActionTypes || isLoadingUserData;
-    const refreshControl = (
+    const isRefreshing = this.props.isRefreshing || this.props.isSending;
+    const refreshControlComponent = (
       <RefreshControl
-      refreshing={this.props.isRefreshing || this.props.isSending}
-      onRefresh={this.onRefreshFeed}
-      colors={[theme.secondaryLight]}
-      tintColor={theme.secondaryLight}
-      progressBackgroundColor={theme.light} />
-      );
-
+        refreshing={isRefreshing}
+        onRefresh={this.onRefreshFeed}
+        colors={[theme.secondary]}
+        tintColor={theme.secondary}
+        progressBackgroundColor={theme.light} />
+    );
+    const refreshControl = refreshControlComponent;
 
     switch (feedListState) {
       case LoadingStates.LOADING:
@@ -231,6 +242,7 @@ const FeedList = React.createClass({
       default:
         return (
           <View style={styles.container}>
+            <Background color="yellow" />
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
@@ -265,10 +277,26 @@ const FeedList = React.createClass({
           {this.props.notificationText}
         </Notification>
         <TextActionView />
+        <CommentsView />
       </View>
     );
   },
 });
+
+
+const mapDispatchToProps = {
+  fetchFeed,
+  refreshFeed,
+  updateFeed,
+  loadMoreItems,
+  updateCooldowns,
+  postImage,
+  postAction,
+  openTextActionView,
+
+  openComments,
+  closeComments,
+};
 
 const select = store => {
   const isRegistrationInfoValid = store.registration.get('name') !== '' &&
@@ -290,4 +318,4 @@ const select = store => {
   };
 };
 
-export default connect(select)(FeedList);
+export default connect(select, mapDispatchToProps)(FeedList);

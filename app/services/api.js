@@ -1,5 +1,6 @@
 import DeviceInfo from 'react-native-device-info';
 import { AsyncStorage } from 'react-native';
+import { isEmpty } from 'lodash';
 
 import Endpoints from '../constants/Endpoints';
 import { version as VERSION_NUMBER } from '../../package.json';
@@ -11,6 +12,7 @@ const API_TOKEN = ENV.API_TOKEN;
 
 const fetchModels = modelType => {
   const url = Endpoints.urls[modelType];
+
   return cachedFetch(url);
 };
 
@@ -30,6 +32,18 @@ const fetchMoreFeed = lastID => {
   url += '?' + Object.keys(params).map(k => {
     return encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
   }).join('&');
+
+  return cachedFetch(url);
+};
+
+const fetchComments = (postId, params) => {
+  let url = Endpoints.urls.feedItem(postId);
+
+  if (!isEmpty(params) && isObject(params)) {
+    url += '?' + Object.keys(params).map(k => {
+      return params[k] ? (encodeURIComponent(k) + '=' + encodeURIComponent(params[k])) : ''
+    }).join('&');
+  }
 
   return cachedFetch(url);
 };
@@ -74,6 +88,7 @@ const cachedFetch = (url, opts) => {
       error.status = response.status;
       throw error;
     }
+    console.log(response);
 
     return response.json();
   })
@@ -170,6 +185,7 @@ export default {
   fetchModels,
   fetchUpdateFeed,
   fetchMoreFeed,
+  fetchComments,
   postAction,
   putUser,
   getUser,
