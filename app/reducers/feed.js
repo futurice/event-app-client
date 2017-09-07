@@ -1,6 +1,6 @@
 'use strict';
 import Immutable from 'immutable';
-import _ from 'lodash';
+import { createSelector } from 'reselect';
 
 import {
   SET_FEED,
@@ -16,6 +16,25 @@ import {
   CLOSE_LIGHTBOX
 } from '../actions/feed';
 import LoadingStates from '../constants/LoadingStates';
+
+
+// # Selectors
+export const getFeed = state => state.feed.get('list') || Immutable.List([]);
+export const getLightBoxItemId = state => state.feed.get('lightBoxItemId', null);
+
+export const getAllPostsInStore = getFeed;
+
+export const getLightboxItem = createSelector(
+  getLightBoxItemId, getAllPostsInStore,
+  (id, posts) => {
+
+    if (isNil(id)) {
+      return Immutable.Map();
+    }
+
+    return posts.find((item) => item.get('id') === id);
+  }
+);
 
 const initialFeedItem = {
   type: 'TEXT',
