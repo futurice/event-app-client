@@ -4,7 +4,6 @@ import React from 'react';
 
 import  {
   View,
-  Text,
   Image,
   StyleSheet,
   Platform,
@@ -22,6 +21,8 @@ import theme from '../../style/theme';
 import Button from '../../components/common/Button';
 import Loading from '../../components/common/RadioLoader';
 import WelcomeView from './WelcomeView';
+import Background from '../background';
+import Text from '../Text';
 
 const Icon = require('react-native-vector-icons/Ionicons');
 const MDIcon = require('react-native-vector-icons/MaterialIcons');
@@ -87,15 +88,16 @@ const IntroView = React.createClass({
       this.state.bubblePosition,
       {
         toValue: 1,
-        duration: 1750,
-        easing: Easing.linear()
+        duration: 2500,
+        easing: Easing.linear
       }
     ).start(() => {
       Animated.timing(
         this.state.bubblePosition,
         {
           toValue: 0,
-          duration: 0,
+          duration: 2500,
+          easing: Easing.linear
         }
       ).start(() => {
           this.animateBubbles(); // repeating
@@ -123,32 +125,12 @@ const IntroView = React.createClass({
       return <WelcomeView userName={loggedUserName} dispatch={this.props.dispatch} />;
     }
 
-
-
-    const bubbleVerticalPositions = [
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [50, 25, 10, -10, -20] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [60, 55, 40, 25, 10] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [60, 60, 50, 40, 25] })
-    ]
-
-    const bubbleHorizontalPositions = [
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [15, 11, 15, 12, 13] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [5, 8, 5, 7, 6] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [15, 11, 15, 12, 13] })
-    ]
-
-    const bubbleOpacity = [
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [0.8, 1, 0.4, 0.1, 0] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [0, 0.5, 1, 0.6, 0] }),
-      bubblePosition.interpolate({ inputRange: [0, 0.25, 0.5, 0.75, 1], outputRange: [0, 0, 1, 0.8, 0] })
-    ];
-    const bottlePosition = buttonPosition.interpolate({ inputRange: [0,1], outputRange: [250, 0] });
-
     return (
       <View style={[styles.container, styles.viewBackgroundStyle]}>
-          <ScrollView style={{ width: null, height}}>
+        <Background color="purple" />
+          <ScrollView style={{ width: null, height, backgroundColor: theme.purpleLayer }}>
             <View style={[styles.container, styles.contentContainer]}>
-
+            {/*
               <Animated.View style={[styles.introHero, { transform: IOS ? [{ scale: heroPosition }] : []  }]}>
                 <Animated.View style={{ overflow: 'hidden', width: width / 1.5, height: width / 1.5, justifyContent: 'center', flexDirection: 'row', transform: IOS ? [{ translateY: bottlePosition }] : [] }} >
                   <Animated.View style={{ elevation: 2, top: -20, left: width / 3 - 25, position:'absolute', height:60, width: 50, opacity: buttonPosition}} >
@@ -169,6 +151,29 @@ const IntroView = React.createClass({
                   />
                 </Animated.View>
               </Animated.View>
+            */}
+            <View>
+              <Text style={styles.h2}>
+                <Image
+                  resizeMode={'contain'}
+                  source={require('../../../assets/futurice-logo.png')}
+                  style={styles.futuLogo} /> presents
+              </Text>
+              <Text style={styles.h1}>Futu</Text>
+              <View style={{ top: -10 }}>
+                <Text style={[styles.h1, styles.yellow]}>Finlandia<Text style={styles.pink}>_</Text></Text>
+              </View>
+              <Text style={styles.h3}>
+                {'22.08.17 \nFinlandia Hall \nHelsinki'}
+              </Text>
+            </View>
+
+            <View style={styles.bgImageWrap}>
+              <Animated.Image
+                resizeMode={'contain'}
+                source={require('../../../assets/intro/fireworks.gif')}
+                style={[styles.bgImage]} />
+            </View>
 
             {inviteCodeSending ?
               <View style={styles.loading}><Loading color={theme.white} /></View> :
@@ -187,7 +192,6 @@ const IntroView = React.createClass({
               </View>
             }
 
-
               {loginFailed ?
               <Text style={[styles.rowTitle, { color: theme.primary } ]}>
                 The code you entered is incorrect.
@@ -197,7 +201,7 @@ const IntroView = React.createClass({
               </Text>
               }
 
-
+              {/*
               <View style={styles.rowTextContainer}>
                   <Text style={styles.rowText}>
                     Futubileet16, October 7th 2016, 18:00-01:30
@@ -207,6 +211,7 @@ const IntroView = React.createClass({
                     Heureka, Kuninkaalantie 7, Vantaa
                   </Text>
               </View>
+              */}
 
             </View>
           </ScrollView>
@@ -221,7 +226,10 @@ const styles = StyleSheet.create({
   container: {
   },
   contentContainer: {
-    alignItems: 'center'
+    //alignItems: 'center'
+    padding: 30,
+    paddingTop: 50,
+    minHeight: height,
   },
   loading: {
     marginTop: 25
@@ -233,12 +241,56 @@ const styles = StyleSheet.create({
     paddingTop: IOS ? 15 : 15,
   },
   header: {
-    fontWeight: 'bold',
     color: theme.secondary,
     marginTop: 40,
     marginBottom: 20,
     marginLeft: IOS ? 25 : 15,
     fontSize: 28
+  },
+  h1: {
+    fontSize: 46,
+    color: theme.white,
+    marginBottom: 0,
+  },
+  yellow: {
+    color: theme.accent,
+  },
+  pink: {
+    color: theme.pink
+  },
+  h2: {
+    fontSize: 18,
+    color: theme.white,
+    marginBottom: 30,
+  },
+  h3: {
+    fontSize: 18,
+    color: theme.white,
+    marginBottom: 20,
+  },
+  futuLogo: {
+    width: 80,
+    height: 18,
+    top: -4,
+    marginTop: -4,
+    tintColor: theme.white
+  },
+  bgImageWrap: {
+    position: 'absolute',
+    bottom: -10,
+    left: 0,
+    right: 0,
+    flex: 1,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: height / 0.8,
+  },
+  bgImage: {
+    height: height / 0.8,
+  },
+  balloonImage: {
+    height: height / 1.75,
   },
   introHero: {
     justifyContent: 'center',
@@ -267,7 +319,6 @@ const styles = StyleSheet.create({
     color: theme.secondary,
     textAlign: 'center',
     backgroundColor: 'rgba(0,0,0,0)',
-    fontWeight: 'bold'
   },
   rowIconContainer: {
     width: 50,
@@ -289,16 +340,15 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   rowTitle:{
-    color: 'rgba(0,0,0,0.4)',
-    fontFamily: Platform.OS === 'android' ? 'sans-serif-light' : undefined,
-    fontWeight: '700',
+    color: theme.accent,
     fontSize: 15,
     marginTop: 15,
-    marginBottom: 65
+    marginBottom: 65,
+    textAlign: 'center',
   },
   rowText: {
     //color: 'rgba(255,255,255,.9)',
-    color: 'rgba(0,0,0,0.4)',
+    color: 'rgba(255,255,255,0.4)',
     fontSize: 12,
     marginTop: 2,
     fontWeight: 'normal',
