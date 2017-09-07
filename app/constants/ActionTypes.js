@@ -3,5 +3,6 @@ export default {
   LECTURE: 'LECTURE',
   BUTTON_PUSH: 'BUTTON_PUSH',
   TEXT: 'TEXT',
-  SIMA: 'SIMA'
+  SIMA: 'SIMA',
+  COMMENT: 'COMMENT',
 };
