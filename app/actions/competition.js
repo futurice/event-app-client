@@ -81,14 +81,15 @@ const postAction = type => {
 const postText = text => {
   return _postAction({
     type: ActionTypes.TEXT,
-    text: text
+    text
   });
 };
 
-const postImage = image => {
+const postImage = (imageData, text) => {
   return _postAction({
     type: ActionTypes.IMAGE,
-    imageData: image
+    imageData,
+    text
   });
 };
 
