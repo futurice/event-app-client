@@ -13,15 +13,16 @@ import React from 'react';
 import {
   StyleSheet,
   View,
-  Text,
   ActionSheetIOS,
   Platform,
   Image,
   TouchableHighlight
 } from 'react-native';
+import Text from '../Text';
 
 const Icon = require('react-native-vector-icons/Ionicons');
 import theme from '../../style/theme';
+import ICONS from '../../constants/Icons';
 
 let showShareActionSheet = function(url) {
   if (Platform.OS === 'ios') {
@@ -45,7 +46,7 @@ let NavigationBarRouteMapper = {
         }
       }}>
       { index > 0 ?
-        <Icon name='ios-arrow-back' style={styles.navBarIcon} /> :
+        <Image source={ICONS.ARROW_BACK} style={styles.navBarIcon} /> :
         <View/>
       }
       </TouchableHighlight>
@@ -60,7 +61,7 @@ let NavigationBarRouteMapper = {
           showShareActionSheet(route.post.link)
         }}
         >
-        <Icon name='ios-upload-outline' style={styles.navBarIcon} />
+          <Icon name='ios-upload-outline' style={styles.navBarIcon} />
         </TouchableHighlight>
         );
     }
@@ -79,7 +80,7 @@ let NavigationBarRouteMapper = {
     return (
       <View style={styles.navBarLogoWrap}>
         <Image
-          source={require('../../../assets/futurice.png')}
+          source={require('../../../assets/futurice-logo.png')}
           style={styles.navBarLogo} />
       </View>
     );
@@ -100,23 +101,25 @@ var styles = StyleSheet.create({
   },
   navBarIcon:{
     color:'#FFFFFF',
-    padding:6,
-    paddingLeft:10,
-    paddingRight:10,
+    margin:6,
+    marginLeft:15,
+    marginRight:10,
+    padding: 6,
     fontSize:28,
+    width:28,
     textAlign:'center',
   },
   navBarLogo:{
     top:11,
-    width:90,
-    height:19,
+    width:89,
+    height:18,
   },
   navBarTitle:{
     padding:10,
     fontSize:16,
+    lineHeight: 24,
     color:'#FFFFFF',
     textAlign:'center',
-    fontWeight:'bold',
   }
 });
 
