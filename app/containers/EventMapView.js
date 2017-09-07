@@ -9,7 +9,7 @@ import {
   Platform
 } from 'react-native';
 import { connect } from 'react-redux';
-import EventMap from '../components/map/EventMap';
+import Directions from '../components/directions/main';
 import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 import theme from '../style/theme';
@@ -50,7 +50,7 @@ var EventMapView = React.createClass({
       <Navigator
         style={styles.navigator}
         initialRoute={{
-          component: EventMap,
+          component: Directions,
           name: 'Map'
         }}
         navigationBar={
