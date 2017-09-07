@@ -4,7 +4,6 @@
 import React, { PropTypes } from 'react';
 import {
   StyleSheet,
-  Text,
   View,
   ListView,
   TouchableHighlight,
@@ -14,6 +13,7 @@ import {
   Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
+import Text from '../Text';
 import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
@@ -23,6 +23,7 @@ import { getGravatarForEmail } from '../../utils/gravatar';
 import PlatformTouchable from '../common/PlatformTouchable';
 import WebViewer from '../webview/WebViewer';
 import ICONS from '../../constants/Icons';
+import Background from '../background';
 
 const { width, height } = Dimensions.get('window');
 
@@ -32,24 +33,25 @@ const CODE_WIDTH = 210;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.stable
+    backgroundColor: theme.transparent,
   },
   scrollView:{
     flex: 1,
   },
   listItem: {
     padding:20,
+    paddingBottom: 18,
     margin: 0,
-    flexDirection:'row',
-    backgroundColor:'#FFF'
+    flexDirection: 'row',
+    backgroundColor: theme.purpleLayer,
   },
   listItem__hero:{
     flex: 1,
     flexDirection: 'column',
     alignItems: 'center',
-    paddingTop:25,
-    paddingBottom:25,
-    backgroundColor: theme.secondaryBlur,
+    paddingTop: 25,
+    paddingBottom: 15,
+    backgroundColor: theme.transparent,
     elevation: 3,
     overflow: 'hidden'
   },
@@ -57,8 +59,8 @@ const styles = StyleSheet.create({
   listItemSeparator: {
     marginBottom: 15,
     elevation: 1,
-    borderBottomWidth: 1,
-    borderBottomColor: '#eee',
+    borderBottomWidth: 0,
+    borderBottomColor: '#fff',
     shadowColor: '#000000',
     shadowOpacity: 0.1,
     shadowRadius: 1,
@@ -69,19 +71,19 @@ const styles = StyleSheet.create({
   },
   listItemIcon: {
     fontSize: 22,
-    color: theme.secondaryLight,
+    color: theme.white,
     alignItems: 'center',
-    width: 50,
+    width: 35,
   },
   listItemHeroIcon:{
-    borderColor: theme.white,
-    borderWidth: 4,
-    borderRadius: 40,
-    width:80,
-    height: 80,
+    borderColor: theme.secondary,
+    borderWidth: 5,
+    borderRadius: 60,
+    width: 120,
+    height: 120,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
+    marginBottom: -10,
     overflow:'hidden'
   },
   profilePicBgLayer:{
@@ -105,9 +107,11 @@ const styles = StyleSheet.create({
     right: -20,
   },
   profilePic: {
-    width:72,
-    height: 72,
-    borderRadius: 36
+    borderColor: theme.white,
+    borderWidth: 6,
+    width: 112,
+    height: 112,
+    borderRadius: 56
   },
   listItemIcon__hero:{
     top: 0,
@@ -121,29 +125,31 @@ const styles = StyleSheet.create({
     color: '#aaa',
     top: 27,
   },
-  listItemText:{
-    color:'#000',
-    fontSize:16,
-    backgroundColor: 'transparent'
+  nameText: {
+    color: theme.white,
+    fontSize: 16,
+    paddingHorizontal: 5,
+    paddingTop: 6,
+  },
+  listItemText: {
+    color: theme.white,
+    fontSize: 18,
+    lineHeight: 20,
+    top: 3,
   },
   listItemText__highlight: {
-    color:theme.black,
-    fontWeight: 'bold',
-    backgroundColor: 'transparent',
-    marginBottom: 2
+    backgroundColor: theme.secondary,
   },
   listItemText__downgrade: {
-    color: theme.primary
+    color: theme.stable,
   },
   listItemText__small: {
-    fontSize:13,
-    color: theme.primary,
-    backgroundColor: 'transparent'
+    backgroundColor: theme.pink,
   },
   listItemBottomLine:{
     position:'absolute',
-    right:0,
-    left:70,
+    right: 20,
+    left: 20,
     bottom:0,
     height:1,
     backgroundColor:'#f4f4f4'
@@ -165,20 +171,20 @@ const styles = StyleSheet.create({
   futuLogo: {
     width:75,
     height:15,
-    tintColor: '#bbb'
+    tintColor: theme.white
   },
   futuLogoHeart: {
     marginRight: 10,
     marginLeft: 8,
     height: 16,
     width: 16,
-    tintColor: theme.secondaryLight,
+    tintColor: theme.pink,
   },
   futuLogoText: {
-    color: '#bbb',
+    color: theme.white,
     fontWeight: 'bold',
-    top: IOS ? 1 : 0,
-    fontSize: 13
+    top: IOS ? 1 : 2,
+    fontSize: 15
   },
   bubbleTip: {
     position: 'absolute',
@@ -289,15 +295,15 @@ var Profile = React.createClass({
 
     return (
       <PlatformTouchable
-        underlayColor={'#eee'}
-        activeOpacity={0.6}
+        underlayColor={theme.secondary}
+        activeOpacity={0.9}
         delayPressIn={0}
-        style={styles.listItemButton}
+        style={[styles.listItemButton, item.last ? { marginBottom: 34 } : null]}
         onPress={() => this.onLinkPress(item.link, item.title, item.showInWebview)}>
         <View style={linkItemStyles}>
           <View style={styles.listItem}>
-            <Icon style={styles.listItemIcon} name={item.icon} />
-            <Text style={styles.listItemText}>{item.title}</Text>
+            <Icon style={[styles.listItemIcon, item.secondary ? { color: theme.accent } : null]} name={item.icon} />
+            <Text style={[styles.listItemText, item.secondary ? { color: theme.accent } : null]}>{item.title}</Text>
             {!item.separatorAfter && !item.last && <View style={styles.listItemBottomLine} />}
           </View>
         </View>
@@ -313,8 +319,8 @@ var Profile = React.createClass({
     return (
       <View style={[styles.listItemButton, styles.listItemSeparator]}>
         <View style={[styles.listItem, styles.listItem__hero]}>
-          {avatar !== '' &&
-            <Image style={styles.profilePicBg} resizeMode={'cover'} source={require('../../../assets/backgrounds/bgpattern.png')} />
+          {avatar !== '' && false
+            /*  <Image style={styles.profilePicBg} resizeMode={'repeat'} source={require('../../../assets/patterns/pattern-purple.png')} /> */
           }
           <View style={styles.profilePicBgLayer} />
           <View style={styles.listItemHeroIcon}>
@@ -326,14 +332,14 @@ var Profile = React.createClass({
           <View style={{flexDirection:'column',flex:1, alignItems:'center'}}>
             {
               item.title ?
-              <Text style={[styles.listItemText, styles.listItemText__highlight]}>
+              <Text style={[styles.nameText, styles.listItemText__highlight]}>
                 {item.title}
               </Text> :
-              <Text style={[styles.listItemText, styles.listItemText__downgrade]}>
+              <Text style={[styles.nameText, styles.listItemText__downgrade]}>
                 Unnamed Futubileet Participant
               </Text>
             }
-            <Text style={[styles.listItemText, styles.listItemText__small]}>
+            <Text style={[styles.nameText, styles.listItemText__small]}>
               {currentTeam.name}
             </Text>
           </View>
@@ -378,7 +384,7 @@ var Profile = React.createClass({
             <Image
               source={ICONS.HEART}
               style={styles.futuLogoHeart} />
-            <Text style={styles.futuLogoText}>Futubileet16</Text>
+            <Text style={styles.futuLogoText}>Futubileet17</Text>
           </View>
         </TouchableHighlight>
       </View>
@@ -391,7 +397,8 @@ var Profile = React.createClass({
     } else if (item.link) {
       return this.renderLinkItem(item);
     } else if (item.logo) {
-      return this.renderLogo();
+      return null;
+      // return this.renderLogo();
     }
     return this.renderModalItem(item);
   },
@@ -416,6 +423,7 @@ var Profile = React.createClass({
 
     return (
       <View style={styles.container}>
+        <Background color="purple" />
         <ListView style={[styles.scrollView]}
           dataSource={this.state.dataSource.cloneWithRows(listData)}
           renderRow={this.renderItem}
