@@ -113,7 +113,7 @@ const TextActionView = React.createClass({
           */}
             <TextInput
               autoFocus={true}
-              multiLine={true}
+              multiline={true}
               autoCapitalize={'sentences'}
               underlineColorAndroid={'transparent'}
               clearButtonMode={'while-editing'}
