@@ -74,7 +74,7 @@ function getTimeAgo(date) {
   const minutesInPast = moment().diff(pastMoment, 'minutes');
 
   if (minutesInPast <= 4) {
-    return 'now';
+    return 'Now';
   } else if (minutesInPast < 60) {
     return Math.round(minutesInPast) + 'm';
   } else if (minutesInPast / 60 < 24) {
