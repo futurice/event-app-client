@@ -29,6 +29,8 @@
 		43CF10E158EE4F0296899A9C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A93F597DE4D54A2A84F51664 /* libRNVectorIcons.a */; };
 		4C605423CF9D4084AA31820E /* libRNLocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3CE0998144E042FC8D4DE47C /* libRNLocation.a */; };
 		5A681D48B027481B8C4A3E39 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E44638D4B3954E86A716C92E /* Entypo.ttf */; };
+		688C37E71F5DA8F600BFE6A3 /* Futurice-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 688C37E51F5DA8F600BFE6A3 /* Futurice-Bold.ttf */; };
+		688C37E81F5DA8F600BFE6A3 /* Futurice-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 688C37E61F5DA8F600BFE6A3 /* Futurice-Regular.ttf */; };
 		6CB13E18997B416CADB968E8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60EBC5C25E3D4B8FB2367411 /* Octicons.ttf */; };
 		75434D8A0E8D4F28862B7320 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46D79DD711E44AF09DB4562C /* Foundation.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -199,6 +201,8 @@
 		46D79DD711E44AF09DB4562C /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		5E6603639CDD4140A5390BF2 /* libRNShare.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNShare.a; sourceTree = "<group>"; };
 		60EBC5C25E3D4B8FB2367411 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		688C37E51F5DA8F600BFE6A3 /* Futurice-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Futurice-Bold.ttf"; sourceTree = "<group>"; };
+		688C37E61F5DA8F600BFE6A3 /* Futurice-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Futurice-Regular.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7C3C1C8C6732441A876B07E9 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -413,6 +417,8 @@
 		79FF4B22CC24499A96DB6C0F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				688C37E51F5DA8F600BFE6A3 /* Futurice-Bold.ttf */,
+				688C37E61F5DA8F600BFE6A3 /* Futurice-Regular.ttf */,
 				E44638D4B3954E86A716C92E /* Entypo.ttf */,
 				030051E8B5544544849F985A /* EvilIcons.ttf */,
 				7C3C1C8C6732441A876B07E9 /* FontAwesome.ttf */,
@@ -762,6 +768,7 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				688C37E81F5DA8F600BFE6A3 /* Futurice-Regular.ttf in Resources */,
 				5A681D48B027481B8C4A3E39 /* Entypo.ttf in Resources */,
 				8A58A81F23AF4DF589B7A0BB /* EvilIcons.ttf in Resources */,
 				E1711258849F4A46AC0018DB /* FontAwesome.ttf in Resources */,
@@ -770,6 +777,7 @@
 				F6B8C545A7894208AEBEA5FB /* MaterialIcons.ttf in Resources */,
 				6CB13E18997B416CADB968E8 /* Octicons.ttf in Resources */,
 				42809DA90B7348E592EEA092 /* Zocial.ttf in Resources */,
+				688C37E71F5DA8F600BFE6A3 /* Futurice-Bold.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

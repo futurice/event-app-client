@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -38,6 +37,10 @@
 		8EE9E80CA40548EDA8B483FA /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 690894EF57034270BF341056 /* EvilIcons.ttf */; };
 		A991C871486A46819DBFE0DA /* libRNShare.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D653A61E9304F6DAB7C2ED2 /* libRNShare.a */; };
 		D4255479843C42CDAFE88261 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6D5B99C63B84AD782C178BB /* Octicons.ttf */; };
+		6BDE3EF6B5DE42528EA2E89F /* libRCTCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CAE66A0D4FAD49D2B4225999 /* libRCTCamera.a */; };
+		06FD0BAF14C04BC49A6A62CE /* Futurice-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EBE000F232DF42D58F7F16AF /* Futurice-Bold.ttf */; };
+		A9663F86FDEC4D90B9026A2E /* Futurice-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 35EED1D4A224492E976AC484 /* Futurice-Regular.ttf */; };
+		1FDF2982E889462EADD12797 /* _Futurice-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 37FA640FD46B40FCADA38342 /* _Futurice-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -213,6 +216,11 @@
 		E6D5B99C63B84AD782C178BB /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		ED9144ECEB444895BC99ACA0 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		F8EEB25298E446589AFD0A3D /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		8575529B19C947EEB53A7E8E /* RCTCamera.xcodeproj */ = {isa = PBXFileReference; name = "RCTCamera.xcodeproj"; path = "../node_modules/react-native-camera/ios/RCTCamera.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CAE66A0D4FAD49D2B4225999 /* libRCTCamera.a */ = {isa = PBXFileReference; name = "libRCTCamera.a"; path = "libRCTCamera.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		EBE000F232DF42D58F7F16AF /* Futurice-Bold.ttf */ = {isa = PBXFileReference; name = "Futurice-Bold.ttf"; path = "../assets/fonts/Futurice-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		35EED1D4A224492E976AC484 /* Futurice-Regular.ttf */ = {isa = PBXFileReference; name = "Futurice-Regular.ttf"; path = "../assets/fonts/Futurice-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		37FA640FD46B40FCADA38342 /* _Futurice-Regular.ttf */ = {isa = PBXFileReference; name = "_Futurice-Regular.ttf"; path = "../assets/fonts/_Futurice-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -245,6 +253,7 @@
 				2BE04EF044B14A64A46D4209 /* libRNLocation.a in Frameworks */,
 				A991C871486A46819DBFE0DA /* libRNShare.a in Frameworks */,
 				470CED4A71D64C7E8D778167 /* libRNVectorIcons.a in Frameworks */,
+				6BDE3EF6B5DE42528EA2E89F /* libRCTCamera.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,6 +439,7 @@
 				7FF7B63CA60B4904A1B191A8 /* RNLocation.xcodeproj */,
 				00E3A7BE130B4D2AA278623C /* RNShare.xcodeproj */,
 				F8EEB25298E446589AFD0A3D /* RNVectorIcons.xcodeproj */,
+				8575529B19C947EEB53A7E8E /* RCTCamera.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -475,6 +485,9 @@
 				63EAA19F08B6412DA5286532 /* MaterialIcons.ttf */,
 				E6D5B99C63B84AD782C178BB /* Octicons.ttf */,
 				8484F5686A484177B8FDB0D5 /* Zocial.ttf */,
+				EBE000F232DF42D58F7F16AF /* Futurice-Bold.ttf */,
+				35EED1D4A224492E976AC484 /* Futurice-Regular.ttf */,
+				37FA640FD46B40FCADA38342 /* _Futurice-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -524,7 +537,7 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0800;
+				LastUpgradeCheck = 800;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					00E356ED1AD99517003FC87E = {
@@ -769,6 +782,9 @@
 				2F7C14F4C1C5407BBA94C468 /* MaterialIcons.ttf in Resources */,
 				D4255479843C42CDAFE88261 /* Octicons.ttf in Resources */,
 				2D867F307F9545BE9690F1C2 /* Zocial.ttf in Resources */,
+				06FD0BAF14C04BC49A6A62CE /* Futurice-Bold.ttf in Resources */,
+				A9663F86FDEC4D90B9026A2E /* Futurice-Regular.ttf in Resources */,
+				1FDF2982E889462EADD12797 /* _Futurice-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -852,6 +868,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -869,6 +886,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -900,6 +918,7 @@
 					"$(SRCROOT)/../node_modules/react-native-location",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				INFOPLIST_FILE = Futubileet16/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -930,6 +949,7 @@
 					"$(SRCROOT)/../node_modules/react-native-location",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				INFOPLIST_FILE = Futubileet16/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -993,6 +1013,7 @@
 					"$(SRCROOT)/../node_modules/react-native-location",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1043,6 +1064,7 @@
 					"$(SRCROOT)/../node_modules/react-native-location",
 					"$(SRCROOT)/../node_modules/react-native-share/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
+					"$(SRCROOT)/../node_modules/react-native-camera/ios",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
