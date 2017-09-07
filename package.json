@@ -11,6 +11,11 @@
     "jscs": "jscs ./app",
     "ci": "bash ./tools/ci.sh"
   },
+  "rnpm": {
+    "assets": [
+      "./assets/fonts"
+    ]
+  },
   "author": "Futurice Tammerforce <tammerforce@futurice.com> (http://tammerforce.com/)",
   "contributors": [
     "Miro Nieminen <miro.nieminen@gmail.com> (http://github.com/miro)",
