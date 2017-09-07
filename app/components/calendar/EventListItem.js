@@ -6,33 +6,52 @@ import {
   Image,
   StyleSheet,
   Dimensions,
-  Text,
   TouchableHighlight,
   View
 } from 'react-native';
 
+import Text from '../Text';
 import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
 import theme from '../../style/theme';
 
+const { width } = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   gridListItem: {
-    width: Dimensions.get('window').width,
+    width,
     flex: 1,
-    height: 200
+    minHeight: 310,
+    margin: 0,
+    paddingBottom: 30,
+    marginBottom: 30,
+    paddingHorizontal: 20,
+
+  },
+
+  bottomBorder: {
+    position: 'absolute',
+    bottom: 0,
+    left: 20,
+    right: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.white,
   },
 
   gridListItemImgWrap: {
-    height: 200,
-    width: Dimensions.get('window').width,
-    position: 'absolute'
+    height: 250,
+    width: width / 2,
+    overflow: 'hidden',
+    position: 'absolute',
+    right: 20,
+    borderWidth: 10,
+    borderColor: theme.secondary,
   },
   gridListItemImg: {
-    width: Dimensions.get('window').width,
-    height: 200
+    height: 230,
+    width: (width / 2) - 20,
   },
   gridListItemImgColorLayer: {
-    // backgroundColor is set programmatically on render() based on rowId
     opacity: 0.5,
     position: 'absolute',
     left: 0, top: 0, bottom: 0, right: 0
@@ -42,14 +61,15 @@ const styles = StyleSheet.create({
     elevation: 2,
     flex: 1,
     justifyContent: 'center',
-    padding: 20
+    padding: 0,
+    width: (width / 1.666),
   },
   gridListItemTitle: {
-    fontSize: 23,
-    lineHeight:26,
-    fontWeight: 'bold',
+    fontSize: 40,
+    lineHeight: 44,
+    fontWeight: 'normal',
     textAlign: 'left',
-    color: theme.light,
+    color: theme.accent,
     paddingBottom:10
   },
 
@@ -57,18 +77,21 @@ const styles = StyleSheet.create({
     flex:1
   },
   gridListItemPlace: {
-    fontWeight: 'bold',
-    fontSize: 15,
-    color: '#ddd'
+    fontWeight: 'normal',
+    fontSize: 20,
+    color: theme.pink,
   },
   gridListItemDistance: {
     color:'#ddd',
     fontSize:14,
   },
+  gridListItemTimeBlock: {
+    marginBottom: 20,
+  },
   gridListItemTime: {
-    fontSize: 15,
-    color: theme.secondary,
-    fontWeight: 'bold',
+    fontSize: 26,
+    color: theme.white,
+    fontWeight: 'normal',
   },
   gridListItemIconsWrapper__left:{
     position: 'absolute',
@@ -110,17 +133,17 @@ export default React.createClass({
             style={styles.gridListItemImg} />
           <View style={[
             styles.gridListItemImgColorLayer,
-            { backgroundColor:theme.primary }
+            { backgroundColor:theme.secondary }
           ]} />
         </View>
 
         <View style={styles.gridListItemContent}>
-          <Text style={styles.gridListItemTitle}>{item.name}</Text>
           <View style={styles.gridListItemMeta}>
-            <Text style={styles.gridListItemTime}>
-            {timepoint.time}
-            {item.endTime ? ` - ${timepoint.endTime}` : ''}
-            </Text>
+            <View style={styles.gridListItemTimeBlock}>
+              <Text style={styles.gridListItemTime}>{timepoint.time}  - </Text>
+              <Text style={styles.gridListItemTime}>{item.endTime ? `${timepoint.endTime}` : ''}</Text>
+            </View>
+            <Text style={styles.gridListItemTitle}>{item.name}</Text>
             <Text style={styles.gridListItemPlace}>{item.locationName}</Text>
 
           </View>
@@ -130,6 +153,7 @@ export default React.createClass({
           </View>}
 
         </View>
+        <View style={styles.bottomBorder} />
       </View>
     </TouchableHighlight>;
   }

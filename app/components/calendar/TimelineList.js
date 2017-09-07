@@ -4,11 +4,11 @@ import React, { PropTypes } from 'react';
 import {
   StyleSheet,
   ListView,
-  Text,
   Platform,
   View,
 } from 'react-native';
 import { connect } from 'react-redux';
+import Text from '../Text';
 
 import _ from 'lodash';
 import moment from 'moment';
@@ -24,6 +24,8 @@ import EventListItem from './EventListItem';
 import AnnouncementListItem from './AnnouncementListItem';
 import EventDetail from './EventDetail';
 import Button from '../common/Button';
+import Background from '../background';
+
 
 const IOS = Platform.OS === 'ios';
 const VIEW_NAME = 'TimelineList';
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: theme.stable,
+    backgroundColor: 'transparent',
   },
   loaderText:{
     color:'#aaa',
@@ -51,9 +53,10 @@ const styles = StyleSheet.create({
     fontWeight:'bold',
   },
   listView: {
+    zIndex: 2,
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 0 : 20,
-    backgroundColor: '#fff',
+    backgroundColor: theme.purpleLayer,
   },
   sectionHeader: {
     backgroundColor: IOS ? 'rgba(255,255,255,.88)' : 'transparent',
@@ -223,7 +226,7 @@ var TimelineList = React.createClass({
     }
   },
 
-  render() {
+  renderContent() {
     switch (this.props.eventsFetchState) {
       case 'loading':
         return this.renderLoadingView();
@@ -244,12 +247,22 @@ var TimelineList = React.createClass({
       default:
         return <ListView
           dataSource={this.state.dataSource}
-          renderSectionHeader={this.renderSectionHeader}
+          // renderSectionHeader={this.renderSectionHeader}
           renderRow={this.renderListItem}
           style={styles.listView}
         />;
     }
+  },
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Background color="purple" />
+        {this.renderContent()}
+      </View>
+    );
   }
+
 });
 
 const select = store => {

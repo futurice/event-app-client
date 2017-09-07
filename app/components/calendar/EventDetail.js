@@ -3,13 +3,14 @@
 import React, { PropTypes } from 'react';
 import {
   StyleSheet,
-  Text,
   Dimensions,
+  ScrollView,
   View,
   Platform,
   Linking,
   Image
 } from 'react-native';
+import Text from '../Text';
 
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -23,25 +24,68 @@ import analytics from '../../services/analytics';
 import time from '../../utils/time';
 import locationService from '../../services/location';
 import Button from '../common/Button';
+import Background from '../background';
 
 import PlatformTouchable from '../common/PlatformTouchable';
 const IOS = Platform.OS === 'ios';
 
+const { width } = Dimensions.get('window');
 const VIEW_NAME = 'EventDetail';
 
 const styles = StyleSheet.create({
   wrapper: {
     flex: 1,
-    backgroundColor: '#ddd',
-    paddingBottom: Platform.OS === 'ios' ? 20 : 0
+    backgroundColor: 'transparent',
+    padding: 0,
+    paddingVertical: 0,
+    paddingTop: IOS ? 0 : 0,
   },
-  detailEventImg: {
-    width: Dimensions.get('window').width,
+  eventDetail: {
+    zIndex: 10,
+    padding: 20,
+    paddingVertical: 50,
+    backgroundColor: theme.purpleLayer,
+  },
+  header: {
+    paddingTop: 20,
+    marginBottom: 20,
+    position: 'relative',
+  },
+  headerTextWrap: {
+    position: 'absolute',
+    width: width / 1.2,
+    left: -3,
+    top: 0,
+  },
+  headerText: {
+    fontSize: 46,
+    lineHeight:46,
+    textAlign: 'left',
+    color: theme.accent,
+  },
+  headerImageWrap: {
+    borderWidth: 15,
+    borderColor: theme.secondary,
     height: 200,
   },
+  headerImage: {
+    width: width - 70,
+    height: 170,
+    zIndex: 1,
+  },
+  headerImageLayer: {
+    backgroundColor: theme.secondary,
+    zIndex: 2,
+    opacity: 0.4,
+    position: 'absolute',
+    left: 0, top: 0, bottom: 0, right: 0
+  },
   content: {
-    padding: 20,
-    backgroundColor:theme.light,
+    borderTopWidth: 1,
+    borderTopColor: theme.white,
+    paddingVertical: 20,
+    marginVertical: 20,
+    backgroundColor:theme.transparent,
     flex: 1,
   },
   detailEventInfoContainer: {
@@ -84,8 +128,9 @@ const styles = StyleSheet.create({
     fontSize: 25,
   },
   detailEventDescription: {
-    color: '#666',
+    color: theme.white,
     fontWeight: 'normal',
+    backgroundColor: 'transparent',
     fontSize: 16,
     lineHeight:24,
     marginTop: 0,
@@ -119,20 +164,20 @@ const styles = StyleSheet.create({
     top: 10,
   },
   gridListItemMetaWrap:{
-    paddingBottom:10,
-    borderBottomWidth:1,
+    paddingBottom: 0,
+    borderBottomWidth: 0,
     borderBottomColor:'#eee',
   },
   gridListItemMeta: {
-    backgroundColor:'#fff',
+    backgroundColor: 'transparent',
     borderBottomWidth:0,
     borderBottomColor:'#eee',
     flexDirection:'row',
     justifyContent:'flex-start',
     alignItems:'center',
-    padding:15,
-    paddingLeft:20,
-    paddingRight:20,
+    padding: 0,
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   gridListItemIcon:{
     color: theme.secondary,
@@ -148,16 +193,19 @@ const styles = StyleSheet.create({
   gridListItemMeta__block: {
     flexDirection:'column',
     alignItems:'center',
+    maxWidth: width - 40,
   },
   gridListItemMetaInfo__title:{
     color:'#000',
-    fontSize:15,
+    fontSize: 15,
   },
   gridListItemMetaInfo: {
-    color: theme.darkgrey,
+    fontSize: 22,
+    color: theme.white,
   },
   gridListItemPlace:{
-    color:theme.darkgrey
+    fontSize: 22,
+    color:theme.pink,
   },
   gridListItemDistance: {
     color: '#000',
@@ -173,19 +221,6 @@ const styles = StyleSheet.create({
   gridListItemLeftImage: {
     width: 40,
     paddingRight:15
-  },
-  header:{
-    position:'absolute',
-    bottom:20,
-    left:20,
-    right:20,
-    fontSize: 25,
-    lineHeight:29,
-    fontWeight: 'bold',
-    textAlign: 'left',
-    color: theme.light,
-    elevation:2,
-    paddingBottom:10
   },
   gridListItemImgColorLayer: {
     //position: 'absolute',
@@ -214,56 +249,37 @@ const EventDetail = React.createClass({
     const model = this.props.route.model;
     const currentDistance = this.props.route.currentDistance;
     const timepoint = time.formatEventTime(model.startTime, model.endTime, { formatLong: true });
-    const wrapperStyleAdd = {
-      paddingTop: 0
-    };
-
     const coverImage =  model.coverImage;
 
-    return <View style={[styles.wrapper, wrapperStyleAdd]}>
+    return <View style={[styles.wrapper, { paddingTop: 0 }]}>
       {!IOS ?
       <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
+      <Background color="purple" />
 
+      <ScrollView style={styles.eventDetail}>
+        <View style={styles.header}>
+          <View style={styles.headerImageWrap}>
+            <Image style={styles.headerImageLayer} />
+            <Image style={styles.headerImage} source={{ uri: coverImage }} />
+          </View>
+          <View style={styles.headerTextWrap}>
+            <Text style={styles.headerText}>
+              {model.name}
+            </Text>
+          </View>
+        </View>
 
-      <ParallaxView
-          backgroundSource={{uri: coverImage}}
-          windowHeight={300}
-          style={{backgroundColor:'#eee'}}
-          header={(
-            <View style={{flex:1}}>
-              <LinearGradient
-                locations={[0,0.6,0.9]}
-                colors={['transparent', 'rgba(0,0,0,.1)', 'rgba(40,10,5,.5)']}
-                style={styles.gridListItemImgColorLayer}>
-              <Text style={styles.header}>
-                  {model.name}
-              </Text>
-              </LinearGradient>
-            </View>
-          )}
-      >
-        <View style={{marginTop:10 }}>
-
+        <View style={{ marginTop:10 }}>
             <View style={styles.gridListItemMetaWrap}>
 
             <View style={styles.gridListItemMeta}>
-              <View style={styles.gridListItemMeta__block}>
-                <Text style={styles.gridListItemLeftIcon}><MaterialIcon style={styles.gridListItemIcon} name='access-time'/> </Text>
-              </View>
-
               <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
-                <Text style={styles.gridListItemMetaInfo__title}>Time</Text>
-                <Text style={styles.gridListItemPlace}>{timepoint.time} - {timepoint.endTime}</Text>
+                <Text style={styles.gridListItemMetaInfo}>{timepoint.time} - {timepoint.endTime}</Text>
               </View>
             </View>
 
             <View style={styles.gridListItemMeta}>
-              <View style={styles.gridListItemMeta__block}>
-                <View style={styles.gridListItemLeftImage}><Image style={styles.gridListItemIconImage} source={ICONS.MAP} /></View>
-              </View>
-
               <View style={[styles.gridListItemMeta__block, {alignItems: 'flex-start'}]}>
-              <Text style={styles.gridListItemMetaInfo__title}>Location</Text>
                 <Text style={styles.gridListItemPlace}>{model.locationName}</Text>
               </View>
             </View>
@@ -309,7 +325,7 @@ const EventDetail = React.createClass({
               </View>
             */}
           </View>
-      </ParallaxView>
+      </ScrollView>
     </View>
   }
 
