@@ -25,6 +25,7 @@ import abuse from '../../services/abuse';
 import time from '../../utils/time';
 import { getGravatarForEmail } from '../../utils/gravatar';
 import theme from '../../style/theme';
+import VotePanel from './VotePanel';
 import CommentsLink from './CommentsLink';
 
 const { width, height } = Dimensions.get('window');
@@ -121,8 +122,7 @@ const styles = StyleSheet.create({
     color: theme.white,
   },
   url: {
-    fontWeight: 'bold',
-    // textDecorationLine: 'underline'
+    textDecorationLine: 'underline'
   },
   hashTag: {
     opacity: 0.6
@@ -134,7 +134,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent' // theme.accent
   },
   feedItemListItemImg__admin: {
-    width: width - 30
+    backgroundColor: theme.white,
+    // width: width - 40
   },
   feedItemListItemInfo: {
     flex: 1,
@@ -168,10 +169,20 @@ const styles = StyleSheet.create({
     top: -2,
   },
   feedItemListItemAuthorIcon: {
-    color: '#bbb',
-    fontSize: 18,
-    width: 22,
-    marginRight: 10
+    width: 36,
+    height: 36,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 18,
+    marginRight: 8,
+    borderWidth: 2,
+    borderColor: theme.secondary,
+    overflow: 'hidden',
+  },
+  feedItemListItemAuthorIconText: {
+    color: '#ddd',
+    fontSize: 24,
+    backgroundColor: 'transparent'
   },
   feedItemListItemAuthorImage: {
     width: 36,
@@ -209,34 +220,40 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 5,
     borderRadius: IOS ? 10 : 4,
-    backgroundColor: '#f9f4db'
+    backgroundColor: theme.accent,
   },
   itemTextWrapper__admin: {
-    paddingLeft: 15,
-    paddingRight: 15,
-    paddingTop: 0,
+    paddingLeft: 5,
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 0,
+    backgroundColor: theme.transparent,
   },
   itemAuthorName__admin: {
-    color: theme.primary
+    color: theme.primary,
+    paddingVertical: 2,
+    paddingBottom: 6
   },
   feedItemListItemInfo__admin: {
     paddingLeft: 0,
     paddingBottom: 7,
   },
   feedItemListItemAuthor__admin:  {
-    paddingLeft: 15,
+    paddingLeft: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
   itemTimestamp__admin:{
-    color: '#b5afa6'
+    // color: '#b5afa6',
+    paddingTop: 2,
   },
   feedItemListText__admin: {
-    color: '#7d776e',
-    fontWeight: 'bold',
-    fontSize: 12,
+    color: theme.secondary,
+    fontSize: 15,
     lineHeight: 19,
   },
   footer: {
-    paddingVertical: 10,
+    paddingVertical: 0,
     borderTopWidth: 2,
     borderTopColor: theme.secondary,
     flexDirection: 'row',
@@ -440,12 +457,10 @@ const FeedListItem = React.createClass({
       <View style={[
         itemWrapperStyles,
         {
-          backgroundColor: this.state.selected ? 'rgba(0,0,0,.01)' : 'transparent'
-          /*
-          opacity: this.state.itemAnimation,
-          transform:
-            [{ translateX: this.state.itemAnimation.interpolate({ inputRange: [0, 1], outputRange: isMyItem ? [400, 0] : [-400, 0] })}]
-          */
+          backgroundColor: this.state.selected ? 'rgba(0,0,0,.01)' : 'transparent',
+          // opacity: this.state.itemAnimation,
+          // transform:
+          //   [{ translateY: this.state.itemAnimation.interpolate({ inputRange: [0, 1], outputRange: [100, 0] })}]
         }
       ]}>
 
@@ -455,19 +470,25 @@ const FeedListItem = React.createClass({
           onLongPress={() => this.selectItem() }
 
         >
-          { true /* showUser */ &&
-            <View style={styles.feedItemListItemInfo}>
-              <Image
-                source={{ uri: item.author.picture || this.getItemGravatar(item.author.email, item.author.name, item.author.team) }}
-                style={styles.feedItemListItemAuthorImage} />
 
-              <View style={styles.feedItemListItemAuthor}>
-                <Text style={itemAuthorNameStyles}>{isMyItem ? 'You' : item.author.name}</Text>
-                <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
+          <View style={styles.feedItemListItemInfo}>
+          {item.author.picture
+            ? <Image
+              source={{ uri: item.author.picture }}
+              style={styles.feedItemListItemAuthorImage} />
+            :
+              <View style={styles.feedItemListItemAuthorIcon}>
+                <Icon
+                  name="person-outline"
+                  style={styles.feedItemListItemAuthorIconText} />
               </View>
-              <Text style={styles.itemTimestamp}>{ago}</Text>
+            }
+            <View style={styles.feedItemListItemAuthor}>
+              <Text style={itemAuthorNameStyles}>{isMyItem ? 'You' : item.author.name}</Text>
+              <Text style={styles.itemAuthorTeam}>{item.author.team}</Text>
             </View>
-          }
+            <Text style={styles.itemTimestamp}>{ago}</Text>
+          </View>
 
           {isItemImage
             ?
@@ -502,11 +523,11 @@ const FeedListItem = React.createClass({
           }
 
           <View style={styles.footer}>
-            {/*<VotePanel
+            <VotePanel
               item={item}
               voteFeedItem={this.props.voteFeedItem}
               openRegistrationView={this.props.openRegistrationView}
-            />*/}
+            />
 
             <CommentsLink
               parentId={item.id}
