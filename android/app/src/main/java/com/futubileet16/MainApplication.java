@@ -4,6 +4,7 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.lwansbrough.RCTCamera.RCTCameraPackage;
 import cl.json.RNSharePackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
 import com.facebook.react.ReactInstanceManager;
@@ -39,7 +40,8 @@ public class MainApplication extends Application implements ReactApplication {
           new ImagePickerPackage(),
           new ReactImageZoom(),
           new RNSharePackage(),
-          new MainReactPackage()
+          new MainReactPackage(),
+            new RCTCameraPackage()
       );
     }
   };
