@@ -1,15 +1,19 @@
 import api from '../services/api';
 import {createRequestActionTypes} from './index';
+import { getAllPostsInStore } from '../reducers/feed';
+import { SET_COMMENTS as _SET_COMMENTS } from '../concepts/comments';
 
 const SET_FEED = 'SET_FEED';
 const APPEND_FEED = 'APPEND_FEED';
 const UPDATE_FEED = 'UPDATE_FEED';
+const SET_COMMENTS = _SET_COMMENTS;
 
 const {
   GET_FEED_REQUEST,
   GET_FEED_SUCCESS,
   GET_FEED_FAILURE
 } = createRequestActionTypes('GET_FEED');
+
 const {
   REFRESH_FEED_REQUEST,
   REFRESH_FEED_SUCCESS,
@@ -17,6 +21,11 @@ const {
   // REFRESH_FEED_FAILURE
 } = createRequestActionTypes('REFRESH_FEED');
 const DELETE_FEED_ITEM = 'DELETE_FEED_ITEM';
+
+const {
+  VOTE_FEED_ITEM_REQUEST,
+  VOTE_FEED_ITEM_SUCCESS,
+} = createRequestActionTypes('VOTE_FEED_ITEM');
 
 const fetchFeed = () => {
   return (dispatch) => {
@@ -99,6 +108,48 @@ const removeFeedItem = (item) => {
 };
 
 
+const voteFeedItem = (feedItemId, value) => (dispatch, getState) => {
+  const state = getState();
+  const list = getAllPostsInStore(state);
+  const voteItem = list.find((item) => item.get('id') === feedItemId);
+
+  if (!voteItem) {
+    return;
+  }
+
+  //  userVote needs to be updated
+  //  votevalue for item need to be calculated
+  //    * if user had no previous vote, just sum given vote to vote values
+  //    * if user had voted before, vote changes total value by +/-2
+  const votes = voteItem.get('voteCount', 0);
+  const userVote = voteItem.get('userVote');
+
+  const wasAlreadyVotedByMe = !!userVote;
+  const difference = wasAlreadyVotedByMe ? -1 : 1;
+
+  const newVotes = parseInt(votes, 10) + difference;
+
+  // Naive update before request starts
+  dispatch({
+    type: VOTE_FEED_ITEM_REQUEST,
+    value,
+    feedItemId,
+    votes: newVotes
+  });
+
+
+  // Do actual API call for vote
+  const vote = { value, feedItemId };
+
+  api.voteFeedItem(vote)
+  .then(() => dispatch({
+    type: VOTE_FEED_ITEM_SUCCESS,
+    difference,
+    feedItemId
+  }))
+  .catch(error => console.log('Error when trying to vote feed item', error));
+}
+
 const OPEN_LIGHTBOX = 'OPEN_LIGHTBOX';
 const CLOSE_LIGHTBOX = 'CLOSE_LIGHTBOX';
 const openLightBox = (item) => {
@@ -119,14 +170,18 @@ export {
   REFRESH_FEED_REQUEST,
   REFRESH_FEED_SUCCESS,
   DELETE_FEED_ITEM,
+  VOTE_FEED_ITEM_REQUEST,
+  VOTE_FEED_ITEM_SUCCESS,
   OPEN_LIGHTBOX,
   CLOSE_LIGHTBOX,
+  SET_COMMENTS,
 
   updateFeed,
   fetchFeed,
   refreshFeed,
   loadMoreItems,
   removeFeedItem,
+  voteFeedItem,
   openLightBox,
   closeLightBox
 };
