@@ -91,7 +91,7 @@ const MainView = React.createClass({
 
           <TabBarIOS.Item
             icon={ICONS.MENU_STATS_OFF}
-            selectedIcon={ICONS.STATS_STATS_ON}
+            selectedIcon={ICONS.MENU_STATS_ON}
             title=''
             selected={currentTab === Tabs.ACTION}
             onPress={() => { this._onChangeTab(Tabs.ACTION); }}>
@@ -100,7 +100,7 @@ const MainView = React.createClass({
 
           <TabBarIOS.Item
             icon={ICONS.MENU_PROFILE_OFF}
-            selectedIcon={ICONS.PROFILE_PROFILE_ON}
+            selectedIcon={ICONS.MENU_PROFILE_ON}
             title=''
             selected={currentTab === Tabs.SETTINGS}
             onPress={() => { this._onChangeTab(Tabs.SETTINGS); }}>

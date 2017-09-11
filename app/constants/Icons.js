@@ -1,11 +1,11 @@
 export default {
 
-  MENU_PROFILE_ON: require('../../assets/icons/profile-on.png'),
-  MENU_PROFILE_OFF: require('../../assets/icons/profile-off.png'),
+  MENU_PROFILE_ON: require('../../assets/icons/user-on.png'),
+  MENU_PROFILE_OFF: require('../../assets/icons/user-off.png'),
   MENU_TIME_ON: require('../../assets/icons/time-on.png'),
   MENU_TIME_OFF: require('../../assets/icons/time-off.png'),
-  MENU_STATS_ON: require('../../assets/icons/stats-on.png'),
-  MENU_STATS_OFF: require('../../assets/icons/stats-off.png'),
+  MENU_STATS_ON: require('../../assets/icons/rank-on.png'),
+  MENU_STATS_OFF: require('../../assets/icons/rank-off.png'),
   MENU_CHAT_ON: require('../../assets/icons/chat-on.png'),
   MENU_CHAT_OFF: require('../../assets/icons/chat-off.png'),
   MENU_MAP_ON: require('../../assets/icons/map-on.png'),
@@ -25,4 +25,5 @@ export default {
   ROCKET: require('../../assets/icons/rocket.png'),
   PERSON: require('../../assets/icons/person.png'),
   TROPHY: require('../../assets/icons/trophy.png'),
+  BALLOONS: require('../../assets/balloons/balloons-all.png'),
 };
