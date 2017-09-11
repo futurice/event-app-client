@@ -14,6 +14,7 @@ import Text from '../Text';
 import Icon from 'react-native-vector-icons/Ionicons';
 import time from '../../utils/time';
 import theme from '../../style/theme';
+import { SCREEN_SMALL } from '../../utils/responsive';
 
 const { width } = Dimensions.get('window');
 
@@ -65,8 +66,8 @@ const styles = StyleSheet.create({
     width: (width / 1.666),
   },
   gridListItemTitle: {
-    fontSize: 40,
-    lineHeight: 44,
+    fontSize: SCREEN_SMALL ? 34 : 40,
+    lineHeight: SCREEN_SMALL ? 38 : 44,
     fontWeight: 'normal',
     textAlign: 'left',
     color: theme.accent,
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
   },
   gridListItemPlace: {
     fontWeight: 'normal',
-    fontSize: 20,
+    fontSize: SCREEN_SMALL ? 17 : 20,
     color: theme.pink,
   },
   gridListItemDistance: {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   gridListItemTime: {
-    fontSize: 26,
+    fontSize: SCREEN_SMALL ? 22 : 26,
     color: theme.white,
     fontWeight: 'normal',
   },

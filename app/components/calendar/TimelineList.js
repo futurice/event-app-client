@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
   reloadButtonText:{
     fontSize:30,
     color:theme.secondary,
-    fontWeight:'bold',
+    fontWeight:'normal',
   },
   listView: {
     zIndex: 2,
     flex: 1,
     paddingTop: Platform.OS === 'android' ? 0 : 20,
-    backgroundColor: theme.purpleLayer,
+    backgroundColor: theme.transparent,
   },
   sectionHeader: {
     backgroundColor: IOS ? 'rgba(255,255,255,.88)' : 'transparent',
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     textAlign: 'left',
-    fontWeight: IOS ? 'bold' : 'bold',
+    fontWeight: IOS ? 'normal' : 'normal',
     fontSize: IOS ? 18 : 16,
     color: IOS ? theme.secondary : theme.secondary
   }
@@ -171,7 +171,7 @@ var TimelineList = React.createClass({
 
   renderLoadingView() {
     return (
-      <Loading />
+      <Loading color={theme.accent} />
     );
   },
 
@@ -257,7 +257,6 @@ var TimelineList = React.createClass({
   render() {
     return (
       <View style={styles.container}>
-        <Background color="purple" />
         {this.renderContent()}
       </View>
     );

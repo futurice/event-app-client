@@ -24,7 +24,6 @@ import analytics from '../../services/analytics';
 import time from '../../utils/time';
 import locationService from '../../services/location';
 import Button from '../common/Button';
-import Background from '../background';
 
 import PlatformTouchable from '../common/PlatformTouchable';
 const IOS = Platform.OS === 'ios';
@@ -44,7 +43,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
     padding: 20,
     paddingVertical: 50,
-    backgroundColor: theme.purpleLayer,
+    backgroundColor: theme.transparent,
   },
   header: {
     paddingTop: 20,
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.light,
     textAlign: 'left',
     color: theme.primary,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     fontSize: 25,
   },
   detailEventDescription: {
@@ -152,7 +151,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textAlign: 'center',
     lineHeight: 35,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: '#8A8A8A',
     margin: 0,
     padding: 0,
@@ -254,7 +253,6 @@ const EventDetail = React.createClass({
     return <View style={[styles.wrapper, { paddingTop: 0 }]}>
       {!IOS ?
       <Toolbar title={model.name} navigator={this.props.navigator} /> : null}
-      <Background color="purple" />
 
       <ScrollView style={styles.eventDetail}>
         <View style={styles.header}>
