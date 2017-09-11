@@ -5,7 +5,7 @@ const { Platform } = React;
 let sceneConfig;
 if (Platform.OS === 'ios') {
   sceneConfig = {
-    ...Navigator.SceneConfigs.FloatFromRight,
+    ...Navigator.SceneConfigs.FadeAndroid,
     gestures: {
       pop: {
         ...Navigator.SceneConfigs.FloatFromRight.gestures.pop,
