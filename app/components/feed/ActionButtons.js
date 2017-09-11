@@ -10,6 +10,7 @@ import * as RegistrationActions from '../../actions/registration';
 import theme from '../../style/theme';
 import TimerMixin from 'react-timer-mixin';
 import * as CompetitionActions from '../../actions/competition';
+import { getActionTypesForFeed } from '../../reducers/competition';
 
 // in a happy world all this would be calculated on the fly but no
 const BUTTON_COUNT = 6;
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: Platform.OS === 'ios' ? 37 : 20,
     right: 20,
-    overflow:'visible',
+    overflow: 'hidden',
     width: 200,
     height: 56,
     borderRadius: 28
@@ -60,7 +61,12 @@ const styles = StyleSheet.create({
     height: 46,
   },
   actionButtonContent: {
-    color: theme.white
+    color: theme.white,
+    backgroundColor: 'transparent',
+  },
+  cooldownTime: {
+    top: 2,
+    fontSize: 11,
   },
   overlay:{
     right: 43,
@@ -142,7 +148,7 @@ const ActionButtons = React.createClass({
     // buttonset width
     Animated.timing(
       this.state.actionButtonsWidth,
-      { duration:0, toValue: nextState === OPEN ? 220 : 56 }
+      { duration:0, toValue: nextState === OPEN ? 290 : 56 }
     ).start();
 
   },
@@ -228,7 +234,7 @@ const ActionButtons = React.createClass({
       const isCoolingDown = this.props.disabledActionTypes.find(dat => dat === actionTypeCode);
 
       const iconOrCooldownTime = isCoolingDown ?
-        <Text style={styles.actionButtonContent}>{this.getCooldownTime(actionTypeCode)}</Text> :
+        <Text style={[styles.actionButtonContent, styles.cooldownTime ]}>{this.getCooldownTime(actionTypeCode)}</Text> :
         <Icon name={iconName} size={22} style={styles.actionButtonContent}></Icon>;
 
       const actionButtonStyles = [
@@ -241,7 +247,7 @@ const ActionButtons = React.createClass({
 
       return (
         <Animated.View key={`button-${i}`} style={actionButtonStyles}>
-          <ActionButtonLabel additionalLabel={actionTypeValue} extraStyle={{opacity:this.state.labels[i] }}>
+          <ActionButtonLabel additionalLabel={actionTypeValue} extraStyle={{ opacity:this.state.labels[i] }}>
             {labelName}
           </ActionButtonLabel>
           <ActionButton
@@ -265,7 +271,7 @@ const ActionButtons = React.createClass({
         <ActionButton onPress={this.props.onScrollTop}
           extraStyle={styles.mainButton}>
           <Animated.View>
-            <Icon name={'keyboard-arrow-up'} size={26} style={styles.actionButtonContent}></Icon>
+            <Icon name={'keyboard-arrow-up'} size={30} style={styles.actionButtonContent}></Icon>
           </Animated.View>
         </ActionButton>
       );
@@ -278,7 +284,7 @@ const ActionButtons = React.createClass({
       <ActionButton onPress={this.onToggleActionButtons} extraStyle={styles.mainButton}>
         <Animated.View style={{ transform: [{ rotate }] }}>
 
-          <Icon name={'add'} size={24} style={styles.actionButtonContent}></Icon>
+          <Icon name={'add'} size={30} style={styles.actionButtonContent}></Icon>
         </Animated.View>
       </ActionButton>
     );
@@ -310,7 +316,7 @@ const ActionButtons = React.createClass({
 
 const select = store => {
   return {
-    actionTypes: store.competition.get('actionTypes'),
+    actionTypes: getActionTypesForFeed(store),
     disabledActionTypes: store.competition.get('disabledActionTypes'),
     cooldownTimes: store.competition.get('cooldownTimes')
   };
