@@ -11,9 +11,8 @@ import MainView from './MainView';
 import * as CompetitionActions from '../actions/competition';
 import * as TeamActions from '../actions/team';
 import * as RegistrationActions from '../actions/registration';
-// import { checkForUpdates } from '../utils/updater';
 import { APP_STORAGE_KEY } from '../../env';
-const appUserKey = `${APP_STORAGE_KEY}:user`;
+const appCodeKey = `${APP_STORAGE_KEY}:code`;
 
 const middlewares = [thunk];
 if (__DEV__) {
@@ -34,12 +33,16 @@ store.dispatch(TeamActions.fetchTeams());
 store.dispatch(RegistrationActions.getUser());
 
 // # Check if user logged
-// AsyncStorage.clear();
+// CLEARING: AsyncStorage.clear();
 
-AsyncStorage.getItem(appUserKey)
-.then(user => {
-  if (!user) {
+// Get Invitation code from Storage
+// Code is saved to storage when user logs in first time.
+AsyncStorage.getItem(appCodeKey)
+.then(code => {
+  if (!code) {
     store.dispatch(RegistrationActions.showLogin());
+  } else {
+    store.dispatch(RegistrationActions.updateCode(code));
   }
 })
 .catch(error => { store.dispatch(RegistrationActions.showLogin()); });
@@ -48,52 +51,14 @@ const RootView = React.createClass({
 
   componentDidMount() {
 
-    // const locationOpts = {
-    //   enableHighAccuracy: false,
-    //   timeout: 20000,
-    //   maximumAge: 1000 * 60 * 60
-    // };
-
-    // navigator.geolocation.getCurrentPosition(
-    //   position => this.updateLocation,
-    //   error => console.log(error.message),
-    //   locationOpts
-    // );
-    // this.watchID = navigator.geolocation.watchPosition(
-    //   this.updateLocation,
-    //   error => console.log(error.message),
-    //   locationOpts
-    // );
-
     // Statusbar style
     if (Platform.OS === 'ios') {
-
       StatusBar.setHidden(false)
       StatusBar.setBarStyle('light-content')
-
-      // // check for updates when app is resumed
-      // AppStateIOS.addEventListener('change', state => {
-      //   if (state === 'active') {
-      //     checkForUpdates();
-      //   }
-      // });
-
-      // // and check once on startup
-      // checkForUpdates();
     }
 
   },
 
-  // componentWillUnmount() {
-  //   // navigator.geolocation.clearWatch(this.watchID);
-  // },
-
-  // updateLocation(position) {
-  //   store.dispatch(LocationActions.updateLocation({
-  //     latitude: position.coords.latitude,
-  //     longitude: position.coords.longitude
-  //   }));
-  // },
 
   render() {
     return (
