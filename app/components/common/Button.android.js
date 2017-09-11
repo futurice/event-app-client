@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   textButton: {
     alignSelf: 'center',
     fontSize: 15,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: '#fff'
   },
   opacity: {

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import {
-  Text,
   Easing,
   Animated,
   Dimensions,
@@ -8,6 +7,8 @@ import {
   StyleSheet
 } from 'react-native';
 
+
+import Text from '../Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
@@ -28,8 +29,9 @@ const styles = StyleSheet.create({
   },
   message: {
     color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
+    fontSize: 13,
+    top: 2,
+    fontWeight: 'normal',
     textAlign: 'center',
   },
   wrapper: {

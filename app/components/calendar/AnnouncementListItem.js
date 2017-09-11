@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   text__title:{
     color: theme.secondary,
     marginBottom:10,
-    fontWeight:'bold',
+    fontWeight:'normal',
   },
   text: {
     color: '#888',

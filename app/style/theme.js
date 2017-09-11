@@ -21,6 +21,7 @@ const theme = {
 
   pink:           '#ff9090',
   purpleLayer:    'rgba(74, 48, 146, .8)',
+  captionLayer:   'rgba(74, 48, 146, .6)',
   transparent:    'transparent',
 
   danger:         '#FF5240',

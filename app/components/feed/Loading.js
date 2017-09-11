@@ -1,12 +1,11 @@
 import React from 'react';
 import {
   ActivityIndicator,
-  Platform,
   StyleSheet,
-  Text,
   View
 } from 'react-native';
-import ProgressBar from 'ProgressBarAndroid';
+
+import Text from '../Text'
 import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
@@ -25,7 +24,7 @@ const styles = StyleSheet.create({
   loadMessage: {
     marginTop: 5,
     textAlign: 'center',
-    color: 'rgba(0,0,0,.3)'
+    color: theme.secondary
   }
 });
 
@@ -33,11 +32,11 @@ const Loading = props => {
   return (
     <View style={styles.container}>
       <ActivityIndicator
-        color={theme.secondary}
+        color={props.color || theme.secondary}
         animating={true}
         style={styles.activityIndicator}
         size='large' />
-      <Text style={ styles.loadMessage}>Loading...</Text>
+      <Text style={[styles.loadMessage, props.color ? { color: props.color } : {}]}>Loading_</Text>
     </View>
   );
 };

@@ -43,19 +43,19 @@ const styles = StyleSheet.create({
     padding: 5,
     paddingLeft: 10,
     paddingRight: 5,
-    color: theme.blue1
+    color: theme.primary
   },
   rightIcon: {
     padding: 0,
     paddingRight: 0,
-    color: theme.blue2
+    top: -3,
+    color: theme.secondary
   },
   text: {
     fontSize: 14,
     paddingLeft: 5,
     paddingRight: 10,
-    color: theme.blue2,
-    fontWeight: 'bold'
+    color: theme.secondary,
   },
   titleWrap: {
     flex: 1,
@@ -64,8 +64,7 @@ const styles = StyleSheet.create({
   title:{
     textAlign: 'center',
     paddingRight:15,
-    color: theme.blue1,
-    fontWeight: 'bold'
+    color: theme.primary,
   }
 });
 
