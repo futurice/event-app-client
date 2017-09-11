@@ -4,110 +4,144 @@ import {
   View,
   Image,
   StyleSheet,
-  Platform,
+  TouchableOpacity,
+  ScrollView,
   Dimensions,
   Animated,
   Easing
 } from 'react-native';
 
-import * as RegistrationActions from '../../actions/registration';
+import { connect } from 'react-redux';
+import { closeWelcome, getUser, postProfilePicture } from '../../actions/registration';
 
 import theme from '../../style/theme';
 import Button from '../common/Button';
-import Loading from '../common/RadioLoader';
 import Text from '../Text';
-const Icon = require('react-native-vector-icons/Ionicons');
-const MDIcon = require('react-native-vector-icons/MaterialIcons');
-const { height, width } = Dimensions.get('window');
-const IOS = Platform.OS === 'ios';
 import ICONS from '../../constants/Icons';
+
+import ImagePickerManager from 'react-native-image-picker';
+import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
+import { SCREEN_SMALL } from '../../utils/responsive';
+import Background from '../background';
+
+const { width } = Dimensions.get('window');
+
 
 
 const WelcomeView = React.createClass({
 
   getInitialState() {
     return {
-      welcome: new Animated.Value(0)
+      welcome: new Animated.Value(0),
+      welcomeText: new Animated.Value(0),
     }
   },
 
   onWelcomeDismiss() {
-    console.log('test');
-    this.props.dispatch(RegistrationActions.closeWelcome());
+    this.props.closeWelcome();
+  },
+
+  onTakeProfilePicture() {
+    ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
+      if (!response.didCancel && !response.error) {
+        const image = 'data:image/jpeg;base64,' + response.data;
+        console.log(image);
+        this.props.postProfilePicture(image);
+      }
+    });
   },
 
   componentDidMount() {
-    this.props.dispatch(RegistrationActions.getUser());
-
-
     Animated.timing(this.state.welcome,
-      { toValue: 1, duration: 600, delay: 500, easing: Easing.inOut(Easing.ease) }
+      { toValue: 1, duration: 400, delay: 200, easing: Easing.elastic(1) }
     ).start();
 
+    Animated.timing(this.state.welcomeText,
+      { toValue: 1, duration: 300, delay: 1500, easing: Easing.ease }
+    ).start();
 
+    this.props.getUser();
   },
 
   render() {
 
-      const { userName } = this.props;
+      const { loggedUserName, userName, picture } = this.props;
+      const name = loggedUserName || userName || 'Friend';
+      const firstName = name.split(' ')[0];
 
       return (
       <View style={[styles.container, styles.viewBackgroundStyle]}>
-        <Animated.View style={[styles.container, styles.contentContainer, styles.welcomeContainer,
-            { backgroundColor: this.state.welcome.interpolate({ inputRange: [0, 1], outputRange: [theme.secondaryLight, theme.stable] }) }
-          ]}>
-          <Animated.Image source={ICONS.HEART} style={[
+        <Background color="purple" />
+        <ScrollView style={styles.scroll}>
+          <View style={[styles.container, styles.contentContainer]}>
+          <Animated.Image source={ICONS.BALLOONS} style={[
             styles.welcomeIcon,
-            { zIndex: 9, transform: [{ scale: this.state.welcome.interpolate({ inputRange: [0, 1], outputRange: [100, 1] })}]}
+            {
+              opacity: this.state.welcome,
+              transform: [{ translateY: this.state.welcome.interpolate({ inputRange: [0, 1], outputRange: [20, 0] })}]
+            }
           ]} />
-          <Animated.View style={{ alignItems: 'center', opacity: this.state.welcome }}>
-            <Text style={styles.welcomeTitle}>Hello {userName || 'Friend'}!</Text>
-            <Text style={styles.welcomeText}>Let's have a great Futubileet on September 22th!</Text>
+        {/*
+          <Image source={{ uri: picture }} style={[
+            styles.selfie
+          ]} />
+        */}
+          <Animated.View style={{ alignItems: 'center', opacity: this.state.welcomeText }}>
+            <Text style={styles.welcomeTitle}>Hello {firstName}!</Text>
+            <Text style={styles.welcomeTitle}>Welcome to Futufinlandia!</Text>
             <View style={styles.welcomeButtonWrap}>
-              <Button onPress={this.onWelcomeDismiss} style={styles.welcomeButton} >Get started</Button>
+              <TouchableOpacity onPress={this.onWelcomeDismiss}>
+                <Text style={styles.getStartedButton}>Get started</Text>
+              </TouchableOpacity>
+              {/*<Button onPress={this.onTakeProfilePicture} style={styles.welcomeButton}>Take a selfie</Button>*/}
             </View>
           </Animated.View>
-        </Animated.View>
+          </View>
+        </ScrollView>
       </View>
       );
 
   }
 });
 
+const iconSize = width / 1.5;
+
 const styles = StyleSheet.create({
   container: {
     flex: 1
   },
-  contentContainer: {
-    alignItems: 'center'
+  scroll: {
+    backgroundColor: theme.purpleLayer,
+    flex: 1,
   },
-  welcomeContainer: {
+  contentContainer: {
+    alignItems: 'center',
+    zIndex: 2,
     justifyContent: 'center',
-    padding: 30
+    padding: 30,
   },
   welcomeIcon: {
-    width: 120,
-    height: 120,
+    width: iconSize,
+    height: iconSize,
+    marginBottom: 25,
+    marginTop: 35,
+  },
+  selfie: {
+    width: iconSize,
+    height: iconSize,
     marginBottom: 20,
-    tintColor: theme.secondaryLight,
-    shadowColor: '#000000',
-    shadowOpacity: 0.075,
-    shadowRadius: 0,
-    shadowOffset: {
-      height: 3,
-      width: 5
-    }
+    borderRadius: iconSize / 2,
   },
   welcomeTitle: {
-    fontSize: 27,
-    color: theme.secondaryLight,
+    fontSize: SCREEN_SMALL ? 20 : 24,
+    color: theme.white,
     marginBottom: 15,
     textAlign: 'center',
     backgroundColor: 'transparent'
   },
   welcomeText: {
     color: 'rgba(0,0,0,0.4)',
-    fontSize: 15,
+    fontSize: SCREEN_SMALL ? 13 : 15,
     lineHeight: 20,
     textAlign: 'center',
     backgroundColor: 'transparent'
@@ -115,6 +149,13 @@ const styles = StyleSheet.create({
   welcomeButtonWrap: {
     marginTop: 40,
     height: 50
+  },
+  getStartedButton: {
+    textDecorationLine: 'underline',
+    color: theme.white,
+    fontSize: SCREEN_SMALL ? 30 : 36,
+    paddingVertical: 10,
+    paddingHorizontal: 10,
   },
   welcomeButton: {
     paddingLeft: 40,
@@ -125,4 +166,19 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WelcomeView;
+
+const select = store => {
+  return {
+    picture: store.registration.get('picture'),
+    userName: store.registration.get('name'),
+    loggedUserName: store.registration.get('loggedUserName')
+  };
+};
+
+const mapDispatchToProps = {
+  postProfilePicture,
+  closeWelcome,
+  getUser,
+}
+
+export default connect(select, mapDispatchToProps)(WelcomeView);

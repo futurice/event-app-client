@@ -18,21 +18,15 @@ import { connect } from 'react-redux';
 import * as RegistrationActions from '../../actions/registration';
 
 import theme from '../../style/theme';
-import Button from '../../components/common/Button';
 import Loading from '../../components/common/RadioLoader';
 import WelcomeView from './WelcomeView';
 import Background from '../background';
 import Text from '../Text';
+import { SCREEN_SMALL, IS_IOS } from '../../utils/responsive';
 
-const Icon = require('react-native-vector-icons/Ionicons');
-const MDIcon = require('react-native-vector-icons/MaterialIcons');
 const { height, width } = Dimensions.get('window');
-const IOS = Platform.OS === 'ios';
-import ICONS from '../../constants/Icons';
-
 
 const INVITE_CODE_LENGTH = 4;
-const headerImg = require('../../../assets/planssi/pullo.png');
 
 const IntroView = React.createClass({
 
@@ -49,16 +43,12 @@ const IntroView = React.createClass({
 
     setTimeout(() => {
       this.animateHero();
-      this.animateBubbles();
     }, 200);
 
   },
 
   onRegister(inviteCode) {
     this.props.dispatch(RegistrationActions.loginUser(inviteCode));
-  },
-  onWelcomeDismiss() {
-    this.props.dispatch(RegistrationActions.closeWelcome());
   },
 
   updateTextInput(inviteCodeText) {
@@ -76,53 +66,50 @@ const IntroView = React.createClass({
       { toValue: 1, duration: 300, delay: 500 }
       ).start();
 
-    Animated.timing(
-      this.state.buttonPosition,
-      { toValue: 1, delay: 1200, duration: 350, easing: Easing.elastic(1) }
-      ).start();
-
-  },
-
-  animateBubbles() {
-    Animated.timing(
-      this.state.bubblePosition,
-      {
-        toValue: 1,
-        duration: 2500,
-        easing: Easing.linear
-      }
-    ).start(() => {
       Animated.timing(
-        this.state.bubblePosition,
-        {
-          toValue: 0,
-          duration: 2500,
-          easing: Easing.linear
-        }
-      ).start(() => {
-          this.animateBubbles(); // repeating
-        });
-    });
+        this.state.buttonPosition,
+        { toValue: 1, delay: 2000, duration: 300, easing: Easing.elastic(1) }
+      ).start();
   },
+
+  // animateBubbles() {
+  //   Animated.timing(
+  //     this.state.bubblePosition,
+  //     {
+  //       toValue: 1,
+  //       duration: 2500,
+  //       easing: Easing.linear
+  //     }
+  //   ).start(() => {
+  //     Animated.timing(
+  //       this.state.bubblePosition,
+  //       {
+  //         toValue: 0,
+  //         duration: 2500,
+  //         easing: Easing.linear
+  //       }
+  //     ).start(() => {
+  //         this.animateBubbles(); // repeating
+  //       });
+  //   });
+  // },
 
 
   render() {
     const {
-      bubblePosition,
-      buttonPosition,
-      heroPosition
+      heroPosition,
+      buttonPosition
     } = this.state;
 
     const {
       inviteCodeSending,
       loginFailed,
-      isWelcomeScreenOpen,
-      loggedUserName
+      isWelcomeScreenOpen
     } = this.props;
 
 
     if (isWelcomeScreenOpen) {
-      return <WelcomeView userName={loggedUserName} dispatch={this.props.dispatch} />;
+      return <WelcomeView />;
     }
 
     return (
@@ -152,6 +139,7 @@ const IntroView = React.createClass({
                 </Animated.View>
               </Animated.View>
             */}
+
             <View>
               <Text style={styles.h2}>
                 <Image
@@ -159,6 +147,8 @@ const IntroView = React.createClass({
                   source={require('../../../assets/futurice-logo.png')}
                   style={styles.futuLogo} /> presents
               </Text>
+            </View>
+            <Animated.View style={{ opacity: heroPosition }}>
               <Text style={styles.h1}>Futu</Text>
               <View style={{ top: -10 }}>
                 <Text style={[styles.h1, styles.yellow]}>Finlandia<Text style={styles.pink}>_</Text></Text>
@@ -166,7 +156,7 @@ const IntroView = React.createClass({
               <Text style={styles.h3}>
                 {'22.08.17 \nFinlandia Hall \nHelsinki'}
               </Text>
-            </View>
+            </Animated.View>
 
             <View style={styles.bgImageWrap}>
               <Animated.Image
@@ -177,29 +167,34 @@ const IntroView = React.createClass({
 
             {inviteCodeSending ?
               <View style={styles.loading}><Loading color={theme.white} /></View> :
-              <View style={styles.bottomButtons}>
-                <TextInput
-                  autoCorrect={false}
-                  autoCapitalize={'characters'}
-                  returnKeyType={'done'}
-                  style={[styles.inputField, styles['inputField_' + Platform.OS]]}
-                  autoFocus={false}
-                  underlineColorAndroid={theme.white}
-                  placeholderTextColor={IOS ? 'rgba(0,0,0,.5)' : 'rgba(255,255,255, 0.7)'}
-                  placeholder="Your invite code"
-                  onChangeText={this.updateTextInput}
-                 />
-              </View>
+              <Animated.View style={[styles.inviteForm, { opacity: buttonPosition, transform: [{ scale: buttonPosition }] }]}>
+                <View>
+                  <TextInput
+                    autoCorrect={false}
+                    autoCapitalize={'characters'}
+                    returnKeyType={'done'}
+                    style={[styles.inputField, styles['inputField_' + Platform.OS]]}
+                    autoFocus={false}
+                    underlineColorAndroid={theme.white}
+                    placeholderTextColor={IS_IOS ? 'rgba(74, 48, 146,.4)' : 'rgba(255,255,255, 0.7)'}
+                    placeholder="Your invite code"
+                    onChangeText={this.updateTextInput}
+                   />
+                 </View>
+
+                {loginFailed ?
+                <Text style={[styles.rowTitle, { color: theme.pink } ]}>
+                  The code you entered is incorrect.
+                </Text> :
+                <Text style={styles.rowTitle}>
+                  Login with your personal invite code
+                </Text>
+                }
+
+              </Animated.View>
             }
 
-              {loginFailed ?
-              <Text style={[styles.rowTitle, { color: theme.primary } ]}>
-                The code you entered is incorrect.
-              </Text> :
-              <Text style={styles.rowTitle}>
-                Login with your personal invite code
-              </Text>
-              }
+
 
               {/*
               <View style={styles.rowTextContainer}>
@@ -238,17 +233,17 @@ const styles = StyleSheet.create({
     backgroundColor: theme.secondaryLight
   },
   innerContainer: {
-    paddingTop: IOS ? 15 : 15,
+    paddingTop: IS_IOS ? 15 : 15,
   },
   header: {
     color: theme.secondary,
     marginTop: 40,
     marginBottom: 20,
-    marginLeft: IOS ? 25 : 15,
+    marginLeft: IS_IOS ? 25 : 15,
     fontSize: 28
   },
   h1: {
-    fontSize: 46,
+    fontSize: SCREEN_SMALL ? 42 : 46,
     color: theme.white,
     marginBottom: 0,
   },
@@ -295,7 +290,7 @@ const styles = StyleSheet.create({
   introHero: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: IOS ? 50 : 30,
+    marginTop: IS_IOS ? 50 : 30,
     width: width / 1.5,
     height: width / 1.5,
     borderRadius: width / 1.5,
@@ -340,10 +335,10 @@ const styles = StyleSheet.create({
     marginTop: 40
   },
   rowTitle:{
-    color: theme.accent,
-    fontSize: 15,
-    marginTop: 15,
-    marginBottom: 65,
+    color: theme.secondary,
+    fontSize: 10,
+    marginTop: 5,
+    marginBottom: 0,
     textAlign: 'center',
   },
   rowText: {
@@ -356,41 +351,31 @@ const styles = StyleSheet.create({
   rowSecondaryText: {
     marginTop: 0
   },
-  bottomButtons:{
-    marginTop: 30,
+  inviteForm:{
+    marginTop: 25,
+    backgroundColor: theme.white,
     position:'relative',
-    flexDirection: 'row',
-    alignItems: 'stretch',
-    justifyContent: 'center'
-  },
-  modalButton: {
-    width: 50,
-    height: 50,
-    marginLeft:IOS ? -5 : 8,
-    borderWidth: IOS ? 0 : 2,
-    borderColor: IOS ? null : theme.white,
-    borderRadius: IOS ? 0 : 30,
-    borderBottomRightRadius: IOS ? 5 : null,
-    borderTopRightRadius: IOS ? 5 : null,
-    backgroundColor: IOS ? theme.green : theme.green,
-    elevation: 1
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 10,
   },
   inputField: {
     width: 200,
     height: 50,
     fontSize:22,
-    marginBottom: 5,
-    textAlign: 'center'
+    marginVertical: 5,
+    textAlign: 'center',
+    color: theme.secondary
   },
   inputField_android: {
-    color: theme.white
   },
   inputField_ios: {
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: 'rgba(255,255,255,.9)',
-    borderRadius: 5,
+    backgroundColor: 'rgba(74, 48, 146,.09)',
+    borderRadius: 2,
   },
 });
 
