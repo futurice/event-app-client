@@ -18,12 +18,15 @@ import _ from 'lodash';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
-import * as RegistrationActions from '../../actions/registration';
+import { postProfilePicture } from '../../actions/registration';
 import { getGravatarForEmail } from '../../utils/gravatar';
 import PlatformTouchable from '../common/PlatformTouchable';
 import WebViewer from '../webview/WebViewer';
 import ICONS from '../../constants/Icons';
-import Background from '../background';
+
+import ImagePickerManager from 'react-native-image-picker';
+import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
+
 
 const { width, height } = Dimensions.get('window');
 
@@ -76,6 +79,7 @@ const styles = StyleSheet.create({
     width: 35,
   },
   listItemHeroIcon:{
+    backgroundColor: '#eee',
     borderColor: theme.secondary,
     borderWidth: 5,
     borderRadius: 60,
@@ -85,6 +89,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginBottom: -10,
     overflow:'hidden'
+  },
+  listItemHeroAvatarButton: {
+    borderRadius: 60,
+    width: 120,
+    height: 120,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   profilePicBgLayer:{
     position: 'absolute',
@@ -109,15 +120,16 @@ const styles = StyleSheet.create({
   profilePic: {
     borderColor: theme.white,
     borderWidth: 6,
-    width: 112,
-    height: 112,
-    borderRadius: 56
+    width: 110,
+    height: 110,
+    borderRadius: 55
   },
   listItemIcon__hero:{
-    top: 0,
+    top: 4,
+    backgroundColor: theme.transparent,
     width:40,
     fontSize: 40,
-    color: theme.light,
+    color: '#ccc',
   },
   listItemIconRight:{
     position: 'absolute',
@@ -146,6 +158,14 @@ const styles = StyleSheet.create({
   listItemText__small: {
     backgroundColor: theme.pink,
   },
+  listItemText__code: {
+    backgroundColor: theme.white,
+    position: 'absolute',
+    left: -15,
+    top: -110,
+    color: theme.pink,
+    transform: [{ rotate: '-35deg' }]
+  },
   listItemBottomLine:{
     position:'absolute',
     right: 20,
@@ -156,8 +176,8 @@ const styles = StyleSheet.create({
   },
   futuLogoWrap: {
     padding: 20,
-    height: IOS ? 120 : null,
-    paddingTop: 5,
+    marginBottom: 50,
+    paddingTop: 0,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
@@ -178,13 +198,12 @@ const styles = StyleSheet.create({
     marginLeft: 8,
     height: 16,
     width: 16,
-    tintColor: theme.pink,
+    tintColor: theme.accent,
   },
   futuLogoText: {
     color: theme.white,
-    fontWeight: 'bold',
     top: IOS ? 1 : 2,
-    fontSize: 15
+    fontSize: 18
   },
   bubbleTip: {
     position: 'absolute',
@@ -271,6 +290,15 @@ var Profile = React.createClass({
     // this.props.dispatch(RegistrationActions.openRegistrationView());
   },
 
+  onTakeProfilePicture() {
+    ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
+      if (!response.didCancel && !response.error) {
+        const image = 'data:image/jpeg;base64,' + response.data;
+        this.props.postProfilePicture(image);
+      }
+    });
+  },
+
   onLinkPress(url, text, openInWebview) {
     if (!url) {
       return;
@@ -285,6 +313,36 @@ var Profile = React.createClass({
       });
 
     }
+  },
+
+  renderComponentItem(item, index) {
+    const linkItemStyles = [styles.listItemButton];
+    const { navigator } = this.props;
+    const { component, title } = item;
+
+
+
+    if (item.separatorAfter || item.last) {
+      linkItemStyles.push(styles.listItemSeparator)
+    }
+
+    return (
+      <PlatformTouchable
+        key={index}
+        underlayColor={theme.secondary}
+        activeOpacity={0.9}
+        delayPressIn={0}
+        style={[styles.listItemButton, item.last ? { marginBottom: 34 } : null]}
+        onPress={() => navigator.push({ name: title, component, showName: true })}>
+        <View style={linkItemStyles}>
+          <View style={styles.listItem}>
+            <Icon style={[styles.listItemIcon, item.secondary ? { color: theme.accent } : null]} name={item.icon} />
+            <Text style={[styles.listItemText, item.secondary ? { color: theme.accent } : null]}>{item.title}</Text>
+            {!item.separatorAfter && !item.last && <View style={styles.listItemBottomLine} />}
+          </View>
+        </View>
+      </PlatformTouchable>
+    );
   },
 
   renderLinkItem(item) {
@@ -319,15 +377,14 @@ var Profile = React.createClass({
     return (
       <View style={[styles.listItemButton, styles.listItemSeparator]}>
         <View style={[styles.listItem, styles.listItem__hero]}>
-          {avatar !== '' && false
-            /*  <Image style={styles.profilePicBg} resizeMode={'repeat'} source={require('../../../assets/patterns/pattern-purple.png')} /> */
-          }
           <View style={styles.profilePicBgLayer} />
           <View style={styles.listItemHeroIcon}>
-          { avatar ?
-            <Image style={styles.profilePic} source={{ uri: avatar }} /> :
-            <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
-          }
+            <PlatformTouchable style={styles.listItemHeroAvatarButton} onPress={this.onTakeProfilePicture}>
+            { avatar
+              ? <Image style={styles.profilePic} source={{ uri: avatar }} />
+              : <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
+            }
+            </PlatformTouchable>
           </View>
           <View style={{flexDirection:'column',flex:1, alignItems:'center'}}>
             {
@@ -342,40 +399,21 @@ var Profile = React.createClass({
             <Text style={[styles.nameText, styles.listItemText__small]}>
               {currentTeam.name}
             </Text>
+          {/*
+            <Text style={[styles.nameText, styles.listItemText__code]}>
+              {this.props.code}
+            </Text>
+          */}
           </View>
         </View>
       </View>
     );
   },
 
-  renderMatrixCode(code) {
-    if (!code) {
-      return (<View />);
-    }
-    const url = `https://api-bwipjs.rhcloud.com/?bcid=datamatrix&scale=8&text=${code}`;
-    return (
-        <View style={styles.listItemButton}>
-          <View style={{ alignItems: 'center', backgroundColor: theme.stable, padding: 15,  paddingTop:0, paddingLeft: 20, paddingRight: 20 }}>
-            <View style={[ styles.listItem, styles.bubble ]}>
-              <View style={{ paddingBottom: 15 }}>
-                <Text style={{backgroundColor: 'transparent', textAlign: 'center', fontWeight: 'bold', color: theme.secondaryLight }}>Heureka</Text>
-                <Text style={{backgroundColor: 'transparent', textAlign: 'center', color: theme.darkgrey}}>Your Personal code</Text>
-              </View>
-              <View>
-                <Image style={{ width: CODE_WIDTH, height: CODE_WIDTH, tintColor: theme.primary }} source={{uri: url}} />
-              </View>
-                <Text style={{backgroundColor: 'transparent', fontSize: 10, marginTop: 5, color: theme.darkgrey}}>{code}</Text>
-            </View>
-            <View style={[styles.bubbleTip]} />
-          </View>
-        </View>
-    );
-  },
-
   renderLogo() {
     return (
       <View style={styles.futuLogoWrap}>
-        <TouchableHighlight underlayColor={'transparent'} onPress={() => Linking.openURL('http://www.futurice.com?utm_source=futubileet&utm_medium=banner&utm_campaign=futubileet16app')}>
+        <TouchableHighlight underlayColor={'transparent'} onPress={() => Linking.openURL('http://www.futurice.com?utm_source=futubileet&utm_medium=banner&utm_campaign=futubileet17app')}>
           <View style={styles.futuLogoTextWrap}>
             <Image
               resizeMode={'contain'}
@@ -392,30 +430,30 @@ var Profile = React.createClass({
   },
 
   renderItem(item) {
-    if (item.showCode) {
-      return this.renderMatrixCode(item.code)
+    const key = item.id || item.title;
+
+    if (item.component) {
+      return this.renderComponentItem(item, key);
     } else if (item.link) {
-      return this.renderLinkItem(item);
+      return this.renderLinkItem(item, key);
     } else if (item.logo) {
       return null;
-      // return this.renderLogo();
+      return this.renderLogo();
     }
-    return this.renderModalItem(item);
+    return this.renderModalItem(item, key);
   },
 
   render() {
-    const { links, name, email, picture, heurekaCode } = this.props;
-
-    const code = heurekaCode;
+    console.log(this.props);
+    const { links, name, email, picture } = this.props;
 
     const listData = [{
       title: name,
-      icon:'person-outline',
+      icon:'photo-camera',
       link:'',
       picture,
       email
       },
-      { showCode: true, code }
       ].concat(
         links.toJS(),
         [{logo: true}]
@@ -423,8 +461,7 @@ var Profile = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Background color="purple" />
-        <ListView style={[styles.scrollView]}
+        <ListView style={styles.scrollView}
           dataSource={this.state.dataSource.cloneWithRows(listData)}
           renderRow={this.renderItem}
         />
@@ -438,12 +475,16 @@ const select = store => {
   return {
       selectedTeam: store.registration.get('selectedTeam'),
       teams: store.team.get('teams'),
+      code: store.registration.get('code'),
       name: store.registration.get('name'),
-      heurekaCode: store.registration.get('heurekaCode'),
       picture: store.registration.get('picture'),
       email: store.registration.get('email'),
       links: store.profile.get('links'),
     }
 };
 
-export default connect(select)(Profile);
+const mapDispatchToProps = {
+  postProfilePicture,
+}
+
+export default connect(select, mapDispatchToProps)(Profile);
