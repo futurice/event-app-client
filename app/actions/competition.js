@@ -85,13 +85,14 @@ const postText = text => {
   });
 };
 
-const postImage = (imageData, text) => {
-  return _postAction({
+const postImage = (image, imageText, imageTextPosition) => {
+  const postObject = Object.assign({
     type: ActionTypes.IMAGE,
-    imageData,
-    text
-  });
+    imageData: image,
+  }, !!imageText ? { imageText, imageTextPosition } : {});
+  return _postAction(postObject);
 };
+
 
 const fetchActionTypes = () => {
   return dispatch => {
