@@ -15,6 +15,7 @@ const EndpointUrls = {
   teams: `${ROOT_URL}/teams`,
   actionTypes: `${ROOT_URL}/action_types`,
   announcements: `${ROOT_URL}/announcements`,
+  vote: `${ROOT_URL}/vote`,
   login: `${ROOT_URL}/register`
 };
 
