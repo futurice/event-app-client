@@ -8,20 +8,33 @@ import Text from '../Text';
 import PlatformTouchable from '../common/PlatformTouchable';
 import Content from './Content';
 
+import { SCREEN_SMALL } from '../../utils/responsive';
+
 const isIOS = Platform.OS === 'ios';
 
 class AboutTab extends Component {
 
   render() {
-    const { color, closeTab } = this.props;
+    const { closeTab, color } = this.props.route;
+
     return (
-      <View style={{ flex: 1 }}>
+      <ScrollView style={styles.content}>
         <PlatformTouchable
           onPress={() => closeTab()}
         >
           <Text style={[styles.title, styles[color]]}>About</Text>
         </PlatformTouchable>
         <Content>
+          <Text style={styles.subTitle}>
+            FutuParty
+          </Text>
+          <Text style={styles.paragraph}>
+            FutuParty is equal parts massive event and house party. It's when we take our own advice and get out of the office to spread the Futurice spirit and transform our chosen venue into something a lot more fun. This year, in honor of Finland's 100th anniversary, we're taking over Finlandia Hall.
+          </Text>
+
+          <Text style={styles.subTitle}>
+            Venue - Finlandia Hall
+          </Text>
           <Text style={styles.paragraph}>
             Finlandia Hall is a congress and event venue in the centre of Helsinki on the Töölönlahti Bay. The building, which was designed by architect Alvar Aalto, was completed in 1971.
           </Text>
@@ -36,9 +49,10 @@ class AboutTab extends Component {
           </Text>
           <Text style={styles.paragraph}>
             The versatile and flexible meeting, exhibition, festival and concert facilities of the Finlandia Hall offer a setting for both large international congresses and small-scale meetings, and for various entertainment and public events. The Finlandia Hall has proved its ability to serve as a venue for several world congresses and as a forum for the world’s top economic and political leaders. The building itself is a popular attraction visited by thousands of tourists from all over the world every year. The building is owned by the City of Helsinki.
+            {'\n\n\n\n'}
           </Text>
         </Content>
-      </View>
+      </ScrollView>
     );
   }
 };
@@ -47,15 +61,16 @@ class AboutTab extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.purpleLayer
+    backgroundColor: theme.transparent
   },
   content: {
+    flex: 1,
     padding: 30,
-    paddingTop: isIOS ? 40 : 20,
+    paddingTop: 60,
     paddingBottom: 50,
   },
   title: {
-    fontSize: 46,
+    fontSize: SCREEN_SMALL ? 38 : 46,
     marginBottom: 20,
     textDecorationLine: 'underline',
     color: theme.white,

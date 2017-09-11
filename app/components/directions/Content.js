@@ -14,7 +14,7 @@ class ContentAnimation extends Component {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, style } = this.props;
     const { contentAnimation } = this.state;
 
     const contentAnimationStyles = {
@@ -26,7 +26,7 @@ class ContentAnimation extends Component {
     };
 
     return (
-      <Animated.View style={contentAnimationStyles}>
+      <Animated.View style={[contentAnimationStyles, style]}>
         {children}
       </Animated.View>
     );

@@ -13,6 +13,7 @@ import DirectionsTab from './DirectionsTab';
 import FloorsTab from './FloorsTab';
 import AboutTab from './AboutTab';
 
+import { SCREEN_SMALL } from '../../utils/responsive';
 const isIOS = Platform.OS === 'ios';
 
 
@@ -34,6 +35,17 @@ class DirectionsView extends Component {
   }
 
   selectTab(tab) {
+
+    this.props.navigator.push({
+      component: tab.component,
+      name: tab.name,
+      color: tab.color,
+      closeTab: this.closeTab,
+      showName: true
+    });
+
+
+    return;
     const nextTab = this.state.selectedTab === tab
       ? null
       : tab;
@@ -41,13 +53,14 @@ class DirectionsView extends Component {
   }
 
   closeTab() {
-    this.setState({ selectedTab: null });
+    this.props.navigator.pop();
+    // this.setState({ selectedTab: null });
   }
 
   renderTab(tab) {
     return (
       <PlatformTouchable
-        onPress={() => this.selectTab(tab.name)}
+        onPress={() => this.selectTab(tab)}
       >
         <Text style={[styles.title, styles[tab.color]]}>
           {tab.name}
@@ -62,21 +75,24 @@ class DirectionsView extends Component {
 
   renderContent() {
     const { selectedTab } = this.state;
+
+    return this.renderTabs();
+
+    // ending here already
     if (!selectedTab) {
       return this.renderTabs();
     }
 
-    const tab = find(tabs, (tab) => tab.name === selectedTab);
-    const OpenTab = tab.component;
+    // const tab = find(tabs, (tab) => tab.name === selectedTab);
+    // const OpenTab = tab.component;
 
-    return <OpenTab color={tab.color} closeTab={this.closeTab} />
+    // return <OpenTab color={tab.color} closeTab={this.closeTab} />
   }
 
   render() {
 
     return (
-      <View style={{ flex: 1, backgroundColor: theme.secondary }}>
-        <Background color="purple" />
+      <View style={{ flex: 1 }}>
         <ScrollView style={styles.container}>
           <View style={styles.content}>
             {this.renderContent()}
@@ -94,7 +110,7 @@ class DirectionsView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.purpleLayer
+    backgroundColor: theme.transparent
   },
   content: {
     padding: 30,
@@ -102,7 +118,7 @@ const styles = StyleSheet.create({
     paddingBottom: 50,
   },
   title: {
-    fontSize: 46,
+    fontSize: SCREEN_SMALL ? 38 : 46,
     marginBottom: 20,
   },
   subTitle: {
