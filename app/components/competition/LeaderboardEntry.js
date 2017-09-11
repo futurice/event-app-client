@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   entry: {
     paddingTop: 20,
     paddingBottom: 20,
-    backgroundColor: theme.purpleLayer,
+    backgroundColor: theme.transparent,
     flexDirection:'row',
     alignItems:'center'
   },
@@ -107,15 +107,18 @@ const styles = StyleSheet.create({
     backgroundColor: theme.white,
   },
   entryLogo:{
-    paddingLeft:30,
-    paddingRight:0,
-  },
-  entryLogoImg:{
+    marginLeft: 28,
+    paddingRight: 0,
     width: 60,
     height: 60,
     borderRadius: 30,
     borderWidth: 5,
     borderColor: theme.secondary,
+  },
+  entryLogoImg:{
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
   entryContent: {
     flex:1,
