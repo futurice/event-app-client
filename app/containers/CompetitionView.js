@@ -23,7 +23,6 @@ import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
 const Icon = require('react-native-vector-icons/Ionicons');
 import ICONS from '../constants/Icons';
-import Background from '../components/background';
 
 
 const IOS = Platform.OS === 'ios';
@@ -64,7 +63,6 @@ const CompetitionView = React.createClass({
 
     return (
       <View style={styles.container}>
-        <Background color="purple" />
 
         <View style={styles.leaderboardIntro}>
           <View style={styles.leaderboardIntroTextWrap}>
@@ -74,8 +72,9 @@ const CompetitionView = React.createClass({
           </View>
         </View>
 
-        <ScrollView style={styles.leaderboard}
-        refreshControl={refreshControl}
+        <ScrollView
+          style={styles.leaderboard}
+          refreshControl={refreshControl}
         >
         {this.props.teams.map((team, index) =>
           <LeaderboardEntry
@@ -104,7 +103,7 @@ const styles = StyleSheet.create({
   leaderboardIntro:{
     flexDirection: 'row',
     margin:20,
-    marginBottom: 0,
+    marginBottom: 15,
     marginTop: 15,
     padding: IOS ? 10 : 13,
     paddingLeft:7,
@@ -133,13 +132,9 @@ const styles = StyleSheet.create({
     color: theme.white,
     fontSize: 18
   },
-  leaderboardIntroText__grey:{
-    color:'#aaa',
-    marginTop:5,
-  },
   leaderboard: {
     flex: 1,
-    marginBottom: IOS ? 0 : 0,
+    backgroundColor: theme.purpleLayer
 
   },
 

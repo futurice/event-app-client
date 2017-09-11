@@ -5,12 +5,14 @@ import React from 'react';
 import {
   Navigator,
   StyleSheet,
+  View,
   Platform
 } from 'react-native';
 
 import analytics from '../services/analytics';
 import FeedList from '../components/feed/FeedList';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
+import Background from '../components/background';
 import theme from '../style/theme';
 
 const VIEW_NAME = 'FeedView';
@@ -43,33 +45,46 @@ export default React.createClass({
 
   render() {
     if (Platform.OS === 'ios') {
-      return <Navigator
-        style={styles.navigator}
-        initialRoute={{
-          component: FeedList,
-          name: 'Feed'
-        }}
-        navigationBar={
-          <Navigator.NavigationBar
-            style={styles.navbar}
-            routeMapper={NavRouteMapper} />
-        }
-        renderScene={this.renderScene}
-        configureScene={() => ({
-          ...Navigator.SceneConfigs.FloatFromRight
-        })} />;
+      return (
+      <View style={{ flex: 1 }}>
+        <Background color="yellow" />
+        <View style={{ flex: 1, backgroundColor: theme.transparent, zIndex: 2, }}>
+          <Navigator
+          style={styles.navigator}
+          initialRoute={{
+            component: FeedList,
+            name: 'Feed'
+          }}
+          navigationBar={
+            <Navigator.NavigationBar
+              style={styles.navbar}
+              routeMapper={NavRouteMapper} />
+          }
+          renderScene={this.renderScene}
+          configureScene={() => ({
+            ...Navigator.SceneConfigs.FloatFromRight
+          })} />
+        </View>
+      </View>
+      );
     }
     else {
-      return <Navigator
-        style={styles.navigator}
-        initialRoute={{
-          component: FeedList,
-          name: 'Feed'
-        }}
-        renderScene={this.renderScene}
-        configureScene={() => ({
-          ...Navigator.SceneConfigs.FloatFromRight
-        })} />;
+      return (
+        <View style={{ flex: 1 }}>
+          <Background color="yellow" />
+          <View style={{ flex: 1, backgroundColor: theme.transparent, zIndex: 2 }}>
+            <Navigator
+            style={styles.navigator}
+            initialRoute={{
+              component: FeedList,
+              name: 'Feed'
+            }}
+            renderScene={this.renderScene}
+            configureScene={() => ({
+              ...Navigator.SceneConfigs.FloatFromRight
+            })} />
+          </View>
+      </View>);
     }
   }
 });
