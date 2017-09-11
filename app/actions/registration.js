@@ -15,10 +15,17 @@ const {
   GET_USER_FAILURE
 } = createRequestActionTypes('GET_USER');
 
+const {
+  POST_PROFILE_PICTURE_REQUEST,
+  POST_PROFILE_PICTURE_SUCCESS,
+  POST_PROFILE_PICTURE_FAILURE
+} = createRequestActionTypes('POST_PROFILE_PICTURE');
+
 const OPEN_REGISTRATION_VIEW = 'OPEN_REGISTRATION_VIEW';
 const CLOSE_REGISTRATION_VIEW = 'CLOSE_REGISTRATION_VIEW';
 const UPDATE_NAME = 'UPDATE_NAME';
 const UPDATE_PROFILE = 'UPDATE_PROFILE';
+const UPDATE_CODE = 'UPDATE_CODE';
 const SELECT_TEAM = 'SELECT_TEAM';
 const CLOSE_TEAM_SELECTOR = 'CLOSE_TEAM_SELECTOR';
 const DISMISS_INTRODUCTION = 'DISMISS_INTRODUCTION';
@@ -52,8 +59,22 @@ const putUser = () => {
       .catch(error => dispatch({ type: CREATE_USER_FAILURE, error: error }));
   };
 };
+
+const postProfilePicture = imageData => {
+  return (dispatch, getStore) => {
+    dispatch({ type: POST_PROFILE_PICTURE_REQUEST });
+    const uuid = DeviceInfo.getUniqueID();
+
+    return api.putUser({ uuid, imageData })
+      .then(response => {
+        dispatch({ type: POST_PROFILE_PICTURE_SUCCESS, payload: response });
+        dispatch(getUser());
+      })
+      .catch(error => dispatch({ type: POST_PROFILE_PICTURE_FAILURE, error: error }));
+  };
+}
+
 const selectTeam = team => {
-  console.log('selecting team', team);
   return (dispatch, getStore) => {
     const teams = getStore().team.get('teams').toJS();
     const currentName = getStore().registration.get('name');
@@ -67,13 +88,9 @@ const selectTeam = team => {
     // }
   };
 };
-const updateName = name => {
-  return { type: UPDATE_NAME, payload: name };
-};
-
-const updateProfile = profile => {
-  return { type: UPDATE_PROFILE, payload: profile };
-};
+const updateName = name => ({ type: UPDATE_NAME, payload: name });
+const updateProfile = profile => ({ type: UPDATE_PROFILE, payload: profile });
+const updateCode = code => ({ type: UPDATE_CODE, payload: code });
 
 const generateName = () => {
   return (dispatch, getStore) => {
@@ -115,18 +132,19 @@ const loginUser = (inviteCode) => {
 
   return dispatch => {
     const uuid = DeviceInfo.getUniqueID();
+    const code = inviteCode ? inviteCode.toLowerCase() : '';
     dispatch({ type: LOGIN_USER_REQUEST });
 
-    return api.loginUser({ code: inviteCode ? inviteCode.toLowerCase() : '', uuid })
+    return api.loginUser({ code, uuid })
       .then(user => {
         if (user.status === 'OK'){
           const userResponse = user.user;
           const { name, email, team } = userResponse;
 
           selectTeam(team);
-          updateProfile({ name, email });
+          dispatch(updateProfile({ name, email, code }));
 
-          dispatch({ type: LOGIN_USER_SUCCESS, payload: userResponse })
+          dispatch({ type: LOGIN_USER_SUCCESS, payload: { user: userResponse, code } })
 
           // return api.putUser({ uuid, name, team, email })
           //   .then(response => {
@@ -160,10 +178,14 @@ export {
   CREATE_USER_REQUEST,
   CREATE_USER_SUCCESS,
   CREATE_USER_FAILURE,
+  POST_PROFILE_PICTURE_REQUEST,
+  POST_PROFILE_PICTURE_SUCCESS,
+  POST_PROFILE_PICTURE_FAILURE,
   OPEN_REGISTRATION_VIEW,
   CLOSE_REGISTRATION_VIEW,
   UPDATE_NAME,
   UPDATE_PROFILE,
+  UPDATE_CODE,
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
@@ -175,6 +197,7 @@ export {
   LOGIN_USER_FAILURE,
   CLOSE_WELCOME_VIEW,
   putUser,
+  postProfilePicture,
   openRegistrationView,
   closeRegistrationView,
   updateName,
@@ -185,5 +208,6 @@ export {
   dismissIntroduction,
   loginUser,
   showLogin,
-  closeWelcome
+  closeWelcome,
+  updateCode
 };
