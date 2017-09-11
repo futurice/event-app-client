@@ -3,13 +3,14 @@ import React, { Component } from 'react';
 import {
   Alert,
   View,
-  Text,
   StyleSheet,
   Dimensions,
   Platform,
   BackAndroid,
   Modal
 } from 'react-native';
+
+import Text from '../Text';
 import { connect } from 'react-redux';
 import theme from '../../style/theme';
 // import Modal from 'react-native-modalbox';
@@ -156,21 +157,28 @@ class LightBox extends Component {
           </View>
           }
           <View style={styles.header}>
-                <View style={styles.header__icon}>
-                <PlatformTouchable delayPressIn={0} onPress={this.onClose}>
-                  <View><Icon style={{ color: theme.white, fontSize: 26 }} name="close" /></View>
-                </PlatformTouchable>
-                {itemAuthor && !isSystemUser &&
-                  <Text style={styles.header__title}>Image from {itemAuthor}</Text>}
+            <View style={styles.header__icon}>
+              <PlatformTouchable delayPressIn={0} onPress={this.onClose}>
+                <View><Icon style={{ color: theme.white, fontSize: 26 }} name="close" /></View>
+              </PlatformTouchable>
+
+              <View style={styles.headerTitle}>
+              {itemAuthor &&
+                <Text style={styles.headerTitleText}>{!isSystemUser ? itemAuthor : 'FutubileBot'}</Text>
+              }
+                <View style={styles.date}>
+                  <Text style={styles.dateText}>
+                    {created.format('ddd DD.MM.YYYY')} at {created.format('HH:mm')}
+                  </Text>
+                </View>
               </View>
+            </View>
           </View>
 
           <View style={styles.toolbar}>
-            <View>
-              <Text style={{color: theme.stable, fontSize: 12}}>
-                {created.format('DD.MM.YYYY')} at {created.format('HH:mm')}
-              </Text>
-            </View>
+
+            <View />
+
             <View style={{ justifyContent:'flex-end', flexDirection: 'row' }}>
               {!isSystemUser &&
               <PlatformTouchable onPress={() => this.showRemoveDialog(lightBoxItem)}>
@@ -205,10 +213,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: IOS ? 'transparent' : theme.black,
   },
-  header: {
+ header: {
     height: 56,
     marginTop: IOS ? 8 : 0,
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
     position: 'absolute',
     left: 0,
     top:0,
@@ -218,17 +226,29 @@ const styles = StyleSheet.create({
   },
   header__icon: {
     position: 'absolute',
-    top: IOS ? 25 : 15,
+    top: IOS ? 20 : 10,
     left: 15,
     right: 15,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
   },
-  header__title: {
+  headerTitle: {
+    marginLeft: 15,
+    top: 2,
+  },
+  headerTitleText: {
     color: theme.white,
-    marginLeft: 20,
-    fontSize: 15
+    fontWeight: 'normal',
+    fontSize: 14
+  },
+  date: {
+    paddingTop: IOS ? 0 : 0
+  },
+  dateText: {
+    color: theme.white,
+    opacity: 0.9,
+    fontSize: 12
   },
   toolbar: {
     flexDirection: 'row',
