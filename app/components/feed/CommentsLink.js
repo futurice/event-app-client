@@ -40,7 +40,7 @@ class CommentsLinks extends Component {
 
 const styles = StyleSheet.create({
   comment: {
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     flexDirection: 'row',
     alignItems: 'center',
   },

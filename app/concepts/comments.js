@@ -158,7 +158,7 @@ export default function comments(state = initialState, action) {
 
     case POST_COMMENT_SUCCESS: {
       return state.merge({
-        editComment: null,
+        editComment: '',
         isPostLoading: false,
       });
     }

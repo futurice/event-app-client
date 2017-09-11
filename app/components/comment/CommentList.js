@@ -60,7 +60,7 @@ const CommentPost = ({ item }) => {
 
 
   return (
-    <View style={styles.comment}>
+    <View style={[styles.comment, isImage ? { minHeight: 170 } : null ]}>
         <View style={styles.commentContent}>
           <View style={styles.commentAvatarCol}>
             <View style={styles.commentAvatar}>
@@ -75,7 +75,7 @@ const CommentPost = ({ item }) => {
             {isImage
               ?
               <View style={{ marginTop: -5 }}>
-                <Text style={styles.commentAuthor}>{item.get('userName')}</Text>
+                <Text style={styles.commentAuthor}>{userName}</Text>
                 <Image style={{ width: 120, height: 120 }} source={{ uri: item.get('url') }} />
               </View>
               :
@@ -204,8 +204,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     padding: IOS ? 25 : 20,
-    paddingBottom: 15,
-    paddingTop: 15,
+    paddingBottom: 0,
+    paddingTop: 12,
   },
   commentContent: {
     flexDirection: 'row',
@@ -214,12 +214,14 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   commentAvatarCol: {
-    paddingRight: IOS ? 25 : 20,
+    paddingRight: 15,
   },
   commentAvatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
+    borderWidth: 3,
+    borderColor: theme.secondary,
     backgroundColor: 'rgba(254,253,183,.7)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -236,11 +238,9 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     width: 42,
     height: 42,
-    borderWidth: 3,
-    borderColor: theme.secondary,
     borderRadius: 21,
     color: theme.white,
-    fontSize: 40,
+    fontSize: 38,
     lineHeight: 50,
     backgroundColor: theme.transparent
   },
@@ -257,6 +257,7 @@ const styles = StyleSheet.create({
   },
   commentTextContent:{
     flex: 1,
+    paddingTop: 5,
   },
   commentAuthor: {
     marginRight: 5,

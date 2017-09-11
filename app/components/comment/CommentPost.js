@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
   },
   itemAuthorName: {
     fontSize: 13,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: theme.secondary,
     paddingRight: 10
   },
