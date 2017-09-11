@@ -26,7 +26,8 @@ import {
   loadMoreItems,
   fetchFeed,
   refreshFeed,
-  updateFeed
+  updateFeed,
+  voteFeedItem
 } from '../../actions/feed';
 
 import {
@@ -36,6 +37,8 @@ import {
   updateCooldowns
 } from '../../actions/competition';
 
+
+import ImageEditor from './ImageEditor';
 import FeedListItem from './FeedListItem';
 import Notification from '../common/Notification';
 import Loading from './Loading';
@@ -43,6 +46,7 @@ import ActionButtons from './ActionButtons';
 import TextActionView from '../../components/actions/TextActionView';
 import LoadingStates from '../../constants/LoadingStates';
 import WebViewer from '../webview/WebViewer';
+import Button from '../common/Button';
 import Background from '../background';
 import CommentsView from '../comment/CommentsView';
 
@@ -60,7 +64,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'stretch',
-    backgroundColor: IOS ? '#fff' : theme.stable
+    backgroundColor: theme.transparent
   },
   listView: {
     flex: 1,
@@ -73,6 +77,9 @@ const styles = StyleSheet.create({
     right: 0,
     zIndex: 20,
   },
+  reloadButton: {
+    minWidth: 120,
+  }
 
 });
 
@@ -91,16 +98,16 @@ const FeedList = React.createClass({
 
     this.props.updateCooldowns();
 
-    this.autoRefresher = setInterval(() => {
-      const firstItemID = this.props.feed ? this.props.feed.first().get('id') : '';
-      this.props.updateFeed(firstItemID);
-    }, AUTOREFRESH_INTERVAL);
+    // this.autoRefresher = setInterval(() => {
+    //   const firstItemID = this.props.feed ? this.props.feed.first().get('id') : '';
+    //   this.props.updateFeed(firstItemID);
+    // }, AUTOREFRESH_INTERVAL);
   },
 
 
   componentWillUnmount() {
-    clearInterval(this.autoRefresher);
-     //this.clearInterval(this.updateCooldownInterval);
+    // clearInterval(this.autoRefresher);
+    // this.clearInterval(this.updateCooldownInterval);
   },
 
 
@@ -154,6 +161,16 @@ const FeedList = React.createClass({
     this.props.refreshFeed();
   },
 
+  onImagePost(image, text, textPosition) {
+    this.props.postImage(image, text, textPosition);
+    this.resetPostImage();
+  },
+
+  resetPostImage() {
+    this.setState({editableImage: null});
+  },
+
+
   onLoadMoreItems() {
     if (this.props.isRefreshing || !this.props.feed.size || this.props.feed.size < 10) {
       return;
@@ -165,20 +182,32 @@ const FeedList = React.createClass({
     }
   },
 
-  chooseImage() {
+
+  openImagePicker() {
     ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
       if (!response.didCancel && !response.error) {
-        const image = 'data:image/jpeg;base64,' + response.data;
-        this.props.postImage(image);
+        const data = 'data:image/jpeg;base64,' + response.data;
+        const editableImage = {
+          data,
+          width: response.width,
+          height: response.height,
+          vertical: response.isVertical
+        };
+
+        this.openImageEditor(editableImage);
       }
     });
+  },
+
+  openImageEditor(editableImage) {
+    this.setState({ editableImage })
   },
 
   onPressAction(type) {
 
     switch (type) {
       case 'IMAGE':
-        return this.chooseImage();
+        return this.openImagePicker();
       case 'TEXT':
         return this.props.openTextActionView();
       default:
@@ -212,37 +241,29 @@ const FeedList = React.createClass({
       showUser={!isPreviousItemFromSameUser}
       openComments={this.props.openComments}
       closeComments={this.props.closeComments}
+      voteFeedItem={this.props.voteFeedItem}
     />)
   },
 
   renderFeed(feedListState, isLoadingActionTypes, isLoadingUserData) {
     const isLoading = isLoadingActionTypes || isLoadingUserData;
     const isRefreshing = this.props.isRefreshing || this.props.isSending;
-    const refreshControlComponent = (
-      <RefreshControl
-        refreshing={isRefreshing}
-        onRefresh={this.onRefreshFeed}
-        colors={[theme.secondary]}
-        tintColor={theme.secondary}
-        progressBackgroundColor={theme.light} />
-    );
-    const refreshControl = refreshControlComponent;
 
     switch (feedListState) {
       case LoadingStates.LOADING:
         return (<Loading />);
       case LoadingStates.FAILED:
         return (
-          <ScrollView style={{ flex: 1 }} refreshControl={refreshControl}>
+          <View style={styles.container}>
             <View style={{alignItems: 'center', height: height - 120, justifyContent: 'center', flex: 1}}>
-              <Text style={{ marginTop: 0, color: theme.darkgrey }}>Could not get feed</Text>
+              <Text style={{ marginBottom: 20, color: theme.secondary }}>Could not get feed</Text>
+              <Button onPress={this.onRefreshFeed} style={styles.reloadButton}>Reload</Button>
             </View>
-          </ScrollView>
+          </View>
         );
       default:
         return (
           <View style={styles.container}>
-            <Background color="yellow" />
             <ListView
               ref='_scrollView'
               dataSource={this.state.dataSource}
@@ -250,7 +271,14 @@ const FeedList = React.createClass({
               style={styles.listView}
               onScroll={this._onScroll}
               onEndReached={this.onLoadMoreItems}
-              refreshControl={refreshControl} />
+              refreshControl={
+              <RefreshControl
+                refreshing={!!isRefreshing}
+                onRefresh={this.onRefreshFeed}
+                colors={[theme.captionLayer]}
+                tintColor={theme.captionLayer}
+                progressBackgroundColor={theme.light} />
+              } />
             <ActionButtons
               isRegistrationInfoValid={this.props.isRegistrationInfoValid}
               style={styles.actionButtons}
@@ -276,6 +304,12 @@ const FeedList = React.createClass({
         <Notification visible={this.props.isNotificationVisible} success={this.props.notificationSuccessStyle}>
           {this.props.notificationText}
         </Notification>
+        <ImageEditor
+          onCancel={this.resetPostImage}
+          onImagePost={this.onImagePost}
+          animationType={'fade'}
+          image={this.state.editableImage}
+        />
         <TextActionView />
         <CommentsView />
       </View>
@@ -293,6 +327,7 @@ const mapDispatchToProps = {
   postImage,
   postAction,
   openTextActionView,
+  voteFeedItem,
 
   openComments,
   closeComments,
