@@ -1,6 +1,7 @@
 'use strict';
-
+import { createSelector } from 'reselect';
 import Immutable from 'immutable';
+import ActionTypes from '../constants/ActionTypes';
 import {
   POST_ACTION_REQUEST,
   POST_ACTION_SUCCESS,
@@ -28,6 +29,21 @@ const initialState = Immutable.fromJS({
   notificationText: '',
   notificationSuccessStyle: false
 });
+
+
+export const getActionTypes = state => state.competition.get('actionTypes',  Immutable.List([]));
+
+
+const ignorableActionTypes = [ActionTypes.COMMENT];
+export const getActionTypesForFeed = createSelector(
+  getActionTypes,
+  (types) => {
+    const feedActionTypes = types.filter((type) => ignorableActionTypes.indexOf(type.get('code')) < 0);
+
+    return feedActionTypes;
+  }
+);
+
 
 const getDisabledActions = (state) => {
   // Called once a second from FeedList (UPDATE_COOLDOWNS action)
