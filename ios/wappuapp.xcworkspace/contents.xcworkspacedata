@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:wappuapp.xcodeproj">
+      location = "group:/Users/plam/work/futurice/event-app-client/ios/Futufinlandia.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Pods/Pods.xcodeproj">

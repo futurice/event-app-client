@@ -13,8 +13,8 @@ import locationService from '../../services/location';
 const isIOS = Platform.OS === 'ios';
 
 const EVENT_LOCATION = { latitude: 60.1756973, longitude: 24.9336035 };
-const mapLink = locationService.getGeoUrl({ location: EVENT_LOCATION, locationName: 'Futufinlandia' })
-const parkInfoLink = 'http://www.q-park.fi/language/fi-fi/fi/pysakointi-q-parkissa/pysakointilaitokset/kaupunki/qparkparkinglocatorvw2837/parkingdetail/parkingid/2173'
+const mapLink = locationService.getGeoUrl({ location: EVENT_LOCATION, locationName: 'Futufinlandia' });
+const parkInfoLink = 'http://www.q-park.fi/language/fi-fi/fi/pysakointi-q-parkissa/pysakointilaitokset/kaupunki/qparkparkinglocatorvw2837/parkingdetail/parkingid/2173';
 
 class DirectionsTab extends Component {
   render() {

@@ -80,7 +80,6 @@ class TextActionView extends Component {
     this.props.postText(this.state.text);
 
     setTimeout(() => {
-      this.props.postText(this.state.text);
       this.setState({ text: '' });
       this.props.closeTextActionView();
 
