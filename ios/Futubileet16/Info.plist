@@ -34,11 +34,11 @@
       </dict>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>Futubileet requires access to the camera</string>
+    <string>Futufinlandia requires access to the camera</string>
     <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Futubileet requires access to location</string>
+    <string>Futufinlandia requires access to location</string>
     <key>NSPhotoLibraryUsageDescription</key>
-    <string>Futubileet requires access to the photo library</string>
+    <string>Futufinlandia requires access to the photo library</string>
     <key>UIAppFonts</key>
     <array>
       <string>Entypo.ttf</string>

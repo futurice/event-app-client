@@ -24,8 +24,9 @@ const styles = StyleSheet.create({
     flex: 1,
     minHeight: 310,
     margin: 0,
+    paddingTop: 30,
     paddingBottom: 30,
-    marginBottom: 30,
+    marginBottom: 0,
     paddingHorizontal: 20,
 
   },

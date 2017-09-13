@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
@@ -18,7 +18,7 @@ class Terms extends Component {
         <View style={styles.content}>
         <Text style={styles.paragraph}><Text style={styles.bold}>Terms and Conditions ("Terms")</Text></Text>
         <Text style={styles.paragraph}>Last updated: Sep 5, 2017</Text>
-        <Text style={styles.paragraph}>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the Futubileet17 mobile application and futurice.party site (the "Service") operated by Futurice Oy ("us", "we", or "our").</Text>
+        <Text style={styles.paragraph}>Please read these Terms and Conditions ("Terms", "Terms and Conditions") carefully before using the Futufinlandia mobile application and futurice.party site (the "Service") operated by Futurice Oy ("us", "we", or "our").</Text>
         <Text style={styles.paragraph}>Your access to and use of the Service is conditioned on your acceptance of and compliance with these Terms. These Terms apply to all visitors, users and others who access or use the Service.</Text>
         <Text style={styles.paragraph}>By accessing or using the Service you agree to be bound by these Terms. If you disagree with any part of the terms then you may not access the Service.</Text>
 

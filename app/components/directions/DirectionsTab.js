@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Linking, StyleSheet, ScrollView, Platform } from 'react-native';
@@ -8,8 +8,12 @@ import Text from '../Text';
 import PlatformTouchable from '../common/PlatformTouchable';
 import Content from './Content';
 import { SCREEN_SMALL } from '../../utils/responsive';
+import locationService from '../../services/location';
 
 const isIOS = Platform.OS === 'ios';
+
+const EVENT_LOCATION = { latitude: 60.1756973, longitude: 24.9336035 };
+const mapLink = locationService.getGeoUrl({ location: EVENT_LOCATION, locationName: 'Futufinlandia' })
 const parkInfoLink = 'http://www.q-park.fi/language/fi-fi/fi/pysakointi-q-parkissa/pysakointilaitokset/kaupunki/qparkparkinglocatorvw2837/parkingdetail/parkingid/2173'
 
 class DirectionsTab extends Component {
@@ -28,6 +32,14 @@ class DirectionsTab extends Component {
           <Text style={styles.paragraph}>
             {`Finlandia Hall \nMannerheimintie 13e \n00100 Helsinki\n\nMain entrance: M4/K4`}
           </Text>
+
+          <TouchableOpacity onPress={() => Linking.openURL(mapLink)}>
+            <Text style={styles.link}>Open in Map</Text>
+          </TouchableOpacity>
+
+          <Text style={styles.paragraph} />
+
+
           <Text style={styles.subTitle}>Public transport</Text>
           <Text style={styles.paragraph}>
             Finlandia Hall is located in a park on Töölönlahti Bay in the centre of Helsinki, not far from main bus and railways stations. Tram and bus stops can be found right in front of the building, and Finlandia Hall is only a short walk from the city centre.

@@ -1,4 +1,4 @@
-'use strict';
+
 import React from 'react';
 import { Animated, Easing, Platform, StyleSheet, View, Image, BackAndroid } from 'react-native';
 import Text from '../Text';
@@ -318,7 +318,7 @@ const select = store => {
   return {
     actionTypes: getActionTypesForFeed(store),
     disabledActionTypes: store.competition.get('disabledActionTypes'),
-    cooldownTimes: store.competition.get('cooldownTimes')
+    cooldownTimes: store.competition.get('cooldownTimes'),
   };
 };
 

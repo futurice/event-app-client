@@ -1,4 +1,4 @@
-'use strict';
+
 
 import api from '../services/api';
 import {createRequestActionTypes} from './index'

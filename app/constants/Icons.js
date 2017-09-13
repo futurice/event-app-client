@@ -11,6 +11,13 @@ export default {
   MENU_MAP_ON: require('../../assets/icons/map-on.png'),
   MENU_MAP_OFF: require('../../assets/icons/map-off.png'),
 
+  LINK_DIRECTIONS: require('../../assets/icons/directions.png'),
+  LINK_FINLANDIA_HALL: require('../../assets/icons/finlandiahall.png'),
+  LINK_TAXI: require('../../assets/icons/taxi.png'),
+  LINK_LICENSES: require('../../assets/icons/licenses-2.png'),
+  LINK_PRIVACY: require('../../assets/icons/privacy-2.png'),
+  LINK_TERMS: require('../../assets/icons/to-s.png'),
+
   ARROW_BACK: require('../../assets/icons/arrow-back.png'),
   CALENDAR: require('../../assets/icons/calendar.png'),
   CHATS: require('../../assets/icons/chats.png'),

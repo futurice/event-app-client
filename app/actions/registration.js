@@ -67,8 +67,10 @@ const postProfilePicture = imageData => {
 
     return api.putUser({ uuid, imageData })
       .then(response => {
-        dispatch({ type: POST_PROFILE_PICTURE_SUCCESS, payload: response });
-        dispatch(getUser());
+        dispatch(getUser())
+        .then(() => {
+          dispatch({ type: POST_PROFILE_PICTURE_SUCCESS, payload: response });
+        });
       })
       .catch(error => dispatch({ type: POST_PROFILE_PICTURE_FAILURE, error: error }));
   };

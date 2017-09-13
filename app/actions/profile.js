@@ -1,5 +1,3 @@
-'use strict';
-
 import Links from '../constants/Links';
 
 const SET_LINK = 'SET_LINK';

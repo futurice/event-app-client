@@ -1,4 +1,4 @@
-'use strict';
+
 import { createSelector } from 'reselect';
 import Immutable from 'immutable';
 import ActionTypes from '../constants/ActionTypes';

@@ -1,5 +1,3 @@
-'use strict';
-
 import api from '../services/api';
 import ActionTypes from '../constants/ActionTypes';
 import * as NotificationMessages from '../utils/notificationMessage';

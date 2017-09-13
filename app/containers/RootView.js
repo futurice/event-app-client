@@ -1,4 +1,4 @@
-'use strict';
+
 import React from 'react';
 import { Platform, StatusBar, AsyncStorage } from 'react-native';
 import { createStore, applyMiddleware, combineReducers } from 'redux';

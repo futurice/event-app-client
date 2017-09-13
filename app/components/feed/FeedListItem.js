@@ -1,4 +1,4 @@
-'use strict';
+
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, { PropTypes } from 'react';
@@ -371,7 +371,7 @@ const FeedListItem = React.createClass({
         >
           <View style={[styles.feedItemListItemInfo, styles.feedItemListItemInfo__admin]}>
             <View style={[styles.feedItemListItemAuthor, styles.feedItemListItemAuthor__admin]}>
-              <Text style={[styles.itemAuthorName, styles.itemAuthorName__admin]}>FutubileBot</Text>
+              <Text style={[styles.itemAuthorName, styles.itemAuthorName__admin]}>Futufinlandia</Text>
               <Text style={[styles.itemTimestamp, styles.itemTimestamp__admin]}>{ago}</Text>
             </View>
           </View>

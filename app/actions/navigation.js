@@ -1,5 +1,3 @@
-'use strict';
-
 const CHANGE_TAB = 'CHANGE_TAB';
 
 const changeTab = (newTab) => {

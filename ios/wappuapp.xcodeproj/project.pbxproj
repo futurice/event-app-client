@@ -18,7 +18,6 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
@@ -31,6 +30,8 @@
 		5A681D48B027481B8C4A3E39 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E44638D4B3954E86A716C92E /* Entypo.ttf */; };
 		688C37E71F5DA8F600BFE6A3 /* Futurice-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 688C37E51F5DA8F600BFE6A3 /* Futurice-Bold.ttf */; };
 		688C37E81F5DA8F600BFE6A3 /* Futurice-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 688C37E61F5DA8F600BFE6A3 /* Futurice-Regular.ttf */; };
+		68E8050A1F67DC7200DA7685 /* libRCTCameraRoll.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 68E805091F67DC4A00DA7685 /* libRCTCameraRoll.a */; };
+		68E8050D1F67E89400DA7685 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 68E8050B1F67E89400DA7685 /* LaunchScreen.xib */; };
 		6CB13E18997B416CADB968E8 /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60EBC5C25E3D4B8FB2367411 /* Octicons.ttf */; };
 		75434D8A0E8D4F28862B7320 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46D79DD711E44AF09DB4562C /* Foundation.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -127,6 +128,13 @@
 			remoteGlobalIDString = 014A3B5C1C6CF33500B6D375;
 			remoteInfo = RNImagePicker;
 		};
+		68E805081F67DC4A00DA7685 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 68E805041F67DC4A00DA7685 /* RCTCameraRoll.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 58B5115D1A9E6B3D00147676;
+			remoteInfo = RCTCameraRoll;
+		};
 		68FB86B51D8EC78300F5DF26 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = FEFB33D1F0214E7B9D511B1B /* BVLinearGradient.xcodeproj */;
@@ -191,7 +199,6 @@
 		13B07F961A680F5B00A75B9A /* wappuapp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wappuapp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = wappuapp/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = wappuapp/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = wappuapp/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = wappuapp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = wappuapp/main.m; sourceTree = "<group>"; };
@@ -203,6 +210,8 @@
 		60EBC5C25E3D4B8FB2367411 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
 		688C37E51F5DA8F600BFE6A3 /* Futurice-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Futurice-Bold.ttf"; sourceTree = "<group>"; };
 		688C37E61F5DA8F600BFE6A3 /* Futurice-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Futurice-Regular.ttf"; sourceTree = "<group>"; };
+		68E805041F67DC4A00DA7685 /* RCTCameraRoll.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTCameraRoll.xcodeproj; path = "../node_modules/react-native/Libraries/CameraRoll/RCTCameraRoll.xcodeproj"; sourceTree = "<group>"; };
+		68E8050C1F67E89400DA7685 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = wappuapp/Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		7C3C1C8C6732441A876B07E9 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
@@ -232,6 +241,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68E8050A1F67DC7200DA7685 /* libRCTCameraRoll.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -331,12 +341,12 @@
 		13B07FAE1A68108700A75B9A /* wappuapp */ = {
 			isa = PBXGroup;
 			children = (
+				68E8050B1F67E89400DA7685 /* LaunchScreen.xib */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 			);
 			name = wappuapp;
@@ -370,6 +380,14 @@
 			isa = PBXGroup;
 			children = (
 				68D8420E1D917A5400C36176 /* libRNImagePicker.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		68E805051F67DC4A00DA7685 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				68E805091F67DC4A00DA7685 /* libRCTCameraRoll.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,6 +452,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				68E805041F67DC4A00DA7685 /* RCTCameraRoll.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
 				00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */,
 				00C302B51ABCB90400DB3ED1 /* RCTGeolocation.xcodeproj */,
@@ -539,7 +558,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = WC52Q4ZQ83;
+						DevelopmentTeam = WM3L2RVJ7C;
 					};
 				};
 			};
@@ -562,6 +581,10 @@
 				{
 					ProductGroup = 00C302A81ABCB8CE00DB3ED1 /* Products */;
 					ProjectRef = 00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */;
+				},
+				{
+					ProductGroup = 68E805051F67DC4A00DA7685 /* Products */;
+					ProjectRef = 68E805041F67DC4A00DA7685 /* RCTCameraRoll.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302B61ABCB90400DB3ED1 /* Products */;
@@ -710,6 +733,13 @@
 			remoteRef = 68D8420D1D917A5400C36176 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		68E805091F67DC4A00DA7685 /* libRCTCameraRoll.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTCameraRoll.a;
+			remoteRef = 68E805081F67DC4A00DA7685 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		68FB86B61D8EC78300F5DF26 /* libBVLinearGradient.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -767,10 +797,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				688C37E81F5DA8F600BFE6A3 /* Futurice-Regular.ttf in Resources */,
 				5A681D48B027481B8C4A3E39 /* Entypo.ttf in Resources */,
 				8A58A81F23AF4DF589B7A0BB /* EvilIcons.ttf in Resources */,
+				68E8050D1F67E89400DA7685 /* LaunchScreen.xib in Resources */,
 				E1711258849F4A46AC0018DB /* FontAwesome.ttf in Resources */,
 				75434D8A0E8D4F28862B7320 /* Foundation.ttf in Resources */,
 				2302C184A7B4418BBD8453A4 /* Ionicons.ttf in Resources */,
@@ -829,13 +859,12 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
+		68E8050B1F67E89400DA7685 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
-				13B07FB21A68108700A75B9A /* Base */,
+				68E8050C1F67E89400DA7685 /* Base */,
 			);
 			name = LaunchScreen.xib;
-			path = wappuapp;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -885,7 +914,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEAD_CODE_STRIPPING = NO;
-				DEVELOPMENT_TEAM = WC52Q4ZQ83;
+				DEVELOPMENT_TEAM = WM3L2RVJ7C;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -899,15 +928,16 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 				);
 				INFOPLIST_FILE = wappuapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.futubileet16;
+				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.futubileet17;
 				PRODUCT_NAME = wappuapp;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -915,7 +945,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = WC52Q4ZQ83;
+				DEVELOPMENT_TEAM = WM3L2RVJ7C;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -929,15 +959,16 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 				);
 				INFOPLIST_FILE = wappuapp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.futubileet16;
+				PRODUCT_BUNDLE_IDENTIFIER = com.futurice.futubileet17;
 				PRODUCT_NAME = wappuapp;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

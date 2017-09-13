@@ -5,11 +5,12 @@ import {
   Image
 } from 'react-native';
 
-const { height } = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   image: {
     position: 'absolute',
-    height,
+    minWidth: width,
+    minHeight: height,
     right: 0,
     left: 0,
     top: 0,
@@ -33,7 +34,7 @@ class BackgroundLayer extends Component {
     const { color } = this.props;
 
     return (<Image
-      resizeMode={'repeat'}
+      resizeMode={'cover'}
       source={images[color] || images.purple}
       style={styles.image}
       />

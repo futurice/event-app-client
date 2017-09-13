@@ -1,5 +1,3 @@
-'use strict';
-
 import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView, Platform } from 'react-native';
 import { find } from 'lodash';

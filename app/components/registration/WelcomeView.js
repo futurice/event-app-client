@@ -1,4 +1,4 @@
-'use strict';
+
 import React from 'react';
 import {
   View,
@@ -57,7 +57,7 @@ const WelcomeView = React.createClass({
     ).start();
 
     Animated.timing(this.state.welcomeText,
-      { toValue: 1, duration: 300, delay: 1500, easing: Easing.ease }
+      { toValue: 1, duration: 300, delay: 1300, easing: Easing.ease }
     ).start();
 
     this.props.getUser();

@@ -1,4 +1,4 @@
-'use strict';
+
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, { PropTypes } from 'react';
@@ -22,6 +22,7 @@ import { postProfilePicture } from '../../actions/registration';
 import { getGravatarForEmail } from '../../utils/gravatar';
 import PlatformTouchable from '../common/PlatformTouchable';
 import WebViewer from '../webview/WebViewer';
+import Loader from '../common/Loader';
 import ICONS from '../../constants/Icons';
 
 import ImagePickerManager from 'react-native-image-picker';
@@ -71,6 +72,14 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0
     },
+  },
+  listItemCustomIcon: {
+    color: theme.white,
+    alignItems: 'center',
+    width: 24,
+    height: 22,
+    marginRight: 15,
+    padding: 3,
   },
   listItemIcon: {
     fontSize: 22,
@@ -160,11 +169,11 @@ const styles = StyleSheet.create({
   },
   listItemText__code: {
     backgroundColor: theme.white,
-    position: 'absolute',
-    left: -15,
-    top: -110,
+    // position: 'absolute',
+    // left: 20,
+    // top: 35,
     color: theme.pink,
-    transform: [{ rotate: '-35deg' }]
+    // transform: [{ rotate: '-15deg' }]
   },
   listItemBottomLine:{
     position:'absolute',
@@ -265,6 +274,18 @@ const styles = StyleSheet.create({
       height: 1,
       width: 0
     }
+  },
+  loader: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255,255,255,.5)',
+    zIndex: 2,
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 });
 
@@ -291,7 +312,8 @@ var Profile = React.createClass({
   },
 
   onTakeProfilePicture() {
-    ImagePickerManager.showImagePicker(ImageCaptureOptions, (response) => {
+    const profilePicCaptureOptions = Object.assign(ImageCaptureOptions, { cameraType: 'front' });
+    ImagePickerManager.showImagePicker(profilePicCaptureOptions, (response) => {
       if (!response.didCancel && !response.error) {
         const image = 'data:image/jpeg;base64,' + response.data;
         this.props.postProfilePicture(image);
@@ -336,7 +358,10 @@ var Profile = React.createClass({
         onPress={() => navigator.push({ name: title, component, showName: true })}>
         <View style={linkItemStyles}>
           <View style={styles.listItem}>
-            <Icon style={[styles.listItemIcon, item.secondary ? { color: theme.accent } : null]} name={item.icon} />
+            <Image
+              source={ICONS[item.icon]}
+              resizeMode={'contain'}
+              style={styles.listItemCustomIcon} />
             <Text style={[styles.listItemText, item.secondary ? { color: theme.accent } : null]}>{item.title}</Text>
             {!item.separatorAfter && !item.last && <View style={styles.listItemBottomLine} />}
           </View>
@@ -360,7 +385,10 @@ var Profile = React.createClass({
         onPress={() => this.onLinkPress(item.link, item.title, item.showInWebview)}>
         <View style={linkItemStyles}>
           <View style={styles.listItem}>
-            <Icon style={[styles.listItemIcon, item.secondary ? { color: theme.accent } : null]} name={item.icon} />
+            <Image
+              source={ICONS[item.icon]}
+              resizeMode={'contain'}
+              style={styles.listItemCustomIcon} />
             <Text style={[styles.listItemText, item.secondary ? { color: theme.accent } : null]}>{item.title}</Text>
             {!item.separatorAfter && !item.last && <View style={styles.listItemBottomLine} />}
           </View>
@@ -370,15 +398,25 @@ var Profile = React.createClass({
   },
 
   renderModalItem(item) {
-    const currentTeam = _.find(this.props.teams.toJS(), ['id', this.props.selectedTeam]) || { name: '' };
+    const { loadingProfilePicture, teams, selectedTeam, code } = this.props;
+    const currentTeam = _.find(teams.toJS(), ['id', selectedTeam]) || { name: '' };
 
-    const avatar = item.picture || getGravatarForEmail(item.email, item.title, this.props.selectedTeam, 300);
+    const avatar = item.picture || getGravatarForEmail(item.email, item.title, selectedTeam, 300);
 
     return (
       <View style={[styles.listItemButton, styles.listItemSeparator]}>
         <View style={[styles.listItem, styles.listItem__hero]}>
           <View style={styles.profilePicBgLayer} />
+
+            <PlatformTouchable
+              onPress={this.onTakeProfilePicture}
+              style={{ position: 'absolute', zIndex: 5, top: 30, right: 20, flex:1, overflow: 'hidden', justifyContent: 'center', alignItems: 'center', borderWidth: 3, borderColor: theme.secondary, backgroundColor: theme.white, borderRadius: 19, width: 38, height: 38, }}
+            >
+              <Icon style={{ color: theme.pink, backgroundColor: theme.transparent }} size={18} name="camera-alt" />
+            </PlatformTouchable>
+
           <View style={styles.listItemHeroIcon}>
+            {loadingProfilePicture && <View style={styles.loader}><Loader /></View>}
             <PlatformTouchable style={styles.listItemHeroAvatarButton} onPress={this.onTakeProfilePicture}>
             { avatar
               ? <Image style={styles.profilePic} source={{ uri: avatar }} />
@@ -399,11 +437,12 @@ var Profile = React.createClass({
             <Text style={[styles.nameText, styles.listItemText__small]}>
               {currentTeam.name}
             </Text>
-          {/*
+
+            {!!code &&
             <Text style={[styles.nameText, styles.listItemText__code]}>
-              {this.props.code}
+              GIF Disco code <Text style={{ fontWeight: 'bold' }}>{code.toUpperCase()}</Text>
             </Text>
-          */}
+            }
           </View>
         </View>
       </View>
@@ -479,6 +518,7 @@ const select = store => {
       name: store.registration.get('name'),
       picture: store.registration.get('picture'),
       email: store.registration.get('email'),
+      loadingProfilePicture: store.registration.get('isLoadingProfilePicture'),
       links: store.profile.get('links'),
     }
 };

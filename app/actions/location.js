@@ -1,5 +1,3 @@
-'use strict';
-
 const UPDATE_LOCATION = 'UPDATE_LOCATION';
 
 const updateLocation = location => {

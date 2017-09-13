@@ -1,4 +1,4 @@
-'use strict';
+
 import React, { Component } from 'react';
 import {
   Alert,
@@ -7,7 +7,8 @@ import {
   Dimensions,
   Platform,
   BackAndroid,
-  Modal
+  Modal,
+  CameraRoll,
 } from 'react-native';
 
 import Text from '../Text';
@@ -36,7 +37,11 @@ class LightBox extends Component {
   constructor(props) {
     super(props);
 
+    this.state = { saveOK: false };
+
     this.onClose = this.onClose.bind(this);
+    this.saveImage = this.saveImage.bind(this);
+    this.flashSaveOkIndicator = this.flashSaveOkIndicator.bind(this);
   }
 
   componentDidMount() {
@@ -63,15 +68,44 @@ class LightBox extends Component {
   onShare(imgUrl) {
     const shareOptions = {
       url: imgUrl,
-      message: 'Futubileet16'
+      message: 'Futufinlandia'
     };
-
     Share.open(shareOptions);
+    // TODO Android CameraRoll cannot access to url directly
+    // CameraRoll.saveToCameraRoll(imgUrl)
+    // .then(localImagePath => {
+    //   console.log(localImagePath);
+    //   return;
+    //   const shareOptions = {
+    //     url: localImagePath,
+    //     message: 'Futufinlandia'
+    //   };
+    //   Share.open(shareOptions);
+    // })
+
   }
   onReport() {
     console.log('test');
   }
 
+  flashSaveOkIndicator(a, b) {
+    console.log(a);
+    this.setState({ saveOK: true });
+
+    setTimeout(() => {
+      if (this.state && this.state.saveOK) {
+        this.setState({ saveOK: false });
+      }
+    }, 2000);
+  }
+
+  saveImage(imgUrl) {
+    // TODO Android  CameraRollcannot access to url directly
+    // https://medium.com/react-native-training/mastering-the-camera-roll-in-react-native-13b3b1963a2d
+    // // TODO OK Sign
+    CameraRoll.saveToCameraRoll(imgUrl)
+    .then(this.flashSaveOkIndicator)
+  }
 
   itemIsCreatedByMe(item) {
     return item.getIn(['author','type'],'') === 'ME';
@@ -114,12 +148,12 @@ class LightBox extends Component {
       isLightBoxOpen,
       lightBoxItem
     } = this.props;
+    const { saveOK } = this.state;
 
     const itemImage = lightBoxItem.get('url');
     const itemAuthor = lightBoxItem.getIn(['author', 'name']);
     const isSystemUser = lightBoxItem.getIn(['author', 'type'], '') === 'SYSTEM';
     const created = moment(lightBoxItem.get('createdAt', ''));
-
     return (
       <Modal
         visible={isLightBoxOpen}
@@ -158,13 +192,13 @@ class LightBox extends Component {
           }
           <View style={styles.header}>
             <View style={styles.header__icon}>
-              <PlatformTouchable delayPressIn={0} onPress={this.onClose}>
+              <PlatformTouchable style={{ padding: 10, paddingHorizontal: 15, }} delayPressIn={0} onPress={this.onClose}>
                 <View><Icon style={{ color: theme.white, fontSize: 26 }} name="close" /></View>
               </PlatformTouchable>
 
               <View style={styles.headerTitle}>
               {itemAuthor &&
-                <Text style={styles.headerTitleText}>{!isSystemUser ? itemAuthor : 'FutubileBot'}</Text>
+                <Text style={styles.headerTitleText}>{!isSystemUser ? itemAuthor : 'Futufinlandia'}</Text>
               }
                 <View style={styles.date}>
                   <Text style={styles.dateText}>
@@ -188,6 +222,14 @@ class LightBox extends Component {
                 </View>
               </PlatformTouchable>
               }
+              {/*
+              <PlatformTouchable onPress={() => this.saveImage(itemImage)}>
+                <View style={styles.toolbar__button}>
+                  <Icon style={styles.toolbar__icon} name={!saveOK ? 'file-download' : 'check-circle'} />
+                  <Text style={styles.toolbar__button__text}>{!saveOK ? 'Save' : 'Done!'}</Text>
+                </View>
+              </PlatformTouchable>
+              */}
               <PlatformTouchable onPress={this.onShare.bind(this, itemImage)}>
                 <View style={styles.toolbar__button}>
                   <Icon style={styles.toolbar__icon} name="share" />
@@ -226,15 +268,14 @@ const styles = StyleSheet.create({
   },
   header__icon: {
     position: 'absolute',
-    top: IOS ? 20 : 10,
-    left: 15,
-    right: 15,
+    top: IOS ? 15 : 10,
+    left: 0,
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center'
   },
   headerTitle: {
-    marginLeft: 15,
+    marginLeft: 5,
     top: 2,
   },
   headerTitleText: {

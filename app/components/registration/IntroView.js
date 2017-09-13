@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 
 import  {
@@ -22,6 +20,7 @@ import Loading from '../../components/common/RadioLoader';
 import WelcomeView from './WelcomeView';
 import Background from '../background';
 import Text from '../Text';
+import * as keyboard from '../../utils/keyboard';
 import { SCREEN_SMALL, IS_IOS } from '../../utils/responsive';
 
 const { height, width } = Dimensions.get('window');
@@ -115,7 +114,10 @@ const IntroView = React.createClass({
     return (
       <View style={[styles.container, styles.viewBackgroundStyle]}>
         <Background color="purple" />
-          <ScrollView style={{ width: null, height, backgroundColor: theme.purpleLayer }}>
+          <ScrollView
+            ref={view => this.containerScrollViewRef = view}
+            style={{ width: null, height, backgroundColor: theme.purpleLayer }}
+          >
             <View style={[styles.container, styles.contentContainer]}>
             {/*
               <Animated.View style={[styles.introHero, { transform: IOS ? [{ scale: heroPosition }] : []  }]}>
@@ -141,7 +143,7 @@ const IntroView = React.createClass({
             */}
 
             <View>
-              <Text style={styles.h2}>
+              <Text style={[styles.h2, { marginLeft: 5 }]}>
                 <Image
                   resizeMode={'contain'}
                   source={require('../../../assets/futurice-logo.png')}
@@ -157,14 +159,12 @@ const IntroView = React.createClass({
                 {'22.08.17 \nFinlandia Hall \nHelsinki'}
               </Text>
             </Animated.View>
-
             <View style={styles.bgImageWrap}>
               <Animated.Image
                 resizeMode={'contain'}
-                source={require('../../../assets/intro/fireworks.gif')}
+                source={require('../../../assets/intro/fireworks.png')}
                 style={[styles.bgImage]} />
             </View>
-
             {inviteCodeSending ?
               <View style={styles.loading}><Loading color={theme.white} /></View> :
               <Animated.View style={[styles.inviteForm, { opacity: buttonPosition, transform: [{ scale: buttonPosition }] }]}>
@@ -179,6 +179,13 @@ const IntroView = React.createClass({
                     placeholderTextColor={IS_IOS ? 'rgba(74, 48, 146,.4)' : 'rgba(255,255,255, 0.7)'}
                     placeholder="Your invite code"
                     onChangeText={this.updateTextInput}
+                    ref={view => this.codeTextInputRef = view}
+                    onFocus={() => {
+                      keyboard.onInputFocus(this.containerScrollViewRef, this.codeTextInputRef, 200);
+                    }}
+                    onBlur={() => {
+                      keyboard.onInputBlur(this.containerScrollViewRef)
+                    }}
                    />
                  </View>
 
@@ -272,7 +279,7 @@ const styles = StyleSheet.create({
   },
   bgImageWrap: {
     position: 'absolute',
-    bottom: -10,
+    bottom: -15,
     left: 0,
     right: 0,
     flex: 1,

@@ -7,7 +7,6 @@
  * https://github.com/facebook/react-native/blob/master/Examples/UIExplorer/Navigator/NavigationBarSample.js
  */
 
-'use strict';
 
 import React from 'react';
 import {

@@ -17,7 +17,6 @@ import Text from '../Text';
 import theme from '../../style/theme';
 import time from '../../utils/time';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ICONS from '../../constants/Icons';
 import CommentForm from './CommentForm';
 
 const { width, height } = Dimensions.get('window');
@@ -25,8 +24,7 @@ const IOS = Platform.OS === 'ios';
 
 const Comment = ({ item }) => {
   const ago = time.getTimeAgo(item.get('createdAt'));
-  const profilePicture = item.get('profilePicture');
-
+  const profilePicture = item.get('picture');
   return (
     <View style={styles.comment}>
         <View style={styles.commentContent}>
@@ -101,8 +99,10 @@ class CommentList extends Component {
   }
 
   scrollBottom(animated = false) {
-    if (this.commentScrollView){
-     this.commentScrollView.scrollTo({x: 0, y: 0, animated});
+    if (this.commentScrollView) {
+    // scrollToEnd was introduced in later version of react-native...
+    // this.commentScrollView.scrollToEnd({ animated });
+    // this.commentScrollView.scrollTo({x: 0, y: 0, animated});
     }
   }
 
@@ -119,7 +119,6 @@ class CommentList extends Component {
     const {
       postItem,
       comments,
-      postComment,
       editComment,
       editCommentText,
       loadingComments,
@@ -181,7 +180,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   commentScroll: {
-    // flex: 1,
+    flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
     backgroundColor: theme.transparent,
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
   },
   commentForm: {
     height: 52,
-    position: 'relative',
+    position: 'absolute',
     left: 0,
     right: 0,
     bottom: IOS ? 0 : 25,

@@ -1,4 +1,4 @@
-'use strict';
+
 
 
 import { APP_STORAGE_KEY } from '../../env';
@@ -22,7 +22,10 @@ import {
   LOGIN_USER_REQUEST,
   LOGIN_USER_SUCCESS,
   LOGIN_USER_FAILURE,
-  CLOSE_WELCOME_VIEW
+  CLOSE_WELCOME_VIEW,
+  POST_PROFILE_PICTURE_REQUEST,
+  POST_PROFILE_PICTURE_SUCCESS,
+  POST_PROFILE_PICTURE_FAILURE,
 } from '../actions/registration';
 
 
@@ -42,7 +45,8 @@ const initialState = fromJS({
   isIntroViewOpen: false,
   loginFailed: false,
   isWelcomeScreenOpen: false,
-  loggedUserName: ''
+  loggedUserName: '',
+  isLoadingProfilePicture: false,
 });
 
 function saveUserToDevice(user) {
@@ -141,6 +145,13 @@ export default function registration(state = initialState, action) {
         isIntroViewOpen: false,
         isWelcomeScreenOpen: false
       })
+    case POST_PROFILE_PICTURE_REQUEST: {
+      return state.set('isLoadingProfilePicture', true);
+    }
+    case POST_PROFILE_PICTURE_SUCCESS:
+    case POST_PROFILE_PICTURE_FAILURE: {
+      return state.set('isLoadingProfilePicture', false);
+    }
     default:
       return state;
   }
