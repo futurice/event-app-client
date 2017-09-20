@@ -1,4 +1,4 @@
-package com.futubileet16;
+package com.futufinlandia;
 
 import com.facebook.react.ReactActivity;
 import com.oblador.vectoricons.VectorIconsPackage;
@@ -24,6 +24,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "Futubileet16";
+        return "futufinlandia";
     }
 }
