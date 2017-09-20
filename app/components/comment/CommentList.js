@@ -52,7 +52,7 @@ const Comment = ({ item }) => {
 
 const CommentPost = ({ item }) => {
   const ago = time.getTimeAgo(item.get('createdAt'));
-  const profilePicture = item.getIn(['author', 'profilePicture']);
+  const profilePicture = item.getIn(['author', 'picture']);
   const userName = item.getIn(['author', 'name']);
   const isImage = item.get('type') === 'IMAGE';
 
@@ -92,25 +92,6 @@ const CommentPost = ({ item }) => {
 
 
 class CommentList extends Component {
-  constructor(props) {
-    super(props);
-    this.scrollBottom = this.scrollBottom.bind(this);
-    this.postComment = this.postComment.bind(this);
-  }
-
-  scrollBottom(animated = false) {
-    if (this.commentScrollView) {
-    // scrollToEnd was introduced in later version of react-native...
-    // this.commentScrollView.scrollToEnd({ animated });
-    // this.commentScrollView.scrollTo({x: 0, y: 0, animated});
-    }
-  }
-
-  postComment(comment) {
-    this.props.postComment(comment);
-    this.scrollBottom(true);
-  }
-
   renderLoader() {
     return <ActivityIndicator size="large" color={theme.blue1} />;
   }
@@ -120,6 +101,7 @@ class CommentList extends Component {
       postItem,
       comments,
       editComment,
+      postComment,
       editCommentText,
       loadingComments,
       loadingCommentPost
@@ -150,7 +132,7 @@ class CommentList extends Component {
 
           <View style={styles.commentForm}>
             <CommentForm
-              postComment={this.postComment}
+              postComment={postComment}
               editComment={editComment}
               text={editCommentText}
               postCommentCallback={this.scrollBottom}

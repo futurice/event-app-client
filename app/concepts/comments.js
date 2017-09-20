@@ -92,7 +92,7 @@ export const postComment = (text) => (dispatch, getState) => {
     .then(response => {
       // Fetch all comments to get latest comments
       // This is also good because we don't have any refersh mechanism
-      Promise.resolve(
+      return Promise.resolve(
         dispatch(refreshPostComments(feedItemId))
       ).then(() => {
         dispatch({ type: POST_COMMENT_SUCCESS });

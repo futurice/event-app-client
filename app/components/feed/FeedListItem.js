@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     flexDirection: 'row',
     alignItems: 'stretch',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   itemWrapper__adjacent: {
     paddingTop: 0
@@ -80,10 +80,12 @@ const styles = StyleSheet.create({
   itemImageWrapper: {
     height:  width - 44,
     width: width - 44,
-    left: IOS ? 0 : 3,
-    bottom: IOS ? 0 : 3,
-    borderRadius: IOS ? 10 : 4,
+    top: 0,
+    left: 0,
+    bottom: 0,
+    borderRadius: 0,
     margin: 5,
+    marginBottom: IOS ? 0 : 5,
   },
   itemImageWrapper__adjacent: {
     // marginTop: IOS ? 0 : 6,
@@ -92,14 +94,14 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     paddingTop: 20,
-    paddingBottom: 15,
+    paddingBottom: IOS ? 15 : 20,
     top: 0,
     margin: 5,
     backgroundColor: theme.secondary,
   },
   itemTextWrapper__short: {
     backgroundColor: theme.accent,
-    paddingBottom: 10,
+    paddingBottom: IOS ? 10 : 20,
   },
   itemTextWrapper__short__odd: {
     backgroundColor: theme.pink
@@ -107,10 +109,10 @@ const styles = StyleSheet.create({
   itemTextWrapper__adjacent: {},
   feedItemListText: {
     backgroundColor: theme.transparent,
+    fontFamily: IOS ? 'Futurice' : 'Futurice-Regular',
     color: theme.white,
-    fontFamily: 'Futurice',
     fontSize: 16,
-    lineHeight: 16,
+    lineHeight: IOS ? 16 : 22,
   },
   feedItemListText__short: {
     color: theme.secondary,
@@ -151,7 +153,7 @@ const styles = StyleSheet.create({
   feedItemListItemAuthor:{
     flex: 1,
     flexDirection: 'column',
-    top: 5,
+    top: IOS ? 5 : 2,
     backgroundColor: theme.transparent,
   },
   itemAuthorName: {
@@ -212,7 +214,7 @@ const styles = StyleSheet.create({
     color: theme.secondary,
     opacity: 0.8,
     fontSize: 15,
-    paddingTop: 4,
+    paddingTop: IOS ? 4 : 0,
   },
   itemContent__admin:{
     marginLeft: 15,
@@ -226,7 +228,7 @@ const styles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 10,
     paddingTop: 10,
-    paddingBottom: 0,
+    paddingBottom: IOS ? 0 : 5,
     backgroundColor: theme.transparent,
   },
   itemAuthorName__admin: {
@@ -244,13 +246,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   itemTimestamp__admin:{
-    // color: '#b5afa6',
-    paddingTop: 2,
+    paddingTop: IOS ? 2 : 2,
   },
   feedItemListText__admin: {
     color: theme.secondary,
     fontSize: 15,
-    lineHeight: 19,
+    lineHeight: 20,
   },
   footer: {
     paddingVertical: 0,
@@ -277,14 +278,14 @@ const FeedListItem = React.createClass({
     };
   },
 
-  animateItem() {
-    const { index } = this.props;
-    const ITEMS_FETCH_LENGTH = 20;
-    Animated.timing(
-      this.state.itemAnimation,
-      { toValue: 1, delay: 50 * (index % ITEMS_FETCH_LENGTH), duration: 200, easing: Easing.easeInOutBack }
-      ).start();
-  },
+  // animateItem() {
+  //   const { index } = this.props;
+  //   const ITEMS_FETCH_LENGTH = 20;
+  //   Animated.timing(
+  //     this.state.itemAnimation,
+  //     { toValue: 1, delay: 50 * (index % ITEMS_FETCH_LENGTH), duration: 200, easing: Easing.easeInOutBack }
+  //     ).start();
+  // },
 
 
 
@@ -366,9 +367,7 @@ const FeedListItem = React.createClass({
 
     return (
       <View style={styles.itemWrapper}>
-        <Animated.View style={[styles.itemContent, styles.itemContent__admin,
-          {opacity: this.state.itemAnimation}]}
-        >
+        <View style={[styles.itemContent, styles.itemContent__admin]}>
           <View style={[styles.feedItemListItemInfo, styles.feedItemListItemInfo__admin]}>
             <View style={[styles.feedItemListItemAuthor, styles.feedItemListItemAuthor__admin]}>
               <Text style={[styles.itemAuthorName, styles.itemAuthorName__admin]}>Futufinlandia</Text>
@@ -395,7 +394,7 @@ const FeedListItem = React.createClass({
               </Text>
             </View>
           }
-        </Animated.View>
+        </View>
       </View>
     );
   },
@@ -406,9 +405,9 @@ const FeedListItem = React.createClass({
     const isMyItem = this.itemIsCreatedByMe(item);
     const isItemImage = item.type === 'IMAGE';
 
-    setTimeout(() => {
-      this.animateItem();
-    });
+    // setTimeout(() => {
+    //   this.animateItem();
+    // });
 
     if (item.author.type === 'SYSTEM') {
       return this.renderAdminItem();

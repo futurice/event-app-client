@@ -5,9 +5,10 @@ import React from 'react';
 import {
   Navigator,
   StyleSheet,
+  BackAndroid,
+  Platform,
   View,
 } from 'react-native';
-import { connect } from 'react-redux';
 
 import sceneConfig from '../utils/sceneConfig';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
@@ -16,10 +17,12 @@ import Background from '../components/background';
 import TimelineList from '../components/calendar/TimelineList';
 const theme = require('../style/theme');
 
+const isIOS = Platform.OS === 'ios';
+
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: 42,
-    paddingBottom: 30,
+    paddingTop: isIOS ? 42 : 0,
+    paddingBottom: isIOS ? 30 : 0,
   },
   navbar: {
     backgroundColor: theme.secondary,
@@ -30,8 +33,18 @@ const styles = StyleSheet.create({
   }
 });
 
+var _navigator;
+BackAndroid.addEventListener('hardwareBackPress', () => {
+  if (_navigator && _navigator.getCurrentRoutes().length > 1) {
+    _navigator.pop();
+    return true;
+  }
+  return false;
+});
+
 var TimelineListWrapper = React.createClass({
   renderScene(route, navigator) {
+    _navigator = navigator;
     if (route.component) {
       const RouteComponent = route.component;
       return <RouteComponent navigator={navigator} route={route} {...this.props} />;
@@ -46,9 +59,11 @@ var TimelineListWrapper = React.createClass({
           <Navigator
             style={styles.navigator}
             navigationBar={
-              <Navigator.NavigationBar
+              isIOS
+              ? <Navigator.NavigationBar
                 style={styles.navbar}
                 routeMapper={NavRouteMapper} />
+              : null
             }
             initialRoute={{
               component: TimelineList,
@@ -63,8 +78,4 @@ var TimelineListWrapper = React.createClass({
   }
 });
 
-const select = store => {
-  return {};
-};
-
-export default connect(select)(TimelineListWrapper);
+export default TimelineListWrapper;

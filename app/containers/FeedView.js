@@ -67,12 +67,8 @@ export default React.createClass({
         </View>
       </View>
       );
-    }
-    else {
+    } else {
       return (
-        <View style={{ flex: 1 }}>
-          <Background color="yellow" />
-          <View style={{ flex: 1, backgroundColor: theme.transparent, zIndex: 2 }}>
             <Navigator
             style={styles.navigator}
             initialRoute={{
@@ -83,8 +79,7 @@ export default React.createClass({
             configureScene={() => ({
               ...Navigator.SceneConfigs.FloatFromRight
             })} />
-          </View>
-      </View>);
+        );
     }
   }
 });

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   View,
-  Image,
   TouchableOpacity,
   Dimensions,
   TextInput,
@@ -11,13 +10,13 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { isEmpty } from 'lodash';
-import PlatformTouchable from '../common/PlatformTouchable';
 
 import Text from '../Text';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
-const { width, height } = Dimensions.get('window');;
+const dismissKeyboard = require('dismissKeyboard');
+const { width } = Dimensions.get('window');;
 
 class CommentForm extends Component {
   constructor(props) {
@@ -45,11 +44,14 @@ class CommentForm extends Component {
       return;
     }
 
-    postComment(text);
+    postComment(text)
+    .then(() => {
+    dismissKeyboard();
+    })
   }
 
   renderPostLoader() {
-    return <ActivityIndicator style={styles.sendButton} size={'small'} color={theme.blue2} />;
+    return <ActivityIndicator style={styles.sendButton} size={'small'} color={theme.secondary} />;
   }
 
   renderSubmit() {
@@ -114,8 +116,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     elevation: 1,
-    borderTopColor: '#eee',
-    borderTopWidth: 1,
+    borderTopWidth: 0,
     backgroundColor: theme.white,
     justifyContent: 'flex-start',
     flex: 1,
@@ -132,6 +133,7 @@ const styles = StyleSheet.create({
     padding: 10,
     left: 15,
     width: width - 60,
+    fontFamily: 'Futurice-Regular',
   },
   sendButton: {
     zIndex: 1,

@@ -1,16 +1,15 @@
 
 
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Platform } from 'react-native';
+import { View, StyleSheet, ScrollView, Platform, TouchableOpacity } from 'react-native';
 
 import theme from '../../style/theme';
 import Text from '../Text';
-import PlatformTouchable from '../common/PlatformTouchable';
 import Content from './Content';
 
 import { SCREEN_SMALL } from '../../utils/responsive';
 
-const isIOS = Platform.OS === 'ios';
+const IOS = Platform.OS === 'ios';
 
 class AboutTab extends Component {
 
@@ -19,11 +18,11 @@ class AboutTab extends Component {
 
     return (
       <ScrollView style={styles.content}>
-        <PlatformTouchable
+        <TouchableOpacity
           onPress={() => closeTab()}
         >
           <Text style={[styles.title, styles[color]]}>About</Text>
-        </PlatformTouchable>
+        </TouchableOpacity>
         <Content>
           <Text style={styles.subTitle}>
             FutuParty
@@ -66,7 +65,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 30,
-    paddingTop: 60,
+    paddingTop: IOS ? 60 : 40,
     paddingBottom: 50,
   },
   title: {

@@ -4,27 +4,21 @@ import {
   Dimensions,
   ScrollView,
   View,
-  Platform,
   Linking,
   Image
 } from 'react-native';
 import Text from '../Text';
 
-import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/Ionicons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import ParallaxView from 'react-native-parallax-view';
 import theme from '../../style/theme';
 import Toolbar from './EventDetailToolbar';
+import Background from '../background';
 
-import ICONS from '../../constants/Icons';
 import analytics from '../../services/analytics';
 import time from '../../utils/time';
-import locationService from '../../services/location';
-import Button from '../common/Button';
 
 import PlatformTouchable from '../common/PlatformTouchable';
-const IOS = Platform.OS === 'ios';
 
 const { width } = Dimensions.get('window');
 const VIEW_NAME = 'EventDetail';
@@ -35,17 +29,19 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     padding: 0,
     paddingVertical: 0,
-    paddingTop: IOS ? 0 : 0,
+    paddingTop: 0,
   },
   eventDetail: {
     zIndex: 10,
+    top: 50,
     padding: 20,
-    paddingVertical: 50,
+    paddingTop: 30,
+    paddingBottom: 50,
     backgroundColor: theme.transparent,
   },
   header: {
-    paddingTop: 20,
-    marginBottom: 20,
+    paddingTop: 40,
+    marginBottom: 10,
     position: 'relative',
   },
   headerTextWrap: {
@@ -80,7 +76,8 @@ const styles = StyleSheet.create({
   content: {
     borderTopWidth: 1,
     borderTopColor: theme.white,
-    paddingVertical: 20,
+    paddingVertical: 30,
+    paddingBottom: 60,
     marginVertical: 20,
     backgroundColor:theme.transparent,
     flex: 1,
@@ -249,7 +246,10 @@ const EventDetail = React.createClass({
     const coverImage =  model.coverImage;
 
     return <View style={[styles.wrapper, { paddingTop: 0 }]}>
+      <Toolbar title={model.name} title="" navigator={this.props.navigator} />
 
+      <Background color="purple" />
+      <View style={{ flex: 1, backgroundColor: theme.purpleLayer, zIndex: 2, }}>
       <ScrollView style={styles.eventDetail}>
         <View style={styles.header}>
           <View style={styles.headerImageWrap}>
@@ -315,6 +315,7 @@ const EventDetail = React.createClass({
               </View>
           </View>
       </ScrollView>
+      </View>
     </View>
   }
 

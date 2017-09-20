@@ -1,4 +1,4 @@
-'use strict';
+
 import React from 'react';
 import { Animated, View, Platform, StyleSheet } from 'react-native';
 import Text from '../Text';

@@ -76,7 +76,11 @@ class LightBox extends Component {
   }
 
   onShare(imgUrl, isGif) {
+    // if (this.state.downloadingImage) {
+    //   return false;
+    // }
 
+    // this.setState({ downloadingImage: true });
 
     // Basic imageUrl share
     const shareOptions = {
@@ -96,6 +100,25 @@ class LightBox extends Component {
     //   };
     //   Share.open(shareOptions);
     // })
+
+    // const fileExtension = isGif ? 'gif' : 'jpg';
+
+    // RNFetchBlob.fetch('GET', imgUrl, {})
+    // .then((res) => {
+    //   console.log(res.path());
+    //   let data = res.data;
+    //   let shareOptions = {
+    //     message: 'Futufinlandia',
+    //     excludedActivityTypes: 'email',
+    //     url: `data:image/${fileExtension};base64,${data}`,
+    //   }
+
+    //   Share.open(shareOptions)
+    //     .then(this.hideFileLoading)
+    //     .catch(this.hideFileLoading)
+    // })
+
+
 
   }
   onReport() {

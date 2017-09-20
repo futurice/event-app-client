@@ -1,13 +1,22 @@
-'use strict';
 
-import React, { PropTypes } from 'react';
+
+import React from 'react';
 
 import {
   Navigator,
-  BackAndroid
+  StyleSheet,
+  BackAndroid,
+  Platform
 } from 'react-native';
 import { connect } from 'react-redux';
-import TimelineList from '../components/calendar/TimelineList';
+import Profile from '../components/profile/Profile';
+const theme = require('../style/theme');
+
+const styles = StyleSheet.create({
+  navigator: {
+    paddingTop: 0
+  }
+});
 
 var _navigator;
 BackAndroid.addEventListener('hardwareBackPress', () => {
@@ -18,10 +27,7 @@ BackAndroid.addEventListener('hardwareBackPress', () => {
   return false;
 });
 
-var TimelineListWrapper = React.createClass({
-  propTypes: {
-    navigator: PropTypes.object.isRequired
-  },
+var ProfileView = React.createClass({
   renderScene(route, navigator) {
     _navigator = navigator;
     if (route.component) {
@@ -33,9 +39,10 @@ var TimelineListWrapper = React.createClass({
   render() {
     return (
       <Navigator
+        style={styles.navigator}
         initialRoute={{
-          component: TimelineList,
-          name: 'Events'
+          component: Profile,
+          name: 'Settings'
         }}
         renderScene={this.renderScene}
         configureScene={() => ({
@@ -50,4 +57,4 @@ const select = store => {
   return {};
 };
 
-export default connect(select)(TimelineListWrapper);
+export default connect(select)(ProfileView);

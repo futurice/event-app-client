@@ -28,6 +28,7 @@ import theme from '../../style/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import CommentPost from './CommentPost';
 import CommentList from './CommentList';
+import Background from '../background';
 import Toolbar from '../common/Toolbar';
 
 const { width, height } = Dimensions.get('window');
@@ -66,11 +67,12 @@ class CommentsView extends Component {
         visible={isCommentsViewOpen}
         animationType={'slide'}
       >
+        <Background color="purple" />
         <View style={styles.container}>
 
         <Toolbar leftIcon={'arrow-back'}
           leftIconClick={this.onClose}
-          title='Comments for Post' />
+          title='Comments' />
 
           {/*<CommentPost item={commentItem} /> */ }
           <CommentList
@@ -92,6 +94,7 @@ class CommentsView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: theme.purpleLayer,
     // paddingTop: 0,
     // paddingBottom: 0,
     // justifyContent: 'flex-start',

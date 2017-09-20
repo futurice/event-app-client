@@ -262,7 +262,7 @@ class ImageEditor extends Component {
   renderSubmitButtonForAndroid() {
     return (
       <View style={styles.buttonWrap}>
-        <TouchableHighlight underlayColor={theme.primaryDark} onPress={this.sendImage} style={styles.button}>
+        <TouchableHighlight underlayColor={theme.secondaryDark} onPress={this.sendImage} style={styles.button}>
           <Text style={styles.buttonText}>
             <Icon size={38} name="done" />
           </Text>
@@ -324,7 +324,7 @@ class ImageEditor extends Component {
           {!showTextInput && this.renderGuideLayer(scaledImageHeight)}
           {showTextInput && !editing && this.renderEditButton(scaledImageHeight)}
         </View>
-        {!IOS && !editing && this.renderSubmitButtonForAndroid()}
+        {!IOS && (!showTextInput || !editing) && this.renderSubmitButtonForAndroid()}
       </View>
       }
       </Modal>
@@ -419,7 +419,7 @@ const styles = StyleSheet.create({
     zIndex: 9,
   },
   button: {
-    backgroundColor: theme.primary,
+    backgroundColor: theme.secondary,
     height: 66,
     width: 66,
     borderRadius: 33,

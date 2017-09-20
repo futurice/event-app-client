@@ -1,4 +1,4 @@
-'use strict';
+
 
 // jscs:disable requireCamelCaseOrUpperCaseIdentifiers
 import React, { PropTypes } from 'react';
@@ -8,9 +8,6 @@ import {
   View,
   Platform,
   ScrollView,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Image,
   RefreshControl
 } from 'react-native';
 import Text from '../components/Text';
@@ -21,15 +18,9 @@ import theme from '../style/theme';
 import * as TeamActions from '../actions/team';
 import analytics from '../services/analytics';
 import LeaderboardEntry from '../components/competition/LeaderboardEntry';
-const Icon = require('react-native-vector-icons/Ionicons');
-import ICONS from '../constants/Icons';
-
 
 const IOS = Platform.OS === 'ios';
 const VIEW_NAME = 'CompetitionView';
-
-
-import PlatformTouchable from '../components/common/PlatformTouchable';
 
 const CompetitionView = React.createClass({
   propTypes: {
@@ -57,7 +48,7 @@ const CompetitionView = React.createClass({
     const refreshControl = <RefreshControl
       refreshing={this.props.isRefreshing}
       onRefresh={this.onRefreshFeed}
-      colors={[theme.accent]}
+      colors={IOS ? [theme.accent] : [theme.secondary]}
       tintColor={theme.accent}
       progressBackgroundColor={theme.light} />;
 
@@ -67,7 +58,7 @@ const CompetitionView = React.createClass({
         <View style={styles.leaderboardIntro}>
           <View style={styles.leaderboardIntroTextWrap}>
             <Text style={styles.leaderboardIntroText}>
-                Be active App user and lead your team to the victory!
+              Be active App user and lead your team to the victory!
             </Text>
           </View>
         </View>
@@ -126,11 +117,12 @@ const styles = StyleSheet.create({
     flex:1,
     backgroundColor: theme.pink,
     padding: 15,
-    paddingBottom: 10,
+    paddingBottom: IOS ? 10 : 15,
   },
   leaderboardIntroText:{
     color: theme.white,
-    fontSize: 18
+    fontSize: 17,
+    lineHeight: 25,
   },
   leaderboard: {
     flex: 1,

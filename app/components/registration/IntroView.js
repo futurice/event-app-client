@@ -23,6 +23,7 @@ import Text from '../Text';
 import * as keyboard from '../../utils/keyboard';
 import { SCREEN_SMALL, IS_IOS } from '../../utils/responsive';
 
+const IOS = Platform.OS === 'ios';
 const { height, width } = Dimensions.get('window');
 
 const INVITE_CODE_LENGTH = 4;
@@ -156,7 +157,7 @@ const IntroView = React.createClass({
                 <Text style={[styles.h1, styles.yellow]}>Finlandia<Text style={styles.pink}>_</Text></Text>
               </View>
               <Text style={styles.h3}>
-                {'22.08.17 \nFinlandia Hall \nHelsinki'}
+                {'22.09.17 \nFinlandia Hall \nHelsinki'}
               </Text>
             </Animated.View>
             <View style={styles.bgImageWrap}>
@@ -175,8 +176,8 @@ const IntroView = React.createClass({
                     returnKeyType={'done'}
                     style={[styles.inputField, styles['inputField_' + Platform.OS]]}
                     autoFocus={false}
-                    underlineColorAndroid={theme.white}
-                    placeholderTextColor={IS_IOS ? 'rgba(74, 48, 146,.4)' : 'rgba(255,255,255, 0.7)'}
+                    underlineColorAndroid={theme.secondary}
+                    placeholderTextColor={'rgba(74, 48, 146,.4)'}
                     placeholder="Your invite code"
                     onChangeText={this.updateTextInput}
                     ref={view => this.codeTextInputRef = view}
@@ -271,7 +272,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   futuLogo: {
-    width: 80,
+    width: 90,
     height: 18,
     top: -4,
     marginTop: -4,
@@ -345,7 +346,7 @@ const styles = StyleSheet.create({
     color: theme.secondary,
     fontSize: 10,
     marginTop: 5,
-    marginBottom: 0,
+    marginBottom: IOS ? 0 : 10,
     textAlign: 'center',
   },
   rowText: {
@@ -376,6 +377,7 @@ const styles = StyleSheet.create({
     color: theme.secondary
   },
   inputField_android: {
+    width: 220,
   },
   inputField_ios: {
     padding: 5,

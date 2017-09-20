@@ -14,7 +14,7 @@ const theme = {
   secondaryStatus:'#de4b3c',
 
 
-  statusbar:      '#e54838',
+  statusbar:      '#35257c',
 
   accent:         '#FEF4B7',
   accentLight:    '#FEF4B7',

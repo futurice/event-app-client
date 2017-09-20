@@ -1,24 +1,25 @@
-'use strict';
-
 import React, { Component } from 'react';
-import { View, StyleSheet, Platform, Dimensions } from 'react-native';
+import { View, StyleSheet, Dimensions, Platform, TouchableOpacity } from 'react-native';
 import { find } from 'lodash';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+
+import { getSelectedFloor, setFloor } from '../../concepts/floor';
 
 import theme from '../../style/theme';
 import Text from '../Text';
-import PlatformTouchable from '../common/PlatformTouchable';
 import Content from './Content';
 import PhotoView from 'react-native-photo-view';
+import ImageZoom from 'react-native-image-zoom';
 
 import { SCREEN_SMALL } from '../../utils/responsive';
 const { width, height } = Dimensions.get('window');
+const IOS = Platform.OS === 'ios';
 
-const isIOS = Platform.OS === 'ios';
-
-const dateBust = new Date().getTime();
+const date = new Date().getTime();
 const floors = [
-  { name: '1st', image: `https://futurice.github.io/futubileet-site/venue/venue2017-floor-1.png?=${dateBust}` },
-  { name: '2nd', image: `https://futurice.github.io/futubileet-site/venue/venue2017-floor-2.png?=${dateBust}` }
+  { name: '1st', image: `https://futurice.github.io/futubileet-site/venue/venue2017-floor-1.png?=${date}` },
+  { name: '2nd', image: `https://futurice.github.io/futubileet-site/venue/venue2017-floor-2.png?=${date}` }
 ];
 
 const navHeight = 100;
@@ -28,27 +29,22 @@ class FloorsTab extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { selectedFloor: '1st' };
-    this.selectFloor = this.selectFloor.bind(this);
     this.renderFloor = this.renderFloor.bind(this);
+    this.renderFloors = this.renderFloors.bind(this);
     this.renderContent = this.renderContent.bind(this);
   }
 
-  selectFloor(floor) {
-    this.setState({ selectedFloor: floor });
-  }
-
   renderFloor(floor) {
-    const isSelectedFloor = this.state.selectedFloor === floor.name;
+    const isSelectedFloor = this.props.selectedFloor === floor.name;
 
     return (
-      <PlatformTouchable
-        onPress={() => this.selectFloor(floor.name)}
+      <TouchableOpacity
+        onPress={() => this.props.setFloor(floor.name)}
       >
         <Text style={[styles.floorTitle, isSelectedFloor ? styles.activeFloorTitle : null ]}>
           {floor.name}
         </Text>
-      </PlatformTouchable>
+      </TouchableOpacity>
     );
   }
 
@@ -61,18 +57,29 @@ class FloorsTab extends Component {
   }
 
   renderContent() {
-    const { selectedFloor } = this.state;
+    const { selectedFloor } = this.props;
 
     const floor = find(floors, (fl) => fl.name === selectedFloor);
     const openFloorImage = floor.image;
 
-    return <PhotoView
+    return IOS
+    ? <PhotoView
       source={{uri: openFloorImage}}
       minimumZoomScale={0.5}
       maximumZoomScale={4}
       resizeMode={'contain'}
       style={{ flex: 1, width, height: height - navHeight - introHeight }}
     />
+    : <ImageZoom
+      source={{
+        uri: openFloorImage,
+        headers: {
+          "Referer" : 'http://...'
+        }
+      }}
+      resizeMode={'contain'}
+      style={{ flex: 1, width, height: height - navHeight - introHeight }}
+      />
 
   }
 
@@ -83,11 +90,11 @@ class FloorsTab extends Component {
     return (
       <View style={styles.content}>
         <View style={styles.intro}>
-          <PlatformTouchable
+          <TouchableOpacity
             onPress={() => closeTab()}
           >
             <Text style={[styles.title, styles[color]]}>Floors</Text>
-          </PlatformTouchable>
+          </TouchableOpacity>
           <Content>
             {this.renderFloors()}
           </Content>
@@ -110,7 +117,7 @@ const styles = StyleSheet.create({
   },
   intro: {
     padding: 30,
-    paddingTop: 60,
+    paddingTop: IOS ? 60 : 40,
     paddingBottom: 0,
     height: introHeight,
     backgroundColor: 'transparent',
@@ -152,4 +159,12 @@ const styles = StyleSheet.create({
 });
 
 
-export default FloorsTab;
+const mapDispatchToProps = {
+  setFloor
+};
+
+const select = createStructuredSelector({
+  selectedFloor: getSelectedFloor
+})
+
+export default connect(select, mapDispatchToProps)(FloorsTab);

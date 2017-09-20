@@ -12,7 +12,9 @@ import { connect } from 'react-redux';
 import Profile from '../components/profile/Profile';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 import Background from '../components/background';
+
 const theme = require('../style/theme');
+const isIOS = Platform.OS === 'ios';
 
 const styles = StyleSheet.create({
   navigator: {
@@ -43,9 +45,11 @@ var ProfileView = React.createClass({
         <Navigator
           style={styles.navigator}
           navigationBar={
-            Platform.OS === 'ios' ? <Navigator.NavigationBar
+            isIOS
+            ? <Navigator.NavigationBar
               style={styles.navbar}
-              routeMapper={NavRouteMapper} /> : null
+              routeMapper={NavRouteMapper} />
+            : null
           }
           initialRoute={{
             component: Profile,

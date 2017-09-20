@@ -18,7 +18,7 @@ const Loader = props => {
     color={props.color || theme.secondary}
     animating={true}
     style={styles.activityIndicator}
-    size='large' />;
+    size={props.size || 'large'} />;
 };
 
 export default Loader;

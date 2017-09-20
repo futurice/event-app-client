@@ -124,8 +124,7 @@ var TimelineList = React.createClass({
       component: EventDetail,
       name: model.name,
       currentDistance: currentDistance,
-      model,
-      showName: true
+      model
     });
   },
 

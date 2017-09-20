@@ -8,6 +8,7 @@ import {
   Animated,
   StyleSheet,
   KeyboardAvoidingView,
+  ScrollView,
   Modal
 } from 'react-native';
 import { connect } from 'react-redux';
@@ -16,6 +17,7 @@ import Text from '../Text';
 import Button from '../../components/common/Button';
 import theme from '../../style/theme';
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import * as keyboard from '../../utils/keyboard';
 
 import {
   postText,
@@ -120,58 +122,49 @@ class TextActionView extends Component {
 
 
           <Animated.View style={[styles.innerContainer, {opacity:this.state.formAnimation}]}>
-          <KeyboardAvoidingView behavior={IOS ? 'position' : 'height'} keyboardVerticalOffset={IOS ? -100 : 30} style={styles.inputContainer}>
-          {/*
-            <View>
-              <View style={styles.title}>
-                <Icon name='textsms' style={styles.titleIcon} />
-                <Text style={styles.titleText}> Post Text</Text>
+            <ScrollView ref={view => this.containerScrollViewRef = view} style={{ flex: 1 }}>
+              <View style={styles.inputContainer}>
+                <TextInput
+                  ref={view => this.textActionInputRef = view}
+                  onFocus={() => {
+                    keyboard.onInputFocus(this.containerScrollViewRef, this.textActionInputRef,300);
+                  }}
+                  onBlur={() => {
+                    keyboard.onInputBlur(this.containerScrollViewRef)
+                  }}
+                  autoFocus={true}
+                  multiline={true}
+                  autoCapitalize={'sentences'}
+                  underlineColorAndroid={'transparent'}
+                  clearButtonMode={'while-editing'}
+                  returnKeyType={'send'}
+                  blurOnSubmit={true}
+                  onSubmitEditing={this.onSendText}
+                  style={styles.inputField}
+                  onChangeText={this.onChangeText}
+                  numberOfLines={3}
+                  maxLength={151}
+                  placeholderTextColor={'rgba(255,255,255, 0.65)'}
+                  placeholder=" Say something..."
+                  autoCorrect={false}
+                  value={this.state.text} />
+                <View style={styles.bottomButtons}>
+                  <Button
+                    onPress={this.onClose}
+                    style={styles.cancelButton}>
+                    Cancel
+                  </Button>
+
+                  <Button
+                    onPress={this.onSendText}
+                    style={styles.modalButton}
+                    textStyle={{ color: theme.white }}
+                    isDisabled={!this.state.text}>
+                    Post
+                  </Button>
+                </View>
               </View>
-            </View>
-          */}
-            <TextInput
-              autoFocus={true}
-              multiline={true}
-              autoCapitalize={'sentences'}
-              underlineColorAndroid={'transparent'}
-              clearButtonMode={'while-editing'}
-              returnKeyType={'send'}
-              blurOnSubmit={true}
-              onSubmitEditing={this.onSendText}
-              style={styles.inputField}
-              onChangeText={this.onChangeText}
-              numberOfLines={3}
-              maxLength={151}
-              placeholderTextColor={'rgba(255,255,255, 0.65)'}
-              placeholder=" Say something..."
-              autoCorrect={false}
-              value={this.state.text} />
-
-
-          {/*
-            <View style={styles.bottomInfo}>
-              <Text style={styles.bottomInfoText}>
-                How is it going?
-              </Text>
-            </View>
-          */}
-
-            <View style={styles.bottomButtons}>
-              <Button
-                onPress={this.onClose}
-                style={styles.cancelButton}>
-                Cancel
-              </Button>
-
-              <Button
-                onPress={this.onSendText}
-                style={styles.modalButton}
-                textStyle={{ color: theme.white }}
-                isDisabled={!this.state.text}>
-                Post
-              </Button>
-            </View>
-            </KeyboardAvoidingView>
+            </ScrollView>
           </Animated.View>
         </View>
       </Modal>
@@ -194,6 +187,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   inputContainer: {
+    minHeight: height / 2,
     backgroundColor: 'transparent',
     justifyContent: 'center',
     flex: 1,

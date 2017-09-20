@@ -3,14 +3,13 @@
 import React, { Component } from 'react';
 import { View, TouchableOpacity, Linking, StyleSheet, ScrollView, Platform } from 'react-native';
 
-import theme from '../../style/theme';
 import Text from '../Text';
-import PlatformTouchable from '../common/PlatformTouchable';
+import theme from '../../style/theme';
 import Content from './Content';
 import { SCREEN_SMALL } from '../../utils/responsive';
 import locationService from '../../services/location';
 
-const isIOS = Platform.OS === 'ios';
+const IOS = Platform.OS === 'ios';
 
 const EVENT_LOCATION = { latitude: 60.1756973, longitude: 24.9336035 };
 const mapLink = locationService.getGeoUrl({ location: EVENT_LOCATION, locationName: 'Futufinlandia' });
@@ -22,11 +21,11 @@ class DirectionsTab extends Component {
 
     return (
       <ScrollView style={styles.content}>
-        <PlatformTouchable
+        <TouchableOpacity
           onPress={() => closeTab()}
         >
           <Text style={[styles.title, styles[color]]}>Directions</Text>
-        </PlatformTouchable>
+        </TouchableOpacity>
         <Content>
           <Text style={styles.subTitle}>Address</Text>
           <Text style={styles.paragraph}>
@@ -69,7 +68,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     padding: 30,
-    paddingTop: 60,
+    paddingTop: IOS ? 60 : 40,
     paddingBottom: 50,
   },
   title: {

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   cooldownTime: {
-    top: 2,
+    top: Platform.OS === 'ios' ? 2 : 0,
     fontSize: 11,
   },
   overlay:{
@@ -166,7 +166,6 @@ const ActionButtons = React.createClass({
     if (this.props.isRegistrationInfoValid === false) {
       this.props.dispatch(RegistrationActions.openRegistrationView());
     } else {
-
       Animated.timing(this.state.overlayOpacity,
         {duration:300, easing:Easing.ease, toValue: this.state.actionButtonsOpen ? 0 : 1}).start();
       this.animateButtonsToState(this.state.actionButtonsOpen ? CLOSED : OPEN);
@@ -291,7 +290,7 @@ const ActionButtons = React.createClass({
   },
 
   render() {
-    const { isLoading, actionTypes, style, showActionButtons } = this.props;
+    const { isLoading, actionTypes, style } = this.props;
 
     if (isLoading || !actionTypes || actionTypes.size === 0) {
       return null;
@@ -299,7 +298,7 @@ const ActionButtons = React.createClass({
 
 
     return (
-      <View style={style}>
+      <View style={[style]}>
         <Animated.View style={[styles.overlay, {
           transform:[{ scale: this.state.overlayOpacity.interpolate({
             inputRange: [0, 1],

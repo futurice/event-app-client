@@ -12,11 +12,12 @@ import { connect } from 'react-redux';
 import CompetitionView from './CompetitionView';
 import NavRouteMapper from '../components/common/navbarRouteMapper';
 import Background from '../components/background';
-const theme = require('../style/theme');
 
+const theme = require('../style/theme');
+const isIOS = Platform.OS === 'ios';
 const styles = StyleSheet.create({
   navigator: {
-    paddingTop: Platform.OS === 'ios' ? 62 : 0
+    paddingTop: isIOS ? 62 : 0
   },
   navbar: {
     backgroundColor: theme.secondary,
@@ -43,7 +44,7 @@ const ProfileView = React.createClass({
         <Navigator
           style={styles.navigator}
           navigationBar={
-            Platform.OS === 'ios' ? <Navigator.NavigationBar
+            isIOS ? <Navigator.NavigationBar
               style={styles.navbar}
               routeMapper={NavRouteMapper} /> : null
           }

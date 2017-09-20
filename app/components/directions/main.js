@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, ScrollView, Platform } from 'react-native';
-import { find } from 'lodash';
+import { View, StyleSheet, ScrollView, Platform, Animated, Easing, TouchableOpacity } from 'react-native';
 
 import theme from '../../style/theme';
 import Text from '../Text';
-import Background from '../background';
-import PlatformTouchable from '../common/PlatformTouchable';
 
 import DirectionsTab from './DirectionsTab';
 import FloorsTab from './FloorsTab';
@@ -20,28 +17,41 @@ const tabs = [
   { name: 'Floors', color: 'yellow', component: FloorsTab },
   { name: 'About', color: 'pink', component: AboutTab },
 ];
+const tabAnimations = tabs.map(() => new Animated.Value(0));
 
 class DirectionsView extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { selectedTab: null };
+    this.state = { tabAnimations };
+
+    this.animateItems = this.animateItems.bind(this);
     this.selectTab = this.selectTab.bind(this);
     this.renderTab = this.renderTab.bind(this);
     this.renderContent = this.renderContent.bind(this);
     this.closeTab = this.closeTab.bind(this);
   }
 
-  selectTab(tab) {
+  componentDidMount() {
+    this.animateItems();
+  }
 
+  animateItems() {
+    tabAnimations.map((animation, index) => {
+      Animated.timing( animation, { toValue: 1, delay: 66 * (index + 1), duration: 200, easing: Easing.easeInOutBack })
+      .start();
+    });
+  }
+
+  selectTab(tab) {
     this.props.navigator.push({
       component: tab.component,
       name: tab.name,
       color: tab.color,
       closeTab: this.closeTab,
+      showBack: true,
       showName: true
     });
-
 
     return;
     const nextTab = this.state.selectedTab === tab
@@ -52,18 +62,18 @@ class DirectionsView extends Component {
 
   closeTab() {
     this.props.navigator.pop();
-    // this.setState({ selectedTab: null });
   }
 
-  renderTab(tab) {
+  renderTab(tab, index) {
     return (
-      <PlatformTouchable
-        onPress={() => this.selectTab(tab)}
-      >
-        <Text style={[styles.title, styles[tab.color]]}>
-          {tab.name}
-        </Text>
-      </PlatformTouchable>
+      <Animated.View style={{
+        opacity: this.state.tabAnimations[index],
+        transform: [{ translateX: this.state.tabAnimations[index].interpolate({ inputRange: [0, 1], outputRange: [20, 0] })}]
+      }}>
+        <TouchableOpacity onPress={() => this.selectTab(tab)}>
+          <Text style={[styles.title, styles[tab.color]]}>{tab.name}</Text>
+        </TouchableOpacity>
+      </Animated.View>
     );
   }
 
@@ -80,11 +90,6 @@ class DirectionsView extends Component {
     if (!selectedTab) {
       return this.renderTabs();
     }
-
-    // const tab = find(tabs, (tab) => tab.name === selectedTab);
-    // const OpenTab = tab.component;
-
-    // return <OpenTab color={tab.color} closeTab={this.closeTab} />
   }
 
   render() {
@@ -101,9 +106,6 @@ class DirectionsView extends Component {
   }
 };
 
-// <Text style={styles.paragraph}><Text style={styles.bold}>Terms and Conditions ("Terms")</Text></Text>
-// <Text style={styles.paragraph}>Last updated: May 27, 2017</Text>
-
 
 const styles = StyleSheet.create({
   container: {
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
   },
   content: {
     padding: 30,
-    paddingTop: isIOS ? 40 : 20,
+    paddingTop: isIOS ? 40 : 40,
     paddingBottom: 50,
   },
   title: {

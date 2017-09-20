@@ -121,7 +121,6 @@ const FeedList = React.createClass({
       this.scrollTop();
     }
   },
-
   scrollTop() {
     if (this.refs._scrollView){
      this.refs._scrollView.scrollTo({x: 0, y: 0, animated: true});
@@ -298,7 +297,9 @@ const FeedList = React.createClass({
   render() {
 
     return (
-      <View style={styles.container}>
+    <View style={{ flex: 1 }}>
+      <Background color="yellow" />
+      <View style={[styles.container, { flex: 1, zIndex: 2 }]}>
         {this.renderFeed(
           this.props.feedListState,
           this.props.isLoadingActionTypes,
@@ -316,6 +317,7 @@ const FeedList = React.createClass({
         <TextActionView />
         <CommentsView />
       </View>
+    </View>
     );
   },
 });

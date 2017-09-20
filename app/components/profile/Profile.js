@@ -19,7 +19,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 import * as ProfileActions from '../../actions/profile';
 import { postProfilePicture } from '../../actions/registration';
-import { getGravatarForEmail } from '../../utils/gravatar';
 import PlatformTouchable from '../common/PlatformTouchable';
 import WebViewer from '../webview/WebViewer';
 import Loader from '../common/Loader';
@@ -29,10 +28,9 @@ import ImagePickerManager from 'react-native-image-picker';
 import ImageCaptureOptions from '../../constants/ImageCaptureOptions';
 
 
-const { width, height } = Dimensions.get('window');
+const { width } = Dimensions.get('window');
 
 const IOS = Platform.OS === 'ios';
-const CODE_WIDTH = 210;
 
 const styles = StyleSheet.create({
   container: {
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
   },
   listItem: {
     padding:20,
-    paddingBottom: 18,
+    paddingBottom: IOS ? 18 : 20,
     margin: 0,
     flexDirection: 'row',
     backgroundColor: theme.purpleLayer,
@@ -56,13 +54,11 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     paddingBottom: 15,
     backgroundColor: theme.transparent,
-    elevation: 3,
-    overflow: 'hidden'
   },
   listItemButton:{ },
   listItemSeparator: {
     marginBottom: 15,
-    elevation: 1,
+    elevation: 0,
     borderBottomWidth: 0,
     borderBottomColor: '#fff',
     shadowColor: '#000000',
@@ -74,7 +70,7 @@ const styles = StyleSheet.create({
     },
   },
   listItemCustomIcon: {
-    color: theme.white,
+    // color: theme.white,
     alignItems: 'center',
     width: 24,
     height: 22,
@@ -88,7 +84,7 @@ const styles = StyleSheet.create({
     width: 35,
   },
   listItemHeroIcon:{
-    backgroundColor: '#eee',
+    backgroundColor: theme.white,
     borderColor: theme.secondary,
     borderWidth: 5,
     borderRadius: 60,
@@ -105,26 +101,6 @@ const styles = StyleSheet.create({
     height: 120,
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  profilePicBgLayer:{
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    opacity: 0,
-    bottom: 0,
-    top: 0,
-    backgroundColor: theme.secondaryBlur,
-  },
-  profilePicBg: {
-    backgroundColor: theme.primary,
-    position: 'absolute',
-    opacity: 1,
-    width: width + 40,
-    height: width * 2.5,
-    left: -20,
-    top: -20,
-    bottom: -20,
-    right: -20,
   },
   profilePic: {
     borderColor: theme.white,
@@ -148,15 +124,20 @@ const styles = StyleSheet.create({
   },
   nameText: {
     color: theme.white,
+    textAlign: 'center',
     fontSize: 16,
-    paddingHorizontal: 5,
-    paddingTop: 6,
+    lineHeight: 18,
+    // paddingHorizontal: 5,
+    // paddingVertical: 2,
   },
   listItemText: {
     color: theme.white,
     fontSize: 18,
     lineHeight: 20,
-    top: 3,
+    top: IOS ? 3 : 0,
+  },
+  nametag: {
+    padding: 2,
   },
   listItemText__highlight: {
     backgroundColor: theme.secondary,
@@ -164,16 +145,14 @@ const styles = StyleSheet.create({
   listItemText__downgrade: {
     color: theme.stable,
   },
-  listItemText__small: {
+  listItemText__team: {
     backgroundColor: theme.pink,
   },
   listItemText__code: {
     backgroundColor: theme.white,
-    // position: 'absolute',
-    // left: 20,
-    // top: 35,
+  },
+  nameText__code: {
     color: theme.pink,
-    // transform: [{ rotate: '-15deg' }]
   },
   listItemBottomLine:{
     position:'absolute',
@@ -281,8 +260,11 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
+    width: 110,
+    height: 110,
+    borderRadius: 55,
     backgroundColor: 'rgba(255,255,255,.5)',
-    zIndex: 2,
+    zIndex: 5,
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center'
@@ -306,13 +288,19 @@ var Profile = React.createClass({
     this.props.dispatch(ProfileActions.fetchLinks());
   },
 
+  componentWillReceiveProps({ links, name, email, picture }) {
+    const listData = [{ title: name, icon:'photo-camera', link:'', picture, email }].concat(links.toJS());
+
+    this.setState({ dataSource: this.state.dataSource.cloneWithRows(listData) });
+  },
+
+
   openRegistration() {
     return;
-    // this.props.dispatch(RegistrationActions.openRegistrationView());
   },
 
   onTakeProfilePicture() {
-    const profilePicCaptureOptions = Object.assign(ImageCaptureOptions, { cameraType: 'front' });
+    const profilePicCaptureOptions = Object.assign(_.cloneDeep(ImageCaptureOptions), { cameraType: 'front' });
     ImagePickerManager.showImagePicker(profilePicCaptureOptions, (response) => {
       if (!response.didCancel && !response.error) {
         const image = 'data:image/jpeg;base64,' + response.data;
@@ -370,7 +358,7 @@ var Profile = React.createClass({
     );
   },
 
-  renderLinkItem(item) {
+  renderLinkItem(item, key) {
     const linkItemStyles = [styles.listItemButton];
     if (item.separatorAfter || item.last) {
       linkItemStyles.push(styles.listItemSeparator)
@@ -378,6 +366,7 @@ var Profile = React.createClass({
 
     return (
       <PlatformTouchable
+        key={key}
         underlayColor={theme.secondary}
         activeOpacity={0.9}
         delayPressIn={0}
@@ -397,51 +386,58 @@ var Profile = React.createClass({
     );
   },
 
-  renderModalItem(item) {
+  renderModalItem(item, key) {
     const { loadingProfilePicture, teams, selectedTeam, code } = this.props;
     const currentTeam = _.find(teams.toJS(), ['id', selectedTeam]) || { name: '' };
 
-    const avatar = item.picture || getGravatarForEmail(item.email, item.title, selectedTeam, 300);
+    const avatar = item.picture;
 
     return (
-      <View style={[styles.listItemButton, styles.listItemSeparator]}>
+      <View key={key} style={[styles.listItemButton, { marginBottom: 15 }]}>
         <View style={[styles.listItem, styles.listItem__hero]}>
-          <View style={styles.profilePicBgLayer} />
 
+          {!!avatar &&
             <PlatformTouchable
               onPress={this.onTakeProfilePicture}
-              style={{ position: 'absolute', zIndex: 5, top: 30, right: 20, flex:1, overflow: 'hidden', justifyContent: 'center', alignItems: 'center', borderWidth: 3, borderColor: theme.secondary, backgroundColor: theme.white, borderRadius: 19, width: 38, height: 38, }}
             >
-              <Icon style={{ color: theme.pink, backgroundColor: theme.transparent }} size={18} name="camera-alt" />
+              <View style={{ position: 'absolute', elevation: 3, zIndex: 5, top: 30, right: 20, flex:1, overflow: 'hidden', justifyContent: 'center', alignItems: 'center', borderWidth: 3, borderColor: theme.secondary, backgroundColor: theme.white, borderRadius: 19, width: 38, height: 38, }}>
+                <Icon style={{ color: theme.pink, backgroundColor: theme.transparent }} size={18} name="camera-alt" />
+              </View>
             </PlatformTouchable>
+          }
 
           <View style={styles.listItemHeroIcon}>
-            {loadingProfilePicture && <View style={styles.loader}><Loader /></View>}
-            <PlatformTouchable style={styles.listItemHeroAvatarButton} onPress={this.onTakeProfilePicture}>
-            { avatar
-              ? <Image style={styles.profilePic} source={{ uri: avatar }} />
-              : <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
-            }
+            {!!loadingProfilePicture && <View style={styles.loader}><Loader /></View>}
+            {!loadingProfilePicture &&
+              <PlatformTouchable onPress={this.onTakeProfilePicture}>
+              <View style={styles.listItemHeroAvatarButton}>
+              {!!avatar
+                ? <Image style={styles.profilePic} source={{ uri: avatar }} />
+                : <Icon style={[styles.listItemIcon, styles.listItemIcon__hero]} name={item.icon} />
+              }
+              </View>
             </PlatformTouchable>
-          </View>
-          <View style={{flexDirection:'column',flex:1, alignItems:'center'}}>
-            {
-              item.title ?
-              <Text style={[styles.nameText, styles.listItemText__highlight]}>
-                {item.title}
-              </Text> :
-              <Text style={[styles.nameText, styles.listItemText__downgrade]}>
-                Unnamed Futubileet Participant
-              </Text>
             }
-            <Text style={[styles.nameText, styles.listItemText__small]}>
-              {currentTeam.name}
-            </Text>
+          </View>
+          <View style={{ flexDirection:'column', flex:1, alignItems:'center' }}>
+
+            <View style={[styles.nametag, styles.listItemText__highlight]}>
+              <Text style={styles.nameText}>
+                {item.title || 'Unnamed Guest'}
+              </Text>
+            </View>
+            <View style={[styles.nametag, styles.listItemText__team]}>
+              <Text style={styles.nameText}>
+                {currentTeam.name}
+              </Text>
+            </View>
 
             {!!code &&
-            <Text style={[styles.nameText, styles.listItemText__code]}>
-              GIF Disco code <Text style={{ fontWeight: 'bold' }}>{code.toUpperCase()}</Text>
-            </Text>
+            <View style={[styles.nametag, styles.listItemText__code]}>
+              <Text style={[styles.nameText, styles.nameText__code]}>
+                GIF Disco code <Text style={{ fontWeight: 'bold' }}>{code.toUpperCase()}</Text>
+              </Text>
+            </View>
             }
           </View>
         </View>
@@ -477,31 +473,16 @@ var Profile = React.createClass({
       return this.renderLinkItem(item, key);
     } else if (item.logo) {
       return null;
-      return this.renderLogo();
+      // return this.renderLogo();
     }
     return this.renderModalItem(item, key);
   },
 
   render() {
-    console.log(this.props);
-    const { links, name, email, picture } = this.props;
-
-    const listData = [{
-      title: name,
-      icon:'photo-camera',
-      link:'',
-      picture,
-      email
-      },
-      ].concat(
-        links.toJS(),
-        [{logo: true}]
-      );
-
     return (
       <View style={styles.container}>
         <ListView style={styles.scrollView}
-          dataSource={this.state.dataSource.cloneWithRows(listData)}
+          dataSource={this.state.dataSource}
           renderRow={this.renderItem}
         />
       </View>
@@ -512,15 +493,15 @@ var Profile = React.createClass({
 
 const select = store => {
   return {
-      selectedTeam: store.registration.get('selectedTeam'),
-      teams: store.team.get('teams'),
-      code: store.registration.get('code'),
-      name: store.registration.get('name'),
-      picture: store.registration.get('picture'),
-      email: store.registration.get('email'),
-      loadingProfilePicture: store.registration.get('isLoadingProfilePicture'),
-      links: store.profile.get('links'),
-    }
+    selectedTeam: store.registration.get('selectedTeam'),
+    teams: store.team.get('teams'),
+    code: store.registration.get('code'),
+    name: store.registration.get('name'),
+    picture: store.registration.get('picture'),
+    email: store.registration.get('email'),
+    loadingProfilePicture: store.registration.get('isLoadingProfilePicture'),
+    links: store.profile.get('links'),
+  }
 };
 
 const mapDispatchToProps = {

@@ -1,4 +1,4 @@
-'use strict';
+
 
 import React, { Component } from 'react';
 import {
@@ -11,7 +11,7 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: theme.white,
+    backgroundColor: theme.secondary,
     height: 56,
     elevation: 1,
   }
@@ -29,8 +29,8 @@ class ToolBar extends Component {
       <Icon.ToolbarAndroid
         onIconClicked={this.props.leftIconClick}
         navIconName={this.props.leftIcon}
-        titleColor={theme.secondary}
-        iconColor={theme.secondary}
+        titleColor={theme.white}
+        iconColor={theme.white}
         style={[styles.toolbar, this.props.styles || {}]}
         title={this.props.title}
       />

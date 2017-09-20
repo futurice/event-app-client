@@ -4,21 +4,16 @@ import {
   StyleSheet,
   View,
   Image,
-  TouchableOpacity,
   ScrollView,
-  KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
   Dimensions
 } from 'react-native';
-import { fromJS } from 'immutable';
-import moment from 'moment';
 
 import Text from '../Text';
 import theme from '../../style/theme';
 import time from '../../utils/time';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ICONS from '../../constants/Icons';
 import CommentForm from './CommentForm';
 
 const { width, height } = Dimensions.get('window');
@@ -26,7 +21,7 @@ const IOS = Platform.OS === 'ios';
 
 const Comment = ({ item }) => {
   const ago = time.getTimeAgo(item.get('createdAt'));
-  const profilePicture = item.get('profilePicture');
+  const profilePicture = item.get('picture');
 
   return (
     <View style={styles.comment}>
@@ -55,7 +50,7 @@ const Comment = ({ item }) => {
 
 const CommentPost = ({ item }) => {
   const ago = time.getTimeAgo(item.get('createdAt'));
-  const profilePicture = item.getIn(['author', 'profilePicture']);
+  const profilePicture = item.getIn(['author', 'picture']);
   const userName = item.getIn(['author', 'name']);
   const isImage = item.get('type') === 'IMAGE';
 
@@ -75,7 +70,7 @@ const CommentPost = ({ item }) => {
           <View style={styles.commentTextContent}>
             {isImage
               ?
-              <View style={{ marginTop: -5 }}>
+              <View style={{ marginTop: 0 }}>
                 <Text style={styles.commentAuthor}>{item.get('userName')}</Text>
                 <Image style={{ width: 120, height: 120 }} source={{ uri: item.get('url') }} />
               </View>
@@ -95,26 +90,8 @@ const CommentPost = ({ item }) => {
 
 
 class CommentList extends Component {
-  constructor(props) {
-    super(props);
-
-    this.scrollBottom = this.scrollBottom.bind(this);
-    this.postComment = this.postComment.bind(this);
-  }
-
-  scrollBottom(animated = false) {
-    if (this.commentScrollView){
-     this.commentScrollView.scrollToEnd({ animated });
-    }
-  }
-
-  postComment(comment) {
-    this.props.postComment(comment);
-    this.scrollBottom(true);
-  }
-
   renderLoader() {
-    return <ActivityIndicator size="large" color={theme.blue1} />;
+    return <ActivityIndicator size="large" color={theme.accent} />;
   }
 
   render() {
@@ -139,7 +116,7 @@ class CommentList extends Component {
                 keyboardShouldPersistTaps={'handled'}
                 ref={ref => this.commentScrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight) => {
-                  this.commentScrollView.scrollToEnd({ animated: false });
+                  // this.commentScrollView.scrollToEnd({ animated: false });
                 }}
               >
                 <CommentPost item={postItem} />
@@ -151,7 +128,7 @@ class CommentList extends Component {
           <View style={styles.commentForm}>
 
             <CommentForm
-              postComment={this.postComment}
+              postComment={postComment}
               editComment={editComment}
               text={editCommentText}
               postCommentCallback={this.scrollBottom}
@@ -170,22 +147,21 @@ const styles = StyleSheet.create({
   // # <CommentList />
   commentList: {
     flex: 1,
-    backgroundColor: theme.white,
+    backgroundColor: theme.transparent,
   },
   commentView: {
     paddingBottom: 28,
     // height: height,
     // justifyContent: 'space-between',
     flexDirection: 'column',
-    backgroundColor: theme.white,
+    backgroundColor: theme.transparent,
     flex: 1,
   },
   commentScroll: {
-    // flex: 1,
     alignItems: 'stretch',
     justifyContent: 'center',
-    flexGrow: 1,
-    backgroundColor: theme.white,
+    flex: 1,
+    backgroundColor: theme.transparent,
     // minHeight: height - 135,
     paddingBottom: IOS ? 0 : 20,
   },
@@ -200,14 +176,15 @@ const styles = StyleSheet.create({
 
 
   // # <Comment />
-  comment:{
+comment:{
     flex: 1,
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
     padding: IOS ? 25 : 20,
-    paddingBottom: 15,
-    paddingTop: 15,
+    paddingLeft: 15,
+    paddingBottom: 0,
+    paddingTop: 12,
   },
   commentContent: {
     flexDirection: 'row',
@@ -216,38 +193,41 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   commentAvatarCol: {
-    paddingRight: IOS ? 25 : 20,
+    paddingRight: 10,
   },
   commentAvatar: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: theme.earth1,
+    borderWidth: 3,
+    borderColor: theme.secondary,
+    backgroundColor: 'rgba(254,253,183,.7)',
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
   },
   commentAvatarImage: {
-    width: 36,
-    height: 36,
+    width: 30,
+    height: 30,
     borderRadius: 18
   },
   commentAvatarIcon: {
-    top: 0,
+    top: 10,
     left: 0,
     textAlign: 'center',
-    width: 36,
-    height: 36,
-    borderWidth: 2,
-    borderColor: theme.earth1,
-    borderRadius: 18,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
     color: theme.white,
-    fontSize: 36,
-    lineHeight: 44,
+    fontSize: 22,
+    lineHeight: 50,
     backgroundColor: theme.transparent
   },
   commentText: {
     textAlign: 'left',
-    color: theme.dark
+    color: theme.white,
+    fontSize: 14,
+    lineHeight: 20,
   },
   commentListItemImg: {
     width: width,
@@ -258,15 +238,15 @@ const styles = StyleSheet.create({
   },
   commentTextContent:{
     flex: 1,
+    paddingTop: 2,
   },
   commentAuthor: {
-    marginRight: 5,
-    color: theme.blue2,
-    fontWeight: 'bold',
+    marginRight: 10,
+    color: theme.accent,
   },
   itemTimestamp: {
     marginTop: 7,
-    color: '#aaa',
+    color: theme.pink,
     fontSize: 12,
   },
 });

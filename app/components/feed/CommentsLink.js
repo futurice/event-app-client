@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { View, StyleSheet, Platform, Image } from 'react-native';
 
 import Text from '../Text';
 import PlatformTouchable from '../common/PlatformTouchable';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import theme from '../../style/theme';
 
 import ICONS from '../../constants/Icons';
+const IOS = Platform.OS === 'ios';
 
 class CommentsLinks extends Component {
   render() {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   commentText: {
     color: theme.secondary,
     fontSize: 17,
-    top: 3,
+    top: IOS ? 3 : 0,
     paddingTop: 1,
     marginLeft: 5,
   },
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     marginLeft: 7,
   },
   commentIcon: {
-    width: 18
+    width: 20
   },
   activeCommentIcon: {
     color: theme.secondary,

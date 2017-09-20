@@ -63,6 +63,7 @@ const updateFeed = (afterId) => {
 
 
 const refreshFeed = () => {
+  console.log('Refresh feed');
   return (dispatch) => {
 
     dispatch({ type: REFRESH_FEED_REQUEST });
@@ -116,6 +117,8 @@ const voteFeedItem = (feedItemId, value) => (dispatch, getState) => {
   if (!voteItem) {
     return;
   }
+
+  console.log(voteItem.toJS());
 
   //  userVote needs to be updated
   //  votevalue for item need to be calculated

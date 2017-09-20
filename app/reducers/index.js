@@ -11,6 +11,7 @@ import marker from './marker';
 import errors from './errors';
 
 import comments from '../concepts/comments';
+import floor from '../concepts/floor';
 
 
 export {
@@ -25,5 +26,6 @@ export {
   competition,
   announcement,
   profile,
-  comments
+  comments,
+  floor,
 };

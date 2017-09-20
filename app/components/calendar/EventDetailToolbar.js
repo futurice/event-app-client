@@ -15,12 +15,12 @@ import theme from '../../style/theme';
 
 const styles = StyleSheet.create({
   toolbar: {
-    backgroundColor: 'rgba(255,82,64,.35)',
+    backgroundColor: theme.secondary,
     position:'absolute',
     left:0,
     top:0,
     right:0,
-    elevation:2,
+    elevation:3,
     height: 56,
   }
 });
@@ -31,31 +31,27 @@ var EventDetailToolbar = React.createClass({
     navigator: PropTypes.object.isRequired
   },
 
-  _goBack() {
+  goBack() {
     this.props.navigator.pop();
   },
 
-  _onActionSelected: function(position) {
-    //TODO switch toolbarActions[position]
-  },
-
   render() {
+    const { showLogo, backgroundColor, title } = this.props;
     const toolbarStyles = [styles.toolbar];
 
-    if (this.props.backgroundColor) {
-      toolbarStyles.push({backgroundColor: this.props.backgroundColor})
+    if (backgroundColor) {
+      toolbarStyles.push({ backgroundColor: backgroundColor })
     }
 
     return (
       <Icon.ToolbarAndroid
-      //actions={toolbarActions} TODO - SHARE
-      //onActionSelected={this._onActionSelected}
-        onIconClicked={this._goBack}
+        logo={showLogo ? require('../../../assets/futurice-logo.png') : null}
+        onIconClicked={this.goBack}
         navIconName={'arrow-back'}
-        titleColor={theme.light}
-        iconColor={theme.light}
+        titleColor={theme.white}
+        iconColor={theme.white}
         style={toolbarStyles}
-        title={this.props.title}
+        title={!showLogo ? title : ''}
       />
     );
   }

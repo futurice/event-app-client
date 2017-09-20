@@ -1,6 +1,6 @@
 // Icon and Text Tab bar
 // https://www.google.com/design/spec/components/bottom-navigation.html
-'use strict';
+
 
 import React from 'react';
 import {

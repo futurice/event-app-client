@@ -134,6 +134,7 @@ const styles = StyleSheet.create({
   },
   welcomeTitle: {
     fontSize: SCREEN_SMALL ? 20 : 24,
+    lineHeight: SCREEN_SMALL ? 28 : 32,
     color: theme.white,
     marginBottom: 15,
     textAlign: 'center',
@@ -147,15 +148,18 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent'
   },
   welcomeButtonWrap: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
     marginTop: 40,
-    height: 50
+    height: 50,
   },
   getStartedButton: {
     textDecorationLine: 'underline',
     color: theme.white,
     fontSize: SCREEN_SMALL ? 30 : 36,
     paddingVertical: 10,
-    paddingHorizontal: 10,
+    paddingHorizontal: 0,
   },
   welcomeButton: {
     paddingLeft: 40,
