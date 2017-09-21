@@ -2,7 +2,7 @@
 
 The most official React Native client for the Futubileet 2017!
 
-![Futuparty 2017](https://raw.githubusercontent.com/futurice/event-app-client/futuparty17/assets/intro/fireworks.gif)
+![Futuparty 2017](https://raw.githubusercontent.com/futurice/event-app-client/futuparty17/assets/balloons/balloons-all.png)
 
 Forked from Whappu: https://github.com/futurice/wappuapp-client. See documentation
 in that repository.
